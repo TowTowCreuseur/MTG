@@ -90,19 +90,19 @@ function onZoneDrop(e) {
   const card = document.querySelector(`[data-card-id="${CSS.escape(cardId)}"]`) || document.querySelector('.card.dragging');
   if (!card) return;
   resolveDropContainer(zone).appendChild(card);
+
+  // Si la carte venait de la pioche → on la retourne simplement
   if (card.classList.contains('face-down')) {
-    const idx = deck.findIndex(c => c.id === cardId);
-    if (idx !== -1) {
-      card.classList.remove('face-down');
-      updateDeckCount(-1);
-      deck.splice(idx, 1);
-    } else {
-      deck.pop();
-      updateDeckCount(-1);
-      card.classList.remove('face-down');
-    }
+    card.classList.remove('face-down');
+  }
+
+  // 🔥 Si la carte est déplacée dans la main, le cimetière ou l’exil → on retire .tapped
+  const zoneType = zone.dataset.zone;
+  if (zoneType === ZONES.MAIN || zoneType === ZONES.CIMETIERE || zoneType === ZONES.EXIL) {
+    card.classList.remove('tapped');
   }
 }
+
 
 // ---------- Pioche ----------
 function updateDeckCount(delta=0) {
@@ -113,14 +113,16 @@ function updateDeckCount(delta=0) {
   else current = deck.length;
   countEl.textContent = current;
 }
+
 function spawnTopCardForDrag() {
   if (deck.length === 0) return;
-  const top = deck[deck.length - 1];
+  const top = deck.pop(); // on retire la carte du deck immédiatement
+  updateDeckCount(-1);
+
   const container = qs('.zone--pioche .cards--pioche');
   const temp = createCardEl(top, { faceDown: true });
   container.appendChild(temp);
 }
-
 
 // ---------- Recherche ----------
 function openSearchModal() {
@@ -129,7 +131,8 @@ function openSearchModal() {
   const results = qs('.search-results', dialog);
   results.innerHTML = '';
 
-  deck.forEach(c => {
+  // Afficher le deck dans l'ordre : dessus -> bas
+  [...deck].slice().reverse().forEach(c => {
     const item = document.createElement('div');
     item.className = 'result-card';
     item.draggable = true;
@@ -146,6 +149,11 @@ function openSearchModal() {
     // bouton "Piocher"
     item.querySelector('.btn-piocher').addEventListener('click', () => {
       const piocheZone = qs('.zone--pioche .cards--pioche');
+      const idx = deck.findIndex(d => d.id === c.id);
+      if (idx !== -1) {
+        deck.splice(idx, 1);      // on retire du deck immédiatement
+        updateDeckCount(-1);
+      }
       const cardEl = createCardEl(c, { faceDown: true });
       piocheZone.appendChild(cardEl);
     });
