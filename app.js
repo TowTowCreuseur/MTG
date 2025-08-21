@@ -12,6 +12,7 @@ const ZONES = {
   BATAILLE: 'bataille',
   CIMETIERE: 'cimetiere',
   EXIL: 'exil',
+  COMMANDER: 'commander' // 🔥 ajout
 };
 
 // ---------- Deck ----------
@@ -96,13 +97,17 @@ function onZoneDrop(e) {
     card.classList.remove('face-down');
   }
 
-  // 🔥 Si la carte est déplacée dans la main, le cimetière ou l’exil → on retire .tapped
+  // 🔥 Si la carte est déplacée dans la main, le cimetière, l’exil ou le commander → on retire .tapped
   const zoneType = zone.dataset.zone;
-  if (zoneType === ZONES.MAIN || zoneType === ZONES.CIMETIERE || zoneType === ZONES.EXIL) {
+  if (
+    zoneType === ZONES.MAIN ||
+    zoneType === ZONES.CIMETIERE ||
+    zoneType === ZONES.EXIL ||
+    zoneType === ZONES.COMMANDER
+  ) {
     card.classList.remove('tapped');
   }
 }
-
 
 // ---------- Pioche ----------
 function updateDeckCount(delta=0) {

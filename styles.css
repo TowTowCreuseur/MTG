@@ -67,6 +67,14 @@ body{
 .battle-row{ border:1px dashed #2a3b5f; border-radius:10px; padding:28px 8px 8px; min-height:150px; }
 .row-title{ position:absolute; font-size:11px; color:var(--muted); }
 
+.zone--commander {
+  border: 2px solid gold;
+  background: linear-gradient(180deg, #2a1e0a, #0e0a05);
+}
+.zone--commander .zone-title {
+  color: gold;
+}
+
 /* Main */
 .zone--main{
   min-height:170px;
