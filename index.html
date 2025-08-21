@@ -10,53 +10,82 @@
   <body>
     <header class="app-header">
       <h1>Plateau MTG — Prototype</h1>
-      <p class="subtitle">Zones : Pioche • Main • Champ de bataille • Cimetière • Exil</p>
+      <p class="subtitle">Zones : Pioche • Cimetière • Exil (à gauche) — Champ de bataille (à droite) — Main en bas</p>
     </header>
 
     <main class="board" aria-label="Plateau de jeu MTG">
-      <!-- Ligne supérieure : pioche, cimetière, exil -->
-      <section class="top-zones">
-        <div class="zone zone--pioche drop-disabled" data-zone="pioche" aria-label="Pioche (pile de bibliothèque)">
-          <div class="zone-title">Pioche</div>
-          <div class="cards" aria-live="polite" aria-label="Cartes de la pioche"></div>
-        </div>
+      <div class="board-layout">
+        <!-- Colonne gauche -->
+        <aside class="side-zones">
+          <!-- PIOCHE -->
+          <div class="zone zone--pioche" data-zone="pioche" aria-label="Pioche (bibliothèque)">
+            <div class="zone-title">Pioche</div>
+            <div class="pioche-controls">
+              <button class="btn-draw" title="Cliquer pour prendre la carte du dessus">Piocher</button>
+              <button class="btn-search" title="Chercher dans la bibliothèque" aria-label="Chercher dans la pioche">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"/>
+                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <div class="cards cards--pioche" aria-live="polite"></div>
+            <div class="deck-count" aria-live="polite"><span data-count>0</span> cartes</div>
+          </div>
 
-        <div class="zone zone--cimetiere dropzone" data-zone="cimetiere" aria-label="Cimetière">
-          <div class="zone-title">Cimetière</div>
-          <div class="cards" aria-live="polite" aria-label="Cartes au cimetière"></div>
-        </div>
+          <!-- CIMETIÈRE -->
+          <div class="zone zone--cimetiere dropzone" data-zone="cimetiere" aria-label="Cimetière">
+            <div class="zone-title">Cimetière</div>
+            <div class="cards"></div>
+          </div>
 
-        <div class="zone zone--exil dropzone" data-zone="exil" aria-label="Exil">
-          <div class="zone-title">Exil</div>
-          <div class="cards" aria-live="polite" aria-label="Cartes en exil"></div>
-        </div>
-      </section>
+          <!-- EXIL -->
+          <div class="zone zone--exil dropzone" data-zone="exil" aria-label="Exil">
+            <div class="zone-title">Exil</div>
+            <div class="cards"></div>
+          </div>
+        </aside>
 
-      <!-- Champ de bataille -->
-      <section class="zone zone--bataille dropzone" data-zone="bataille" aria-label="Champ de bataille">
-        <div class="zone-title">Champ de bataille</div>
-        <div class="cards cards--battlefield" aria-live="polite" aria-label="Cartes sur le champ de bataille"></div>
-      </section>
+        <!-- Champ de bataille -->
+        <section class="zone zone--bataille" data-zone="bataille" aria-label="Champ de bataille">
+          <div class="zone-title">Champ de bataille</div>
+          <div class="battle-rows">
+            <div class="battle-row dropzone" data-subrow="1">
+              <div class="row-title">Ligne 1</div>
+              <div class="cards cards--battlefield"></div>
+            </div>
+            <div class="battle-row dropzone" data-subrow="2">
+              <div class="row-title">Ligne 2</div>
+              <div class="cards cards--battlefield"></div>
+            </div>
+            <div class="battle-row dropzone" data-subrow="3">
+              <div class="row-title">Ligne 3</div>
+              <div class="cards cards--battlefield"></div>
+            </div>
+          </div>
+        </section>
+      </div>
 
-      <!-- Main du joueur (barre inférieure) -->
+      <!-- Main du joueur -->
       <section class="zone zone--main dropzone" data-zone="main" aria-label="Main du joueur">
         <div class="zone-title">Main</div>
-        <div class="cards cards--hand" aria-live="polite" aria-label="Cartes en main">
-          <!-- Cartes de démonstration pour tester le drag & drop (vous pouvez les supprimer) -->
-          <article class="card" draggable="true" data-card-id="demo-1">
-            <div class="card-name">Éclair</div>
-            <div class="card-type">Éphémère</div>
-          </article>
-          <article class="card" draggable="true" data-card-id="demo-2">
-            <div class="card-name">Forêt</div>
-            <div class="card-type">Terrain</div>
-          </article>
-          <article class="card" draggable="true" data-card-id="demo-3">
-            <div class="card-name">Ours runegrave</div>
-            <div class="card-type">Créature — Ours</div>
-          </article>
-        </div>
+        <div class="cards cards--hand"></div>
       </section>
     </main>
+
+    <!-- Modale de recherche -->
+    <dialog class="modal modal-search" aria-label="Chercher dans la bibliothèque">
+      <form method="dialog" class="modal-body" id="search-form" onsubmit="this.closest('dialog').close()">
+        <header class="modal-header">
+          <h2>Recherche de carte dans la bibliothèque</h2>
+          <input type="text" class="search-input" placeholder="Nom, type..." aria-label="Filtrer les cartes" />
+        </header>
+        <div class="search-results" aria-live="polite"></div>
+        <footer class="modal-footer">
+          <button value="close" class="btn-secondary">Fermer</button>
+          <button type="button" class="btn-secondary btn-shuffle">Mélanger</button>
+        </footer>
+      </form>
+    </dialog>
   </body>
 </html>
