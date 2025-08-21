@@ -20,10 +20,14 @@ body{
   background: linear-gradient(180deg, #0a0f18, #060a10 60%);
 }
 
+.app-header{ max-width:1200px; margin:24px auto 8px; padding:0 16px; }
+.app-header h1{ margin:0; font-size: clamp(20px, 3vw, 28px); }
+.subtitle{color:var(--muted); margin:.25rem 0 0}
+
 /* ----------- Layout ----------- */
 .board-layout {
   display: grid;
-  grid-template-columns: 220px 1fr; /* colonne gauche + champ de bataille */
+  grid-template-columns: 220px 1fr;
   gap: 16px;
   align-items: start;
 }
@@ -43,10 +47,7 @@ body{
   border: var(--zone-border);
   min-height: 120px;
 }
-.zone .zone-title{
-  position:absolute; top:8px; left:12px;
-  font-size:12px; color:var(--muted); text-transform: uppercase;
-}
+.zone .zone-title{ position:absolute; top:8px; left:12px; font-size:12px; color:var(--muted); text-transform: uppercase; }
 .zone .cards{ margin-top:14px; display:flex; flex-wrap:wrap; gap:10px; }
 
 /* Pioche */
@@ -67,17 +68,17 @@ body{
 .row-title{ position:absolute; font-size:11px; color:var(--muted); }
 
 /* Main */
-.zone--main {
-  min-height: 170px;
-  margin-top: 24px; /* <<< ajoute de l'espace au-dessus */
-  margin-bottom: 5px;
+.zone--main{
+  min-height:170px;
+  margin-top:24px;
+  margin-bottom:5px;
 }
 .zone--main .cards{ flex-wrap:nowrap; overflow-x:auto; }
 
 /* Drop highlight */
 .dropzone.over{ border-color: var(--accent); }
 
-/* ----------- Cartes ----------- */
+/* Cartes */
 .card{
   width:110px; height:155px; border-radius:10px;
   background:linear-gradient(180deg, #1b2640, #0f1729);
@@ -91,7 +92,29 @@ body{
 .card.face-down{ background:#12192b; }
 .card.tapped{ transform:rotate(90deg); transition:transform .12s ease; }
 
-/* ----------- Modale ----------- */
+/* Modale recherche */
 .modal::backdrop{ background:rgba(0,0,0,.55); }
 .modal{ border:none; border-radius:12px; width:min(760px,92vw); max-height:80vh;
   background:#0f1626; color:var(--text); }
+
+/* Résultats recherche */
+.result-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #2d3d61;
+  border-radius: 8px;
+  padding: 6px 8px;
+  background: linear-gradient(180deg, #1b2640, #0f1729);
+  margin-bottom: 6px;
+}
+.result-card .btn-piocher {
+  border: 1px solid var(--border);
+  background: #0f1524;
+  color: var(--text);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.result-card .btn-piocher:hover { border-color: var(--accent); }

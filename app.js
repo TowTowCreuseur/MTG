@@ -1,9 +1,9 @@
 /* app.js — interactions étendues
-   - Pioche : clic sur 'Piocher' -> crée la carte du dessus (face-down) à déplacer vers une zone.
-   - Recherche : onglet loupe -> modale avec filtre et drag depuis les résultats.
+   - Pioche : clic sur 'Piocher' -> crée la carte du dessus (face-down).
+   - Recherche : chaque carte a un bouton "Piocher".
    - Tap/Untap : double-clic ou touche 't'.
-   - Champ de bataille multi-rangées : 3 sous-lignes dropzone.
-   - Correction : chaque carte a un identifiant UNIQUE (même si le nom est identique).
+   - Champ de bataille multi-rangées.
+   - Chaque carte a un identifiant UNIQUE.
 */
 
 const ZONES = {
@@ -14,11 +14,11 @@ const ZONES = {
   EXIL: 'exil',
 };
 
-// ---------- Deck de démo ----------
+// ---------- Deck ----------
 function makeDeck(cards) {
   let counter = 0;
   return cards.map(c => ({
-    id: `${c.name}-${++counter}`, // ID unique basé sur le nom + compteur
+    id: `${c.name}-${++counter}`,
     name: c.name,
     type: c.type
   }));
@@ -37,17 +37,17 @@ let deck = makeDeck([
   { name: 'Marais', type: 'Terrain' },
 ]);
 
-// ---------- Helpers DOM ----------
+// ---------- Helpers ----------
 const qs = (s, el=document) => el.querySelector(s);
 const qsa = (s, el=document) => Array.from(el.querySelectorAll(s));
 
-// ---------- Création d'une carte ----------
+// ---------- Création carte ----------
 function createCardEl(card, { faceDown=false } = {}) {
   const el = document.createElement('article');
   el.className = 'card' + (faceDown ? ' face-down' : '');
   el.draggable = true;
   el.dataset.cardId = card.id;
-  el.tabIndex = 0; // focus pour touche 't'
+  el.tabIndex = 0;
   el.innerHTML = `
     <div class="card-name">${card.name}</div>
     <div class="card-type">${card.type}</div>
@@ -61,62 +61,35 @@ function attachCardListeners(cardEl) {
   cardEl.addEventListener('dragend', handleDragEnd);
   cardEl.addEventListener('dblclick', () => toggleTappedOn(cardEl));
   cardEl.addEventListener('keydown', (e) => {
-    if (e.key.toLowerCase() === 't') {
-      toggleTappedOn(cardEl);
-    }
+    if (e.key.toLowerCase() === 't') toggleTappedOn(cardEl);
   });
 }
 
 function toggleTappedOn(cardEl) {
-  if (!cardEl.closest('.zone--bataille')) return; // uniquement sur champ de bataille
+  if (!cardEl.closest('.zone--bataille')) return;
   cardEl.classList.toggle('tapped');
 }
 
 // ---------- Drag & Drop ----------
 function handleDragStart(e) {
-  const card = e.currentTarget;
-  card.classList.add('dragging');
-  e.dataTransfer.setData('text/plain', card.dataset.cardId || '');
-  if (e.dataTransfer.setDragImage) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1; canvas.height = 1;
-    e.dataTransfer.setDragImage(canvas, 0, 0);
-  }
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.setData('text/plain', e.currentTarget.dataset.cardId || '');
 }
-
-function handleDragEnd(e) {
-  e.currentTarget.classList.remove('dragging');
-}
-
-function onZoneDragOver(e) {
-  e.preventDefault();
-  e.currentTarget.classList.add('over');
-}
-
-function onZoneDragLeave(e) {
-  e.currentTarget.classList.remove('over');
-}
-
+function handleDragEnd(e) { e.currentTarget.classList.remove('dragging'); }
+function onZoneDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('over'); }
+function onZoneDragLeave(e) { e.currentTarget.classList.remove('over'); }
 function resolveDropContainer(zone) {
-  if (zone.classList.contains('battle-row')) {
-    return qs('.cards', zone);
-  }
+  if (zone.classList.contains('battle-row')) return qs('.cards', zone);
   return zone.querySelector('.cards') || zone;
 }
-
 function onZoneDrop(e) {
   e.preventDefault();
   const zone = e.currentTarget;
   zone.classList.remove('over');
-
   const cardId = e.dataTransfer.getData('text/plain');
   const card = document.querySelector(`[data-card-id="${CSS.escape(cardId)}"]`) || document.querySelector('.card.dragging');
   if (!card) return;
-
-  const container = resolveDropContainer(zone);
-  container.appendChild(card);
-
-  // si carte face-down de la pioche → révéler et retirer du deck
+  resolveDropContainer(zone).appendChild(card);
   if (card.classList.contains('face-down')) {
     const idx = deck.findIndex(c => c.id === cardId);
     if (idx !== -1) {
@@ -136,22 +109,18 @@ function updateDeckCount(delta=0) {
   const countEl = qs('.zone--pioche .deck-count [data-count]');
   if (!countEl) return;
   let current = parseInt(countEl.textContent, 10) || deck.length;
-  if (delta !== 0) {
-    current = Math.max(0, current + delta);
-  } else {
-    current = deck.length;
-  }
+  if (delta !== 0) current = Math.max(0, current + delta);
+  else current = deck.length;
   countEl.textContent = current;
 }
-
 function spawnTopCardForDrag() {
   if (deck.length === 0) return;
   const top = deck[deck.length - 1];
   const container = qs('.zone--pioche .cards--pioche');
-  if (qs('.zone--pioche .cards--pioche .card')) return; // déjà une carte prête
   const temp = createCardEl(top, { faceDown: true });
   container.appendChild(temp);
 }
+
 
 // ---------- Recherche ----------
 function openSearchModal() {
@@ -165,14 +134,22 @@ function openSearchModal() {
     item.className = 'result-card';
     item.draggable = true;
     item.dataset.cardId = c.id;
-    item.innerHTML = `<strong>${c.name}</strong><span style="color:#9aa3b2; font-size:12px">${c.type}</span>`;
+    item.innerHTML = `
+      <span><strong>${c.name}</strong> <em>${c.type}</em></span>
+      <button class="btn-piocher">Piocher</button>
+    `;
+
     item.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', c.id);
-      if (e.dataTransfer.setDragImage) {
-        const cv = document.createElement('canvas'); cv.width=1; cv.height=1;
-        e.dataTransfer.setDragImage(cv, 0, 0);
-      }
     });
+
+    // bouton "Piocher"
+    item.querySelector('.btn-piocher').addEventListener('click', () => {
+      const piocheZone = qs('.zone--pioche .cards--pioche');
+      const cardEl = createCardEl(c, { faceDown: true });
+      piocheZone.appendChild(cardEl);
+    });
+
     results.appendChild(item);
   });
 
@@ -185,16 +162,10 @@ function openSearchModal() {
     });
   };
 
-  qs('.btn-shuffle', dialog).onclick = () => {
-    shuffleDeck();
-    openSearchModal();
-  };
+  qs('.btn-shuffle', dialog).onclick = () => { shuffleDeck(); openSearchModal(); };
 
-  if (typeof dialog.showModal === 'function') {
-    dialog.showModal();
-  } else {
-    dialog.setAttribute('open', true);
-  }
+  if (typeof dialog.showModal === 'function') dialog.showModal();
+  else dialog.setAttribute('open', true);
 }
 
 function shuffleDeck() {
@@ -217,13 +188,11 @@ function init() {
 
   updateDeckCount();
 
-  // Démo : 3 cartes en main
   const main = qs('[data-zone="main"] .cards');
   ['Éclair', 'Forêt', 'Ours runegrave'].forEach((name) => {
     const found = deck.find(c => c.name === name);
     if (!found) return;
-    const el = createCardEl(found);
-    main.appendChild(el);
+    main.appendChild(createCardEl(found));
   });
 }
 
