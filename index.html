@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plateau MTG — Prototype</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Plateau MTG — Prototype</h1>
+      <p class="subtitle">Zones : Pioche • Main • Champ de bataille • Cimetière • Exil</p>
+    </header>
+
+    <main class="board" aria-label="Plateau de jeu MTG">
+      <!-- Ligne supérieure : pioche, cimetière, exil -->
+      <section class="top-zones">
+        <div class="zone zone--pioche drop-disabled" data-zone="pioche" aria-label="Pioche (pile de bibliothèque)">
+          <div class="zone-title">Pioche</div>
+          <div class="cards" aria-live="polite" aria-label="Cartes de la pioche"></div>
+        </div>
+
+        <div class="zone zone--cimetiere dropzone" data-zone="cimetiere" aria-label="Cimetière">
+          <div class="zone-title">Cimetière</div>
+          <div class="cards" aria-live="polite" aria-label="Cartes au cimetière"></div>
+        </div>
+
+        <div class="zone zone--exil dropzone" data-zone="exil" aria-label="Exil">
+          <div class="zone-title">Exil</div>
+          <div class="cards" aria-live="polite" aria-label="Cartes en exil"></div>
+        </div>
+      </section>
+
+      <!-- Champ de bataille -->
+      <section class="zone zone--bataille dropzone" data-zone="bataille" aria-label="Champ de bataille">
+        <div class="zone-title">Champ de bataille</div>
+        <div class="cards cards--battlefield" aria-live="polite" aria-label="Cartes sur le champ de bataille"></div>
+      </section>
+
+      <!-- Main du joueur (barre inférieure) -->
+      <section class="zone zone--main dropzone" data-zone="main" aria-label="Main du joueur">
+        <div class="zone-title">Main</div>
+        <div class="cards cards--hand" aria-live="polite" aria-label="Cartes en main">
+          <!-- Cartes de démonstration pour tester le drag & drop (vous pouvez les supprimer) -->
+          <article class="card" draggable="true" data-card-id="demo-1">
+            <div class="card-name">Éclair</div>
+            <div class="card-type">Éphémère</div>
+          </article>
+          <article class="card" draggable="true" data-card-id="demo-2">
+            <div class="card-name">Forêt</div>
+            <div class="card-type">Terrain</div>
+          </article>
+          <article class="card" draggable="true" data-card-id="demo-3">
+            <div class="card-name">Ours runegrave</div>
+            <div class="card-type">Créature — Ours</div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

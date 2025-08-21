@@ -1,0 +1,154 @@
+:root{
+  --bg: #0b0f14;
+  --panel: #111826;
+  --panel-2: #0e1522;
+  --accent: #4f8cff;
+  --accent-2: #7aa2ff;
+  --text: #e6e9ee;
+  --muted: #9aa3b2;
+  --border: #22314a;
+  --zone-border: 2px dashed var(--border);
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color:var(--text);
+  background:
+    radial-gradient(1200px 800px at 80% -10%, #20344f22, transparent 60%),
+    linear-gradient(180deg, #0a0f18, #060a10 60%);
+  background-color: var(--bg);
+}
+
+.app-header{
+  max-width:1200px;
+  margin:24px auto 8px;
+  padding:0 16px;
+}
+.app-header h1{
+  margin:0;
+  font-size: clamp(20px, 3vw, 28px);
+  letter-spacing:.2px;
+}
+.subtitle{color:var(--muted); margin:.25rem 0 0}
+
+.board{
+  max-width:1200px;
+  margin: 0 auto 40px;
+  padding: 12px 16px 24px;
+  display:grid;
+  gap:14px;
+}
+
+/* Top zones (pioche, cimetière, exil) */
+.top-zones{
+  display:grid;
+  gap:14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.zone{
+  position:relative;
+  padding:12px;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  box-shadow: var(--shadow);
+  border: var(--zone-border);
+  min-height: 120px;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .06s ease;
+  overflow:hidden;
+}
+.zone .zone-title{
+  position:absolute;
+  top:8px; left:12px;
+  font-size:12px;
+  letter-spacing:.4px;
+  color:var(--muted);
+  text-transform: uppercase;
+}
+.zone .cards{
+  margin-top: 14px;
+  display:flex;
+  flex-wrap: wrap;
+  gap:10px;
+  align-items:flex-start;
+  min-height: 84px;
+}
+
+/* Battlefield: larger area */
+.zone--bataille{
+  min-height: min(58vh, 700px);
+}
+.zone--bataille .cards{
+  gap:12px;
+  align-content:flex-start;
+  /* grid-ish visual via background */
+  background-image:
+    linear-gradient(transparent calc(100% - 1px), rgba(255,255,255,0.03) 1px),
+    linear-gradient(90deg, transparent calc(100% - 1px), rgba(255,255,255,0.03) 1px);
+  background-size: 120px 180px, 120px 180px; /* approx card size */
+  background-position: 6px 6px, 6px 6px;
+  border-radius: 10px;
+  padding: 6px;
+}
+
+/* Hand: horizontal scroll bar at bottom */
+.zone--main .cards{
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+.zone--main{
+  min-height: 170px;
+}
+
+/* Drop state */
+.drop-disabled{opacity:.75; border-style: dotted}
+.dropzone.over{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent), var(--shadow);
+}
+
+/* Card visuals (placeholder) */
+.card{
+  width: 110px;
+  height: 155px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #1b2640, #0f1729);
+  border: 1px solid #2d3d61;
+  box-shadow: 0 8px 18px rgba(0,0,0,.35);
+  padding: 8px;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select:none;
+  cursor: grab;
+  transition: transform .08s ease, box-shadow .2s ease;
+}
+.card:active{cursor:grabbing}
+.card .card-name{
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.card .card-type{
+  font-size: 11px;
+  color: var(--muted);
+}
+.card.dragging{
+  opacity:.85;
+  transform: rotate(2deg) scale(1.03);
+  box-shadow: 0 12px 24px rgba(0,0,0,.45);
+}
+
+/* Responsive tweaks */
+@media (max-width: 840px){
+  .top-zones{ grid-template-columns: 1fr }
+  .zone--bataille{ min-height: 52vh }
+  .card{ width: 96px; height: 136px }
+  .zone--bataille .cards{ background-size: 106px 166px, 106px 166px }
+}
