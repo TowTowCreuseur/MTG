@@ -64,11 +64,30 @@ function attachCardListeners(cardEl) {
   cardEl.addEventListener('keydown', (e) => {
     if (e.key.toLowerCase() === 't') toggleTappedOn(cardEl);
   });
+
+  // 🔥 Triple-clic = phase out (toggle .phased)
+  let clickCount = 0;
+  let lastClickTs = 0;
+  cardEl.addEventListener('click', () => {
+    const now = Date.now();
+    if (now - lastClickTs > 400) clickCount = 0; // fenêtre de triple-clic
+    lastClickTs = now;
+    clickCount++;
+    if (clickCount === 3) {
+      togglePhasedOn(cardEl);
+      clickCount = 0;
+    }
+  });
 }
 
 function toggleTappedOn(cardEl) {
   if (!cardEl.closest('.zone--bataille')) return;
   cardEl.classList.toggle('tapped');
+}
+
+// 🔥 Phase out toggle
+function togglePhasedOn(cardEl) {
+  cardEl.classList.toggle('phased');
 }
 
 // ---------- Drag & Drop ----------
@@ -97,7 +116,7 @@ function onZoneDrop(e) {
     card.classList.remove('face-down');
   }
 
-  // 🔥 Si la carte est déplacée dans la main, le cimetière, l’exil ou le commander → on retire .tapped
+  // Untap + unphase auto hors champ de bataille
   const zoneType = zone.dataset.zone;
   if (
     zoneType === ZONES.MAIN ||
@@ -105,9 +124,10 @@ function onZoneDrop(e) {
     zoneType === ZONES.EXIL ||
     zoneType === ZONES.COMMANDER
   ) {
-    card.classList.remove('tapped');
+    card.classList.remove('tapped', 'phased'); // ← AJOUT : retire aussi 'phased'
   }
 }
+
 
 // ---------- Pioche ----------
 function updateDeckCount(delta=0) {

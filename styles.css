@@ -100,6 +100,13 @@ body{
 .card.face-down{ background:#12192b; }
 .card.tapped{ transform:rotate(90deg); transition:transform .12s ease; }
 
+/* 🔥 Phase out (triple-clic) */
+.card.phased{
+  opacity: .35;
+  filter: saturate(60%);
+  /* on laisse le drag & drop actif ; si tu veux le bloquer : pointer-events:none; */
+}
+
 /* Modale recherche */
 .modal::backdrop{ background:rgba(0,0,0,.55); }
 .modal{ border:none; border-radius:12px; width:min(760px,92vw); max-height:80vh;
