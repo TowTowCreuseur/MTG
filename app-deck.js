@@ -1,13 +1,12 @@
-/* app-deck.js — Deck Builder Scryfall + Multi-Commander + Import/Export
+/* app-deck.js — Deck Builder Scryfall + Multi-Commander + Import/Export + Ouvrir Plateau
    - Recherche par NOM (name:<query>)
    - 2 colonnes (CSS)
-   - Bouton + pour deck, bouton + doré pour Commander (si Créature légendaire)
+   - + pour deck, + doré pour Commander (si Créature légendaire)
    - Plusieurs Commanders
    - Export JSON (download), Import JSON (file)
-   - Bouton "Vider" supprime deck + commanders
+   - 🔥 Bouton "Ouvrir le plateau" : sauvegarde en localStorage puis redirige vers index.html
 */
 
-// ----------------------- State -----------------------
 const deckMap = new Map(); // id -> {card, qty}
 let commanders = [];
 
@@ -19,10 +18,8 @@ let searchState = {
   currentPageUrl: null,
 };
 
-// ----------------------- DOM helpers -----------------------
 const qs = (s, el=document) => el.querySelector(s);
 
-// ----------------------- Utils -----------------------
 function isLegendaryCreature(typeLine) {
   if (!typeLine) return false;
   const t = typeLine.toLowerCase();
@@ -34,14 +31,13 @@ const uniqById = (arr) => {
   return [...m.values()];
 };
 
-// ----------------------- Normalisation Scryfall -----------------------
 function normalizeCard(c) {
   const imgNormal = c.image_uris?.normal ?? c.card_faces?.[0]?.image_uris?.normal ?? null;
   const imgSmall  = c.image_uris?.small  ?? c.card_faces?.[0]?.image_uris?.small  ?? imgNormal;
   return { id: c.id, name: c.name, type: c.type_line, image: imgSmall || null };
 }
 
-// ----------------------- Rendu : résultats -----------------------
+/* ---------- Rendu résultats / pagination ---------- */
 function renderResults(list) {
   const container = qs('.results');
   container.innerHTML = '';
@@ -88,11 +84,8 @@ function renderResults(list) {
 
     if (card.image) {
       const img = document.createElement('img');
-      img.src = card.image;
-      img.alt = card.name;
-      img.style.width = '100%';
-      img.style.borderRadius = '8px';
-      img.style.marginTop = '6px';
+      img.src = card.image; img.alt = card.name;
+      img.style.width = '100%'; img.style.borderRadius = '8px'; img.style.marginTop = '6px';
       item.appendChild(img);
     }
 
@@ -108,8 +101,6 @@ function renderResults(list) {
 
   renderPager();
 }
-
-// ----------------------- Rendu : pagination -----------------------
 function renderPager() {
   const pager = qs('#pager');
   pager.innerHTML = '';
@@ -130,7 +121,7 @@ function renderPager() {
   pager.appendChild(btnNext);
 }
 
-// ----------------------- Rendu : deck -----------------------
+/* ---------- Rendu deck / commanders ---------- */
 function renderDeck() {
   const list = qs('#deck-list');
   list.innerHTML = '';
@@ -160,8 +151,6 @@ function renderDeck() {
 
   renderCommanders();
 }
-
-// ----------------------- Rendu : commanders -----------------------
 function renderCommanders() {
   const slot = qs('#commander-slot');
   slot.innerHTML = '';
@@ -193,7 +182,7 @@ function renderCommanders() {
   });
 }
 
-// ----------------------- Actions -----------------------
+/* ---------- Actions ---------- */
 function addToDeck(card, delta=1) {
   const entry = deckMap.get(card.id) || { card, qty: 0 };
   entry.qty = Math.max(0, entry.qty + delta);
@@ -214,17 +203,20 @@ function removeCommander(id) {
   renderCommanders();
 }
 
-// ----------------------- Export / Import -----------------------
-function exportDeck() {
-  const data = [...deckMap.values()].map(({card, qty}) => ({
-    id: card.id, name: card.name, type: card.type, image: card.image || null, qty
-  }));
-  const payload = {
+/* ---------- Export / Import ---------- */
+function buildPayload() {
+  return {
     createdAt: new Date().toISOString(),
-    cards: data,
-    commanders: commanders.map(c => ({ id: c.id, name: c.name, type: c.type, image: c.image || null }))
+    cards: [...deckMap.values()].map(({card, qty}) => ({
+      id: card.id, name: card.name, type: card.type, image: card.image || null, qty
+    })),
+    commanders: commanders.map(c => ({
+      id: c.id, name: c.name, type: c.type, image: c.image || null
+    }))
   };
-
+}
+function exportDeck() {
+  const payload = buildPayload();
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -249,14 +241,13 @@ function importDeckFromFile(file) {
       } else if (obj.commander) {
         commanders = [{ id: obj.commander.id, name: obj.commander.name, type: obj.commander.type, image: obj.commander.image || null }];
       } else commanders = [];
-      renderDeck();
-      renderCommanders();
+      renderDeck(); renderCommanders();
     } catch (e) { alert("Fichier JSON invalide."); }
   };
   reader.readAsText(file);
 }
 
-// ----------------------- Scryfall -----------------------
+/* ---------- Scryfall / Pagination / Recherche ---------- */
 async function scryfallSearchByName(queryOrUrl, { isNextPage=false } = {}) {
   let url;
   if (isNextPage) url = queryOrUrl;
@@ -273,8 +264,6 @@ async function scryfallSearchByName(queryOrUrl, { isNextPage=false } = {}) {
     };
   } catch { return { cards: [], hasMore: false, nextPage: null, pageUrl: null }; }
 }
-
-// ----------------------- Pagination -----------------------
 async function goNextPage() {
   if (!searchState.nextPageUrl) return;
   if (searchState.currentPageUrl) {
@@ -293,8 +282,6 @@ async function goPrevPage() {
   Object.assign(searchState, { hasMore: res.hasMore, nextPageUrl: res.nextPage, currentPageUrl: res.pageUrl });
   renderResults(res.cards);
 }
-
-// ----------------------- Recherche -----------------------
 async function runSearch(q) {
   searchState.query = q.trim();
   searchState.prevStack = [];
@@ -305,13 +292,27 @@ async function runSearch(q) {
   renderResults(res.cards);
 }
 
-// ----------------------- Init -----------------------
+/* ---------- Ouvrir le plateau avec le deck courant ---------- */
+function openBoardWithDeck() {
+  const payload = buildPayload();
+  try {
+    localStorage.setItem('mtg.deck', JSON.stringify(payload));
+  } catch (e) {
+    alert("Impossible de sauvegarder le deck dans le navigateur.");
+    return;
+  }
+  // Redirection vers le plateau (même dossier)
+  window.location.href = 'index.html';
+}
+
+/* ---------- Init ---------- */
 function init() {
   const input = qs('#q');
   const clearBtn = qs('#btn-clear');
   const exportBtn = qs('#btn-export');
   const importBtn = qs('#btn-import');
   const fileInput = qs('#file-input');
+  const openBoardBtn = qs('#btn-open-board');
 
   renderResults([]);
   renderDeck();
@@ -327,5 +328,7 @@ function init() {
   exportBtn?.addEventListener('click', exportDeck);
   importBtn?.addEventListener('click', () => fileInput?.click());
   fileInput?.addEventListener('change', e => { const f = e.target.files?.[0]; if (f) importDeckFromFile(f); e.target.value=''; });
+
+  openBoardBtn?.addEventListener('click', openBoardWithDeck);
 }
 document.addEventListener('DOMContentLoaded', init);

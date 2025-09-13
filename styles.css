@@ -24,6 +24,18 @@ body{
 .app-header h1{ margin:0; font-size: clamp(20px, 3vw, 28px); }
 .subtitle{color:var(--muted); margin:.25rem 0 0}
 
+/* header row with nav button */
+.header-row{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+}
+.btn-nav{
+  align-self:flex-start;
+  border:1px solid var(--border); background:#0f1524; color:var(--text);
+  border-radius:10px; padding:8px 12px; text-decoration:none;
+  box-shadow: var(--shadow);
+}
+.btn-nav:hover{ border-color: var(--accent); }
+
 /* ----------- Layout ----------- */
 .board-layout {
   display: grid;
@@ -64,8 +76,8 @@ body{
 /* Champ de bataille */
 .zone--bataille{ padding-top:36px; min-height:60vh; }
 .battle-rows{ display:flex; flex-direction:column; gap:10px; }
-.battle-row{ border:1px dashed #2a3b5f; border-radius:10px; padding:28px 8px 8px; min-height:150px; }
-.row-title{ position:absolute; font-size:11px; color:var(--muted); }
+.battle-row{ border:1px dashed #2a3b5f; border-radius:10px; padding:28px 8px 8px; min-height:150px; position:relative; }
+.row-title{ position:absolute; top:6px; left:10px; font-size:11px; color:var(--muted); }
 
 .zone--commander {
   border: 2px solid gold;
@@ -92,19 +104,32 @@ body{
   background:linear-gradient(180deg, #1b2640, #0f1729);
   border:1px solid #2d3d61; box-shadow:0 8px 18px rgba(0,0,0,.35);
   padding:8px; display:flex; flex-direction:column; justify-content:space-between;
-  cursor:grab;
+  cursor:grab; position:relative; overflow:hidden;
 }
-.card .card-name{ font-size:12px; font-weight:700; }
+
+/* image sur la carte */
+.card-illust{
+  width:100%; border-radius:8px; overflow:hidden;
+}
+.card-illust img{
+  display:block; width:100%; height:auto;
+  border-radius:8px; border:1px solid #2d3d61;
+}
+
+.card .card-name{ font-size:12px; font-weight:700; margin-top:4px; }
 .card .card-type{ font-size:11px; color:var(--muted); }
+
 .card.dragging{ opacity:.85; transform:rotate(2deg) scale(1.03); }
 .card.face-down{ background:#12192b; }
+.card.face-down .card-illust{ display:none; } /* on cache l’image côté face-down */
+
 .card.tapped{ transform:rotate(90deg); transition:transform .12s ease; }
 
 /* 🔥 Phase out (triple-clic) */
 .card.phased{
   opacity: .35;
   filter: saturate(60%);
-  /* on laisse le drag & drop actif ; si tu veux le bloquer : pointer-events:none; */
+  /* on laisse le drag & drop actif ; si tu veux bloquer : pointer-events:none; */
 }
 
 /* Modale recherche */

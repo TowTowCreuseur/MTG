@@ -9,8 +9,14 @@
   </head>
   <body>
     <header class="app-header">
-      <h1>Plateau MTG — Prototype</h1>
-      <p class="subtitle">Zones : Pioche • Cimetière • Exil (à gauche) — Champ de bataille (à droite) — Main en bas</p>
+      <div class="header-row">
+        <div>
+          <h1>Plateau MTG — Prototype</h1>
+          <p class="subtitle">Zones : Pioche • Commander • Cimetière • Exil (à gauche) — Champ de bataille (à droite) — Main en bas</p>
+        </div>
+        <!-- 🔥 Nouveau : retour au deck builder -->
+        <a class="btn-nav" href="deck-builder.html" title="Retour au Deck Builder">↩︎ Deck Builder</a>
+      </div>
     </header>
 
     <main class="board" aria-label="Plateau de jeu MTG">
@@ -33,6 +39,7 @@
             <div class="deck-count" aria-live="polite"><span data-count>0</span> cartes</div>
           </div>
 
+          <!-- COMMANDER -->
           <div class="zone zone--commander dropzone" data-zone="commander" aria-label="Zone de commandement">
             <div class="zone-title">Commander</div>
             <div class="cards"></div>
