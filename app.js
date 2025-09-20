@@ -716,21 +716,26 @@ function tryLoadDeckFromLocalStorage(){
     const payload = JSON.parse(raw);
     deck = [];
     let counter = 0;
+
     (payload.cards || []).forEach(c => {
-      deck.push({
-        id: `${(c.id||c.name)}-${++counter}`,
-        name: c.name,
-        type: c.type || '',
-        imageSmall: c.imageSmall || null,
-        imageNormal: c.imageNormal || c.image || null
-      });
+      const qty = Math.max(0, Number(c.qty || 0));
+      for (let i = 0; i < qty; i++) {
+        deck.push({
+          id: `${(c.id || c.name)}-${++counter}`,
+          name: c.name,
+          type: c.type || '',
+          imageSmall: c.imageSmall || null,
+          imageNormal: c.imageNormal || c.image || null
+        });
+      }
     });
+
     const cmdZone = qs('.zone--commander .cards');
     if (cmdZone) {
       cmdZone.innerHTML = '';
       (payload.commanders || []).forEach(c => {
         const el = createCardEl({
-          id: `${(c.id||c.name)}-cmd-${Math.random().toString(36).slice(2,7)}`,
+          id: `${(c.id || c.name)}-cmd-${Math.random().toString(36).slice(2,7)}`,
           name: c.name,
           type: c.type || '',
           imageSmall: c.imageSmall || null,
@@ -740,11 +745,16 @@ function tryLoadDeckFromLocalStorage(){
         cmdZone.appendChild(el);
       });
     }
+
     updateDeckCount();
     localStorage.removeItem('mtg.deck');
     return true;
-  } catch(e){ console.error('Deck import error:', e); return false; }
+  } catch(e){
+    console.error('Deck import error:', e);
+    return false;
+  }
 }
+
 
 // ---------- Multi ----------
 const ROOM_ID = (() => {
