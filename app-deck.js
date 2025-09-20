@@ -7,6 +7,9 @@
        • Créer : pseudo + génération lien → vérifie WS → affiche lien → "Commencer la partie" ouvre le plateau
 */
 
+// --- Langue d'affichage des impressions Scryfall (ajout) ---
+const CARD_LANG = 'fr';
+
 const deckMap = new Map(); // id -> {card, qty}
 let commanders = [];
 
@@ -122,7 +125,10 @@ function openCreateDialog() {
 function isLegendaryCreature(typeLine) {
   if (!typeLine) return false;
   const t = typeLine.toLowerCase();
-  return t.includes("legendary") && t.includes("creature");
+  // prise en charge FR + EN (modif)
+  const en = t.includes("legendary") && t.includes("creature");
+  const fr = t.includes("légendaire") && t.includes("créature");
+  return en || fr;
 }
 const uniqById = (arr) => {
   const m = new Map();
@@ -135,11 +141,11 @@ function normalizeCard(c) {
   const imgSmall  = uris.small  ?? null;
   const imgNormal = uris.normal ?? imgSmall;
 
-  // 👉 Deck builder : on veut afficher "normal" (plus net)
+  // 👉 Deck builder : privilégie les libellés imprimés (FR) si dispo (modif)
   return {
     id: c.id,
-    name: c.name,
-    type: c.type_line,
+    name: c.printed_name || c.name,
+    type: c.printed_type_line || c.type_line,
     image: imgNormal || null,       // utilisé uniquement dans le builder (vignette résultats)
     imageSmall: imgSmall || null,   // pour le plateau
     imageNormal: imgNormal || null  // pour le plateau (aperçu)
@@ -377,7 +383,11 @@ function importDeckFromFile(file) {
 async function scryfallSearchByName(queryOrUrl, { isNextPage=false } = {}) {
   let url;
   if (isNextPage) url = queryOrUrl;
-  else url = `https://api.scryfall.com/cards/search?order=name&q=${encodeURIComponent(`name:${queryOrUrl}`)}`;
+  else {
+    // recherche d'impressions dans la langue choisie (ajout)
+    const q = `lang:${CARD_LANG} name:${queryOrUrl}`;
+    url = `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
+  }
   try {
     const res = await fetch(url);
     if (!res.ok) return { cards: [], hasMore: false, nextPage: null, pageUrl: url };
