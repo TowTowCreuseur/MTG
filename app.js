@@ -811,7 +811,40 @@ function ensureOpponentOverlay(){
 }
 
 function buildOpponentBattlefield(state){
-  // ⚠️ On ne crée QUE le champ de bataille avec LES MÊMES CLASSES CSS
+  // wrapper pour réutiliser le CSS existant (.board-layout, .side-zones, etc.)
+  const layout = document.createElement('div');
+  layout.className = 'board-layout';
+
+  // ---- Colonne gauche : COMMANDER (adversaire) ----
+  const aside = document.createElement('aside');
+  aside.className = 'side-zones';
+
+  const cmd = document.createElement('div');
+  cmd.className = 'zone zone--commander';
+  cmd.setAttribute('data-zone', 'commander');
+  cmd.setAttribute('aria-label', 'Zone de commandement (adversaire)');
+  cmd.innerHTML = `<div class="zone-title">Commander</div><div class="cards"></div>`;
+
+  const cmdHolder = cmd.querySelector('.cards');
+  const commanders = (state?.zones?.commander ?? []);
+  commanders.forEach(c => {
+    const el = createCardEl({
+      id: c.id,
+      name: c.name,
+      type: c.type,
+      imageSmall: c.imageSmall || null,
+      imageNormal: c.imageNormal || null
+    }, { faceDown: !!c.faceDown });
+    el.draggable = false;
+    el.classList.toggle('tapped', !!c.tapped);
+    el.classList.toggle('phased', !!c.phased);
+    cmdHolder.appendChild(el);
+  });
+
+  aside.appendChild(cmd);
+  layout.appendChild(aside);
+
+  // ---- Partie droite : CHAMP DE BATAILLE (3 rangées fixes) ----
   const section = document.createElement('section');
   section.className = 'zone zone--bataille';
   section.setAttribute('data-zone', 'bataille');
@@ -819,30 +852,41 @@ function buildOpponentBattlefield(state){
   section.innerHTML = `<div class="zone-title">Champ de bataille</div><div class="battle-rows"></div>`;
 
   const rowsWrap = section.querySelector('.battle-rows');
-  (state.zones.bataille || []).forEach(row => {
+  const rows = (state?.zones?.bataille ?? []);
+
+  for (let i = 0; i < 3; i++) {
+    const cardsInRow = rows[i] || [];
+
     const rowEl = document.createElement('div');
     rowEl.className = 'battle-row';
-    rowEl.setAttribute('data-subrow', 'x');
+    rowEl.setAttribute('data-subrow', String(i + 1));
+
     const holder = document.createElement('div');
     holder.className = 'cards cards--battlefield';
     rowEl.appendChild(holder);
 
-    row.forEach(c => {
+    cardsInRow.forEach(c => {
       const el = createCardEl({
-        id: c.id, name: c.name, type: c.type,
-        imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null
+        id: c.id,
+        name: c.name,
+        type: c.type,
+        imageSmall: c.imageSmall || null,
+        imageNormal: c.imageNormal || null
       }, { faceDown: !!c.faceDown });
-      el.draggable = false; // lecture seule
+      el.draggable = false;
       el.classList.toggle('tapped', !!c.tapped);
       el.classList.toggle('phased', !!c.phased);
       holder.appendChild(el);
     });
 
     rowsWrap.appendChild(rowEl);
-  });
+  }
 
-  return section;
+  layout.appendChild(section);
+  return layout;   // ⬅️ renvoie le layout complet (commander + 3 rangées)
 }
+
+
 
 function showOpponentOverlay(state, name){
   const dlg = ensureOpponentOverlay();
