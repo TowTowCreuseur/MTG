@@ -324,26 +324,19 @@ function removeCommander(id) {
 }
 
 /* ---------- Export / Import ---------- */
-function exportDeck() {
-  const payload = buildPayload();
-
-  // Nom par défaut : deck-YYYYMMDD-HHMM
+// ——— Ajouts pour la modale d’export ———
+function sanitizeFileName(name) {
+  return String(name || '').replace(/[\/\\?%*:|"<>]/g, "_").trim();
+}
+function makeDefaultDeckBase() {
   const now = new Date();
   const pad = n => String(n).padStart(2, '0');
-  const defaultBase = `deck-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
-
-  // Fenêtre de saisie
-  let entered = prompt("Nom du fichier (sans extension) :", defaultBase);
-  if (entered === null) return; // Annulé
-
-  entered = entered.trim();
-  if (!entered) entered = defaultBase;
-
-  // Nettoyage des caractères interdits dans les noms de fichiers
-  entered = entered.replace(/[\/\\?%*:|"<>]/g, '_');
-
-  const filename = entered.toLowerCase().endsWith('.json') ? entered : `${entered}.json`;
-
+  return `deck-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+}
+function exportDownloadWithName(filenameBase) {
+  const safeBase = sanitizeFileName(filenameBase || makeDefaultDeckBase()) || makeDefaultDeckBase();
+  const filename = safeBase.toLowerCase().endsWith('.json') ? safeBase : `${safeBase}.json`;
+  const payload = buildPayload();
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -351,6 +344,42 @@ function exportDeck() {
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 }
+// ——— Ouvre la modale au clic sur Exporter ———
+function exportDeck() {
+  const dlg = qs('#exportDialog');
+  if (!dlg) { // fallback si le HTML n'est pas présent
+    exportDownloadWithName(makeDefaultDeckBase());
+    return;
+  }
+  const input = qs('#exportName');
+  const err = qs('#exportError');
+  if (input) {
+    input.value = makeDefaultDeckBase();
+    // focus + sélection pour éditer vite
+    setTimeout(() => { input.focus(); input.select(); }, 0);
+  }
+  if (err) err.style.display = 'none';
+  if (typeof dlg.showModal === 'function') dlg.showModal();
+  else dlg.setAttribute('open', true);
+}
+function closeExportDialog() {
+  const dlg = qs('#exportDialog');
+  if (!dlg) return;
+  if (typeof dlg.close === 'function') dlg.close();
+  else dlg.removeAttribute('open');
+}
+function confirmExportDialog() {
+  const input = qs('#exportName');
+  const err = qs('#exportError');
+  const base = sanitizeFileName(input?.value || '');
+  if (!base) {
+    if (err) { err.textContent = "Veuillez entrer un nom de fichier."; err.style.display = 'block'; }
+    return;
+  }
+  exportDownloadWithName(base);
+  closeExportDialog();
+}
+
 function importDeckFromFile(file) {
   const reader = new FileReader();
   reader.onload = () => {
@@ -460,6 +489,12 @@ function init() {
   const copyInviteBtn = qs('#copyInviteBtn');
   const startGameBtn = qs('#startGameBtn');
 
+  // Éléments de la modale d'export
+  const exportConfirmBtn = qs('#exportConfirmBtn');
+  const exportCancelBtn  = qs('#exportCancelBtn');
+  const exportNameInput  = qs('#exportName');
+  const exportDialog     = qs('#exportDialog');
+
   renderResults([]);
   renderDeck();
   renderCommanders();
@@ -516,5 +551,13 @@ function init() {
 
     if (link) window.location.href = link;
   });
+
+  // —— Wiring de la modale d'export —— //
+  exportConfirmBtn?.addEventListener('click', confirmExportDialog);
+  exportCancelBtn?.addEventListener('click', closeExportDialog);
+  exportNameInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); confirmExportDialog(); }
+  });
+  exportDialog?.addEventListener('cancel', (e) => { e.preventDefault(); closeExportDialog(); }); // ESC sur <dialog>
 }
 document.addEventListener('DOMContentLoaded', init);

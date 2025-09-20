@@ -98,5 +98,21 @@
         </footer>
       </form>
     </dialog>
+
+    <!-- ✅ Nouvelle modale : Exporter le deck -->
+    <dialog id="exportDialog" class="modal" aria-label="Exporter le deck">
+      <form method="dialog" class="modal-body" onsubmit="return false;">
+        <header class="modal-header">
+          <h2>Exporter le deck</h2>
+        </header>
+        <label for="exportName">Nom du fichier</label>
+        <input id="exportName" type="text" placeholder="deck-AAAAMMJJ-HHMM">
+        <div id="exportError" class="modal-error"></div>
+        <footer class="modal-footer">
+          <button type="button" class="btn-secondary" id="exportCancelBtn">Annuler</button>
+          <button type="button" class="btn-primary" id="exportConfirmBtn">Exporter</button>
+        </footer>
+      </form>
+    </dialog>
   </body>
 </html>
