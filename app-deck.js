@@ -1,10 +1,10 @@
-/* app-deck.js — Deck Builder Scryfall + Multi-Commander + Import/Export + Ouvrir Plateau
-   - Recherche par NOM (name:<query>)
-   - 2 colonnes (CSS)
-   - + pour deck, + doré pour Commander (si Créature légendaire)
-   - Plusieurs Commanders
-   - Export JSON (download), Import JSON (file)
-   - 🔥 Bouton "Ouvrir le plateau" : sauvegarde en localStorage puis redirige vers index.html
+/* app-deck.js — Deck Builder Scryfall + Sessions (Créer/Rejoindre depuis le builder)
+   - Recherche par NOM (name:<query>), pagination
+   - + deck, + commander
+   - Import/Export JSON
+   - 🔥 Sessions dans le builder :
+       • Rejoindre : pseudo + numéro de session → vérifie WS → enregistre deck+pseudo → ouvre le plateau
+       • Créer : pseudo + génération lien → vérifie WS → affiche lien → "Commencer la partie" ouvre le plateau
 */
 
 const deckMap = new Map(); // id -> {card, qty}
@@ -20,6 +20,105 @@ let searchState = {
 
 const qs = (s, el=document) => el.querySelector(s);
 
+/* ---------- Utils : deck / joueur / urls ---------- */
+function buildPayload() {
+  return {
+    createdAt: new Date().toISOString(),
+    cards: [...deckMap.values()].map(({card, qty}) => ({
+      id: card.id,
+      name: card.name,
+      type: card.type,
+      // 👇 on stocke les deux tailles pour le plateau
+      imageSmall: card.imageSmall || null,
+      imageNormal: card.imageNormal || card.image || null,
+      qty
+    })),
+    commanders: commanders.map(c => ({
+      id: c.id,
+      name: c.name,
+      type: c.type,
+      imageSmall: c.imageSmall || null,
+      imageNormal: c.imageNormal || c.image || null
+    }))
+  };
+}
+function saveDeckToLocalStorage() {
+  try {
+    localStorage.setItem('mtg.deck', JSON.stringify(buildPayload()));
+    return true;
+  } catch {
+    alert("Impossible de sauvegarder le deck dans le navigateur.");
+    return false;
+  }
+}
+function savePlayerName(name) {
+  try { localStorage.setItem('mtg.playerName', String(name||'')); } catch {}
+}
+function baseIndexUrl() {
+  const base = location.pathname.replace(/[^/]+$/, '');
+  return `${location.origin}${base}index.html`;
+}
+function makeRoomId() {
+  return Math.random().toString(36).slice(2, 8);
+}
+
+/* ---------- Vérif serveur WebSocket (port 8787) ---------- */
+function checkWebSocketUp(hostname, { timeoutMs = 1500 } = {}) {
+  return new Promise((resolve) => {
+    let done = false, ws;
+    const end = (ok) => { if (!done) { done = true; try{ ws && ws.close(); }catch{} resolve(ok); } };
+    const t = setTimeout(() => end(false), timeoutMs);
+    try {
+      ws = new WebSocket(`ws://${hostname}:8787/?room=poke`);
+    } catch {
+      clearTimeout(t); return end(false);
+    }
+    ws.onopen  = () => { clearTimeout(t); end(true);  };
+    ws.onerror = () => { clearTimeout(t); end(false); };
+  });
+}
+
+/* ---------- UI Sessions ---------- */
+function openJoinDialog() {
+  const dlg = qs('#joinDialog');
+  if (!dlg) return;
+  const err = qs('#joinError'); if (err) err.style.display = 'none';
+  if (typeof dlg.showModal === 'function') dlg.showModal();
+  else dlg.setAttribute('open', true);
+}
+
+function openCreateDialog() {
+  const dlg = qs('#createDialog');
+  if (!dlg) return;
+  const err = qs('#createError'); if (err) err.style.display = 'none';
+
+  const roomId = makeRoomId();
+  const link = `${baseIndexUrl()}?room=${roomId}`;
+  const input = qs('#inviteLink');
+  if (input) input.value = link;
+
+  // pré-remplir pseudo avec dernier connu
+  const storedName = localStorage.getItem('mtg.playerName') || '';
+  const pseudoInput = qs('#createPseudo');
+  if (pseudoInput) pseudoInput.value = storedName;
+
+  // Vérifie que le WS répond avant de montrer le lien comme "valide"
+  checkWebSocketUp(location.hostname).then(ok => {
+    if (!ok && err) {
+      err.textContent = "Le serveur n'est pas démarré (ws://"+location.hostname+":8787). Lancez `node server.js` puis réessayez.";
+      err.style.display = 'block';
+    }
+  });
+
+  if (typeof dlg.showModal === 'function') dlg.showModal();
+  else dlg.setAttribute('open', true);
+
+  // Stocke le lien sur le bouton "Commencer la partie"
+  const startBtn = qs('#startGameBtn');
+  if (startBtn) startBtn.dataset.link = link;
+}
+
+/* ---------- Recherche / rendu existants ---------- */
 function isLegendaryCreature(typeLine) {
   if (!typeLine) return false;
   const t = typeLine.toLowerCase();
@@ -30,18 +129,26 @@ const uniqById = (arr) => {
   arr.forEach(c => m.set(c.id, c));
   return [...m.values()];
 };
-
 function normalizeCard(c) {
-  const imgNormal = c.image_uris?.normal ?? c.card_faces?.[0]?.image_uris?.normal ?? null;
-  const imgSmall  = c.image_uris?.small  ?? c.card_faces?.[0]?.image_uris?.small  ?? imgNormal;
-  return { id: c.id, name: c.name, type: c.type_line, image: imgSmall || null };
+  const faces = c.card_faces?.[0];
+  const uris  = c.image_uris || faces?.image_uris || {};
+  const imgSmall  = uris.small  ?? null;
+  const imgNormal = uris.normal ?? imgSmall;
+
+  // 👉 Deck builder : on veut afficher "normal" (plus net)
+  return {
+    id: c.id,
+    name: c.name,
+    type: c.type_line,
+    image: imgNormal || null,       // utilisé uniquement dans le builder (vignette résultats)
+    imageSmall: imgSmall || null,   // pour le plateau
+    imageNormal: imgNormal || null  // pour le plateau (aperçu)
+  };
 }
 
-/* ---------- Rendu résultats / pagination ---------- */
 function renderResults(list) {
   const container = qs('.results');
   container.innerHTML = '';
-
   list.forEach(card => {
     const item = document.createElement('article');
     item.className = 'card-item';
@@ -82,10 +189,16 @@ function renderResults(list) {
     type.textContent = card.type ?? '';
     item.appendChild(type);
 
+    // 👉 dans le builder on affiche la version "normal"
     if (card.image) {
       const img = document.createElement('img');
-      img.src = card.image; img.alt = card.name;
-      img.style.width = '100%'; img.style.borderRadius = '8px'; img.style.marginTop = '6px';
+      img.src = card.image; // normal
+      img.alt = card.name;
+      img.style.width = '100%';
+      img.style.borderRadius = '8px';
+      img.style.marginTop = '6px';
+      img.loading = 'lazy';
+      img.decoding = 'async';
       item.appendChild(img);
     }
 
@@ -165,9 +278,10 @@ function renderCommanders() {
   commanders.forEach(c => {
     const row = document.createElement('div');
     row.className = 'cmd-row';
-    if (c.image) {
+    if (c.imageNormal || c.image) {
       const img = document.createElement('img');
-      img.src = c.image; img.alt = c.name;
+      img.src = c.imageNormal || c.image; // builder => normal
+      img.alt = c.name;
       row.appendChild(img);
     }
     const text = document.createElement('div');
@@ -182,7 +296,7 @@ function renderCommanders() {
   });
 }
 
-/* ---------- Actions ---------- */
+/* ---------- Actions deck ---------- */
 function addToDeck(card, delta=1) {
   const entry = deckMap.get(card.id) || { card, qty: 0 };
   entry.qty = Math.max(0, entry.qty + delta);
@@ -204,17 +318,6 @@ function removeCommander(id) {
 }
 
 /* ---------- Export / Import ---------- */
-function buildPayload() {
-  return {
-    createdAt: new Date().toISOString(),
-    cards: [...deckMap.values()].map(({card, qty}) => ({
-      id: card.id, name: card.name, type: card.type, image: card.image || null, qty
-    })),
-    commanders: commanders.map(c => ({
-      id: c.id, name: c.name, type: c.type, image: c.image || null
-    }))
-  };
-}
 function exportDeck() {
   const payload = buildPayload();
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
@@ -232,14 +335,37 @@ function importDeckFromFile(file) {
       deckMap.clear();
       if (Array.isArray(obj.cards)) {
         obj.cards.forEach(c => {
-          const card = { id: c.id, name: c.name, type: c.type, image: c.image || null };
+          // rétrocompat : si ancien format {image} ou {imageLarge}
+          const card = {
+            id: c.id,
+            name: c.name,
+            type: c.type,
+            image: c.imageNormal || c.image || null,
+            imageSmall: c.imageSmall || null,
+            imageNormal: c.imageNormal || c.image || null
+          };
+            // NB: "image" n'est utilisé que pour l’aperçu dans le builder
           deckMap.set(card.id, { card, qty: Number(c.qty || 0) });
         });
       }
       if (Array.isArray(obj.commanders)) {
-        commanders = obj.commanders.map(c => ({ id: c.id, name: c.name, type: c.type, image: c.image || null }));
+        commanders = obj.commanders.map(c => ({
+          id: c.id,
+          name: c.name,
+          type: c.type,
+          image: c.imageNormal || c.image || null,
+          imageSmall: c.imageSmall || null,
+          imageNormal: c.imageNormal || c.image || null
+        }));
       } else if (obj.commander) {
-        commanders = [{ id: obj.commander.id, name: obj.commander.name, type: obj.commander.type, image: obj.commander.image || null }];
+        commanders = [{
+          id: obj.commander.id,
+          name: obj.commander.name,
+          type: obj.commander.type,
+          image: obj.commander.imageNormal || obj.commander.image || null,
+          imageSmall: obj.commander.imageSmall || null,
+          imageNormal: obj.commander.imageNormal || obj.commander.image || null
+        }];
       } else commanders = [];
       renderDeck(); renderCommanders();
     } catch (e) { alert("Fichier JSON invalide."); }
@@ -292,19 +418,6 @@ async function runSearch(q) {
   renderResults(res.cards);
 }
 
-/* ---------- Ouvrir le plateau avec le deck courant ---------- */
-function openBoardWithDeck() {
-  const payload = buildPayload();
-  try {
-    localStorage.setItem('mtg.deck', JSON.stringify(payload));
-  } catch (e) {
-    alert("Impossible de sauvegarder le deck dans le navigateur.");
-    return;
-  }
-  // Redirection vers le plateau (même dossier)
-  window.location.href = 'index.html';
-}
-
 /* ---------- Init ---------- */
 function init() {
   const input = qs('#q');
@@ -312,7 +425,12 @@ function init() {
   const exportBtn = qs('#btn-export');
   const importBtn = qs('#btn-import');
   const fileInput = qs('#file-input');
-  const openBoardBtn = qs('#btn-open-board');
+
+  const btnJoin = qs('#btn-join-session');
+  const btnCreate = qs('#btn-create-session');
+  const joinConfirmBtn = qs('#joinConfirmBtn');
+  const copyInviteBtn = qs('#copyInviteBtn');
+  const startGameBtn = qs('#startGameBtn');
 
   renderResults([]);
   renderDeck();
@@ -329,6 +447,46 @@ function init() {
   importBtn?.addEventListener('click', () => fileInput?.click());
   fileInput?.addEventListener('change', e => { const f = e.target.files?.[0]; if (f) importDeckFromFile(f); e.target.value=''; });
 
-  openBoardBtn?.addEventListener('click', openBoardWithDeck);
+  // 🔥 Sessions
+  btnJoin?.addEventListener('click', openJoinDialog);
+  btnCreate?.addEventListener('click', openCreateDialog);
+
+  joinConfirmBtn?.addEventListener('click', async () => {
+    const pseudo = (qs('#joinPseudo')?.value || '').trim();
+    const sessionId = (qs('#joinSessionId')?.value || '').trim();
+    const err = qs('#joinError');
+    if (err) err.style.display = 'none';
+
+    if (!sessionId) { if (err){ err.textContent = "Veuillez entrer un numéro de session."; err.style.display='block'; } return; }
+
+    const ok = await checkWebSocketUp(location.hostname);
+    if (!ok) { if (err){ err.textContent = "Le serveur n'est pas démarré (ws://"+location.hostname+":8787). Lancez `node server.js` puis réessayez."; err.style.display='block'; } return; }
+
+    if (!saveDeckToLocalStorage()) return;
+    if (pseudo) savePlayerName(pseudo);
+
+    window.location.href = `${baseIndexUrl()}?room=${encodeURIComponent(sessionId)}`;
+  });
+
+  copyInviteBtn?.addEventListener('click', () => {
+    const link = qs('#inviteLink')?.value || '';
+    if (!link) return;
+    navigator.clipboard.writeText(link).catch(()=>{});
+  });
+
+  startGameBtn?.addEventListener('click', async () => {
+    const link = startGameBtn.dataset.link;
+    const pseudo = (qs('#createPseudo')?.value || '').trim();
+    const err = qs('#createError');
+    if (err) err.style.display = 'none';
+
+    const ok = await checkWebSocketUp(location.hostname);
+    if (!ok) { if (err){ err.textContent = "Le serveur n'est pas démarré (ws://"+location.hostname+":8787). Lancez `node server.js` puis réessayez."; err.style.display='block'; } return; }
+
+    if (!saveDeckToLocalStorage()) return;
+    if (pseudo) savePlayerName(pseudo);
+
+    if (link) window.location.href = link;
+  });
 }
 document.addEventListener('DOMContentLoaded', init);

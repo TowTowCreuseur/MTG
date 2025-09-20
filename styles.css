@@ -53,6 +53,7 @@ body{
 .zone {
   position:relative;
   padding:12px;
+  padding-top: 27px;
   border-radius: var(--radius);
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   box-shadow: var(--shadow);
@@ -60,7 +61,7 @@ body{
   min-height: 120px;
 }
 .zone .zone-title{ position:absolute; top:8px; left:12px; font-size:12px; color:var(--muted); text-transform: uppercase; }
-.zone .cards{ margin-top:14px; display:flex; flex-wrap:wrap; gap:10px; }
+.zone .cards{display:flex; flex-wrap:wrap; gap:10px; }
 
 /* Pioche */
 .zone--pioche{ padding-top:36px; }
@@ -76,7 +77,7 @@ body{
 /* Champ de bataille */
 .zone--bataille{ padding-top:36px; min-height:60vh; }
 .battle-rows{ display:flex; flex-direction:column; gap:10px; }
-.battle-row{ border:1px dashed #2a3b5f; border-radius:10px; padding:28px 8px 8px; min-height:150px; position:relative; }
+.battle-row{ border:1px dashed #2a3b5f; border-radius:10px; padding:8px 8px 8px; min-height:150px; position:relative; }
 .row-title{ position:absolute; top:6px; left:10px; font-size:11px; color:var(--muted); }
 
 .zone--commander {
@@ -158,3 +159,99 @@ body{
   cursor: pointer;
 }
 .result-card .btn-piocher:hover { border-color: var(--accent); }
+
+/* =========================
+   AJOUTS POUR LE SCRY (œil + modales)
+   ========================= */
+
+/* Icône œil "Scry" (même base que les autres boutons de la pioche) */
+.btn-scry{
+  height:28px; min-width:28px; width:28px; padding:0;
+  border-radius:999px; border:1px solid var(--border);
+  background:#0f1524; color:var(--text);
+  cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.btn-scry:hover{ border-color: var(--accent); transform: scale(1.06); }
+.btn-scry svg{ pointer-events:none; }
+
+/* Modales scry (ask + organiser) */
+.modal-scry-ask,
+.modal-scry{
+  border:none;
+  border-radius: var(--radius);
+  background: #0f1626;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  animation: scry-pop .18s ease-out;
+}
+.modal-scry-ask::backdrop,
+.modal-scry::backdrop{
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(2px);
+}
+
+/* Listes dans la modale scry */
+.scry-list{
+  display:grid;
+  gap:6px;
+  min-height:48px;
+  padding:8px;
+  border:1px dashed var(--border);
+  border-radius:10px;
+  background: linear-gradient(180deg, var(--panel), transparent);
+  color: var(--muted);
+}
+
+/* Ligne carte + boutons dans scry */
+.scry-row{
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-scry .btn,
+.modal-scry-ask .btn{
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #0f1524;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+  font-size: 12px;
+}
+.modal-scry .btn:hover,
+.modal-scry-ask .btn:hover{
+  border-color: var(--accent);
+  background: #142146;
+}
+
+/* Boutons par défaut dans les modales scry */
+.modal-scry button,
+.modal-scry-ask button {
+  background: #0f1524;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.modal-scry button:hover,
+.modal-scry-ask button:hover {
+  background: #142146;
+  border-color: var(--accent);
+}
+
+
+/* petite animation d’apparition */
+@keyframes scry-pop{
+  from{ transform: scale(.96); opacity: 0; }
+  to{ transform: scale(1); opacity: 1; }
+}

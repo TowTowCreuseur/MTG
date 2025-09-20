@@ -23,7 +23,7 @@
               <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </span>
-          <input id="q" type="text" placeholder="Nom de la carte…" aria-label="Rechercher une carte" />
+        <input id="q" type="text" placeholder="Nom de la carte…" aria-label="Rechercher une carte" />
         </div>
 
         <!-- Résultats (2 colonnes) -->
@@ -53,10 +53,50 @@
           <button class="btn-secondary" id="btn-import">Importer (JSON)</button>
           <input type="file" id="file-input" accept="application/json" hidden>
           <button class="btn-primary" id="btn-export">Exporter (JSON)</button>
-          <!-- 🔥 Nouveau : passage vers le plateau -->
-          <button class="btn-primary" id="btn-open-board">Ouvrir le plateau avec ce deck</button>
+          <!-- 🔥 Sessions : on remplace l'ancien bouton d'ouverture -->
+          <button class="btn-primary" id="btn-join-session">Rejoindre une session</button>
+          <button class="btn-primary" id="btn-create-session">Créer une session</button>
         </div>
       </aside>
     </main>
+
+    <!-- 🔥 Modale : Rejoindre une session -->
+    <dialog id="joinDialog" class="modal" aria-label="Rejoindre une session">
+      <form method="dialog" class="modal-body" style="padding:16px; min-width:min(520px,92vw);">
+        <header class="modal-header" style="margin-bottom:10px;">
+          <h2 style="margin:0;">Rejoindre une session</h2>
+        </header>
+        <label style="display:block; margin:8px 0 4px;">Pseudo</label>
+        <input type="text" id="joinPseudo" placeholder="Entrez votre pseudo" style="width:100%; padding:8px;">
+        <label style="display:block; margin:12px 0 4px;">Entrer le numéro de session</label>
+        <input type="text" id="joinSessionId" placeholder="ex: abc123" style="width:100%; padding:8px;">
+        <div id="joinError" style="color:var(--danger, #c00); margin-top:8px; display:none;"></div>
+        <footer class="modal-footer" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+          <button value="close" class="btn-secondary">Annuler</button>
+          <button type="button" class="btn-primary" id="joinConfirmBtn">Rejoindre</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- 🔥 Modale : Créer une session -->
+    <dialog id="createDialog" class="modal" aria-label="Créer une session">
+      <form method="dialog" class="modal-body" style="padding:16px; min-width:min(520px,92vw);">
+        <header class="modal-header" style="margin-bottom:10px;">
+          <h2 style="margin:0;">Créer une session</h2>
+        </header>
+        <label style="display:block; margin:8px 0 4px;">Pseudo</label>
+        <input type="text" id="createPseudo" placeholder="Entrez votre pseudo" style="width:100%; padding:8px;">
+        <p style="margin:12px 0 6px;">Partagez ensuite ce lien aux autres joueurs :</p>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <input type="text" id="inviteLink" readonly style="flex:1; padding:8px;">
+          <button type="button" class="btn-secondary" id="copyInviteBtn">Copier</button>
+        </div>
+        <div id="createError" style="color:var(--danger, #c00); margin-top:8px; display:none;"></div>
+        <footer class="modal-footer" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+          <button value="close" class="btn-secondary">Fermer</button>
+          <button type="button" class="btn-primary" id="startGameBtn">Commencer la partie</button>
+        </footer>
+      </form>
+    </dialog>
   </body>
 </html>
