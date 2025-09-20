@@ -811,37 +811,133 @@ function ensureOpponentOverlay(){
 }
 
 function buildOpponentBattlefield(state){
-  // wrapper pour réutiliser le CSS existant (.board-layout, .side-zones, etc.)
+  // --- helpers locaux ---
+  const mkLoupeBtn = (title, onClick) => {
+    const b = document.createElement('button');
+    b.className = 'btn-search';
+    b.title = title;
+    b.setAttribute('aria-label', title);
+    b.innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"></circle>
+        <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+      </svg>`;
+    b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); onClick(); });
+    return b;
+  };
+
+  // Réutilise la modale existante, en lecture seule
+  const openOppReadonlyList = (title, cards) => {
+    const dialog = qs('.modal-search');
+    if (!dialog) { alert('Modale de recherche absente du HTML.'); return; }
+
+    const input      = qs('.search-input', dialog);
+    const results    = qs('.search-results', dialog);
+    const shuffleBtn = qs('.btn-shuffle', dialog);
+
+    if (results) results.innerHTML = '';
+    if (shuffleBtn) shuffleBtn.style.display = 'none';
+    setSearchTitle(title);
+
+    (cards || []).slice().reverse().forEach((c) => {
+      const item = document.createElement('div');
+      item.className = 'result-card';
+      item.dataset.cardId = c.id;
+      item.innerHTML = `
+        <span><strong>${c.name || '(Carte)'}</strong> <em>${c.type || ''}</em></span>
+      `;
+      // Survol = aperçu plein écran (on met les data-* pour le preview)
+      if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
+      if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
+
+      item.addEventListener('mouseenter', () => {
+        clearTimeout(window.__previewTimer);
+        window.__previewTimer = setTimeout(() => {
+          if (!window.__isMouseDown && item.matches(':hover')) showCardPreview(item);
+        }, 750);
+      });
+      item.addEventListener('mouseleave', () => {
+        clearTimeout(window.__previewTimer);
+        setTimeout(() => { if (!isPointerInside(item)) hideCardPreview(); }, 20);
+      });
+
+      results.appendChild(item);
+    });
+
+    if (input) {
+      input.value = '';
+      input.oninput = () => {
+        const q = input.value.trim().toLowerCase();
+        Array.from(results.children).forEach(el => {
+          const txt = el.textContent.toLowerCase();
+          el.style.display = txt.includes(q) ? '' : 'none';
+        });
+      };
+    }
+
+    // Restaure l’état de la modale ensuite
+    const restore = () => { if (shuffleBtn) shuffleBtn.style.display = ''; dialog.removeEventListener('close', restore); };
+    dialog.addEventListener('close', restore);
+
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    else dialog.setAttribute('open', 'true');
+  };
+
+  // --- LAYOUT overlay ---
   const layout = document.createElement('div');
   layout.className = 'board-layout';
 
-  // ---- Colonne gauche : COMMANDER (adversaire) ----
+  // ---- Colonne gauche : Commander + Cimetière + Exil (adversaire) ----
   const aside = document.createElement('aside');
   aside.className = 'side-zones';
 
+  // Commander
   const cmd = document.createElement('div');
   cmd.className = 'zone zone--commander';
   cmd.setAttribute('data-zone', 'commander');
   cmd.setAttribute('aria-label', 'Zone de commandement (adversaire)');
   cmd.innerHTML = `<div class="zone-title">Commander</div><div class="cards"></div>`;
-
   const cmdHolder = cmd.querySelector('.cards');
-  const commanders = (state?.zones?.commander ?? []);
-  commanders.forEach(c => {
+  (state?.zones?.commander ?? []).forEach(c => {
     const el = createCardEl({
-      id: c.id,
-      name: c.name,
-      type: c.type,
-      imageSmall: c.imageSmall || null,
-      imageNormal: c.imageNormal || null
+      id: c.id, name: c.name, type: c.type,
+      imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null
     }, { faceDown: !!c.faceDown });
     el.draggable = false;
     el.classList.toggle('tapped', !!c.tapped);
     el.classList.toggle('phased', !!c.phased);
     cmdHolder.appendChild(el);
   });
-
   aside.appendChild(cmd);
+
+  // Cimetière (loupe)
+  const gy = document.createElement('div');
+  gy.className = 'zone zone--cimetiere';
+  gy.setAttribute('data-zone', 'cimetiere');
+  gy.setAttribute('aria-label', 'Cimetière (adversaire)');
+  gy.innerHTML = `<div class="zone-title">Cimetière</div><div class="cards"></div>`;
+  gy.querySelector('.zone-title')?.appendChild(
+    mkLoupeBtn('Chercher dans le cimetière (adversaire)', () => {
+      const list = (state?.stores?.cimetiere ?? state?.zones?.cimetiere ?? []);
+      openOppReadonlyList('Cimetière (adversaire)', list);
+    })
+  );
+  aside.appendChild(gy);
+
+  // Exil (loupe)
+  const ex = document.createElement('div');
+  ex.className = 'zone zone--exil';
+  ex.setAttribute('data-zone', 'exil');
+  ex.setAttribute('aria-label', 'Exil (adversaire)');
+  ex.innerHTML = `<div class="zone-title">Exil</div><div class="cards"></div>`;
+  ex.querySelector('.zone-title')?.appendChild(
+    mkLoupeBtn('Chercher dans l’exil (adversaire)', () => {
+      const list = (state?.stores?.exil ?? state?.zones?.exil ?? []);
+      openOppReadonlyList('Exil (adversaire)', list);
+    })
+  );
+  aside.appendChild(ex);
+
   layout.appendChild(aside);
 
   // ---- Partie droite : CHAMP DE BATAILLE (3 rangées fixes) ----
@@ -856,7 +952,6 @@ function buildOpponentBattlefield(state){
 
   for (let i = 0; i < 3; i++) {
     const cardsInRow = rows[i] || [];
-
     const rowEl = document.createElement('div');
     rowEl.className = 'battle-row';
     rowEl.setAttribute('data-subrow', String(i + 1));
@@ -867,11 +962,8 @@ function buildOpponentBattlefield(state){
 
     cardsInRow.forEach(c => {
       const el = createCardEl({
-        id: c.id,
-        name: c.name,
-        type: c.type,
-        imageSmall: c.imageSmall || null,
-        imageNormal: c.imageNormal || null
+        id: c.id, name: c.name, type: c.type,
+        imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null
       }, { faceDown: !!c.faceDown });
       el.draggable = false;
       el.classList.toggle('tapped', !!c.tapped);
@@ -883,8 +975,9 @@ function buildOpponentBattlefield(state){
   }
 
   layout.appendChild(section);
-  return layout;   // ⬅️ renvoie le layout complet (commander + 3 rangées)
+  return layout;   // commander + (loupes) cimetière/exil + 3 rangées de bataille
 }
+
 
 
 
@@ -906,6 +999,10 @@ function hideOpponentOverlay(){
 
 // ---------- sérialisation de mon board ----------
 function serializeBoard(){
+  // ⚠️ Très important : on scope la sérialisation au plateau principal,
+  // pour ne PAS capturer le rendu de l'adversaire dans l'overlay.
+  const root = qs('main.board') || document;
+
   const cardToObj = (el) => ({
     id: el.dataset.cardId,
     name: el.querySelector('.card-name')?.textContent || '',
@@ -916,22 +1013,34 @@ function serializeBoard(){
     phased: el.classList.contains('phased'),
     faceDown: el.classList.contains('face-down'),
   });
-  const simpleZone = (sel) => Array.from(document.querySelectorAll(sel + ' .cards .card')).map(cardToObj);
-  const battlefield = Array.from(document.querySelectorAll('.battle-row')).map(row =>
+
+  const simpleZone = (sel) =>
+    Array.from(root.querySelectorAll(sel + ' .cards .card')).map(cardToObj);
+
+  const battlefield = Array.from(
+    root.querySelectorAll('.zone--bataille .battle-row')
+  ).map(row =>
     Array.from(row.querySelectorAll('.cards .card')).map(cardToObj)
   );
+
   return {
     ts: Date.now(),
     zones: {
-      pioche: simpleZone('.zone--pioche'),
+      pioche:    simpleZone('.zone--pioche'),
       commander: simpleZone('.zone--commander'),
       cimetiere: simpleZone('.zone--cimetiere'),
-      exil: simpleZone('.zone--exil'),
-      main: simpleZone('.zone--main'),
-      bataille: battlefield
+      exil:      simpleZone('.zone--exil'),
+      main:      simpleZone('.zone--main'),
+      bataille:  battlefield
+    },
+    // ⬇️ On transporte aussi les piles invisibles pour l'affichage distant
+    stores: {
+      exil: exileStore.map(x => ({ ...x })),
+      cimetiere: graveyardStore.map(x => ({ ...x }))
     }
   };
 }
+
 
 // ---------- réseau ----------
 function setupMultiplayer(){
