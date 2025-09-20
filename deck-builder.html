@@ -62,16 +62,16 @@
 
     <!-- 🔥 Modale : Rejoindre une session -->
     <dialog id="joinDialog" class="modal" aria-label="Rejoindre une session">
-      <form method="dialog" class="modal-body" style="padding:16px; min-width:min(520px,92vw);">
-        <header class="modal-header" style="margin-bottom:10px;">
-          <h2 style="margin:0;">Rejoindre une session</h2>
+      <form method="dialog" class="modal-body">
+        <header class="modal-header">
+          <h2>Rejoindre une session</h2>
         </header>
-        <label style="display:block; margin:8px 0 4px;">Pseudo</label>
-        <input type="text" id="joinPseudo" placeholder="Entrez votre pseudo" style="width:100%; padding:8px;">
-        <label style="display:block; margin:12px 0 4px;">Entrer le numéro de session</label>
-        <input type="text" id="joinSessionId" placeholder="ex: abc123" style="width:100%; padding:8px;">
-        <div id="joinError" style="color:var(--danger, #c00); margin-top:8px; display:none;"></div>
-        <footer class="modal-footer" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+        <label>Pseudo</label>
+        <input type="text" id="joinPseudo" placeholder="Entrez votre pseudo">
+        <label>Entrer le numéro de session</label>
+        <input type="text" id="joinSessionId" placeholder="ex: abc123">
+        <div id="joinError" class="modal-error"></div>
+        <footer class="modal-footer">
           <button value="close" class="btn-secondary">Annuler</button>
           <button type="button" class="btn-primary" id="joinConfirmBtn">Rejoindre</button>
         </footer>
@@ -80,19 +80,19 @@
 
     <!-- 🔥 Modale : Créer une session -->
     <dialog id="createDialog" class="modal" aria-label="Créer une session">
-      <form method="dialog" class="modal-body" style="padding:16px; min-width:min(520px,92vw);">
-        <header class="modal-header" style="margin-bottom:10px;">
-          <h2 style="margin:0;">Créer une session</h2>
+      <form method="dialog" class="modal-body">
+        <header class="modal-header">
+          <h2>Créer une session</h2>
         </header>
-        <label style="display:block; margin:8px 0 4px;">Pseudo</label>
-        <input type="text" id="createPseudo" placeholder="Entrez votre pseudo" style="width:100%; padding:8px;">
+        <label>Pseudo</label>
+        <input type="text" id="createPseudo" placeholder="Entrez votre pseudo">
         <p style="margin:12px 0 6px;">Partagez ensuite ce lien aux autres joueurs :</p>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="inviteLink" readonly style="flex:1; padding:8px;">
+        <div class="inline-group">
+          <input type="text" id="inviteLink" readonly>
           <button type="button" class="btn-secondary" id="copyInviteBtn">Copier</button>
         </div>
-        <div id="createError" style="color:var(--danger, #c00); margin-top:8px; display:none;"></div>
-        <footer class="modal-footer" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+        <div id="createError" class="modal-error"></div>
+        <footer class="modal-footer">
           <button value="close" class="btn-secondary">Fermer</button>
           <button type="button" class="btn-primary" id="startGameBtn">Commencer la partie</button>
         </footer>
