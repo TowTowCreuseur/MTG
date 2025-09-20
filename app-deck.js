@@ -326,10 +326,28 @@ function removeCommander(id) {
 /* ---------- Export / Import ---------- */
 function exportDeck() {
   const payload = buildPayload();
+
+  // Nom par défaut : deck-YYYYMMDD-HHMM
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const defaultBase = `deck-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+
+  // Fenêtre de saisie
+  let entered = prompt("Nom du fichier (sans extension) :", defaultBase);
+  if (entered === null) return; // Annulé
+
+  entered = entered.trim();
+  if (!entered) entered = defaultBase;
+
+  // Nettoyage des caractères interdits dans les noms de fichiers
+  entered = entered.replace(/[\/\\?%*:|"<>]/g, '_');
+
+  const filename = entered.toLowerCase().endsWith('.json') ? entered : `${entered}.json`;
+
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `deck-${Date.now()}.json`;
+  a.href = url; a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 }
@@ -491,7 +509,7 @@ function init() {
     if (err) err.style.display = 'none';
 
     const ok = await checkWebSocketUp(location.hostname);
-    if (!ok) { if (err){ err.textContent = "Le serveur n'est pas démarré (ws://"+location.hostname+":8787). Lancez `node server.js` puis réessayez."; err.style.display='block'; } return; }
+    if (!ok) { if (err){ err.textContent = "Le serveur n'est pas démarré (ws://"+location.hostname+":8787). Lancez `node server.js` puis réessayez."; err.style.display = 'block'; } return; }
 
     if (!saveDeckToLocalStorage()) return;
     if (pseudo) savePlayerName(pseudo);
