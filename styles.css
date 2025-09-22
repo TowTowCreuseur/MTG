@@ -249,9 +249,51 @@ body{
   border-color: var(--accent);
 }
 
-
 /* petite animation d’apparition */
 @keyframes scry-pop{
   from{ transform: scale(.96); opacity: 0; }
   to{ transform: scale(1); opacity: 1; }
 }
+
+/* =========================
+   🆕 Compteur de points de vie
+   ========================= */
+
+.zone--life{
+  /* même gabarit que pioche/cimetière */
+  min-height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-top:36px; /* cohérent avec .zone--pioche */
+}
+.life-wrap{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.btn-life{
+  height:38px; min-width:38px; padding:0 10px; border-radius:999px;
+  border:1px solid var(--border); background:#0f1524; color:var(--text);
+  font-weight:800; font-size:20px; cursor:pointer; line-height:1;
+}
+.btn-life:hover{ border-color: var(--accent); }
+.life-value{
+  flex:1;
+  border:1px dashed var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+  background:linear-gradient(180deg, #10182a, #0e1524);
+  color:var(--text);
+  font-weight:900;
+  font-size:28px;
+  text-align:center;
+  cursor:pointer;
+  user-select:none;
+}
+
+/* Lecture seule pour l’overlay adverse */
+.zone--life.readonly .btn-life{ display:none; }
+.zone--life.readonly .life-value{ cursor:default; }

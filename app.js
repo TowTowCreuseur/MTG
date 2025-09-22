@@ -10,7 +10,8 @@ const ZONES = {
   BATAILLE: 'bataille',
   CIMETIERE: 'cimetiere',
   EXIL: 'exil',
-  COMMANDER: 'commander'
+  COMMANDER: 'commander',
+  LIFE: 'life'
 };
 
 const qs = (s, el=document) => el.querySelector(s);
@@ -62,6 +63,23 @@ let deck = makeDeck([
   { name: 'Plaine', type: 'Terrain' },
   { name: 'Marais', type: 'Terrain' },
 ]);
+
+// ---------- Compteur de vie ----------
+let lifeTotal = 40;
+
+function updateLifeDisplay(){
+  const el = qs('.zone--life .life-value');
+  if (el) el.textContent = String(lifeTotal);
+}
+function setLife(n){
+  if (!Number.isFinite(n)) return;
+  n = Math.trunc(n);
+  lifeTotal = n;
+  updateLifeDisplay();
+}
+function changeLife(delta){
+  setLife(lifeTotal + Math.trunc(delta));
+}
 
 // ---------- Carte ----------
 function createCardEl(card, { faceDown=false } = {}) {
@@ -810,7 +828,6 @@ function ensureOpponentOverlay(){
   dlg.querySelector('.opp-close')?.addEventListener('click', () => dlg.close());
   dlg.addEventListener('cancel', (e) => { e.preventDefault(); dlg.close(); });
   dlg.addEventListener('close', () => {
-    // Si on ferme, on revient sur "self"
     if (currentView !== 'self') {
       currentView = 'self';
       const sel = qs('#boardSelect'); if (sel) sel.value = 'self';
@@ -836,7 +853,6 @@ function buildOpponentBattlefield(state){
     return b;
   };
 
-  // Réutilise la modale existante, en lecture seule
   const openOppReadonlyList = (title, cards) => {
     const dialog = qs('.modal-search');
     if (!dialog) { alert('Modale de recherche absente du HTML.'); return; }
@@ -856,7 +872,6 @@ function buildOpponentBattlefield(state){
       item.innerHTML = `
         <span><strong>${c.name || '(Carte)'}</strong> <em>${c.type || ''}</em></span>
       `;
-      // Survol = aperçu plein écran (on met les data-* pour le preview)
       if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
       if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
 
@@ -885,7 +900,6 @@ function buildOpponentBattlefield(state){
       };
     }
 
-    // Restaure l’état de la modale ensuite
     const restore = () => { if (shuffleBtn) shuffleBtn.style.display = ''; dialog.removeEventListener('close', restore); };
     dialog.addEventListener('close', restore);
 
@@ -897,9 +911,21 @@ function buildOpponentBattlefield(state){
   const layout = document.createElement('div');
   layout.className = 'board-layout';
 
-  // ---- Colonne gauche : Commander + Cimetière + Exil (adversaire) ----
+  // ---- Colonne gauche : Vie + Commander + Cimetière + Exil (adversaire) ----
   const aside = document.createElement('aside');
   aside.className = 'side-zones';
+
+  // 🆕 Vie (lecture seule)
+  const life = document.createElement('div');
+  life.className = 'zone zone--life readonly';
+  life.setAttribute('data-zone', 'life');
+  life.setAttribute('aria-label', 'Points de vie (adversaire)');
+  life.innerHTML = `
+    <div class="zone-title">Points de vie</div>
+    <div class="life-wrap">
+      <div class="life-value readonly" aria-live="polite">${(state?.life ?? 40)}</div>
+    </div>`;
+  aside.appendChild(life);
 
   // Commander
   const cmd = document.createElement('div');
@@ -985,11 +1011,8 @@ function buildOpponentBattlefield(state){
   }
 
   layout.appendChild(section);
-  return layout;   // commander + (loupes) cimetière/exil + 3 rangées de bataille
+  return layout;
 }
-
-
-
 
 function showOpponentOverlay(state, name){
   const dlg = ensureOpponentOverlay();
@@ -1009,8 +1032,7 @@ function hideOpponentOverlay(){
 
 // ---------- sérialisation de mon board ----------
 function serializeBoard(){
-  // ⚠️ Très important : on scope la sérialisation au plateau principal,
-  // pour ne PAS capturer le rendu de l'adversaire dans l'overlay.
+  // Scope au plateau principal
   const root = qs('main.board') || document;
 
   const cardToObj = (el) => ({
@@ -1035,6 +1057,7 @@ function serializeBoard(){
 
   return {
     ts: Date.now(),
+    life: lifeTotal, // 🆕 vie dans l’état partagé
     zones: {
       pioche:    simpleZone('.zone--pioche'),
       commander: simpleZone('.zone--commander'),
@@ -1043,7 +1066,6 @@ function serializeBoard(){
       main:      simpleZone('.zone--main'),
       bataille:  battlefield
     },
-    // ⬇️ On transporte aussi les piles invisibles pour l'affichage distant
     stores: {
       exil: exileStore.map(x => ({ ...x })),
       cimetiere: graveyardStore.map(x => ({ ...x }))
@@ -1092,7 +1114,6 @@ function setupMultiplayer(){
     otherStates[msg.playerId] = { name: msg.name, state: msg.state };
     refreshDropdown();
 
-    // si on regarde cet adversaire, rafraîchit l’overlay
     if (currentView === msg.playerId) {
       showOpponentOverlay(msg.state, msg.name);
     }
@@ -1173,6 +1194,22 @@ function init(){
     z.addEventListener('drop',onZoneDrop);
   });
   qs('.btn-draw')?.addEventListener('click',spawnTopCardForDrag);
+
+  // 🆕 Listeners vie
+  qs('.zone--life .btn-life-plus')?.addEventListener('click', () => changeLife(1));
+  qs('.zone--life .btn-life-minus')?.addEventListener('click', () => changeLife(-1));
+  qs('.zone--life .life-value')?.addEventListener('click', () => {
+    const cur = lifeTotal;
+    const raw = prompt('Définir les points de vie (entier) :', String(cur));
+    if (raw === null) return;
+    const n = Number(raw);
+    if (!Number.isFinite(n) || !/^-?\d+$/.test(String(raw).trim())) {
+      alert('Veuillez entrer un entier.');
+      return;
+    }
+    setLife(n);
+  });
+  updateLifeDisplay();
 
   document.addEventListener('click', (ev) => {
     const el = ev.target;
