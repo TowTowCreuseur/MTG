@@ -294,6 +294,102 @@ body{
   user-select:none;
 }
 
+/* =========================
+   🪙 Zone Tokens + recherche
+   ========================= */
+
+/* même gabarit que Pioche/Cimetière/Exil */
+.zone--tokens{
+  padding-top:36px;
+  min-height:120px;
+}
+.token-controls{
+  position:absolute; top:8px; right:10px; display:flex; gap:8px;
+}
+/* bouton "Token" (même look que .btn-search) */
+.btn-token{
+  height:28px; min-width:28px; padding:0 10px; border-radius:999px;
+  border:1px solid var(--border); background:#0f1524; color:var(--text);
+  cursor:pointer;
+}
+.btn-token:hover{ border-color: var(--accent); }
+
+/* Modale recherche tokens (même taille/look que la recherche deck/pioche) */
+.modal-token-search{
+  border:none; border-radius:12px;
+  width:min(760px,92vw); max-height:80vh;
+  background:#0f1626; color:var(--text);
+  box-shadow: var(--shadow);
+}
+.modal-token-search::backdrop{ background:rgba(0,0,0,.55); }
+
+.modal-token-search .modal-header{
+  display:flex; align-items:center; gap:10px; padding:12px 12px 8px;
+  border-bottom:1px solid var(--border);
+}
+.modal-token-search .search-title{ margin:0; font-size:16px; }
+.modal-token-search .search-input{
+  flex:1; min-width:160px;
+  padding:8px 10px; border-radius:10px; border:1px solid var(--border);
+  background:#0f1524; color:var(--text);
+}
+.modal-token-search .search-input::placeholder{ color:var(--muted); }
+
+.modal-token-search .search-results{
+  padding:12px; max-height:56vh; overflow:auto;
+}
+
+.modal-token-search .modal-footer{
+  display:flex; justify-content:flex-end; gap:8px; padding:10px 12px 12px;
+  border-top:1px solid var(--border);
+}
+.modal-token-search .btn-secondary{
+  padding:6px 12px; border-radius:10px;
+  border:1px solid var(--border); background:#0f1524; color:var(--text);
+  cursor:pointer;
+}
+.modal-token-search .btn-secondary:hover{ border-color: var(--accent); }
+
+/* Carte résultat token (+ réutilise .result-card existant) */
+.result-card .btn-add-token{
+  border: 1px solid var(--border);
+  background: #0f1524;
+  color: var(--text);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.result-card .btn-add-token:hover{ border-color: var(--accent); }
+
+/* Modale quantité token */
+.modal-token-qty{
+  border:none; border-radius:12px; width:min(420px,92vw);
+  background:#0f1626; color:var(--text); box-shadow: var(--shadow);
+  padding:14px;
+}
+.modal-token-qty::backdrop{ background:rgba(0,0,0,.55); }
+
+.modal-token-qty .qty-title{ margin:0 0 10px; font-size:16px; }
+.modal-token-qty .qty-row{
+  display:flex; align-items:center; gap:10px; margin-bottom:12px;
+}
+.modal-token-qty input[type="number"]{
+  width:110px; padding:6px 8px; border-radius:10px;
+  border:1px solid var(--border); background:#0f1524; color:var(--text);
+  font-size:14px;
+}
+.modal-token-qty .modal-actions{
+  display:flex; justify-content:flex-end; gap:8px;
+}
+.modal-token-qty button{
+  padding:6px 12px; border-radius:10px;
+  border:1px solid var(--border); background:#0f1524; color:var(--text);
+  cursor:pointer;
+}
+.modal-token-qty button:hover{ border-color: var(--accent); }
+
+
 /* Lecture seule pour l’overlay adverse */
 .zone--life.readonly .btn-life{ display:none; }
 .zone--life.readonly .life-value{ cursor:default; }

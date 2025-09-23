@@ -427,26 +427,86 @@ function importDeckFromFile(file) {
 }
 
 /* ---------- Scryfall / Pagination / Recherche ---------- */
-async function scryfallSearchByName(queryOrUrl, { isNextPage=false } = {}) {
-  let url;
-  if (isNextPage) url = queryOrUrl;
-  else {
-    // recherche d'impressions dans la langue choisie (ajout)
-    const q = `lang:${CARD_LANG} name:${queryOrUrl}`;
-    url = `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
-  }
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return { cards: [], hasMore: false, nextPage: null, pageUrl: url };
-    const data = await res.json();
+async function scryfallSearchByName(queryOrUrl, { isNextPage = false } = {}) {
+  let url, triedFallback = false;
+
+  const makeUrl = (q) =>
+    `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
+
+  // --- helpers ---
+  const fetchJson = async (u) => {
+    try {
+      const r = await fetch(u);
+      const json = await r.json().catch(() => null);
+      return { ok: r.ok, json, url: u };
+    } catch {
+      return { ok: false, json: null, url: u };
+    }
+  };
+  const isEmptyResult = (resp) => {
+    if (!resp || !resp.json) return true;
+    if (resp.json.object === 'error') return true;              // 404 / error case
+    const arr = resp.json.data || [];
+    return arr.length === 0;
+  };
+
+  if (isNextPage) {
+    url = queryOrUrl;
+    const resp = await fetchJson(url);
+    if (!resp.ok || resp.json.object === 'error') {
+      return { cards: [], hasMore: false, nextPage: null, pageUrl: url };
+    }
     return {
-      cards: (data.data || []).map(normalizeCard),
-      hasMore: !!data.has_more,
-      nextPage: data.next_page || null,
+      cards: (resp.json.data || []).map(normalizeCard),
+      hasMore: !!resp.json.has_more,
+      nextPage: resp.json.next_page || null,
       pageUrl: url
     };
-  } catch { return { cards: [], hasMore: false, nextPage: null, pageUrl: null }; }
+  }
+
+  // 1) essai avec la langue choisie
+  const qLang = `lang:${CARD_LANG} (printed_name:"${queryOrUrl}" OR name:"${queryOrUrl}")`;
+  let resp = await fetchJson(makeUrl(qLang));
+
+  // 2) fallback si erreur 404/erreur API OU liste vide
+  if (!resp.ok || isEmptyResult(resp)) {
+    triedFallback = true;
+    const qAny = `(printed_name:"${queryOrUrl}" OR name:"${queryOrUrl}")`;
+    resp = await fetchJson(makeUrl(qAny));
+
+    // mini 2e fallback: recherche exacte oracle si toujours rien
+    if (!resp.ok || isEmptyResult(resp)) {
+      const qExact = `!"${queryOrUrl}"`; // exact match sur le nom oracle
+      resp = await fetchJson(makeUrl(qExact));
+    }
+  }
+
+  if (!resp.ok || resp.json.object === 'error') {
+    return { cards: [], hasMore: false, nextPage: null, pageUrl: resp.url };
+  }
+
+  // drapeau UI
+  const warn = qs('#searchWarning');
+  if (triedFallback && warn) {
+    if (resp.json.data && resp.json.data.length) {
+      warn.textContent = `Aucune impression "${CARD_LANG}" trouvée. Affichage des versions disponibles.`;
+      warn.style.display = 'block';
+    } else {
+      warn.style.display = 'none';
+    }
+  } else if (warn) {
+    warn.style.display = 'none';
+  }
+
+  return {
+    cards: (resp.json.data || []).map(normalizeCard),
+    hasMore: !!resp.json.has_more,
+    nextPage: resp.json.next_page || null,
+    pageUrl: resp.url
+  };
 }
+
+
 async function goNextPage() {
   if (!searchState.nextPageUrl) return;
   if (searchState.currentPageUrl) {

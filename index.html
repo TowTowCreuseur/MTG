@@ -13,7 +13,6 @@
         <div>
           <h1>Plateau MTG — Prototype</h1>
         </div>
-        <!-- 🔥 Nouveau : retour au deck builder -->
         <a class="btn-nav" href="deck-builder.html" title="Retour au Deck Builder">↩︎ Deck Builder</a>
       </div>
     </header>
@@ -82,6 +81,16 @@
             </div>
             <div class="cards"></div>
           </div>
+
+          <!-- 🪙 TOKENS -->
+          <div class="zone zone--tokens" data-zone="tokens" aria-label="Tokens">
+            <div class="zone-title">
+              Tokens
+              <button class="btn-search btn-search-tokens" title="Rechercher des tokens" aria-label="Rechercher des tokens">Token</button>
+            </div>
+            <div class="cards cards--tokens"></div>
+          </div>
+
         </aside>
 
         <!-- Champ de bataille -->
@@ -108,7 +117,7 @@
       </section>
     </main>
 
-    <!-- Modale de recherche -->
+    <!-- Modale de recherche (bibliothèque/exil/cimetière/overlay) -->
     <dialog class="modal modal-search" aria-label="Chercher dans la bibliothèque">
       <form method="dialog" class="modal-body" id="search-form" onsubmit="this.closest('dialog').close()">
         <header class="modal-header">
@@ -121,6 +130,24 @@
           <button type="button" class="btn-secondary btn-shuffle">Mélanger</button>
         </footer>
       </form>
+    </dialog>
+
+    <!-- Dialog Recherche de TOKENS (utilisé par app.js) -->
+    <dialog id="tokenDialog" aria-label="Recherche de tokens">
+      <div class="token-sheet">
+        <header class="token-header">
+          <div class="token-searchbar">
+            <input id="tokenQuery" class="token-input" type="text"
+                   placeholder="Nom, type (Zombie, Trésor, Jeton…)" aria-label="Filtrer les tokens" />
+            <button id="tokenSearchBtn" class="btn-primary" type="button">Rechercher</button>
+          </div>
+          <button id="tokenCloseBtn" class="btn token-close" type="button" aria-label="Fermer">Fermer</button>
+        </header>
+
+        <section class="token-results" aria-live="polite"></section>
+
+        <footer class="token-pager"></footer>
+      </div>
     </dialog>
   </body>
 </html>

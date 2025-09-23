@@ -1,5 +1,6 @@
-/* app.js — interactions plateau + multi
+/* app.js — interactions plateau + multi + recherche de jetons
    - Plateau : drag & drop, pioche, recherche, etc.
+   - Jetons : recherche Scryfall (is:token), ajout quantité, placement auto
    - Multi : partage d’état via WebSocket (overlay lecteur pour adversaire)
    - Sessions : création lien d’invitation + rejoindre
 */
@@ -11,7 +12,8 @@ const ZONES = {
   CIMETIERE: 'cimetiere',
   EXIL: 'exil',
   COMMANDER: 'commander',
-  LIFE: 'life'
+  LIFE: 'life',
+  TOKENS: 'tokens'
 };
 
 const qs = (s, el=document) => el.querySelector(s);
@@ -82,12 +84,14 @@ function changeLife(delta){
 }
 
 // ---------- Carte ----------
-function createCardEl(card, { faceDown=false } = {}) {
+function createCardEl(card, { faceDown=false, isToken=false } = {}) {
   const el = document.createElement('article');
-  el.className = 'card' + (faceDown ? ' face-down' : '');
+  el.className = 'card' + (faceDown ? ' face-down' : '') + (isToken ? ' token' : '');
   el.draggable = true;
   el.dataset.cardId = card.id;
   el.tabIndex = 0;
+
+  if (isToken) el.dataset.isToken = '1';
 
   if (card.imageSmall)  el.dataset.imageSmall  = card.imageSmall;
   if (card.imageNormal) el.dataset.imageNormal = card.imageNormal;
@@ -202,6 +206,7 @@ function cardElToObj(el){
     tapped: el.classList.contains('tapped'),
     phased: el.classList.contains('phased'),
     faceDown: el.classList.contains('face-down'),
+    isToken: el.dataset.isToken === '1'
   };
 }
 
@@ -259,12 +264,17 @@ function onZoneDrop(e) {
 
   const zoneType = zone.dataset.zone;
 
+  // Jetons : s'ils vont à l'exil/cimetière → disparition pure
+  const isToken = card.dataset.isToken === '1';
+
   if (zoneType === ZONES.EXIL) {
+    if (isToken) { card.remove(); return; }
     exileStore.push(cardElToObj(card));
     card.remove();
     return;
   }
   if (zoneType === ZONES.CIMETIERE) {
+    if (isToken) { card.remove(); return; }
     graveyardStore.push(cardElToObj(card));
     card.remove();
     return;
@@ -938,7 +948,7 @@ function buildOpponentBattlefield(state){
     const el = createCardEl({
       id: c.id, name: c.name, type: c.type,
       imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null
-    }, { faceDown: !!c.faceDown });
+    }, { faceDown: !!c.faceDown, isToken: !!c.isToken });
     el.draggable = false;
     el.classList.toggle('tapped', !!c.tapped);
     el.classList.toggle('phased', !!c.phased);
@@ -1000,7 +1010,7 @@ function buildOpponentBattlefield(state){
       const el = createCardEl({
         id: c.id, name: c.name, type: c.type,
         imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null
-      }, { faceDown: !!c.faceDown });
+      }, { faceDown: !!c.faceDown, isToken: !!c.isToken });
       el.draggable = false;
       el.classList.toggle('tapped', !!c.tapped);
       el.classList.toggle('phased', !!c.phased);
@@ -1044,6 +1054,7 @@ function serializeBoard(){
     tapped: el.classList.contains('tapped'),
     phased: el.classList.contains('phased'),
     faceDown: el.classList.contains('face-down'),
+    isToken: el.dataset.isToken === '1'
   });
 
   const simpleZone = (sel) =>
@@ -1176,6 +1187,328 @@ function ensureBoardViewerDropdown(){
   (qs('.board') || document.body).appendChild(wrap);
 }
 
+// ---------- Recherche Jetons (Scryfall) ----------
+const TOKEN_SEARCH = {
+  hasMore: false,
+  nextPage: null,
+  currentPage: null,
+  prevStack: [],
+  lastQuery: ''
+};
+
+function renderTokenResults(cards){
+  const container = qs('.token-results');
+  container.innerHTML = '';
+  cards.forEach(card => {
+    const item = document.createElement('article');
+    item.className = 'token-item';
+    item.style.cssText = 'border:1px solid #ddd; border-radius:10px; padding:8px; display:grid; gap:6px;';
+
+    const head = document.createElement('div');
+    head.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:8px;';
+
+    const title = document.createElement('div');
+    title.className = 'card-name';
+    title.textContent = card.name;
+
+    const actions = document.createElement('div');
+    const addBtn = document.createElement('button');
+    addBtn.className = 'btn-primary';
+    addBtn.title = 'Ajouter des jetons au champ de bataille';
+    addBtn.textContent = '+';
+    addBtn.addEventListener('click', () => askTokenQuantityAndAdd(card));
+    actions.appendChild(addBtn);
+
+    head.appendChild(title);
+    head.appendChild(actions);
+    item.appendChild(head);
+
+    const type = document.createElement('div');
+    type.className = 'card-type';
+    type.style.opacity = '.8';
+    type.textContent = card.type || '';
+    item.appendChild(type);
+
+    if (card.imageNormal || card.imageSmall) {
+      const img = document.createElement('img');
+      img.src = card.imageNormal || card.imageSmall;
+      img.alt = card.name;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.style.cssText = 'width:100%; border-radius:8px;';
+      item.appendChild(img);
+    }
+
+    container.appendChild(item);
+  });
+
+  if (!cards.length) {
+    const empty = document.createElement('div');
+    empty.style.cssText = 'opacity:.7; text-align:center; padding:12px;';
+    empty.textContent = 'Aucun résultat';
+    container.appendChild(empty);
+  }
+
+  renderTokenPager();
+}
+
+function renderTokenPager(){
+  const pager = qs('.token-pager');
+  pager.innerHTML = '';
+
+  const btnPrev = document.createElement('button');
+  btnPrev.className = 'btn-secondary';
+  btnPrev.textContent = '← Précédent';
+  btnPrev.disabled = TOKEN_SEARCH.prevStack.length <= 1;
+  btnPrev.addEventListener('click', tokenPrevPage);
+
+  const btnNext = document.createElement('button');
+  btnNext.className = 'btn-primary';
+  btnNext.textContent = 'Suivant →';
+  btnNext.disabled = !TOKEN_SEARCH.hasMore;
+  btnNext.addEventListener('click', tokenNextPage);
+
+  pager.appendChild(btnPrev);
+  pager.appendChild(btnNext);
+}
+
+function normalizeTokenCard(c){
+  const faces = c.card_faces?.[0];
+  const uris  = c.image_uris || faces?.image_uris || {};
+  const imgSmall  = uris.small  ?? null;
+  const imgNormal = uris.normal ?? imgSmall;
+  return {
+    id: c.id,
+    name: c.printed_name || c.name,
+    type: c.printed_type_line || c.type_line || '',
+    imageSmall: imgSmall || null,
+    imageNormal: imgNormal || null
+  };
+}
+
+// Cherche en priorité des jetons FR ; si aucun résultat → fallback sur cartes (FR), puis "toutes langues".
+// Conserve la pagination (isNext=true => on suit l’URL Scryfall).
+// Recherche prioritaire des jetons ; fallback jetons toutes langues avant les cartes.
+// Garde la pagination (isNext => suit l'URL Scryfall).
+async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
+  const CARD_LANG = 'fr';
+
+  const makeUrl = (q) =>
+    `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
+
+  // --- utils fetch/json ---
+  const fetchJson = async (u) => {
+    try {
+      const r = await fetch(u);
+      const json = await r.json().catch(() => null);
+      return { ok: r.ok, json, url: u };
+    } catch {
+      return { ok: false, json: null, url: u };
+    }
+  };
+  const isEmpty = (resp) => {
+    if (!resp || !resp.json) return true;
+    if (resp.json.object === 'error') return true;
+    return !(resp.json.data || []).length;
+  };
+
+  // --- pagination directe ---
+  if (isNext) {
+    const resp = await fetchJson(queryOrUrl);
+    if (!resp.ok || resp.json?.object === 'error') {
+      return { cards: [], hasMore: false, next: null, page: queryOrUrl };
+    }
+    return {
+      cards: (resp.json.data || []).map(normalizeTokenCard),
+      hasMore: !!resp.json.has_more,
+      next: resp.json.next_page || null,
+      page: resp.url
+    };
+  }
+
+  const q = String(queryOrUrl || '').trim();
+
+  // Helper: construit un sous-filtre nom (phrase exacte si espaces, sinon simple)
+  const nameFilter = q
+    ? `(printed_name:"${q}" OR name:"${q}")`
+    : '';
+
+  // 1) Jetons FR
+  const qTokensFr = `is:token -type:emblem lang:${CARD_LANG} ${nameFilter}`.trim();
+  let resp = await fetchJson(makeUrl(qTokensFr));
+
+  // 2) Jetons toutes langues (SEULEMENT si aucun résultat)
+  if (isEmpty(resp)) {
+    const qTokensAny = `is:token -type:emblem ${nameFilter}`.trim();
+    resp = await fetchJson(makeUrl(qTokensAny));
+  }
+
+  // Si requête vide : on s’arrête aux jetons (on ne retombe pas vers les cartes)
+  if (!q) {
+    if (!resp.ok || resp.json?.object === 'error') {
+      return { cards: [], hasMore: false, next: null, page: resp?.url || null };
+    }
+    return {
+      cards: (resp.json.data || []).map(normalizeTokenCard),
+      hasMore: !!resp.json.has_more,
+      next: resp.json.next_page || null,
+      page: resp.url
+    };
+  }
+
+  // 3) Cartes FR (uniquement si aucun jeton trouvé pour une requête donnée)
+  if (isEmpty(resp)) {
+    const qCardsFr = `lang:${CARD_LANG} ${nameFilter}`.trim();
+    resp = await fetchJson(makeUrl(qCardsFr));
+  }
+
+  // 4) Cartes toutes langues
+  if (isEmpty(resp)) {
+    const qCardsAny = `${nameFilter}`.trim() || `"${q}"`;
+    resp = await fetchJson(makeUrl(qCardsAny));
+  }
+
+  // 5) Dernier essai : match exact oracle
+  if (isEmpty(resp)) {
+    const qExact = `!"${q}"`;
+    resp = await fetchJson(makeUrl(qExact));
+  }
+
+  if (!resp.ok || resp.json?.object === 'error') {
+    return { cards: [], hasMore: false, next: null, page: resp?.url || null };
+  }
+
+  return {
+    cards: (resp.json.data || []).map(normalizeTokenCard),
+    hasMore: !!resp.json.has_more,
+    next: resp.json.next_page || null,
+    page: resp.url
+  };
+}
+
+
+
+async function runTokenSearch(q){
+  TOKEN_SEARCH.lastQuery = (q || '').trim();
+  TOKEN_SEARCH.prevStack = [];
+  const res = await scryfallTokenSearch(TOKEN_SEARCH.lastQuery);
+  TOKEN_SEARCH.hasMore = res.hasMore;
+  TOKEN_SEARCH.nextPage = res.next;
+  TOKEN_SEARCH.currentPage = res.page;
+  TOKEN_SEARCH.prevStack.push(res.page);
+  renderTokenResults(res.cards);
+}
+
+async function tokenNextPage(){
+  if (!TOKEN_SEARCH.nextPage) return;
+  if (TOKEN_SEARCH.currentPage) {
+    const top = TOKEN_SEARCH.prevStack.at(-1);
+    if (top !== TOKEN_SEARCH.currentPage) TOKEN_SEARCH.prevStack.push(TOKEN_SEARCH.currentPage);
+  }
+  const res = await scryfallTokenSearch(TOKEN_SEARCH.nextPage, { isNext:true });
+  TOKEN_SEARCH.hasMore = res.hasMore;
+  TOKEN_SEARCH.nextPage = res.next;
+  TOKEN_SEARCH.currentPage = res.page;
+  renderTokenResults(res.cards);
+}
+
+async function tokenPrevPage(){
+  if (TOKEN_SEARCH.prevStack.length <= 1) return runTokenSearch(TOKEN_SEARCH.lastQuery);
+  TOKEN_SEARCH.prevStack.pop();
+  const prev = TOKEN_SEARCH.prevStack.at(-1);
+  const res = await scryfallTokenSearch(prev, { isNext:true });
+  TOKEN_SEARCH.hasMore = res.hasMore;
+  TOKEN_SEARCH.nextPage = res.next;
+  TOKEN_SEARCH.currentPage = res.page;
+  renderTokenResults(res.cards);
+}
+
+function askTokenQuantityAndAdd(card){
+  const dlg = document.createElement('dialog');
+  dlg.className = 'modal-token-qty';
+  dlg.innerHTML = `
+    <form method="dialog" style="min-width:320px; padding:16px; display:grid; gap:12px;">
+      <h3 style="margin:0">Ajouter des jetons</h3>
+      <div>
+        <label>Combien de “${card.name}” ?</label>
+        <input type="number" min="1" value="1" style="width:100%; padding:8px">
+      </div>
+      <div style="display:flex; gap:8px; justify-content:flex-end;">
+        <button value="cancel" class="btn btn-secondary">Annuler</button>
+        <button value="ok" class="btn btn-primary">Ajouter</button>
+      </div>
+    </form>
+  `;
+  document.body.appendChild(dlg);
+  dlg.addEventListener('close', () => {
+    if (dlg.returnValue === 'ok') {
+      const n = Math.max(1, Math.trunc(Number(dlg.querySelector('input')?.value || 1)));
+      placeTokenCopies(card, n);
+    }
+    dlg.remove();
+  });
+  dlg.showModal();
+}
+
+function placeTokenCopies(card, n){
+  const rows = qsa('.zone--bataille .battle-row .cards');
+  if (!rows.length) return;
+  // trouver la rangée la moins chargée
+  const counts = rows.map(r => r.querySelectorAll('.card').length);
+  for (let i = 0; i < n; i++){
+    const minCount = Math.min(...counts);
+    const idx = counts.indexOf(minCount);
+    const holder = rows[idx];
+    const el = createCardEl({
+      id: `${card.id}-token-${crypto.randomUUID().slice(0,8)}`,
+      name: card.name,
+      type: card.type,
+      imageSmall: card.imageSmall || null,
+      imageNormal: card.imageNormal || null
+    }, { faceDown:false, isToken:true });
+    holder.appendChild(el);
+    counts[idx]++; // mettre à jour localement
+  }
+}
+
+// Ouvre la modale Tokens
+function openTokenDialog(){
+  let dlg = qs('#tokenDialog');
+  if (!dlg) return;
+
+  const styleInited = document.getElementById('tokenDialogStyles');
+  if (!styleInited){
+    const st = document.createElement('style');
+    st.id = 'tokenDialogStyles';
+    st.textContent = `
+      #tokenDialog::backdrop{ background:rgba(0,0,0,.45); }
+      .token-sheet{ background:#fff; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); padding:16px; width:min(1200px,95vw); max-height:92vh; display:grid; grid-template-rows:auto auto 1fr auto; gap:12px; }
+      .token-header{ display:flex; gap:8px; align-items:center; justify-content:space-between; }
+      .token-searchbar{ display:flex; gap:8px; align-items:center; }
+      .token-results{ overflow:auto; display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); }
+      .token-pager{ display:flex; justify-content:space-between; gap:8px; }
+      .token-close{ padding:6px 10px; }
+      .token-input{ flex:1; padding:8px; border:1px solid #ddd; border-radius:8px; }
+    `;
+    document.head.appendChild(st);
+  }
+
+  const input = qs('#tokenQuery', dlg);
+  const btnSearch = qs('#tokenSearchBtn', dlg);
+  const btnClose = qs('#tokenCloseBtn', dlg);
+
+  btnSearch.onclick = () => runTokenSearch(input.value);
+  input.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); runTokenSearch(input.value); } };
+  btnClose.onclick = () => dlg.close();
+
+  // reset zone
+  qs('.token-results', dlg).innerHTML = '';
+  runTokenSearch(''); // liste “tous les jetons” triés par nom
+
+  if (typeof dlg.showModal === 'function') dlg.showModal();
+  else dlg.setAttribute('open', 'true');
+}
+
 // ---------- Init ----------
 function init(){
   ensureBoardViewerDropdown();
@@ -1219,6 +1552,7 @@ function init(){
     if (el.closest('.zone--pioche .btn-scry'))   { openScryPrompt(); return; }
     if (el.closest('.btn-search-exile'))         { setSearchTitle('Recherche dans l’exil'); openExileSearchModal(); return; }
     if (el.closest('.btn-search-graveyard'))     { setSearchTitle('Recherche dans le cimetière'); openGraveyardSearchModal(); return; }
+    if (el.closest('.btn-search-tokens'))        { openTokenDialog(); return; }
   });
 
   const exilTitle = qs('.zone--exil .zone-title');
@@ -1265,6 +1599,8 @@ function init(){
       </svg>`;
     piocheTitle.appendChild(btnEye);
   }
+
+  // Rien de spécial à créer pour la zone Tokens : le HTML la fournit déjà et on branche l’event generic (au dessus)
 
   const imported = tryLoadDeckFromLocalStorage(); updateDeckCount();
   if(!imported){
