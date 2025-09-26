@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Héberger une session MTG</title>
+  <link rel="stylesheet" href="host.css" />
+  <script type="module" src="host.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Créer / héberger une session</h1>
+
+    <p class="small">
+      1) Lancez <code>node server.js</code> (WS sur <code>8787</code>) et <code>npx serve -l tcp://0.0.0.0:3000 .</code> (HTTP).
+    </p>
+
+    <h2>Paramètres</h2>
+    <div class="row">
+      <label style="flex:0 0 190px">Adresse du serveur</label>
+      <input id="serverHost" type="text" placeholder="ex: 192.168.0.12">
+    </div>
+    <div class="row" style="margin-top:8px">
+      <label style="flex:0 0 190px">Room</label>
+      <input id="roomId" type="text" placeholder="ex: abc123">
+      <button id="regenRoom" class="btn" type="button" style="flex:0 0 auto">Générer</button>
+    </div>
+
+    <div class="row" style="margin-top:8px">
+      <label style="flex:0 0 190px">Lien Deck Builder</label>
+      <input id="inviteLink" type="text" readonly>
+      <button id="copyLink" class="btn" type="button" style="flex:0 0 auto">Copier</button>
+    </div>
+
+    <div id="wsStatus" class="small" style="margin:8px 0">WS : <em>non vérifié</em></div>
+    <div id="hostError" class="error"></div>
+
+    <div class="row" style="margin-top:12px">
+      <button id="checkWs" class="btn" type="button">Vérifier le serveur WS</button>
+      <button id="openBuilder" class="btn" type="button">Ouvrir le Deck Builder (hôte)</button>
+    </div>
+
+    <h2 style="margin-top:24px">Rappel pare-feu (Windows)</h2>
+    <ul class="small">
+      <li>Autoriser <code>node.exe</code> en entrée/sortie (port <code>8787</code>).</li>
+      <li>Autoriser le serveur HTTP sur le port <code>3000</code>.</li>
+      <li>Les invités doivent être sur le même réseau (LAN / Wi-Fi).</li>
+    </ul>
+  </main>
+</body>
+</html>

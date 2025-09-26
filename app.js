@@ -19,6 +19,12 @@ const ZONES = {
 const qs = (s, el=document) => el.querySelector(s);
 const qsa = (s, el=document) => Array.from(el.querySelectorAll(s));
 
+/* ---------- Polyfill/ID util ---------- */
+const randomId = () => {
+  try { if (window.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID(); } catch {}
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;
+};
+
 // ---------- Utilitaires UI ----------
 function btn(label, cls='') {
   const b = document.createElement('button');
@@ -798,7 +804,7 @@ const ROOM_ID = (() => {
   return decoded;
 })();
 
-let PLAYER_ID = crypto.randomUUID();
+let PLAYER_ID = randomId();
 let PLAYER_NAME = "Inconnu";
 let socket = null;
 const otherStates = {};
@@ -1087,10 +1093,12 @@ function serializeBoard(){
 
 // ---------- réseau ----------
 function setupMultiplayer(){
-  const host = location.hostname || '127.0.0.1';
-  const protocol = (location.protocol === 'https:' ? 'wss' : 'ws');
-  const url = `${protocol}://${host}:8787/?room=${encodeURIComponent(ROOM_ID)}`;
+  const urlp = new URLSearchParams(location.search);
+  const wsHost  = urlp.get('wsHost')  || location.hostname || '127.0.0.1';
+  const wsPort  = urlp.get('wsPort')  || '8787';
+  const wsProto = urlp.get('wsProto') || (location.protocol === 'https:' ? 'wss' : 'ws');
 
+  const url = `${wsProto}://${wsHost}:${wsPort}/?room=${encodeURIComponent(ROOM_ID)}`;
   socket = new WebSocket(url);
 
   socket.addEventListener('open', () => {
@@ -1124,15 +1132,14 @@ function setupMultiplayer(){
 
     otherStates[msg.playerId] = { name: msg.name, state: msg.state };
     refreshDropdown();
+    if (currentView === msg.playerId) showOpponentOverlay(msg.state, msg.name);
 
-    if (currentView === msg.playerId) {
-      showOpponentOverlay(msg.state, msg.name);
-    }
   });
 
   socket.addEventListener('error', (e) => console.warn('[WS] error', e));
   socket.addEventListener('close',  () => console.warn('[WS] closed'));
 }
+
 
 function refreshDropdown(){
   let sel = qs('#boardSelect');
@@ -1158,6 +1165,7 @@ function refreshView(){
   } else {
     const o = otherStates[currentView];
     if (o) showOpponentOverlay(o.state, o.name);
+    else console.warn('Aucun état reçu pour', currentView);
   }
 }
 
@@ -1179,7 +1187,7 @@ function ensureBoardViewerDropdown(){
   select.style.cssText = 'padding:4px 8px;';
   select.addEventListener('change', (e) => {
     currentView = e.target.value;
-    refreshView();
+    refreshView(); // important
   });
 
   wrap.appendChild(label);
@@ -1286,10 +1294,6 @@ function normalizeTokenCard(c){
   };
 }
 
-// Cherche en priorité des jetons FR ; si aucun résultat → fallback sur cartes (FR), puis "toutes langues".
-// Conserve la pagination (isNext=true => on suit l’URL Scryfall).
-// Recherche prioritaire des jetons ; fallback jetons toutes langues avant les cartes.
-// Garde la pagination (isNext => suit l'URL Scryfall).
 async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
   const CARD_LANG = 'fr';
 
@@ -1328,7 +1332,6 @@ async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
 
   const q = String(queryOrUrl || '').trim();
 
-  // Helper: construit un sous-filtre nom (phrase exacte si espaces, sinon simple)
   const nameFilter = q
     ? `(printed_name:"${q}" OR name:"${q}")`
     : '';
@@ -1337,13 +1340,13 @@ async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
   const qTokensFr = `is:token -type:emblem lang:${CARD_LANG} ${nameFilter}`.trim();
   let resp = await fetchJson(makeUrl(qTokensFr));
 
-  // 2) Jetons toutes langues (SEULEMENT si aucun résultat)
+  // 2) Jetons toutes langues (si aucun résultat)
   if (isEmpty(resp)) {
     const qTokensAny = `is:token -type:emblem ${nameFilter}`.trim();
     resp = await fetchJson(makeUrl(qTokensAny));
   }
 
-  // Si requête vide : on s’arrête aux jetons (on ne retombe pas vers les cartes)
+  // Si requête vide : s’arrêter aux jetons
   if (!q) {
     if (!resp.ok || resp.json?.object === 'error') {
       return { cards: [], hasMore: false, next: null, page: resp?.url || null };
@@ -1356,7 +1359,7 @@ async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
     };
   }
 
-  // 3) Cartes FR (uniquement si aucun jeton trouvé pour une requête donnée)
+  // 3) Cartes FR si aucun jeton trouvé
   if (isEmpty(resp)) {
     const qCardsFr = `lang:${CARD_LANG} ${nameFilter}`.trim();
     resp = await fetchJson(makeUrl(qCardsFr));
@@ -1368,7 +1371,7 @@ async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
     resp = await fetchJson(makeUrl(qCardsAny));
   }
 
-  // 5) Dernier essai : match exact oracle
+  // 5) Match exact oracle
   if (isEmpty(resp)) {
     const qExact = `!"${q}"`;
     resp = await fetchJson(makeUrl(qExact));
@@ -1453,21 +1456,20 @@ function askTokenQuantityAndAdd(card){
 function placeTokenCopies(card, n){
   const rows = qsa('.zone--bataille .battle-row .cards');
   if (!rows.length) return;
-  // trouver la rangée la moins chargée
   const counts = rows.map(r => r.querySelectorAll('.card').length);
   for (let i = 0; i < n; i++){
     const minCount = Math.min(...counts);
     const idx = counts.indexOf(minCount);
     const holder = rows[idx];
     const el = createCardEl({
-      id: `${card.id}-token-${crypto.randomUUID().slice(0,8)}`,
+      id: `${card.id}-token-${randomId().slice(0,8)}`,
       name: card.name,
       type: card.type,
       imageSmall: card.imageSmall || null,
       imageNormal: card.imageNormal || null
     }, { faceDown:false, isToken:true });
     holder.appendChild(el);
-    counts[idx]++; // mettre à jour localement
+    counts[idx]++;
   }
 }
 
@@ -1501,9 +1503,8 @@ function openTokenDialog(){
   input.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); runTokenSearch(input.value); } };
   btnClose.onclick = () => dlg.close();
 
-  // reset zone
   qs('.token-results', dlg).innerHTML = '';
-  runTokenSearch(''); // liste “tous les jetons” triés par nom
+  runTokenSearch(''); // liste “tous les jetons”
 
   if (typeof dlg.showModal === 'function') dlg.showModal();
   else dlg.setAttribute('open', 'true');
@@ -1528,7 +1529,7 @@ function init(){
   });
   qs('.btn-draw')?.addEventListener('click',spawnTopCardForDrag);
 
-  // 🆕 Listeners vie
+  // Vie
   qs('.zone--life .btn-life-plus')?.addEventListener('click', () => changeLife(1));
   qs('.zone--life .btn-life-minus')?.addEventListener('click', () => changeLife(-1));
   qs('.zone--life .life-value')?.addEventListener('click', () => {
@@ -1599,8 +1600,6 @@ function init(){
       </svg>`;
     piocheTitle.appendChild(btnEye);
   }
-
-  // Rien de spécial à créer pour la zone Tokens : le HTML la fournit déjà et on branche l’event generic (au dessus)
 
   const imported = tryLoadDeckFromLocalStorage(); updateDeckCount();
   if(!imported){

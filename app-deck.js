@@ -1,13 +1,14 @@
-/* app-deck.js — Deck Builder Scryfall + Sessions (Créer/Rejoindre depuis le builder)
+/* app-deck.js — Deck Builder Scryfall (simplifié, sans UI de session)
    - Recherche par NOM (name:<query>), pagination
    - + deck, + commander
    - Import/Export JSON
-   - 🔥 Sessions dans le builder :
-       • Rejoindre : pseudo + numéro de session → vérifie WS → enregistre deck+pseudo → ouvre le plateau
-       • Créer : pseudo + génération lien → vérifie WS → affiche lien → "Commencer la partie" ouvre le plateau
+   - 👉 Bouton unique “Rejoindre la partie” qui :
+       • sauvegarde le deck dans localStorage
+       • lit room/wsHost/wsPort/wsProto de l’URL
+       • redirige vers index.html avec les mêmes paramètres
 */
 
-// --- Langue d'affichage des impressions Scryfall (ajout) ---
+// --- Langue d'affichage des impressions Scryfall ---
 const CARD_LANG = 'fr';
 
 const deckMap = new Map(); // id -> {card, qty}
@@ -23,7 +24,7 @@ let searchState = {
 
 const qs = (s, el=document) => el.querySelector(s);
 
-/* ---------- Utils : deck / joueur / urls ---------- */
+/* ---------- Utils : deck / urls ---------- */
 function buildPayload() {
   return {
     createdAt: new Date().toISOString(),
@@ -31,7 +32,6 @@ function buildPayload() {
       id: card.id,
       name: card.name,
       type: card.type,
-      // 👇 on stocke les deux tailles pour le plateau
       imageSmall: card.imageSmall || null,
       imageNormal: card.imageNormal || card.image || null,
       qty
@@ -54,78 +54,15 @@ function saveDeckToLocalStorage() {
     return false;
   }
 }
-function savePlayerName(name) {
-  try { localStorage.setItem('mtg.playerName', String(name||'')); } catch {}
-}
 function baseIndexUrl() {
   const base = location.pathname.replace(/[^/]+$/, '');
   return `${location.origin}${base}index.html`;
 }
-function makeRoomId() {
-  return Math.random().toString(36).slice(2, 8);
-}
 
-/* ---------- Vérif serveur WebSocket (port 8787) ---------- */
-function checkWebSocketUp(hostname, { timeoutMs = 1500 } = {}) {
-  return new Promise((resolve) => {
-    let done = false, ws;
-    const end = (ok) => { if (!done) { done = true; try{ ws && ws.close(); }catch{} resolve(ok); } };
-    const t = setTimeout(() => end(false), timeoutMs);
-    try {
-      ws = new WebSocket(`ws://${hostname}:8787/?room=poke`);
-    } catch {
-      clearTimeout(t); return end(false);
-    }
-    ws.onopen  = () => { clearTimeout(t); end(true);  };
-    ws.onerror = () => { clearTimeout(t); end(false); };
-  });
-}
-
-/* ---------- UI Sessions ---------- */
-function openJoinDialog() {
-  const dlg = qs('#joinDialog');
-  if (!dlg) return;
-  const err = qs('#joinError'); if (err) err.style.display = 'none';
-  if (typeof dlg.showModal === 'function') dlg.showModal();
-  else dlg.setAttribute('open', true);
-}
-
-function openCreateDialog() {
-  const dlg = qs('#createDialog');
-  if (!dlg) return;
-  const err = qs('#createError'); if (err) err.style.display = 'none';
-
-  const roomId = makeRoomId();
-  const link = `${baseIndexUrl()}?room=${roomId}`;
-  const input = qs('#inviteLink');
-  if (input) input.value = link;
-
-  // pré-remplir pseudo avec dernier connu
-  const storedName = localStorage.getItem('mtg.playerName') || '';
-  const pseudoInput = qs('#createPseudo');
-  if (pseudoInput) pseudoInput.value = storedName;
-
-  // Vérifie que le WS répond avant de montrer le lien comme "valide"
-  checkWebSocketUp(location.hostname).then(ok => {
-    if (!ok && err) {
-      err.textContent = "Le serveur n'est pas démarré (ws://"+location.hostname+":8787). Lancez `node server.js` puis réessayez.";
-      err.style.display = 'block';
-    }
-  });
-
-  if (typeof dlg.showModal === 'function') dlg.showModal();
-  else dlg.setAttribute('open', true);
-
-  // Stocke le lien sur le bouton "Commencer la partie"
-  const startBtn = qs('#startGameBtn');
-  if (startBtn) startBtn.dataset.link = link;
-}
-
-/* ---------- Recherche / rendu existants ---------- */
+/* ---------- Recherche / rendu ---------- */
 function isLegendaryCreature(typeLine) {
   if (!typeLine) return false;
   const t = typeLine.toLowerCase();
-  // prise en charge FR + EN (modif)
   const en = t.includes("legendary") && t.includes("creature");
   const fr = t.includes("légendaire") && t.includes("créature");
   return en || fr;
@@ -141,14 +78,13 @@ function normalizeCard(c) {
   const imgSmall  = uris.small  ?? null;
   const imgNormal = uris.normal ?? imgSmall;
 
-  // 👉 Deck builder : privilégie les libellés imprimés (FR) si dispo (modif)
   return {
     id: c.id,
     name: c.printed_name || c.name,
     type: c.printed_type_line || c.type_line,
-    image: imgNormal || null,       // utilisé uniquement dans le builder (vignette résultats)
-    imageSmall: imgSmall || null,   // pour le plateau
-    imageNormal: imgNormal || null  // pour le plateau (aperçu)
+    image: imgNormal || null,
+    imageSmall: imgSmall || null,
+    imageNormal: imgNormal || null
   };
 }
 
@@ -195,10 +131,9 @@ function renderResults(list) {
     type.textContent = card.type ?? '';
     item.appendChild(type);
 
-    // 👉 dans le builder on affiche la version "normal"
     if (card.image) {
       const img = document.createElement('img');
-      img.src = card.image; // normal
+      img.src = card.image;
       img.alt = card.name;
       img.style.width = '100%';
       img.style.borderRadius = '8px';
@@ -286,7 +221,7 @@ function renderCommanders() {
     row.className = 'cmd-row';
     if (c.imageNormal || c.image) {
       const img = document.createElement('img');
-      img.src = c.imageNormal || c.image; // builder => normal
+      img.src = c.imageNormal || c.image;
       img.alt = c.name;
       row.appendChild(img);
     }
@@ -324,7 +259,6 @@ function removeCommander(id) {
 }
 
 /* ---------- Export / Import ---------- */
-// ——— Ajouts pour la modale d’export ———
 function sanitizeFileName(name) {
   return String(name || '').replace(/[\/\\?%*:|"<>]/g, "_").trim();
 }
@@ -344,18 +278,13 @@ function exportDownloadWithName(filenameBase) {
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 }
-// ——— Ouvre la modale au clic sur Exporter ———
 function exportDeck() {
   const dlg = qs('#exportDialog');
-  if (!dlg) { // fallback si le HTML n'est pas présent
-    exportDownloadWithName(makeDefaultDeckBase());
-    return;
-  }
+  if (!dlg) { exportDownloadWithName(makeDefaultDeckBase()); return; }
   const input = qs('#exportName');
   const err = qs('#exportError');
   if (input) {
     input.value = makeDefaultDeckBase();
-    // focus + sélection pour éditer vite
     setTimeout(() => { input.focus(); input.select(); }, 0);
   }
   if (err) err.style.display = 'none';
@@ -379,7 +308,6 @@ function confirmExportDialog() {
   exportDownloadWithName(base);
   closeExportDialog();
 }
-
 function importDeckFromFile(file) {
   const reader = new FileReader();
   reader.onload = () => {
@@ -388,7 +316,6 @@ function importDeckFromFile(file) {
       deckMap.clear();
       if (Array.isArray(obj.cards)) {
         obj.cards.forEach(c => {
-          // rétrocompat : si ancien format {image} ou {imageLarge}
           const card = {
             id: c.id,
             name: c.name,
@@ -397,7 +324,6 @@ function importDeckFromFile(file) {
             imageSmall: c.imageSmall || null,
             imageNormal: c.imageNormal || c.image || null
           };
-            // NB: "image" n'est utilisé que pour l’aperçu dans le builder
           deckMap.set(card.id, { card, qty: Number(c.qty || 0) });
         });
       }
@@ -433,7 +359,6 @@ async function scryfallSearchByName(queryOrUrl, { isNextPage = false } = {}) {
   const makeUrl = (q) =>
     `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
 
-  // --- helpers ---
   const fetchJson = async (u) => {
     try {
       const r = await fetch(u);
@@ -445,7 +370,7 @@ async function scryfallSearchByName(queryOrUrl, { isNextPage = false } = {}) {
   };
   const isEmptyResult = (resp) => {
     if (!resp || !resp.json) return true;
-    if (resp.json.object === 'error') return true;              // 404 / error case
+    if (resp.json.object === 'error') return true;
     const arr = resp.json.data || [];
     return arr.length === 0;
   };
@@ -464,19 +389,18 @@ async function scryfallSearchByName(queryOrUrl, { isNextPage = false } = {}) {
     };
   }
 
-  // 1) essai avec la langue choisie
+  // 1) langue choisie
   const qLang = `lang:${CARD_LANG} (printed_name:"${queryOrUrl}" OR name:"${queryOrUrl}")`;
   let resp = await fetchJson(makeUrl(qLang));
 
-  // 2) fallback si erreur 404/erreur API OU liste vide
+  // 2) fallback si vide/erreur
   if (!resp.ok || isEmptyResult(resp)) {
     triedFallback = true;
     const qAny = `(printed_name:"${queryOrUrl}" OR name:"${queryOrUrl}")`;
     resp = await fetchJson(makeUrl(qAny));
 
-    // mini 2e fallback: recherche exacte oracle si toujours rien
     if (!resp.ok || isEmptyResult(resp)) {
-      const qExact = `!"${queryOrUrl}"`; // exact match sur le nom oracle
+      const qExact = `!"${queryOrUrl}"`;
       resp = await fetchJson(makeUrl(qExact));
     }
   }
@@ -485,7 +409,6 @@ async function scryfallSearchByName(queryOrUrl, { isNextPage = false } = {}) {
     return { cards: [], hasMore: false, nextPage: null, pageUrl: resp.url };
   }
 
-  // drapeau UI
   const warn = qs('#searchWarning');
   if (triedFallback && warn) {
     if (resp.json.data && resp.json.data.length) {
@@ -505,7 +428,6 @@ async function scryfallSearchByName(queryOrUrl, { isNextPage = false } = {}) {
     pageUrl: resp.url
   };
 }
-
 
 async function goNextPage() {
   if (!searchState.nextPageUrl) return;
@@ -543,11 +465,8 @@ function init() {
   const importBtn = qs('#btn-import');
   const fileInput = qs('#file-input');
 
-  const btnJoin = qs('#btn-join-session');
-  const btnCreate = qs('#btn-create-session');
-  const joinConfirmBtn = qs('#joinConfirmBtn');
-  const copyInviteBtn = qs('#copyInviteBtn');
-  const startGameBtn = qs('#startGameBtn');
+  // Bouton unique “Rejoindre la partie”
+  const btnGoPlay = qs('#btn-go-play');
 
   // Éléments de la modale d'export
   const exportConfirmBtn = qs('#exportConfirmBtn');
@@ -570,46 +489,23 @@ function init() {
   importBtn?.addEventListener('click', () => fileInput?.click());
   fileInput?.addEventListener('change', e => { const f = e.target.files?.[0]; if (f) importDeckFromFile(f); e.target.value=''; });
 
-  // 🔥 Sessions
-  btnJoin?.addEventListener('click', openJoinDialog);
-  btnCreate?.addEventListener('click', openCreateDialog);
-
-  joinConfirmBtn?.addEventListener('click', async () => {
-    const pseudo = (qs('#joinPseudo')?.value || '').trim();
-    const sessionId = (qs('#joinSessionId')?.value || '').trim();
-    const err = qs('#joinError');
-    if (err) err.style.display = 'none';
-
-    if (!sessionId) { if (err){ err.textContent = "Veuillez entrer un numéro de session."; err.style.display='block'; } return; }
-
-    const ok = await checkWebSocketUp(location.hostname);
-    if (!ok) { if (err){ err.textContent = "Le serveur n'est pas démarré (ws://"+location.hostname+":8787). Lancez `node server.js` puis réessayez."; err.style.display='block'; } return; }
-
+  // —— Rejoindre la partie : sauvegarde le deck puis redirige vers index.html avec les mêmes paramètres —— //
+  btnGoPlay?.addEventListener('click', () => {
     if (!saveDeckToLocalStorage()) return;
-    if (pseudo) savePlayerName(pseudo);
 
-    window.location.href = `${baseIndexUrl()}?room=${encodeURIComponent(sessionId)}`;
-  });
+    const urlp   = new URLSearchParams(location.search);
+    const room   = urlp.get('room')   || '';
+    const wsHost = urlp.get('wsHost') || location.hostname;
+    const wsPort = urlp.get('wsPort') || '8787';
+    const wsProto= urlp.get('wsProto')|| (location.protocol === 'https:' ? 'wss' : 'ws');
 
-  copyInviteBtn?.addEventListener('click', () => {
-    const link = qs('#inviteLink')?.value || '';
-    if (!link) return;
-    navigator.clipboard.writeText(link).catch(()=>{});
-  });
+    if (!room) {
+      alert("Paramètre 'room' manquant dans l'URL. Ouvrez le builder via le lien d'invitation généré par l'hôte.");
+      return;
+    }
 
-  startGameBtn?.addEventListener('click', async () => {
-    const link = startGameBtn.dataset.link;
-    const pseudo = (qs('#createPseudo')?.value || '').trim();
-    const err = qs('#createError');
-    if (err) err.style.display = 'none';
-
-    const ok = await checkWebSocketUp(location.hostname);
-    if (!ok) { if (err){ err.textContent = "Le serveur n'est pas démarré (ws://"+location.hostname+":8787). Lancez `node server.js` puis réessayez."; err.style.display = 'block'; } return; }
-
-    if (!saveDeckToLocalStorage()) return;
-    if (pseudo) savePlayerName(pseudo);
-
-    if (link) window.location.href = link;
+    const params = new URLSearchParams({ room, wsHost, wsPort, wsProto });
+    window.location.href = `${baseIndexUrl()}?${params.toString()}`;
   });
 
   // —— Wiring de la modale d'export —— //
