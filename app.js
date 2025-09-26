@@ -853,6 +853,36 @@ function ensureOpponentOverlay(){
   return dlg;
 }
 
+/* ---------- DIFF / PATCH ciblé pour overlay adverse ---------- */
+function shallowCardSig(c){
+  return [
+    c?.id, c?.name, c?.type,
+    c?.imageSmall, c?.imageNormal,
+    c?.tapped ? 1:0, c?.phased ? 1:0, c?.faceDown ? 1:0, c?.isToken ? 1:0
+  ].join('|');
+}
+function arraysEqualBySig(a=[], b=[]){
+  if (a.length !== b.length) return false;
+  for (let i=0; i<a.length; i++){
+    if (shallowCardSig(a[i]) !== shallowCardSig(b[i])) return false;
+  }
+  return true;
+}
+function renderCardsTo(holder, cards){
+  if (!holder) return;
+  holder.innerHTML = '';
+  (cards||[]).forEach(c => {
+    const el = createCardEl({
+      id: c.id, name: c.name, type: c.type,
+      imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null
+    }, { faceDown: !!c.faceDown, isToken: !!c.isToken });
+    el.draggable = false;
+    el.classList.toggle('tapped', !!c.tapped);
+    el.classList.toggle('phased', !!c.phased);
+    holder.appendChild(el);
+  });
+}
+
 function buildOpponentBattlefield(state){
   // --- helpers locaux ---
   const mkLoupeBtn = (title, onClick) => {
@@ -923,15 +953,17 @@ function buildOpponentBattlefield(state){
     else dialog.setAttribute('open', 'true');
   };
 
-  // --- LAYOUT overlay ---
+  // --- LAYOUT overlay avec mounts ---
+  const mounts = { lifeEl:null, commanderEl:null, rowEls:[] };
+
   const layout = document.createElement('div');
   layout.className = 'board-layout';
 
-  // ---- Colonne gauche : Vie + Commander + Cimetière + Exil (adversaire) ----
+  // ---- Colonne gauche ----
   const aside = document.createElement('aside');
   aside.className = 'side-zones';
 
-  // 🆕 Vie (lecture seule)
+  // Vie
   const life = document.createElement('div');
   life.className = 'zone zone--life readonly';
   life.setAttribute('data-zone', 'life');
@@ -941,6 +973,7 @@ function buildOpponentBattlefield(state){
     <div class="life-wrap">
       <div class="life-value readonly" aria-live="polite">${(state?.life ?? 40)}</div>
     </div>`;
+  mounts.lifeEl = life.querySelector('.life-value');
   aside.appendChild(life);
 
   // Commander
@@ -949,17 +982,8 @@ function buildOpponentBattlefield(state){
   cmd.setAttribute('data-zone', 'commander');
   cmd.setAttribute('aria-label', 'Zone de commandement (adversaire)');
   cmd.innerHTML = `<div class="zone-title">Commander</div><div class="cards"></div>`;
-  const cmdHolder = cmd.querySelector('.cards');
-  (state?.zones?.commander ?? []).forEach(c => {
-    const el = createCardEl({
-      id: c.id, name: c.name, type: c.type,
-      imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null
-    }, { faceDown: !!c.faceDown, isToken: !!c.isToken });
-    el.draggable = false;
-    el.classList.toggle('tapped', !!c.tapped);
-    el.classList.toggle('phased', !!c.phased);
-    cmdHolder.appendChild(el);
-  });
+  mounts.commanderEl = cmd.querySelector('.cards');
+  renderCardsTo(mounts.commanderEl, state?.zones?.commander ?? []);
   aside.appendChild(cmd);
 
   // Cimetière (loupe)
@@ -992,7 +1016,7 @@ function buildOpponentBattlefield(state){
 
   layout.appendChild(aside);
 
-  // ---- Partie droite : CHAMP DE BATAILLE (3 rangées fixes) ----
+  // ---- Partie droite : Bataille ----
   const section = document.createElement('section');
   section.className = 'zone zone--bataille';
   section.setAttribute('data-zone', 'bataille');
@@ -1012,31 +1036,70 @@ function buildOpponentBattlefield(state){
     holder.className = 'cards cards--battlefield';
     rowEl.appendChild(holder);
 
-    cardsInRow.forEach(c => {
-      const el = createCardEl({
-        id: c.id, name: c.name, type: c.type,
-        imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null
-      }, { faceDown: !!c.faceDown, isToken: !!c.isToken });
-      el.draggable = false;
-      el.classList.toggle('tapped', !!c.tapped);
-      el.classList.toggle('phased', !!c.phased);
-      holder.appendChild(el);
-    });
+    renderCardsTo(holder, cardsInRow);
+    mounts.rowEls[i] = holder;
 
     rowsWrap.appendChild(rowEl);
   }
 
   layout.appendChild(section);
-  return layout;
+
+  const wrapper = document.createElement('div');
+  wrapper.appendChild(layout);
+  return { root: wrapper, mounts };
 }
 
-function showOpponentOverlay(state, name){
+function patchOpponentOverlay(dlg, prev, next){
+  if (!dlg || !dlg.__opp) return;
+  const { mounts } = dlg.__opp;
+
+  // Vie
+  if ((prev?.life ?? 40) !== (next?.life ?? 40)) {
+    if (mounts.lifeEl) mounts.lifeEl.textContent = String(next?.life ?? 40);
+  }
+
+  // Commander
+  const prevCmd = prev?.zones?.commander ?? [];
+  const nextCmd = next?.zones?.commander ?? [];
+  if (!arraysEqualBySig(prevCmd, nextCmd)) {
+    renderCardsTo(mounts.commanderEl, nextCmd);
+  }
+
+  // Rangées (3)
+  for (let i=0; i<3; i++){
+    const prevRow = (prev?.zones?.bataille?.[i]) ?? [];
+    const nextRow = (next?.zones?.bataille?.[i]) ?? [];
+    if (!arraysEqualBySig(prevRow, nextRow)) {
+      renderCardsTo(mounts.rowEls[i], nextRow);
+    }
+  }
+}
+
+function showOpponentOverlay(state, name, playerId){
   const dlg = ensureOpponentOverlay();
   const title = dlg.querySelector('.opp-title');
   const body  = dlg.querySelector('.opp-body');
   if (title) title.textContent = `Champ de bataille — ${name || 'Adversaire'}`;
+
+  // Patch si même joueur
+  if (dlg.__opp && dlg.__opp.playerId === playerId) {
+    patchOpponentOverlay(dlg, dlg.__opp.last, state);
+    dlg.__opp.last = state;
+    if (!dlg.open) dlg.showModal();
+    return;
+  }
+
+  // Sinon rebuild initial pour ce joueur
   body.innerHTML = '';
-  body.appendChild(buildOpponentBattlefield(state));
+  const built = buildOpponentBattlefield(state);
+  body.appendChild(built.root);
+
+  dlg.__opp = {
+    playerId,
+    name,
+    mounts: built.mounts,
+    last: state
+  };
 
   if (!dlg.open) dlg.showModal();
 }
@@ -1074,7 +1137,7 @@ function serializeBoard(){
 
   return {
     ts: Date.now(),
-    life: lifeTotal, // 🆕 vie dans l’état partagé
+    life: lifeTotal, // vie dans l’état partagé
     zones: {
       pioche:    simpleZone('.zone--pioche'),
       commander: simpleZone('.zone--commander'),
@@ -1119,7 +1182,7 @@ function setupMultiplayer(){
           state: serializeBoard()
         }));
       }
-    }, 500);
+    }, 900); // rythme un peu plus lent pour limiter les rafraîchissements
   });
 
   socket.addEventListener('message', async (ev) => {
@@ -1132,8 +1195,17 @@ function setupMultiplayer(){
 
     otherStates[msg.playerId] = { name: msg.name, state: msg.state };
     refreshDropdown();
-    if (currentView === msg.playerId) showOpponentOverlay(msg.state, msg.name);
 
+    // Patch ciblé si on regarde cet adversaire
+    if (currentView === msg.playerId) {
+      const dlg = qs('#opponentOverlay');
+      if (dlg?.__opp && dlg.__opp.playerId === msg.playerId) {
+        patchOpponentOverlay(dlg, dlg.__opp.last, msg.state);
+        dlg.__opp.last = msg.state;
+      } else {
+        showOpponentOverlay(msg.state, msg.name, msg.playerId);
+      }
+    }
   });
 
   socket.addEventListener('error', (e) => console.warn('[WS] error', e));
@@ -1164,7 +1236,7 @@ function refreshView(){
     hideOpponentOverlay();
   } else {
     const o = otherStates[currentView];
-    if (o) showOpponentOverlay(o.state, o.name);
+    if (o) showOpponentOverlay(o.state, o.name, currentView);
     else console.warn('Aucun état reçu pour', currentView);
   }
 }
