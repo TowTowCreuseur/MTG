@@ -280,15 +280,37 @@ function onZoneDrop(e) {
 
   const zoneType = zone.dataset.zone;
 
-  // Jetons : s'ils vont à l'exil/cimetière → disparition pure
+  // Jeton ?
   const isToken = card.dataset.isToken === '1';
 
+  // --- NOUVEAU : si on drop dans la PIOCHE → remettre la carte au-dessus du deck
+  if (zoneType === ZONES.PIOCHE) {
+    if (!isToken) {
+      const obj = cardElToObj(card);
+      // haut du deck = fin du tableau, cf. spawnTopCardForDrag() qui fait _deck.pop()
+      _deck.push({
+        id: obj.id,
+        name: obj.name,
+        type: obj.type || '',
+        imageSmall: obj.imageSmall || null,
+        imageNormal: obj.imageNormal || null
+      });
+      updateDeckCount();
+    }
+    // on ne garde pas la carte visible sur le plateau
+    card.remove();
+    return;
+  }
+
+  // Exil : les jetons disparaissent, sinon stockés dans le store
   if (zoneType === ZONES.EXIL) {
     if (isToken) { card.remove(); return; }
     exileStore.push(cardElToObj(card));
     card.remove();
     return;
   }
+
+  // Cimetière : les jetons disparaissent, sinon stockés dans le store
   if (zoneType === ZONES.CIMETIERE) {
     if (isToken) { card.remove(); return; }
     graveyardStore.push(cardElToObj(card));
@@ -296,12 +318,14 @@ function onZoneDrop(e) {
     return;
   }
 
+  // Comportement par défaut : déposer la carte visuellement dans la zone
   resolveDropContainer(zone).appendChild(card);
   if (card.classList.contains('face-down')) card.classList.remove('face-down');
   if ([ZONES.MAIN, ZONES.CIMETIERE, ZONES.EXIL, ZONES.COMMANDER].includes(zoneType)) {
     card.classList.remove('tapped','phased');
   }
 }
+
 
 // ---------- Pioche ----------
 function updateDeckCount() { const c=qs('.zone--pioche .deck-count [data-count]'); if(c) c.textContent=_deck.length; }
