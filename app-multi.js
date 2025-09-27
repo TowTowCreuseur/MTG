@@ -7,7 +7,7 @@
 
 import {
   ZONES, qs, qsa, randomId,
-  createCardEl,
+  createCardEl, attachPreviewListeners,   // ⬅️ ajout de attachPreviewListeners
   serializeBoard, initCore
 } from './app-core.js';
 
@@ -110,9 +110,9 @@ function renderOppListIntoModal(title, cards){
     const item = document.createElement('div');
     item.className = 'result-card';
     item.dataset.cardId = c.id;
+    // Pas de bouton, pas de preview listeners — la liste est vraiment readonly
     item.innerHTML = `<span><strong>${c.name || '(Carte)'}</strong> <em>${c.type || ''}</em></span>`;
-    if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
-    if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
+    // on peut laisser data-image* absents pour éviter toute prévisualisation accidentelle
     results.appendChild(item);
   });
 
@@ -153,6 +153,7 @@ function arraysEqualBySig(a=[], b=[]){
   }
   return true;
 }
+/** Rendu carte readonly (commander + battlefield) avec aperçu au survol */
 function renderCardsTo(holder, cards){
   if (!holder) return;
   holder.innerHTML = '';
@@ -164,10 +165,14 @@ function renderCardsTo(holder, cards){
     el.draggable = false;
     el.classList.toggle('tapped', !!c.tapped);
     el.classList.toggle('phased', !!c.phased);
+
+    // ✅ activer le même zoom-aperçu que côté joueur local
+    attachPreviewListeners(el);
+
     holder.appendChild(el);
   });
 }
-/* NOUVEAU : rendu “text only” (pas d’image) pour cimetière/exil */
+/** Rendu “texte seul” (aucune image/dataset) pour cimetière & exil adverses — donc aucun aperçu au survol */
 function renderNamesOnly(holder, cards){
   if (!holder) return;
   holder.innerHTML = '';
@@ -176,7 +181,7 @@ function renderNamesOnly(holder, cards){
     row.className = 'card card--nameonly readonly';
     row.tabIndex = 0;
     row.dataset.cardId = c.id;
-    // pas de dataset image → pas d’aperçu visuel
+    // ⚠️ Pas de dataset image → pas de preview
     row.innerHTML = `<div class="card-name">${c.name || '(Carte)'}</div>`;
     holder.appendChild(row);
   });
@@ -311,7 +316,7 @@ function buildOpponentBattlefield(state){
     holder.className = 'cards cards--battlefield';
     rowEl.appendChild(holder);
 
-    renderCardsTo(holder, cardsInRow);
+    renderCardsTo(holder, cardsInRow); // ⬅️ inclut attachPreviewListeners
     mounts.rowEls[i] = holder;
 
     rowsWrap.appendChild(rowEl);
@@ -337,7 +342,7 @@ function patchOpponentOverlay(dlg, prev, next){
   const nextCmd = next?.zones?.commander ?? [];
   if (!arraysEqualBySig(prevCmd, nextCmd)) renderCardsTo(mounts.commanderEl, nextCmd);
 
-  // PATCH “text-only” sur cimetiere/exil (depuis STORES)
+  // PATCH “text-only” sur cimetiere/exil (depuis STORES) — aucun aperçu
   const prevGy = prev?.stores?.cimetiere ?? [];
   const nextGy = next?.stores?.cimetiere ?? [];
   if (!arraysEqualBySig(prevGy, nextGy)) renderNamesOnly(mounts.graveyardEl, nextGy);

@@ -6,10 +6,12 @@
        • sauvegarde le deck dans localStorage
        • lit room/wsHost/wsPort/wsProto de l’URL
        • redirige vers index.html avec les mêmes paramètres
+   - 🔥 Bouton “Réinitialiser le terrain” (efface la sauvegarde précédente du plateau : localStorage 'mtg.persist.state')
 */
 
 // --- Langue d'affichage des impressions Scryfall ---
 const CARD_LANG = 'fr';
+const PERSIST_BOARD_KEY = 'mtg.persist.state';
 
 const deckMap = new Map(); // id -> {card, qty}
 let commanders = [];
@@ -57,6 +59,23 @@ function saveDeckToLocalStorage() {
 function baseIndexUrl() {
   const base = location.pathname.replace(/[^/]+$/, '');
   return `${location.origin}${base}index.html`;
+}
+
+/* ---------- Réinitialisation du terrain ---------- */
+function resetBoardState() {
+  try {
+    localStorage.removeItem(PERSIST_BOARD_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+}
+function confirmAndResetBoardState() {
+  const ok = confirm("Réinitialiser le terrain ?\nCela efface la sauvegarde de la partie précédente (plateau, main, cimetière, etc.).");
+  if (!ok) return;
+  const done = resetBoardState();
+  if (done) alert("Terrain réinitialisé ✅\nLa prochaine ouverture de la table utilisera uniquement le deck choisi ici.");
+  else alert("Impossible d'effacer la sauvegarde locale du terrain.");
 }
 
 /* ---------- Recherche / rendu ---------- */
@@ -468,6 +487,9 @@ function init() {
   // Bouton unique “Rejoindre la partie”
   const btnGoPlay = qs('#btn-go-play');
 
+  // ✅ Nouveau bouton : Réinitialiser le terrain
+  const btnResetBoard = qs('#btn-reset-board');
+
   // Éléments de la modale d'export
   const exportConfirmBtn = qs('#exportConfirmBtn');
   const exportCancelBtn  = qs('#exportCancelBtn');
@@ -489,9 +511,17 @@ function init() {
   importBtn?.addEventListener('click', () => fileInput?.click());
   fileInput?.addEventListener('change', e => { const f = e.target.files?.[0]; if (f) importDeckFromFile(f); e.target.value=''; });
 
+  // —— Réinitialiser le terrain (efface la sauvegarde précédente) —— //
+  btnResetBoard?.addEventListener('click', confirmAndResetBoardState);
+
   // —— Rejoindre la partie : sauvegarde le deck puis redirige vers index.html avec les mêmes paramètres —— //
   btnGoPlay?.addEventListener('click', () => {
     if (!saveDeckToLocalStorage()) return;
+
+    // Optionnel : on s'assure que la sauvegarde précédente ne pollue pas le démarrage si l'utilisateur l'a oubliée.
+    // (On NE force pas l'effacement ici pour laisser le contrôle au bouton dédié.)
+    // => Laisser décommenté si tu veux que "Rejoindre la partie" purge toujours :
+    // resetBoardState();
 
     const urlp   = new URLSearchParams(location.search);
     const room   = urlp.get('room')   || '';

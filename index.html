@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Plateau MTG — Prototype</title>
     <link rel="stylesheet" href="styles.css" />
-    <!-- Dans index.html -->
+    <!-- Entrée JS -->
     <script type="module" src="app-multi.js"></script>
   </head>
   <body>
@@ -33,8 +33,8 @@
             </div>
           </div>
 
-          <!-- PIOCHE -->
-          <div class="zone zone--pioche" data-zone="pioche" aria-label="Pioche (bibliothèque)">
+          <!-- PIOCHE (⚠️ ajouté: dropzone) -->
+          <div class="zone zone--pioche dropzone" data-zone="pioche" aria-label="Pioche (bibliothèque)">
             <div class="zone-title">Pioche</div>
             <div class="pioche-controls">
               <button class="btn-draw" title="Cliquer pour prendre la carte du dessus">Piocher</button>
@@ -115,6 +115,16 @@
       <section class="zone zone--main dropzone" data-zone="main" aria-label="Main du joueur">
         <div class="zone-title">Main</div>
         <div class="cards cards--hand"></div>
+
+        <!-- 🆕 Bouton Untap all -->
+        <footer class="hand-actions">
+          <button type="button"
+                  class="btn btn-untap-all"
+                  title="Dégager toutes vos cartes du champ de bataille"
+                  aria-label="Dégager toutes vos cartes du champ de bataille">
+            Untap all
+          </button>
+        </footer>
       </section>
     </main>
 

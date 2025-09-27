@@ -23,7 +23,7 @@
               <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </span>
-        <input id="q" type="text" placeholder="Nom de la carte…" aria-label="Rechercher une carte" />
+          <input id="q" type="text" placeholder="Nom de la carte…" aria-label="Rechercher une carte" />
         </div>
 
         <!-- Résultats (2 colonnes) -->
@@ -50,6 +50,10 @@
 
         <div class="deck-actions">
           <button class="btn-secondary" id="btn-clear">Vider</button>
+          <!-- ✅ Nouveau : réinitialisation du terrain sauvegardé -->
+          <button class="btn-secondary" id="btn-reset-board" title="Effacer la sauvegarde de la partie précédente (plateau, zones, etc.)">
+            Réinitialiser le terrain
+          </button>
           <button class="btn-secondary" id="btn-import">Importer (JSON)</button>
           <input type="file" id="file-input" accept="application/json" hidden>
           <button class="btn-primary" id="btn-export">Exporter (JSON)</button>

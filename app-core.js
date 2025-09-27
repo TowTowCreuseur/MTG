@@ -10,6 +10,7 @@
    - serializeBoard()  ⟵ inclut l’ordre du deck
    - restoreBoard(state) ⟵ restaure zones, stores et deck
    - initCore() (démarrage local)
+   - ✅ attachPreviewListeners(el) ⟵ active le même zoom-aperçu que sur tes cartes locales
 */
 
 export const ZONES = {
@@ -31,6 +32,123 @@ export const randomId = () => {
   try { if (window.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID(); } catch {}
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;
 };
+
+/* =========================================================
+   TOKENS: normalisation + recherche Scryfall (réutilisable)
+   ========================================================= */
+
+/** Normalise une carte Scryfall (token) vers le format local */
+export function normalizeTokenCard(c){
+  const face = Array.isArray(c.card_faces) && c.card_faces.length ? c.card_faces[0] : null;
+  const uris  = c.image_uris || face?.image_uris || {};
+  const imgSmall  = uris.small  ?? null;
+  const imgNormal = uris.normal ?? imgSmall;
+  return {
+    id: c.id,
+    name: c.printed_name || c.name,
+    type: c.printed_type_line || c.type_line || '',
+    imageSmall: imgSmall || null,
+    imageNormal: imgNormal || null
+  };
+}
+
+/**
+ * Recherche de jetons via Scryfall.
+ * - queryOrUrl : texte (ex: "Zombie") ou URL next_page
+ * - isNext     : true si queryOrUrl est une URL de pagination
+ *
+ * Retourne { cards, hasMore, next, page }
+ */
+export async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
+  const CARD_LANG = 'fr';
+  const makeUrl = (q) =>
+    `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
+
+  // fetch helper
+  const fetchJson = async (u) => {
+    try {
+      const r = await fetch(u);
+      const json = await r.json().catch(() => null);
+      return { ok: r.ok, json, url: u };
+    } catch {
+      return { ok: false, json: null, url: u };
+    }
+  };
+  const isEmpty = (resp) => {
+    if (!resp || !resp.json) return true;
+    if (resp.json.object === 'error') return true;
+    return !(resp.json.data || []).length;
+  };
+
+  // Pagination direct
+  if (isNext) {
+    const resp = await fetchJson(queryOrUrl);
+    if (!resp.ok || resp.json?.object === 'error') {
+      return { cards: [], hasMore: false, next: null, page: queryOrUrl };
+    }
+    return {
+      cards: (resp.json.data || []).map(normalizeTokenCard),
+      hasMore: !!resp.json.has_more,
+      next: resp.json.next_page || null,
+      page: resp.url
+    };
+  }
+
+  const q = String(queryOrUrl || '').trim();
+  const nameFilter = q ? `(printed_name:"${q}" OR name:"${q}")` : '';
+
+  // 1) Tokens FR
+  const qTokensFr = `is:token -type:emblem lang:${CARD_LANG} ${nameFilter}`.trim();
+  let resp = await fetchJson(makeUrl(qTokensFr));
+
+  // 2) Tokens toutes langues (si aucun résultat)
+  if (isEmpty(resp)) {
+    const qTokensAny = `is:token -type:emblem ${nameFilter}`.trim();
+    resp = await fetchJson(makeUrl(qTokensAny));
+  }
+
+  // Si pas de recherche (liste générale) : retourner tel quel
+  if (!q) {
+    if (!resp.ok || resp.json?.object === 'error') {
+      return { cards: [], hasMore: false, next: null, page: resp?.url || null };
+    }
+    return {
+      cards: (resp.json.data || []).map(normalizeTokenCard),
+      hasMore: !!resp.json.has_more,
+      next: resp.json.next_page || null,
+      page: resp.url
+    };
+  }
+
+  // 3) Cartes FR si pas de token trouvé
+  if (isEmpty(resp)) {
+    const qCardsFr = `lang:${CARD_LANG} ${nameFilter}`.trim();
+    resp = await fetchJson(makeUrl(qCardsFr));
+  }
+
+  // 4) Cartes toutes langues
+  if (isEmpty(resp)) {
+    const qCardsAny = `${nameFilter}`.trim() || `"${q}"`;
+    resp = await fetchJson(makeUrl(qCardsAny));
+  }
+
+  // 5) Match exact oracle
+  if (isEmpty(resp)) {
+    const qExact = `!"${q}"`;
+    resp = await fetchJson(makeUrl(qExact));
+  }
+
+  if (!resp.ok || resp.json?.object === 'error') {
+    return { cards: [], hasMore: false, next: null, page: resp?.url || null };
+  }
+
+  return {
+    cards: (resp.json.data || []).map(normalizeTokenCard),
+    hasMore: !!resp.json.has_more,
+    next: resp.json.next_page || null,
+    page: resp.url
+  };
+}
 
 // ---------- Utilitaires UI ----------
 function btn(label, cls='') {
@@ -130,6 +248,8 @@ export function createCardEl(card, { faceDown=false, isToken=false, interactive=
 let __previewTimer = null;
 let __previewDlg = null; // dialog d’aperçu
 let __isMouseDown = false;
+// Réf fiable vers la carte en cours de drag
+let __draggingCardEl = null;
 
 function showCardPreview(fromEl){
   if (__previewDlg && window.__previewSourceEl === fromEl) return;
@@ -208,6 +328,28 @@ function hideCardPreview(){
   }
 }
 
+/** ✅ Export utilitaire : attache UNIQUEMENT les listeners d’aperçu au survol (pas de drag, pas de clic).
+ *  À utiliser côté app-multi.js sur les cartes readonly (adversaire).
+ */
+export function attachPreviewListeners(cardEl){
+  if (!cardEl) return;
+  cardEl.addEventListener('mousedown', () => { __isMouseDown = true; clearTimeout(__previewTimer); hideCardPreview(); });
+  cardEl.addEventListener('mouseup',   () => { __isMouseDown = false; });
+
+  cardEl.addEventListener('mouseenter', () => {
+    clearTimeout(__previewTimer);
+    __previewTimer = setTimeout(() => {
+      if (__previewDlg && window.__previewSourceEl === cardEl) return;
+      if (!__isMouseDown && cardEl.matches(':hover')) showCardPreview(cardEl);
+    }, 750);
+  });
+
+  cardEl.addEventListener('mouseleave', () => {
+    clearTimeout(__previewTimer);
+    setTimeout(() => { if (!isPointerInside(cardEl)) hideCardPreview(); }, 20);
+  });
+}
+
 // ---------- Stores cachés ----------
 export const exileStore = [];
 export const graveyardStore = [];
@@ -226,7 +368,7 @@ function cardElToObj(el){
   };
 }
 
-// ---------- Listeners carte ----------
+// ---------- Listeners carte (interactives locales) ----------
 function attachCardListeners(cardEl) {
   cardEl.addEventListener('dragstart', handleDragStart);
   cardEl.addEventListener('dragend', handleDragEnd);
@@ -244,38 +386,49 @@ function attachCardListeners(cardEl) {
     timer = setTimeout(() => { if (clicks >= 3) togglePhased(cardEl); clicks=0; }, 360);
   });
 
-  cardEl.addEventListener('mousedown', () => { __isMouseDown = true; clearTimeout(__previewTimer); hideCardPreview(); });
-  cardEl.addEventListener('mouseup', () => { __isMouseDown = false; });
-
-  cardEl.addEventListener('mouseenter', () => {
-    clearTimeout(__previewTimer);
-    __previewTimer = setTimeout(() => {
-      if (__previewDlg && window.__previewSourceEl === cardEl) return;
-      if (!__isMouseDown && cardEl.matches(':hover')) showCardPreview(cardEl);
-    }, 750);
-  });
-
-  cardEl.addEventListener('mouseleave', () => {
-    clearTimeout(__previewTimer);
-    setTimeout(() => { if (!isPointerInside(cardEl)) hideCardPreview(); }, 20);
-  });
+  // 🔎 même logique d’aperçu que les readonly
+  attachPreviewListeners(cardEl);
 }
 
 export function toggleTappedOn(cardEl) { if (cardEl.closest('.zone--bataille')) cardEl.classList.toggle('tapped'); }
 export function togglePhased(cardEl)   { if (cardEl.closest('.zone--bataille')) cardEl.classList.toggle('phased'); }
 
+/** 🔁 Untap all — dégager toutes les cartes du joueur local (champ de bataille + command zone) */
+export function untapAllLocal(){
+  const root = qs('main.board') || document; // on reste dans le plateau local
+  root.querySelectorAll('.zone--bataille .card.tapped, .zone--commander .card.tapped')
+      .forEach(el => el.classList.remove('tapped'));
+}
+
 // ---------- DnD ----------
-function handleDragStart(e) { e.currentTarget.classList.add('dragging'); e.dataTransfer.setData('text/plain', e.currentTarget.dataset.cardId || ''); }
-function handleDragEnd(e)   { e.currentTarget.classList.remove('dragging'); __isMouseDown = false; hideCardPreview(); }
+function handleDragStart(e) {
+  const el = e.currentTarget;
+  el.classList.add('dragging');
+  __draggingCardEl = el; // garder une ref sûre
+  e.dataTransfer.setData('text/plain', el.dataset.cardId || '');
+}
+function handleDragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+  __draggingCardEl = null; // libérer la ref
+  __isMouseDown = false;
+  hideCardPreview();
+}
 function onZoneDragOver(e)  { e.preventDefault(); e.currentTarget.classList.add('over'); }
 function onZoneDragLeave(e) { e.currentTarget.classList.remove('over'); }
 function resolveDropContainer(zone) { return zone.classList.contains('battle-row') ? qs('.cards', zone) : zone.querySelector('.cards') || zone; }
 function onZoneDrop(e) {
   e.preventDefault();
+  e.stopPropagation();
+
   const zone = e.currentTarget;
   zone.classList.remove('over');
+
+  // Récupération robuste de la carte
   const cardId = e.dataTransfer.getData('text/plain');
-  const card = document.querySelector(`[data-card-id="${CSS.escape(cardId)}"]`) || document.querySelector('.card.dragging');
+  let card = null;
+  if (cardId) card = document.querySelector(`[data-card-id="${CSS.escape(cardId)}"]`);
+  if (!card) card = document.querySelector('.card.dragging');
+  if (!card) card = __draggingCardEl;
   if (!card) return;
 
   const zoneType = zone.dataset.zone;
@@ -283,11 +436,11 @@ function onZoneDrop(e) {
   // Jeton ?
   const isToken = card.dataset.isToken === '1';
 
-  // --- NOUVEAU : si on drop dans la PIOCHE → remettre la carte au-dessus du deck
+  // Drop dans la PIOCHE → remettre la carte au-dessus du deck
   if (zoneType === ZONES.PIOCHE) {
     if (!isToken) {
       const obj = cardElToObj(card);
-      // haut du deck = fin du tableau, cf. spawnTopCardForDrag() qui fait _deck.pop()
+      // haut du deck = fin du tableau (spawnTopCardForDrag() fait _deck.pop())
       _deck.push({
         id: obj.id,
         name: obj.name,
@@ -297,24 +450,23 @@ function onZoneDrop(e) {
       });
       updateDeckCount();
     }
-    // on ne garde pas la carte visible sur le plateau
-    card.remove();
+    try { card.remove(); } catch {}
     return;
   }
 
   // Exil : les jetons disparaissent, sinon stockés dans le store
   if (zoneType === ZONES.EXIL) {
-    if (isToken) { card.remove(); return; }
+    if (isToken) { try { card.remove(); } catch {} return; }
     exileStore.push(cardElToObj(card));
-    card.remove();
+    try { card.remove(); } catch {}
     return;
   }
 
   // Cimetière : les jetons disparaissent, sinon stockés dans le store
   if (zoneType === ZONES.CIMETIERE) {
-    if (isToken) { card.remove(); return; }
+    if (isToken) { try { card.remove(); } catch {} return; }
     graveyardStore.push(cardElToObj(card));
-    card.remove();
+    try { card.remove(); } catch {}
     return;
   }
 
@@ -325,7 +477,6 @@ function onZoneDrop(e) {
     card.classList.remove('tapped','phased');
   }
 }
-
 
 // ---------- Pioche ----------
 function updateDeckCount() { const c=qs('.zone--pioche .deck-count [data-count]'); if(c) c.textContent=_deck.length; }
@@ -503,6 +654,194 @@ export function openGraveyardSearchModal() {
   if (shuffleBtn) setTimeout(() => { shuffleBtn.style.display = ''; }, 0);
 }
 
+/* ===== TOKENS (Scryfall) =====
+   Version utilisant scryfallTokenSearch() défini plus haut
+   - même fenêtre (dimensions/styles) que app.js
+   - clic "Ajouter au plateau" → demande quantité → placement auto équilibré
+*/
+function askTokenQuantityAndAdd(card){
+  const dlg = document.createElement('dialog');
+  dlg.className = 'modal-token-qty';
+  dlg.innerHTML = `
+    <form method="dialog" style="min-width:320px; padding:16px; display:grid; gap:12px;">
+      <h3 style="margin:0">Ajouter des jetons</h3>
+      <div>
+        <label>Combien de “${card.name}” ?</label>
+        <input type="number" min="1" value="1" style="width:100%; padding:8px">
+      </div>
+      <div style="display:flex; gap:8px; justify-content:flex-end;">
+        <button value="cancel" class="btn btn-secondary">Annuler</button>
+        <button value="ok" class="btn btn-primary">Ajouter</button>
+      </div>
+    </form>
+  `;
+  document.body.appendChild(dlg);
+  dlg.addEventListener('close', () => {
+    if (dlg.returnValue === 'ok') {
+      const n = Math.max(1, Math.trunc(Number(dlg.querySelector('input')?.value || 1)));
+      placeTokenCopies(card, n);
+    }
+    dlg.remove();
+  });
+  dlg.showModal();
+}
+
+function placeTokenCopies(card, n){
+  // Placement sur les 3 rangées du champ de bataille — équilibré
+  const rows = qsa('.zone--bataille .battle-row .cards');
+  if (!rows.length) return;
+  const counts = rows.map(r => r.querySelectorAll('.card').length);
+  for (let i = 0; i < n; i++){
+    const minCount = Math.min(...counts);
+    const idx = counts.indexOf(minCount);
+    const holder = rows[idx];
+    const el = createCardEl(
+      { id: `${card.id}-token-${randomId().slice(0,8)}`,
+        name: card.name, type: card.type,
+        imageSmall: card.imageSmall || null, imageNormal: card.imageNormal || null
+      },
+      { isToken:true, faceDown:false, interactive:true }
+    );
+    holder.appendChild(el);
+    counts[idx]++;
+  }
+}
+
+export async function openTokenDialog(){
+  const dlg = document.getElementById('tokenDialog');
+  if (!dlg) { alert('Dialog de tokens introuvable dans le HTML.'); return; }
+
+  // Styles de la fenêtre identiques à app.js (injectés une seule fois)
+  if (!document.getElementById('tokenDialogStyles')){
+    const st = document.createElement('style');
+    st.id = 'tokenDialogStyles';
+    st.textContent = `
+      #tokenDialog::backdrop{ background:rgba(0,0,0,.45); }
+      .token-sheet{ background:#fff; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); padding:16px; width:min(1200px,95vw); max-height:92vh; display:grid; grid-template-rows:auto auto 1fr auto; gap:12px; }
+      .token-header{ display:flex; gap:8px; align-items:center; justify-content:space-between; }
+      .token-searchbar{ display:flex; gap:8px; align-items:center; }
+      .token-results{ overflow:auto; display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); }
+      .token-pager{ display:flex; justify-content:space-between; gap:8px; }
+      .token-close{ padding:6px 10px; }
+      .token-input{ flex:1; padding:8px; border:1px solid #ddd; border-radius:8px; }
+    `;
+    document.head.appendChild(st);
+  }
+
+  const input   = dlg.querySelector('#tokenQuery');
+  const btnGo   = dlg.querySelector('#tokenSearchBtn');
+  const btnX    = dlg.querySelector('#tokenCloseBtn');
+  const results = dlg.querySelector('.token-results');
+  const pager   = dlg.querySelector('.token-pager');
+
+  let nextPage = null;
+  let prevStack = [];
+  let currentPageUrl = null;
+
+  function render(list, hasMore, next){
+    results.innerHTML = '';
+    pager.innerHTML = '';
+
+    if (!list.length){
+      results.innerHTML = `<div style="opacity:.7;padding:8px">Aucun résultat</div>`;
+      return;
+    }
+
+    list.forEach(c=>{
+      const item = document.createElement('article');
+      item.className = 'token-item';
+      item.style.cssText = 'display:grid; gap:6px; border:1px solid #ddd; border-radius:10px; padding:8px;';
+      if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
+      if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
+
+      const head = document.createElement('div');
+      head.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:8px;';
+
+      const title = document.createElement('div');
+      title.innerHTML = `<strong class="card-name">${c.name}</strong><div class="card-type" style="opacity:.75">${c.type||''}</div>`;
+
+      const actions = document.createElement('div');
+      const add = document.createElement('button');
+      add.type='button';
+      add.className='btn-primary';
+      add.textContent='Ajouter au plateau';
+      add.addEventListener('click', ()=> askTokenQuantityAndAdd(c));
+      actions.appendChild(add);
+
+      head.appendChild(title);
+      head.appendChild(actions);
+      item.appendChild(head);
+
+      if (c.imageSmall){
+        const img = document.createElement('img');
+        img.src = c.imageSmall; img.alt = c.name; img.loading = 'lazy'; img.decoding = 'async';
+        img.style.cssText = 'width:100%;border-radius:8px;';
+        item.appendChild(img);
+      }
+
+      // aperçu au survol
+      attachPreviewListeners(item);
+
+      results.appendChild(item);
+    });
+
+    // Pager
+    if (prevStack.length > 0 || hasMore){
+      const row = document.createElement('div'); row.style.cssText='display:flex; gap:8px; justify-content:space-between; padding-top:8px;';
+      const bPrev = document.createElement('button'); bPrev.className='btn-secondary'; bPrev.textContent='← Précédent';
+      const bNext = document.createElement('button'); bNext.className='btn-primary';   bNext.textContent='Suivant →';
+      bPrev.disabled = prevStack.length === 0;
+      bNext.disabled = !hasMore;
+
+      bPrev.onclick = async ()=>{
+        if (prevStack.length === 0) return;
+        const prevUrl = prevStack.pop();
+        const res = await scryfallTokenSearch(prevUrl, { isNext:true });
+        currentPageUrl = res.page;
+        nextPage = res.next;
+        render(res.cards, res.hasMore, res.next);
+      };
+      bNext.onclick = async ()=>{
+        if (!next) return;
+        if (currentPageUrl) prevStack.push(currentPageUrl);
+        const res = await scryfallTokenSearch(next, { isNext:true });
+        currentPageUrl = res.page;
+        nextPage = res.next;
+        render(res.cards, res.hasMore, res.next);
+      };
+
+      row.appendChild(bPrev); row.appendChild(bNext);
+      pager.appendChild(row);
+    }
+  }
+
+  async function run(q){
+    prevStack = [];
+    currentPageUrl = null;
+    const res = await scryfallTokenSearch((q || '').trim());
+    currentPageUrl = res.page;
+    nextPage = res.next;
+    render(res.cards, res.hasMore, res.next);
+  }
+
+  if (!dlg.hasAttribute('data-wired')){
+    btnGo?.addEventListener('click', ()=> run(input?.value.trim() || ''));
+    input?.addEventListener('keydown', (e)=>{ if (e.key==='Enter'){ e.preventDefault(); run(input.value.trim()); }});
+    btnX?.addEventListener('click', ()=> dlg.close());
+    dlg.setAttribute('data-wired','1');
+  }
+
+  input && (input.value = '');
+  results && (results.innerHTML = '');
+  pager && (pager.innerHTML = '');
+
+  if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open','true');
+  setTimeout(()=> input?.focus(), 0);
+
+  // Premier chargement : liste FR (tous tokens triés par nom)
+  run('');
+}
+
 // ---------- SCRY ----------
 function openScryPrompt(){
   if (_deck.length === 0) { alert("La bibliothèque est vide."); return; }
@@ -608,19 +947,8 @@ function openScryDialog(n){
       down.onclick = () => { if (i<arr.length-1) { [arr[i+1], arr[i]] = [arr[i], arr[i+1]]; renderAll(); } };
       back.onclick = () => { const x = arr.splice(i,1)[0]; src.push(x); renderAll(); };
 
-      row.addEventListener('mouseenter', () => {
-        clearTimeout(__previewTimer);
-        __previewTimer = setTimeout(() => {
-          if (__previewDlg && window.__previewSourceEl === row) return;
-          if (!__isMouseDown && row.matches(':hover')) showCardPreview(row);
-        }, 750);
-      });
-      row.addEventListener('mouseleave', () => {
-        clearTimeout(__previewTimer);
-        setTimeout(() => { if (!isPointerInside(row)) hideCardPreview(); }, 20);
-      });
-      row.addEventListener('mousedown', () => { __isMouseDown = true; clearTimeout(__previewTimer); hideCardPreview(); });
-      row.addEventListener('mouseup', () => { __isMouseDown = false; });
+      // aperçu survol pour les lignes scry (même logique)
+      attachPreviewListeners(row);
 
       row.appendChild(up);
       row.appendChild(down);
@@ -656,19 +984,8 @@ function openScryDialog(n){
       toTopBtn.onclick = () => { const x = src.splice(i,1)[0]; toTop.push(x); renderAll(); };
       toBottomBtn.onclick = () => { const x = src.splice(i,1)[0]; toBottom.push(x); renderAll(); };
 
-      row.addEventListener('mouseenter', () => {
-        clearTimeout(__previewTimer);
-        __previewTimer = setTimeout(() => {
-          if (__previewDlg && window.__previewSourceEl === row) return;
-          if (!__isMouseDown && row.matches(':hover')) showCardPreview(row);
-        }, 750);
-      });
-      row.addEventListener('mouseleave', () => {
-        clearTimeout(__previewTimer);
-        setTimeout(() => { if (!isPointerInside(row)) hideCardPreview(); }, 20);
-      });
-      row.addEventListener('mousedown', () => { __isMouseDown = true; clearTimeout(__previewTimer); hideCardPreview(); });
-      row.addEventListener('mouseup', () => { __isMouseDown = false; });
+      // aperçu survol
+      attachPreviewListeners(row);
 
       row.appendChild(name);
       row.appendChild(toTopBtn);
@@ -711,7 +1028,7 @@ document.addEventListener('pointermove', () => {
 }, { passive: true });
 
 export function shuffleDeck() {
-  for(let i=_deck.length-1;i>0;i--){
+  for(let i=_deck.length-1;i>0;i++){
     const j=Math.floor(Math.random()*(i+1));
     [_deck[i],_deck[j]]=[_deck[j],_deck[i]];
   }
@@ -908,12 +1225,12 @@ export function initCore(){
   const restored = tryRestorePersistentState();
 
   if (restored) {
-    // ⚠️ Cas signalé : état persistant présent MAIS deck vide → primer l’import deck builder
+    // ⚠️ État persistant présent MAIS deck vide → tenter l’import deck builder
     if (_deck.length === 0) {
       const imported = tryLoadDeckFromLocalStorage();
       if (imported) {
         updateDeckCount();
-        // Sauvegarder immédiatement le nouvel état (évite que l’hôte reste vide)
+        // Sauvegarder immédiatement le nouvel état
         savePersistentState();
       }
     }
@@ -965,6 +1282,9 @@ export function initCore(){
     if (el.closest('.btn-search-graveyard'))     { openGraveyardSearchModal(); return; }
     if (el.closest('.btn-search-tokens'))        { openTokenDialog(); return; }
   });
+
+  // 🔁 Bouton "Untap all" (défini dans le HTML via .btn-untap-all)
+  qs('.btn-untap-all')?.addEventListener('click', untapAllLocal);
 
   // Boutons loupe (si absents)
   const exilTitle = qs('.zone--exil .zone-title');
