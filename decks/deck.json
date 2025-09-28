@@ -1,142 +1,36 @@
 {
-  "createdAt": "2025-09-27T22:01:26.648657Z",
-  "commanders": [
-    {
-      "name": "Atraxa, Grand Unifier",
-      "qty": 1
-    }
-  ],
+  "createdAt": "2025-09-27T23:59:21.398008Z",
   "cards": [
     {
-      "name": "Birds of Paradise",
+      "name": "Aetherize",
       "qty": 1
     },
     {
-      "name": "Deathrite Shaman",
+      "name": "Ancient Tomb",
       "qty": 1
     },
     {
-      "name": "Delighted Halfling",
+      "name": "Arcane Signet",
       "qty": 1
     },
     {
-      "name": "Drannith Magistrate",
+      "name": "Brain Freeze",
       "qty": 1
     },
     {
-      "name": "Elves of Deep Shadow",
+      "name": "Brainstorm",
       "qty": 1
     },
     {
-      "name": "Elvish Spirit Guide",
+      "name": "Cascade Bluffs",
       "qty": 1
     },
     {
-      "name": "Endurance",
+      "name": "Cavern of Souls",
       "qty": 1
     },
     {
-      "name": "Esper Sentinel",
-      "qty": 1
-    },
-    {
-      "name": "Eternal Witness",
-      "qty": 1
-    },
-    {
-      "name": "Hoarding Broodlord",
-      "qty": 1
-    },
-    {
-      "name": "Knights of San d'Oria",
-      "qty": 1
-    },
-    {
-      "name": "Lotho, Corrupt Shirriff",
-      "qty": 1
-    },
-    {
-      "name": "Misthollow Griffin",
-      "qty": 1
-    },
-    {
-      "name": "Mockingbird",
-      "qty": 1
-    },
-    {
-      "name": "Noble Hierarch",
-      "qty": 1
-    },
-    {
-      "name": "Opposition Agent",
-      "qty": 1
-    },
-    {
-      "name": "Orcish Bowmasters",
-      "qty": 1
-    },
-    {
-      "name": "Phyrexian Metamorph",
-      "qty": 1
-    },
-    {
-      "name": "Talion, the Kindly Lord",
-      "qty": 1
-    },
-    {
-      "name": "Tataru Taru",
-      "qty": 1
-    },
-    {
-      "name": "Thassa's Oracle",
-      "qty": 1
-    },
-    {
-      "name": "Voice of Victory",
-      "qty": 1
-    },
-    {
-      "name": "Volatile Stormdrake",
-      "qty": 1
-    },
-    {
-      "name": "Culling Ritual",
-      "qty": 1
-    },
-    {
-      "name": "Demonic Tutor",
-      "qty": 1
-    },
-    {
-      "name": "Eldritch Evolution",
-      "qty": 1
-    },
-    {
-      "name": "Gitaxian Probe",
-      "qty": 1
-    },
-    {
-      "name": "Imperial Seal",
-      "qty": 1
-    },
-    {
-      "name": "Neoform",
-      "qty": 1
-    },
-    {
-      "name": "Peer into the Abyss",
-      "qty": 1
-    },
-    {
-      "name": "Abrupt Decay",
-      "qty": 1
-    },
-    {
-      "name": "An Offer You Can't Refuse",
-      "qty": 1
-    },
-    {
-      "name": "Cabal Ritual",
+      "name": "Cephalid Coliseum",
       "qty": 1
     },
     {
@@ -144,15 +38,79 @@
       "qty": 1
     },
     {
-      "name": "Dark Ritual",
+      "name": "Chrome Mox",
       "qty": 1
     },
     {
-      "name": "Demonic Consultation",
+      "name": "City of Brass",
       "qty": 1
     },
     {
-      "name": "Enlightened Tutor",
+      "name": "City of Traitors",
+      "qty": 1
+    },
+    {
+      "name": "Command Tower",
+      "qty": 1
+    },
+    {
+      "name": "Coruscation Mage",
+      "qty": 1
+    },
+    {
+      "name": "Counterspell",
+      "qty": 1
+    },
+    {
+      "name": "Crystal Vein",
+      "qty": 1
+    },
+    {
+      "name": "Cyclonic Rift",
+      "qty": 1
+    },
+    {
+      "name": "Deflecting Swat",
+      "qty": 1
+    },
+    {
+      "name": "Delay",
+      "qty": 1
+    },
+    {
+      "name": "Den of the Bugbear",
+      "qty": 1
+    },
+    {
+      "name": "Dragon's Hoard",
+      "qty": 1
+    },
+    {
+      "name": "Electrodominance",
+      "qty": 1
+    },
+    {
+      "name": "Exotic Orchard",
+      "qty": 1
+    },
+    {
+      "name": "Faithless Looting",
+      "qty": 1
+    },
+    {
+      "name": "Fellwar Stone",
+      "qty": 1
+    },
+    {
+      "name": "Fiery Islet",
+      "qty": 1
+    },
+    {
+      "name": "Finale of Promise",
+      "qty": 1
+    },
+    {
+      "name": "Fire Magic",
       "qty": 1
     },
     {
@@ -168,75 +126,75 @@
       "qty": 1
     },
     {
-      "name": "Mental Misstep",
+      "name": "Frantic Search",
       "qty": 1
     },
     {
-      "name": "Mindbreak Trap",
+      "name": "Gamble",
       "qty": 1
     },
     {
-      "name": "Mystical Tutor",
+      "name": "Gemstone Mine",
       "qty": 1
     },
     {
-      "name": "Pact of Negation",
+      "name": "Gitaxian Probe",
       "qty": 1
     },
     {
-      "name": "Sacrifice",
+      "name": "Goblin Engineer",
       "qty": 1
     },
     {
-      "name": "Saw in Half",
+      "name": "Goldhound",
       "qty": 1
     },
     {
-      "name": "Silence",
-      "qty": 1
-    },
-    {
-      "name": "Swan Song",
-      "qty": 1
-    },
-    {
-      "name": "Swords to Plowshares",
-      "qty": 1
-    },
-    {
-      "name": "Tainted Pact",
-      "qty": 1
-    },
-    {
-      "name": "Vampiric Tutor",
-      "qty": 1
-    },
-    {
-      "name": "Veil of Summer",
-      "qty": 1
-    },
-    {
-      "name": "Worldly Tutor",
-      "qty": 1
-    },
-    {
-      "name": "Arcane Signet",
-      "qty": 1
-    },
-    {
-      "name": "Bolas's Citadel",
-      "qty": 1
-    },
-    {
-      "name": "Chrome Mox",
-      "qty": 1
-    },
-    {
-      "name": "Fellwar Stone",
+      "name": "Grapeshot",
       "qty": 1
     },
     {
       "name": "Grim Monolith",
+      "qty": 1
+    },
+    {
+      "name": "Guttersnipe",
+      "qty": 1
+    },
+    {
+      "name": "Hall of Storm Giants",
+      "qty": 1
+    },
+    {
+      "name": "Hall of the Bandit Lord",
+      "qty": 1
+    },
+    {
+      "name": "Impact Tremors",
+      "qty": 1
+    },
+    {
+      "name": "Island",
+      "qty": 1
+    },
+    {
+      "name": "Izzet Charm",
+      "qty": 1
+    },
+    {
+      "name": "Izzet Signet",
+      "qty": 1
+    },
+    {
+      "name": "Jace, Vryn's Prodigy / Jace, Telepath Unbound",
+      "qty": 1
+    },
+    {
+      "name": "Jeska's Will",
+      "qty": 1
+    },
+    {
+      "name": "Lightning Greaves",
       "qty": 1
     },
     {
@@ -248,107 +206,19 @@
       "qty": 1
     },
     {
-      "name": "Mana Vault",
-      "qty": 1
-    },
-    {
-      "name": "Mox Diamond",
-      "qty": 1
-    },
-    {
-      "name": "Mox Opal",
-      "qty": 1
-    },
-    {
-      "name": "Sol Ring",
-      "qty": 1
-    },
-    {
-      "name": "Talisman of Curiosity",
-      "qty": 1
-    },
-    {
-      "name": "Talisman of Dominance",
-      "qty": 1
-    },
-    {
-      "name": "The One Ring",
-      "qty": 1
-    },
-    {
-      "name": "Wishclaw Talisman",
-      "qty": 1
-    },
-    {
-      "name": "Carpet of Flowers",
-      "qty": 1
-    },
-    {
-      "name": "Food Chain",
-      "qty": 1
-    },
-    {
-      "name": "Mystic Remora",
-      "qty": 1
-    },
-    {
-      "name": "Rhystic Study",
-      "qty": 1
-    },
-    {
-      "name": "Smothering Tithe",
-      "qty": 1
-    },
-    {
-      "name": "Ancient Tomb",
-      "qty": 1
-    },
-    {
-      "name": "Arid Mesa",
-      "qty": 1
-    },
-    {
-      "name": "Bayou",
-      "qty": 1
-    },
-    {
-      "name": "Bloodstained Mire",
-      "qty": 1
-    },
-    {
-      "name": "Boseiju, Who Endures",
-      "qty": 1
-    },
-    {
-      "name": "Cavern of Souls",
-      "qty": 1
-    },
-    {
-      "name": "City of Brass",
-      "qty": 1
-    },
-    {
-      "name": "Command Tower",
-      "qty": 1
-    },
-    {
-      "name": "Exotic Orchard",
-      "qty": 1
-    },
-    {
-      "name": "Flooded Strand",
-      "qty": 1
-    },
-    {
-      "name": "Gemstone Caverns",
-      "qty": 1
-    },
-    {
       "name": "Mana Confluence",
       "qty": 1
     },
     {
-      "name": "Marsh Flats",
+      "name": "Mana Vault",
+      "qty": 1
+    },
+    {
+      "name": "March of Swirling Mist",
+      "qty": 1
+    },
+    {
+      "name": "Mental Misstep",
       "qty": 1
     },
     {
@@ -356,7 +226,39 @@
       "qty": 1
     },
     {
-      "name": "Overgrown Tomb",
+      "name": "Mountain",
+      "qty": 1
+    },
+    {
+      "name": "Mox Amber",
+      "qty": 1
+    },
+    {
+      "name": "Mox Opal",
+      "qty": 1
+    },
+    {
+      "name": "Mystic Reflection",
+      "qty": 1
+    },
+    {
+      "name": "Narset, Parter of Veils",
+      "qty": 1
+    },
+    {
+      "name": "Niv-Mizzet, Parun",
+      "qty": 1
+    },
+    {
+      "name": "Ophidian Eye",
+      "qty": 1
+    },
+    {
+      "name": "Otawara, Soaring City",
+      "qty": 1
+    },
+    {
+      "name": "Past in Flames",
       "qty": 1
     },
     {
@@ -364,7 +266,43 @@
       "qty": 1
     },
     {
-      "name": "Savannah",
+      "name": "Ponder",
+      "qty": 1
+    },
+    {
+      "name": "Preordain",
+      "qty": 1
+    },
+    {
+      "name": "Pyroblast",
+      "qty": 1
+    },
+    {
+      "name": "Queen Brahne",
+      "qty": 1
+    },
+    {
+      "name": "Ral, Storm Conduit",
+      "qty": 1
+    },
+    {
+      "name": "Recoup",
+      "qty": 1
+    },
+    {
+      "name": "Reflecting Pool",
+      "qty": 1
+    },
+    {
+      "name": "Reiterate",
+      "qty": 1
+    },
+    {
+      "name": "Riverglide Pathway / Lavaglide Pathway",
+      "qty": 1
+    },
+    {
+      "name": "Sabotender",
       "qty": 1
     },
     {
@@ -372,35 +310,91 @@
       "qty": 1
     },
     {
-      "name": "Scrubland",
+      "name": "Sensei's Divining Top",
       "qty": 1
     },
     {
-      "name": "Tropical Island",
+      "name": "Shantotto, Tactician Magician",
       "qty": 1
     },
     {
-      "name": "Tundra",
+      "name": "Shivan Reef",
       "qty": 1
     },
     {
-      "name": "Underground Sea",
+      "name": "Snapback",
       "qty": 1
     },
     {
-      "name": "Verdant Catacombs",
+      "name": "Sol Ring",
       "qty": 1
     },
     {
-      "name": "Watery Grave",
+      "name": "Solve the Equation",
       "qty": 1
     },
     {
-      "name": "Windswept Heath",
+      "name": "Spirebluff Canal",
       "qty": 1
     },
     {
-      "name": "Wooded Foothills",
+      "name": "Steam Vents",
+      "qty": 1
+    },
+    {
+      "name": "Sulfur Falls",
+      "qty": 1
+    },
+    {
+      "name": "Swiftfoot Boots",
+      "qty": 1
+    },
+    {
+      "name": "Talisman of Creativity",
+      "qty": 1
+    },
+    {
+      "name": "Talrand, Sky Summoner",
+      "qty": 1
+    },
+    {
+      "name": "Thassa's Oracle",
+      "qty": 1
+    },
+    {
+      "name": "Thousand-Year Storm",
+      "qty": 1
+    },
+    {
+      "name": "Training Center",
+      "qty": 1
+    },
+    {
+      "name": "Twinflame",
+      "qty": 1
+    },
+    {
+      "name": "Underworld Breach",
+      "qty": 1
+    },
+    {
+      "name": "Vandalblast",
+      "qty": 1
+    },
+    {
+      "name": "Volcanic Island",
+      "qty": 1
+    },
+    {
+      "name": "Windfall",
+      "qty": 1
+    },
+    {
+      "name": "Young Pyromancer",
+      "qty": 1
+    },
+    {
+      "name": "Zell Dincht",
       "qty": 1
     }
   ]
