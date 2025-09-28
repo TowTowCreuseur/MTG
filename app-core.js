@@ -502,16 +502,31 @@ export function openSearchModal() {
   if (shuffle) shuffle.style.display = '';
   if (results) results.innerHTML = '';
 
+  // ✅ bouton de fermeture (si présent dans le HTML)
+  const btnClose = qs('.btn-close, .btn-close-search, .btn-cancel', dialog);
+  if (btnClose) btnClose.onclick = () => { try { dialog.close(); } catch {} };
+
   setSearchTitle('Recherche dans la bibliothèque');
 
   [..._deck].slice().reverse().forEach(c => {
     const item = document.createElement('div');
     item.className = 'result-card';
     item.dataset.cardId = c.id;
+    // ✅ Alimente l’aperçu
+    if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
+    if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
+
     item.innerHTML = `
-      <span><strong>${c.name}</strong> <em>${c.type || ''}</em></span>
+      <span>
+        <strong class="card-name">${c.name}</strong>
+        <em class="card-type">${c.type || ''}</em>
+      </span>
       <button class="btn-piocher" type="button">Piocher</button>
     `;
+
+    // ✅ Aperçu au survol de la ligne
+    attachPreviewListeners(item);
+
     item.querySelector('.btn-piocher')?.addEventListener('click', () => {
       const idx = _deck.findIndex(d => d.id === c.id);
       if (idx !== -1) {
@@ -539,7 +554,14 @@ export function openSearchModal() {
 
   const btnShuffle = qs('.btn-shuffle', dialog);
   if (btnShuffle) {
+    // Mélange puis ré-ouvre la liste (deck mélangé, modale conservée)
     btnShuffle.onclick = () => { shuffleDeck(); openSearchModal(); };
+  }
+
+  // (optionnel) Si tu as un bouton dédié "mélanger & fermer"
+  const btnShuffleClose = qs('.btn-shuffle-close', dialog);
+  if (btnShuffleClose) {
+    btnShuffleClose.onclick = () => { shuffleDeck(); try { dialog.close(); } catch {} };
   }
 
   if (typeof dialog.showModal === 'function') dialog.showModal();
@@ -562,10 +584,21 @@ export function openExileSearchModal() {
     const item = document.createElement('div');
     item.className = 'result-card';
     item.dataset.cardId = c.id;
+    // ✅ données pour aperçu
+    if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
+    if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
+
     item.innerHTML = `
-      <span><strong>${c.name}</strong> <em>${c.type || ''}</em></span>
+      <span>
+        <strong class="card-name">${c.name}</strong>
+        <em class="card-type">${c.type || ''}</em>
+      </span>
       <button class="btn-piocher" type="button">Piocher</button>
     `;
+
+    // ✅ aperçu au survol
+    attachPreviewListeners(item);
+
     item.querySelector('.btn-piocher')?.addEventListener('click', () => {
       const realIdx = exileStore.findIndex(x => x.id === c.id);
       if (realIdx !== -1) {
@@ -616,10 +649,21 @@ export function openGraveyardSearchModal() {
     const item = document.createElement('div');
     item.className = 'result-card';
     item.dataset.cardId = c.id;
+    // ✅ données pour aperçu
+    if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
+    if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
+
     item.innerHTML = `
-      <span><strong>${c.name}</strong> <em>${c.type || ''}</em></span>
+      <span>
+        <strong class="card-name">${c.name}</strong>
+        <em class="card-type">${c.type || ''}</em>
+      </span>
       <button class="btn-piocher" type="button">Piocher</button>
     `;
+
+    // ✅ aperçu au survol
+    attachPreviewListeners(item);
+
     item.querySelector('.btn-piocher')?.addEventListener('click', () => {
       const realIdx = graveyardStore.findIndex(x => x.id === c.id);
       if (realIdx !== -1) {
@@ -941,6 +985,7 @@ function openScryDialog(n){
       const up = btn('↑','btn btn-up'); up.title = 'Remonter';
       const down = btn('↓','btn btn-down'); down.title = 'Descendre';
       const name = document.createElement('span'); name.textContent = c.name || '(Carte)'; name.className = 'card-name'; name.style.flex = '1';
+      const type = document.createElement('span'); type.textContent = c.type || ''; type.className = 'card-type'; type.style.opacity = '.75';
       const back = btn('↩ Source','btn');
 
       up.onclick = () => { if (i>0) { [arr[i-1], arr[i]] = [arr[i], arr[i-1]]; renderAll(); } };
@@ -953,6 +998,7 @@ function openScryDialog(n){
       row.appendChild(up);
       row.appendChild(down);
       row.appendChild(name);
+      row.appendChild(type);
       row.appendChild(back);
       wrap.appendChild(row);
     });
@@ -979,6 +1025,11 @@ function openScryDialog(n){
       name.className = 'card-name';
       name.style.flex = '1';
 
+      const type = document.createElement('span');
+      type.textContent = c.type || '';
+      type.className = 'card-type';
+      type.style.opacity = '.75';
+
       const toTopBtn = btn('→ Haut','btn');
       const toBottomBtn = btn('→ Bas','btn');
       toTopBtn.onclick = () => { const x = src.splice(i,1)[0]; toTop.push(x); renderAll(); };
@@ -988,6 +1039,7 @@ function openScryDialog(n){
       attachPreviewListeners(row);
 
       row.appendChild(name);
+      row.appendChild(type);
       row.appendChild(toTopBtn);
       row.appendChild(toBottomBtn);
       wrapSrc.appendChild(row);
@@ -1028,10 +1080,15 @@ document.addEventListener('pointermove', () => {
 }, { passive: true });
 
 export function shuffleDeck() {
-  for(let i=_deck.length-1;i>0;i++){
-    const j=Math.floor(Math.random()*(i+1));
-    [_deck[i],_deck[j]]=[_deck[j],_deck[i]];
+  // ✅ garde-fou + compteur mis à jour
+  if (!Array.isArray(_deck)) _deck = [];
+  for (let i = _deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [_deck[i], _deck[j]] = [_deck[j], _deck[i]];
   }
+  // MAJ affichage du nombre de cartes
+  const c = qs('.zone--pioche .deck-count [data-count]');
+  if (c) c.textContent = _deck.length;
 }
 
 /* =======================
@@ -1245,6 +1302,16 @@ export function initCore(){
         const f = _deck.find(c=>c.name===name); if(f) main.appendChild(createCardEl(f));
       });
     }
+
+    // ✅ Mélange automatique une seule fois au démarrage d’une nouvelle partie
+    try {
+      const alreadyShuffled = sessionStorage.getItem('mtg.shuffleOnce') === '1';
+      if (!alreadyShuffled && _deck.length > 0) {
+        shuffleDeck();
+        sessionStorage.setItem('mtg.shuffleOnce', '1');
+        updateDeckCount();
+      }
+    } catch {}
   }
 
   // DnD zones

@@ -1,13 +1,13 @@
 /* app-multi.js — multi/overlay + point d’entrée
-   - Overlay adverse readonly (bataille + command zone + cimetière + exil via STORES)
-   - Cimetière/Exil en “text only” (pas d’aperçu d’images)
+   - Overlay adverse readonly (bataille + command zone + cimetière + exil)
+   - ✅ Cimetière/Exil avec aperçu au survol (images depuis stores)
    - Patch ciblé + refresh périodique 5s (y compris modale loupe ouverte)
    - Connexion WebSocket persistante sur refresh
 */
 
 import {
   ZONES, qs, qsa, randomId,
-  createCardEl, attachPreviewListeners,   // ⬅️ ajout de attachPreviewListeners
+  createCardEl, attachPreviewListeners,
   serializeBoard, initCore
 } from './app-core.js';
 
@@ -110,9 +110,21 @@ function renderOppListIntoModal(title, cards){
     const item = document.createElement('div');
     item.className = 'result-card';
     item.dataset.cardId = c.id;
-    // Pas de bouton, pas de preview listeners — la liste est vraiment readonly
-    item.innerHTML = `<span><strong>${c.name || '(Carte)'}</strong> <em>${c.type || ''}</em></span>`;
-    // on peut laisser data-image* absents pour éviter toute prévisualisation accidentelle
+
+    // ✅ données pour aperçu au survol
+    if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
+    if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
+
+    item.innerHTML = `
+      <span>
+        <strong class="card-name">${c.name || '(Carte)'}</strong>
+        <em class="card-type">${c.type || ''}</em>
+      </span>
+    `;
+
+    // ✅ aperçu au survol
+    attachPreviewListeners(item);
+
     results.appendChild(item);
   });
 
@@ -172,8 +184,8 @@ function renderCardsTo(holder, cards){
     holder.appendChild(el);
   });
 }
-/** Rendu “texte seul” (aucune image/dataset) pour cimetière & exil adverses — donc aucun aperçu au survol */
-function renderNamesOnly(holder, cards){
+/** ✅ Rendu “liste” avec aperçu (utilisé pour cimetière & exil adverses) */
+function renderNamesWithPreview(holder, cards){
   if (!holder) return;
   holder.innerHTML = '';
   (cards || []).forEach(c => {
@@ -181,8 +193,19 @@ function renderNamesOnly(holder, cards){
     row.className = 'card card--nameonly readonly';
     row.tabIndex = 0;
     row.dataset.cardId = c.id;
-    // ⚠️ Pas de dataset image → pas de preview
-    row.innerHTML = `<div class="card-name">${c.name || '(Carte)'}</div>`;
+
+    // Fournir les images pour l’aperçu
+    if (c.imageNormal) row.dataset.imageNormal = c.imageNormal;
+    if (c.imageSmall)  row.dataset.imageSmall  = c.imageSmall;
+
+    row.innerHTML = `
+      <div class="card-name">${c.name || '(Carte)'}</div>
+      <div class="card-type" style="opacity:.75; font-size:12px">${c.type || ''}</div>
+    `;
+
+    // ✅ aperçu au survol
+    attachPreviewListeners(row);
+
     holder.appendChild(row);
   });
   if (!(cards || []).length) {
@@ -212,8 +235,7 @@ function ensureOpponentOverlay(){
     .opp-body{ overflow:auto; max-height:calc(92vh - 64px); }
     .opp-grid{ display:grid; grid-template-columns: 280px 1fr; gap:12px; }
     .zone.readonly .cards .card{ pointer-events:auto; }
-    /* style pour le rendu text-only */
-    .card--nameonly{ display:block; padding:6px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .card--nameonly{ display:block; padding:6px 8px; border-radius:8px; border:1px solid rgba(0,0,0,.08); background:#fafafa; }
     .card--nameonly + .card--nameonly{ margin-top:6px; }
   `;
   document.head.appendChild(style);
@@ -300,10 +322,10 @@ function buildOpponentBattlefield(state){
     rowEls: []
   };
 
-  // Rendu initial — commander/images OK, cimetière & exil SANS images (text-only)
+  // ✅ Commander/images OK, cimetière & exil AVEC aperçu (depuis stores)
   renderCardsTo(mounts.commanderEl, state?.zones?.commander ?? []);
-  renderNamesOnly(mounts.graveyardEl, state?.stores?.cimetiere ?? []);
-  renderNamesOnly(mounts.exileEl,     state?.stores?.exil ?? []);
+  renderNamesWithPreview(mounts.graveyardEl, state?.stores?.cimetiere ?? []);
+  renderNamesWithPreview(mounts.exileEl,     state?.stores?.exil ?? []);
 
   const rows = (state?.zones?.bataille ?? []);
   for (let i = 0; i < 3; i++) {
@@ -342,14 +364,14 @@ function patchOpponentOverlay(dlg, prev, next){
   const nextCmd = next?.zones?.commander ?? [];
   if (!arraysEqualBySig(prevCmd, nextCmd)) renderCardsTo(mounts.commanderEl, nextCmd);
 
-  // PATCH “text-only” sur cimetiere/exil (depuis STORES) — aucun aperçu
+  // ✅ PATCH cimetière/exil avec aperçu au survol (depuis STORES)
   const prevGy = prev?.stores?.cimetiere ?? [];
   const nextGy = next?.stores?.cimetiere ?? [];
-  if (!arraysEqualBySig(prevGy, nextGy)) renderNamesOnly(mounts.graveyardEl, nextGy);
+  if (!arraysEqualBySig(prevGy, nextGy)) renderNamesWithPreview(mounts.graveyardEl, nextGy);
 
   const prevEx = prev?.stores?.exil ?? [];
   const nextEx = next?.stores?.exil ?? [];
-  if (!arraysEqualBySig(prevEx, nextEx)) renderNamesOnly(mounts.exileEl, nextEx);
+  if (!arraysEqualBySig(prevEx, nextEx)) renderNamesWithPreview(mounts.exileEl, nextEx);
 
   for (let i=0; i<3; i++){
     const prevRow = (prev?.zones?.bataille?.[i]) ?? [];
@@ -357,7 +379,7 @@ function patchOpponentOverlay(dlg, prev, next){
     if (!arraysEqualBySig(prevRow, nextRow)) renderCardsTo(mounts.rowEls[i], nextRow);
   }
 
-  // Rafraîchit la modale ouverte (liste)
+  // Rafraîchit la modale ouverte (liste) avec aperçu
   if (OPP_LIST_OPEN && dlg.__opp.playerId === OPP_LIST_OPEN.playerId) {
     const zone = OPP_LIST_OPEN.zone;
     const title = zone === 'cimetiere' ? 'Cimetière (adversaire)' : 'Exil (adversaire)';
