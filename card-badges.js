@@ -1,391 +1,317 @@
-// card-badges.js — Pastille cliquable + mini-listes par carte + bouton “Liste” dans Points de vie
-// - Ctrl/⌘+C : toggle pastille sur cartes sélectionnées (la pastille dépasse et est cliquable indépendamment)
-// - Clic pastille : ouvre une fenêtre avec liste (items + quantités + suppression)
-// - Bouton permanent à côté de “Points de vie” : ouvre une liste IDENTIQUE mais globale (sans pastille)
+/* card-badges.js
+   - Pastille ronde grise cliquable, indépendante de la carte
+   - Ctrl + C : toggle pastille sur cartes sélectionnées (.selected) uniquement
+   - Liste associée à la pastille (items {label, qty}) avec persistance
+   - Bouton "Liste" à côté de "Points de vie" (mêmes items, persistance)
+   - RO/lecture seule si la carte ou la zone est .readonly (overlay adverse)
+*/
 
-(() => {
-  /* =======================
-     Styles injectés
-     ======================= */
-  if (!document.getElementById("cardBadgesStyles")) {
-    const st = document.createElement("style");
-    st.id = "cardBadgesStyles";
-    st.textContent = `
-      /* Pastille carte : la carte ne doit pas rogner ce qui dépasse */
-      .card.has-badge { position: relative; overflow: visible; z-index: 5; }
+import {
+  qs, qsa,
+  readBadgeForCard, updateBadgeForCard, deleteBadgeForCard,
+  getLifeListItems, setLifeListItems
+} from './app-core.js';
 
-      /* Si un parent rogne encore, dé-commente au besoin : */
-      /* .cards { overflow: visible !important; } */
-
-      /* Bouton pastille (DOM réel, cliquable) */
-      .card > .badge-button{
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: -14px;                    /* dépasse franchement */
-        width: 20px; height: 20px;
-        border-radius: 50%;
-        background: #8a8f98;              /* gris */
-        border: 0;
-        box-shadow: 0 0 0 2px rgba(0,0,0,.25), 0 1px 3px rgba(0,0,0,.35);
-        cursor: pointer;
-        z-index: 10;
-      }
-      .card > .badge-button:focus-visible{
-        outline: 2px solid #3aa0ff;
-        outline-offset: 2px;
-      }
-
-      /* -------- Dialog (feuille) -------- */
-      #badgeDialog::backdrop{ background: rgba(0,0,0,.45); }
-      #badgeDialog{
-        border: none; padding: 0; overflow: visible;
-        background: transparent;
-      }
-      .badge-sheet{
-        background: #fff; border-radius: 14px;
-        box-shadow: 0 18px 60px rgba(0,0,0,.35);
-        width: min(520px, 95vw); max-height: 92vh;
-        display: grid; grid-template-rows: auto auto 1fr auto; gap: 10px;
-        padding: 14px;
-      }
-      .badge-header{
-        display: flex; justify-content: space-between; align-items: center; gap: 8px;
-      }
-      .badge-title{ font-weight: 700; }
-      .badge-close{ border: 0; background: #eee; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
-      .badge-searchbar{ display: flex; gap: 8px; align-items: center; }
-      .badge-input{
-        flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px;
-      }
-      .badge-add{
-        padding: 8px 10px; border-radius: 8px; border: 0; background: #3aa0ff; color: #fff; cursor: pointer;
-      }
-
-      .badge-list{ overflow: auto; display: grid; gap: 8px; padding-right: 2px; }
-      .badge-row{
-        display: grid;
-        grid-template-columns: 1fr auto auto;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid #e6e6e6; border-radius: 10px; padding: 8px;
-      }
-      .badge-name{ font-weight: 600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-
-      .badge-qty-wrap{ display: flex; align-items: center; gap: 6px; }
-      .badge-qty{
-        width: 64px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 8px; text-align: right;
-      }
-      .badge-btn{
-        border: 0; background: #f1f1f1; border-radius: 8px; padding: 6px 10px; cursor: pointer;
-      }
-      .badge-del{
-        border: 0; background: #ffebe9; color: #a40000; border-radius: 8px; padding: 6px 10px; cursor: pointer;
-      }
-
-      .badge-footer{
-        display: flex; justify-content: flex-end; gap: 8px;
-      }
-      .badge-footer .badge-close{ background: #efefef; }
-
-      /* --- Bouton “Liste” à côté de Points de vie --- */
-      .life-list-btn{
-        margin-left: 6px;
-        border: 0; border-radius: 8px;
-        padding: 4px 8px;
-        background: #f1f1f1;
-        cursor: pointer;
-        font-size: 12px;
-      }
-      .life-list-btn:focus-visible{
-        outline: 2px solid #3aa0ff;
-        outline-offset: 2px;
-      }
-    `;
-    document.head.appendChild(st);
-  }
-
-  /* =======================
-     État (en mémoire)
-     ======================= */
-  // Données par "clé" : cardId (dataset.cardId) ou clé spéciale pour Points de vie
-  const LIFE_KEY = '__life__global__';
-  const store = new Map(); // key -> { items: [{label, qty}] }
-
-  // Dialog global réutilisé
-  let dlg = null;
-  let dlgKey = null; // cardId ou LIFE_KEY
-
-  /* =======================
-     Helpers DOM / Dialog
-     ======================= */
-  function ensureDialog(){
-    if (dlg) return dlg;
-    dlg = document.createElement('dialog');
-    dlg.id = 'badgeDialog';
-    dlg.innerHTML = `
-      <div class="badge-sheet">
-        <header class="badge-header">
-          <div class="badge-title">Liste</div>
-          <button class="badge-close" type="button" aria-label="Fermer">Fermer</button>
-        </header>
-        <div class="badge-searchbar">
-          <input class="badge-input" type="text" placeholder="Ajouter un item (Entrée pour valider)" aria-label="Nom de l’item">
-          <button class="badge-add" type="button">Ajouter</button>
-        </div>
-        <section class="badge-list" aria-live="polite"></section>
-        <footer class="badge-footer">
-          <button class="badge-close" type="button">Fermer</button>
-        </footer>
-      </div>
-    `;
-    document.body.appendChild(dlg);
-
-    dlg.addEventListener('cancel', (e) => { e.preventDefault(); dlg.close(); });
-
-    dlg.querySelectorAll('.badge-close').forEach(b => {
-      b.addEventListener('click', () => dlg.close());
-    });
-
-    // Actions d'ajout
-    const input = dlg.querySelector('.badge-input');
-    const addBtn = dlg.querySelector('.badge-add');
-    addBtn.addEventListener('click', () => {
-      const label = (input.value || "").trim();
-      if (!label) return;
-      addItemToCurrent(label);
-      input.value = '';
-      input.focus();
-    });
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const label = (input.value || "").trim();
-        if (!label) return;
-        addItemToCurrent(label);
-        input.value = '';
-      }
-    });
-
-    // Fermer : nettoyer la clé courante
-    dlg.addEventListener('close', () => { dlgKey = null; });
-
-    return dlg;
-  }
-
-  function dataForKey(key){
-    if (!store.has(key)) store.set(key, { items: [] });
-    return store.get(key);
-  }
-
-  function openDialogForKey(key, titleText){
-    dlgKey = key;
-    ensureDialog();
-    const title = dlg.querySelector('.badge-title');
-    title.textContent = titleText || 'Liste';
-    renderList();
-    if (!dlg.open) dlg.showModal();
-    setTimeout(() => dlg.querySelector('.badge-input')?.focus(), 0);
-  }
-
-  function openDialogForCard(card){
-    const cardId = card?.dataset?.cardId;
-    if (!cardId) return;
-    const name = card.querySelector('.card-name')?.textContent || 'Carte';
-    openDialogForKey(cardId, `Liste — ${name}`);
-  }
-
-  function renderList(){
-    if (!dlgKey || !dlg) return;
-    const list = dlg.querySelector('.badge-list');
-    list.innerHTML = '';
-    const data = dataForKey(dlgKey);
-
-    if (!data.items.length){
-      const empty = document.createElement('div');
-      empty.style.cssText = 'opacity:.7; padding:6px; text-align:center;';
-      empty.textContent = 'Aucun item — ajoutez un libellé ci-dessus.';
-      list.appendChild(empty);
-      return;
+/* ======================
+   Styles (injectés une fois)
+   ====================== */
+(function injectStyles(){
+  if (document.getElementById('badgeStyles')) return;
+  const s = document.createElement('style');
+  s.id = 'badgeStyles';
+  s.textContent = `
+    .card{ position: relative; }
+    .card .badge-dot{
+      position:absolute;
+      bottom:-10px; /* dépasse vers le bas */
+      left:50%;
+      transform:translateX(-50%);
+      width:18px;height:18px;
+      border-radius:50%;
+      background:#bdbdbd;
+      border:2px solid #fff;
+      box-shadow:0 1px 3px rgba(0,0,0,.25);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      z-index:3;
     }
+    .card.readonly .badge-dot{ cursor:pointer; }
 
-    data.items.forEach((it, idx) => {
-      const row = document.createElement('div');
-      row.className = 'badge-row';
+    /* Dialogs */
+    .list-dialog::backdrop{ background:rgba(0,0,0,.45); }
+    .list-sheet{
+      background:#fff; border-radius:14px; box-shadow:0 20px 60px rgba(0,0,0,.35);
+      padding:16px; width:min(560px, 95vw); max-height:92vh; display:grid; gap:12px;
+    }
+    .list-header{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .list-body{ display:grid; gap:8px; overflow:auto; }
+    .list-row{
+      display:grid; grid-template-columns: 1fr auto 84px auto; gap:8px; align-items:center;
+      border:1px solid #eee; border-radius:10px; padding:8px;
+    }
+    .list-row.readonly{ opacity:.85; }
+    .list-row input[type="text"]{ width:100%; padding:6px 8px; border:1px solid #ddd; border-radius:8px; }
+    .qty-wrap{ display:flex; align-items:center; gap:6px; }
+    .qty-wrap input[type="number"]{ width:64px; padding:6px 8px; border:1px solid #ddd; border-radius:8px; }
+    .qty-btn{ padding:2px 6px; }
+    .remove-btn{ padding:4px 8px; }
+    .addbar{ display:flex; gap:8px; align-items:center; }
+    .addbar input{ flex:1; padding:8px; border:1px solid #ddd; border-radius:8px; }
+    .footer-actions{ display:flex; gap:8px; justify-content:flex-end; }
+    .btn{ border:1px solid #ddd; background:#f7f7f7; border-radius:8px; padding:6px 10px; cursor:pointer; }
+    .btn-primary{ background:#333; color:#fff; border-color:#333; }
+    .btn-danger{ background:#e53935; color:#fff; border-color:#e53935; }
+    .btn:disabled{ opacity:.6; cursor:not-allowed; }
+  `;
+  document.head.appendChild(s);
+})();
 
-      const name = document.createElement('div');
-      name.className = 'badge-name';
-      name.textContent = it.label;
+/* =========================
+   Outils
+   ========================= */
+const isInputLike = (el) => el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
+function isReadonly(el){
+  return !!(el && (el.classList?.contains('readonly') ||
+                   el.closest?.('.readonly') ||
+                   qs('#opponentOverlay')?.open));
+}
 
-      const qtyWrap = document.createElement('div');
-      qtyWrap.className = 'badge-qty-wrap';
-      const minus = document.createElement('button');
-      minus.type = 'button'; minus.className = 'badge-btn'; minus.textContent = '−';
-      const qty = document.createElement('input');
-      qty.type = 'number'; qty.className = 'badge-qty'; qty.value = String(it.qty ?? 0);
-      qty.min = '0'; qty.step = '1';
-      const plus = document.createElement('button');
-      plus.type = 'button'; plus.className = 'badge-btn'; plus.textContent = '+';
+/* =========================
+   BADGE: rendu + wiring
+   ========================= */
+function ensureBadgeDot(cardEl){
+  if (!cardEl || cardEl.querySelector('.badge-dot')) return;
+  const dot = document.createElement('div');
+  dot.className = 'badge-dot';
+  dot.title = 'Ouvrir la liste';
+  dot.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const ro = isReadonly(cardEl);
+    openCardListDialog(cardEl.dataset.cardId, ro);
+  });
+  // Affichage uniquement si .has-badge
+  const updateVis = () => { dot.style.display = cardEl.classList.contains('has-badge') ? '' : 'none'; };
+  updateVis();
+  const mo = new MutationObserver(() => updateVis());
+  mo.observe(cardEl, { attributes:true, attributeFilter:['class'] });
 
-      const del = document.createElement('button');
-      del.type = 'button'; del.className = 'badge-del'; del.textContent = '✕';
+  cardEl.appendChild(dot);
+}
 
-      minus.addEventListener('click', () => { changeQty(idx, (it.qty ?? 0) - 1); });
-      plus.addEventListener('click',  () => { changeQty(idx, (it.qty ?? 0) + 1); });
-      qty.addEventListener('change',  () => {
-        const n = Math.max(0, Math.trunc(Number(qty.value || '0')));
-        changeQty(idx, n);
-      });
-      qty.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const n = Math.max(0, Math.trunc(Number(qty.value || '0')));
-          changeQty(idx, n);
+function installBadgeForCard(cardEl){
+  if (!cardEl?.classList?.contains('card')) return;
+  const st = readBadgeForCard(cardEl.dataset.cardId);
+  if (st.has) cardEl.classList.add('has-badge'); else cardEl.classList.remove('has-badge');
+  ensureBadgeDot(cardEl);
+}
+
+/* Observe l’apparition de cartes (y compris overlay) */
+(function observeCards(){
+  const scan = () => qsa('.card').forEach(installBadgeForCard);
+  scan();
+  const mo = new MutationObserver((muts) => {
+    muts.forEach(m => {
+      m.addedNodes && m.addedNodes.forEach(n => {
+        if (n.nodeType === 1){
+          if (n.classList?.contains('card')) installBadgeForCard(n);
+          n.querySelectorAll?.('.card')?.forEach(installBadgeForCard);
         }
       });
-      del.addEventListener('click', () => { removeItem(idx); });
-
-      qtyWrap.appendChild(minus);
-      qtyWrap.appendChild(qty);
-      qtyWrap.appendChild(plus);
-
-      row.appendChild(name);
-      row.appendChild(qtyWrap);
-      row.appendChild(del);
-
-      list.appendChild(row);
     });
-  }
-
-  function addItemToCurrent(label){
-    if (!dlgKey) return;
-    const data = dataForKey(dlgKey);
-    const i = data.items.findIndex(x => x.label.toLowerCase() === label.toLowerCase());
-    if (i >= 0) data.items[i].qty = (data.items[i].qty ?? 0) + 1;
-    else data.items.push({ label, qty: 1 });
-    renderList();
-  }
-
-  function changeQty(idx, value){
-    const data = dataForKey(dlgKey);
-    if (!data.items[idx]) return;
-    data.items[idx].qty = Math.max(0, Math.trunc(Number(value || 0)));
-    renderList();
-  }
-
-  function removeItem(idx){
-    const data = dataForKey(dlgKey);
-    if (!data.items[idx]) return;
-    data.items.splice(idx, 1);
-    renderList();
-  }
-
-  /* =======================
-     Pastille DOM (par carte)
-     ======================= */
-  function ensureBadgeButton(card){
-    if (!card.classList.contains('has-badge')) card.classList.add('has-badge');
-    let btn = card.querySelector(':scope > .badge-button');
-    if (!btn){
-      btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'badge-button';
-      btn.title = 'Ouvrir la liste';
-      btn.setAttribute('aria-label', 'Ouvrir la liste de cette carte');
-      // éviter d'interférer avec drag/dblclick de la carte
-      btn.addEventListener('mousedown', (e) => { e.stopPropagation(); });
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openDialogForCard(card);
-      });
-      card.appendChild(btn);
-    }
-    return btn;
-  }
-
-  function removeBadge(card){
-    card.classList.remove('has-badge');
-    card.querySelector(':scope > .badge-button')?.remove();
-    const key = card.dataset.cardId;
-    if (key) {
-      store.delete(key);                                  // ❗ supprime la liste associée
-      if (dlgKey === key && dlg?.open) dlg.close();       // ferme si on regardait cette carte
-    }
-  }
-
-  function toggleBadge(cards){
-    cards.forEach(card => {
-      if (card.classList.contains('has-badge')) removeBadge(card);
-      else ensureBadgeButton(card);
-    });
-  }
-
-  /* =======================
-     Raccourci clavier (cartes)
-     ======================= */
-  const isEditable = (el) =>
-    el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
-
-  document.addEventListener('keydown', (e) => {
-    if (isEditable(e.target)) return;
-    if (!(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== 'c') return;
-
-    const selectedCards = Array.from(document.querySelectorAll('.card.selected'));
-    if (!selectedCards.length) return; // pas de sélection → laisser le copier natif
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    toggleBadge(selectedCards);
   });
-
-  /* =======================
-     Bouton permanent “Liste” (Points de vie)
-     ======================= */
-  function ensureLifeButton(){
-    const title = document.querySelector('.zone--life .zone-title');
-    if (!title) return;
-    if (title.querySelector('.life-list-btn')) return;
-
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'life-list-btn';
-    btn.textContent = 'Liste'; // tu peux mettre une icône si tu veux
-    btn.title = 'Ouvrir la liste Points de vie';
-    btn.setAttribute('aria-label', 'Ouvrir la liste Points de vie');
-
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openDialogForKey(LIFE_KEY, 'Liste — Points de vie');
-    });
-
-    title.appendChild(btn);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ensureLifeButton);
-  } else {
-    ensureLifeButton();
-  }
-
-  /* =======================
-     Nettoyage si carte retirée du DOM
-     ======================= */
-  const root = document.querySelector('main.board') || document.body;
-  const obs = new MutationObserver((mutations) => {
-    for (const m of mutations) {
-      m.removedNodes && m.removedNodes.forEach(node => {
-        if (!(node instanceof HTMLElement)) return;
-        const cards = node.matches?.('.card') ? [node] : Array.from(node.querySelectorAll?.('.card') || []);
-        cards.forEach(c => {
-          const key = c.dataset?.cardId;
-          if (key && store.has(key)) {
-            store.delete(key);
-            if (dlgKey === key && dlg?.open) dlg.close();
-          }
-        });
-      });
-    }
-  });
-  obs.observe(root, { childList: true, subtree: true });
+  mo.observe(document.documentElement, { childList:true, subtree:true });
 })();
+
+/* =========================
+   Dialog — liste par carte
+   ========================= */
+function buildListDialog({ title='Liste', items=[], readonly=false, onChange, onClose }={}){
+  const dlg = document.createElement('dialog');
+  dlg.className = 'list-dialog';
+  dlg.innerHTML = `
+    <div class="list-sheet">
+      <div class="list-header">
+        <strong>${title}</strong>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button type="button" class="btn btn-close" title="Fermer">×</button>
+        </div>
+      </div>
+
+      <div class="addbar" ${readonly ? 'style="display:none;"' : ''}>
+        <input type="text" class="add-input" placeholder="Ajouter un item… (Entrée pour valider)">
+        <button type="button" class="btn btn-primary add-btn">Ajouter</button>
+      </div>
+
+      <div class="list-body"></div>
+
+      <div class="footer-actions" ${readonly ? 'style="display:none;"' : ''}>
+        <button type="button" class="btn btn-primary btn-save">Enregistrer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(dlg);
+
+  const body = dlg.querySelector('.list-body');
+  const input = dlg.querySelector('.add-input');
+  const addBtn = dlg.querySelector('.add-btn');
+  const btnClose = dlg.querySelector('.btn-close');
+  const btnSave = dlg.querySelector('.btn-save');
+
+  let data = items.map(x => ({ label: String(x.label||'').trim(), qty: Math.max(0, Math.trunc(x.qty||0)) }))
+                  .filter(x => x.label);
+
+  function render(){
+    body.innerHTML = '';
+    if (!data.length){
+      const empty = document.createElement('div');
+      empty.style.cssText = 'opacity:.7; padding:8px; text-align:center;';
+      empty.textContent = 'Aucun item';
+      body.appendChild(empty);
+      return;
+    }
+    data.forEach((it, idx) => {
+      const row = document.createElement('div');
+      row.className = 'list-row' + (readonly ? ' readonly' : '');
+      row.innerHTML = `
+        <input type="text" class="lbl" value="${it.label.replaceAll('"','&quot;')}" ${readonly?'disabled':''} />
+        <div class="qty-wrap">
+          <button type="button" class="btn qty-btn btn-inc" ${readonly?'disabled':''}>▲</button>
+          <button type="button" class="btn qty-btn btn-dec" ${readonly?'disabled':''}>▼</button>
+        </div>
+        <input type="number" class="qty" min="0" value="${it.qty}" ${readonly?'disabled':''}/>
+        <button type="button" class="btn remove-btn ${readonly?'':'btn-danger'}" ${readonly?'disabled':''}>✕</button>
+      `;
+      const lbl = row.querySelector('.lbl');
+      const qn  = row.querySelector('.qty');
+      const inc = row.querySelector('.btn-inc');
+      const dec = row.querySelector('.btn-dec');
+      const rm  = row.querySelector('.remove-btn');
+
+      if (!readonly){
+        lbl.addEventListener('input', () => { data[idx].label = lbl.value.trim(); });
+        qn.addEventListener('input', () => {
+          const n = Math.max(0, Math.trunc(Number(qn.value||0))); data[idx].qty = n; qn.value = String(n);
+        });
+        inc.addEventListener('click', () => { data[idx].qty = Math.max(0, (data[idx].qty||0) + 1); qn.value = data[idx].qty; });
+        dec.addEventListener('click', () => { data[idx].qty = Math.max(0, (data[idx].qty||0) - 1); qn.value = data[idx].qty; });
+        rm.addEventListener('click', () => { data.splice(idx,1); render(); });
+      }
+
+      body.appendChild(row);
+    });
+  }
+
+  function addFromInput(){
+    const v = input.value.trim();
+    if (!v) return;
+    data.push({ label:v, qty: 1 });
+    input.value = '';
+    render();
+  }
+
+  if (!readonly){
+    addBtn.addEventListener('click', addFromInput);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter'){ e.preventDefault(); addFromInput(); }
+    });
+    btnSave.addEventListener('click', () => { onChange?.(data); dlg.close('ok'); });
+  }
+  btnClose.addEventListener('click', () => { dlg.close('cancel'); });
+
+  dlg.addEventListener('close', () => {
+    onClose?.();
+    setTimeout(() => dlg.remove(), 0);
+  });
+
+  dlg.showModal();
+  render();
+  input?.focus();
+  return dlg;
+}
+
+/* Ouvre la liste associée à une carte */
+function openCardListDialog(cardId, readonly){
+  const st = readBadgeForCard(cardId);
+  buildListDialog({
+    title: 'Liste — Carte',
+    items: st.items || [],
+    readonly,
+    onChange: (items) => {
+      updateBadgeForCard(cardId, { has: true, items });
+    }
+  });
+}
+
+/* =========================
+   Bouton “Liste” Points de vie
+   ========================= */
+function ensureLifeListButton(){
+  const zone = qs('.zone--life');
+  if (!zone) return;
+  const title = zone.querySelector('.zone-title');
+  if (!title) return;
+  if (title.querySelector('.btn-life-list')) return;
+
+  const btn = document.createElement('button');
+  btn.className = 'btn btn-life-list';
+  btn.textContent = 'Liste';
+  btn.style.marginLeft = '6px';
+  btn.title = 'Ouvrir la liste (Points de vie)';
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const ro = isReadonly(zone);
+    buildListDialog({
+      title: 'Liste — Points de vie',
+      items: getLifeListItems(),
+      readonly: ro,
+      onChange: (items) => setLifeListItems(items)
+    });
+  });
+
+  title.appendChild(btn);
+}
+
+/* Observer (overlay inclu) */
+(function observeLifeZone(){
+  ensureLifeListButton();
+  const mo = new MutationObserver(() => ensureLifeListButton());
+  mo.observe(document.documentElement, { childList:true, subtree:true });
+})();
+
+/* =========================
+   Ctrl + C : toggle pastille
+   -> uniquement sur .card.selected
+   -> supprime la liste associée quand on retire la pastille
+   ========================= */
+document.addEventListener('keydown', (e) => {
+  if (!e.ctrlKey || e.key.toLowerCase() !== 'c') return;
+  if (isInputLike(e.target)) return;
+
+  const cards = qsa('.card.selected');
+  if (!cards.length) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  cards.forEach(card => {
+    const id = card.dataset.cardId;
+    const st = readBadgeForCard(id);
+    const next = !st.has; // toggle
+    if (next) {
+      updateBadgeForCard(id, { has: true, items: st.items || [] });
+      card.classList.add('has-badge');
+    } else {
+      deleteBadgeForCard(id); // supprime pastille + liste
+      card.classList.remove('has-badge');
+    }
+  });
+});
+
+/* =========================
+   Initial pass
+   ========================= */
+document.addEventListener('DOMContentLoaded', () => {
+  qsa('.card').forEach(installBadgeForCard);
+  ensureLifeListButton();
+});

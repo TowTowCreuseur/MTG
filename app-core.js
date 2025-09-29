@@ -7,10 +7,12 @@
    - deck() (getter)
    - shuffleDeck(), spawnTopCardForDrag()
    - openSearchModal(), openExileSearchModal(), openGraveyardSearchModal(), openTokenDialog()
-   - serializeBoard()  ⟵ inclut l’ordre du deck
-   - restoreBoard(state) ⟵ restaure zones, stores et deck
+   - serializeBoard()  ⟵ inclut l’ordre du deck + badges + lifeList
+   - restoreBoard(state) ⟵ restaure zones, stores, deck + badges + lifeList
    - initCore() (démarrage local)
-   - ✅ attachPreviewListeners(el) ⟵ active le même zoom-aperçu que sur tes cartes locales
+   - ✅ attachPreviewListeners(el) ⟵ zoom-aperçu
+   - ✅ API badges/liste : readBadgeForCard(), updateBadgeForCard(), deleteBadgeForCard()
+   - ✅ API liste globale vie : getLifeListItems(), setLifeListItems()
 */
 
 export const ZONES = {
@@ -32,6 +34,47 @@ export const randomId = () => {
   try { if (window.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID(); } catch {}
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;
 };
+
+/* =========================================================
+   ======  BADGES & LISTES (persistantes) — ÉTAT  ======
+   - _cardBadges : { [cardId]: { has:boolean, items:[{label,qty}] } }
+   - _lifeList   : { items:[{label,qty}] }
+   Exposé via helpers exportés pour que card-badges.js lise/écrive.
+   ========================================================= */
+
+const _cardBadges = Object.create(null);
+let _lifeList = { items: [] };
+
+function normItems(items){
+  const arr = Array.isArray(items) ? items : [];
+  return arr
+    .map(x => ({ label: String(x?.label ?? '').trim(), qty: Math.max(0, Math.trunc(Number(x?.qty ?? 0))) }))
+    .filter(x => x.label);
+}
+
+export function readBadgeForCard(cardId){
+  if (!cardId) return { has:false, items:[] };
+  const e = _cardBadges[cardId];
+  return e ? { has: !!e.has, items: normItems(e.items) } : { has:false, items:[] };
+}
+export function updateBadgeForCard(cardId, { has, items } = {}){
+  if (!cardId) return;
+  if (!_cardBadges[cardId]) _cardBadges[cardId] = { has:false, items: [] };
+  if (typeof has === 'boolean') _cardBadges[cardId].has = has;
+  if (items) _cardBadges[cardId].items = normItems(items);
+  // Mise à jour DOM si la carte est présente
+  const el = document.querySelector(`.card[data-card-id="${CSS.escape(cardId)}"]`);
+  if (el) el.classList.toggle('has-badge', !!_cardBadges[cardId].has);
+}
+export function deleteBadgeForCard(cardId){
+  if (!cardId) return;
+  delete _cardBadges[cardId];
+  const el = document.querySelector(`.card[data-card-id="${CSS.escape(cardId)}"]`);
+  if (el) el.classList.remove('has-badge');
+}
+
+export function getLifeListItems(){ return normItems(_lifeList.items); }
+export function setLifeListItems(items){ _lifeList.items = normItems(items); }
 
 /* =========================================================
    TOKENS: normalisation + recherche Scryfall (réutilisable)
@@ -240,6 +283,10 @@ export function createCardEl(card, { faceDown=false, isToken=false, interactive=
     <div class="card-name">${card.name}</div>
   `;
 
+  // ✅ Badge visuel si présent en mémoire ou si le payload carte le précise
+  const badge = readBadgeForCard(card.id);
+  if (badge.has || card.hasBadge) el.classList.add('has-badge');
+
   if (interactive) attachCardListeners(el);
   return el;
 }
@@ -355,8 +402,10 @@ export const exileStore = [];
 export const graveyardStore = [];
 
 function cardElToObj(el){
+  const id = el.dataset.cardId;
+  const b = readBadgeForCard(id);
   return {
-    id: el.dataset.cardId,
+    id,
     name: el.querySelector('.card-name')?.textContent || '',
     type: el.querySelector('.card-type')?.textContent || '',
     imageSmall: el.dataset.imageSmall || null,
@@ -364,7 +413,10 @@ function cardElToObj(el){
     tapped: el.classList.contains('tapped'),
     phased: el.classList.contains('phased'),
     faceDown: el.classList.contains('face-down'),
-    isToken: el.dataset.isToken === '1'
+    isToken: el.dataset.isToken === '1',
+    // ✅ badge sérialisé dans les stores aussi
+    hasBadge: !!b.has,
+    badgeItems: b.items
   };
 }
 
@@ -446,7 +498,9 @@ function onZoneDrop(e) {
         name: obj.name,
         type: obj.type || '',
         imageSmall: obj.imageSmall || null,
-        imageNormal: obj.imageNormal || null
+        imageNormal: obj.imageNormal || null,
+        hasBadge: !!obj.hasBadge,
+        badgeItems: obj.badgeItems || []
       });
       updateDeckCount();
     }
@@ -486,6 +540,11 @@ export function spawnTopCardForDrag() {
   updateDeckCount();
   const hand = qs('.zone--main .cards--hand') || qs('.zone--main .cards');
   const el = createCardEl(top, { faceDown: false });
+  // ✅ si la carte avait un badge dans le deck, on rétablit son état mémoire
+  if (top.hasBadge || (top.badgeItems && top.badgeItems.length)) {
+    updateBadgeForCard(top.id, { has: !!top.hasBadge, items: top.badgeItems || [] });
+    el.classList.toggle('has-badge', !!top.hasBadge);
+  }
   hand.appendChild(el);
   el.scrollIntoView({ block: 'nearest', inline: 'end', behavior: 'smooth' });
 }
@@ -533,7 +592,12 @@ export function openSearchModal() {
         const picked = _deck.splice(idx, 1)[0];
         updateDeckCount();
         const hand = qs('.zone--main .cards--hand') || qs('.zone--main .cards');
-        hand.appendChild(createCardEl(picked, { faceDown: false }));
+        const el = createCardEl(picked, { faceDown: false });
+        if (picked.hasBadge || (picked.badgeItems && picked.badgeItems.length)) {
+          updateBadgeForCard(picked.id, { has: !!picked.hasBadge, items: picked.badgeItems || [] });
+          el.classList.toggle('has-badge', !!picked.hasBadge);
+        }
+        hand.appendChild(el);
         hand.lastElementChild?.scrollIntoView({ block: 'nearest', inline: 'end', behavior: 'smooth' });
       }
       item.remove();
@@ -604,10 +668,16 @@ export function openExileSearchModal() {
       if (realIdx !== -1) {
         const picked = exileStore.splice(realIdx, 1)[0];
         const hand = qs('.zone--main .cards--hand') || qs('.zone--main .cards');
-        hand.appendChild(createCardEl({
+        const el = createCardEl({
           id: picked.id, name: picked.name, type: picked.type,
-          imageSmall: picked.imageSmall, imageNormal: picked.imageNormal
-        }, { faceDown: false }));
+          imageSmall: picked.imageSmall, imageNormal: picked.imageNormal,
+          hasBadge: !!picked.hasBadge
+        }, { faceDown: false });
+        if (picked.hasBadge || (picked.badgeItems && picked.badgeItems.length)) {
+          updateBadgeForCard(picked.id, { has: !!picked.hasBadge, items: picked.badgeItems || [] });
+          el.classList.toggle('has-badge', !!picked.hasBadge);
+        }
+        hand.appendChild(el);
         hand.lastElementChild?.scrollIntoView({ block: 'nearest', inline: 'end', behavior: 'smooth' });
       }
       item.remove();
@@ -669,10 +739,16 @@ export function openGraveyardSearchModal() {
       if (realIdx !== -1) {
         const picked = graveyardStore.splice(realIdx, 1)[0];
         const hand = qs('.zone--main .cards--hand') || qs('.zone--main .cards');
-        hand.appendChild(createCardEl({
+        const el = createCardEl({
           id: picked.id, name: picked.name, type: picked.type,
-          imageSmall: picked.imageSmall, imageNormal: picked.imageNormal
-        }, { faceDown: false }));
+          imageSmall: picked.imageSmall, imageNormal: picked.imageNormal,
+          hasBadge: !!picked.hasBadge
+        }, { faceDown: false });
+        if (picked.hasBadge || (picked.badgeItems && picked.badgeItems.length)) {
+          updateBadgeForCard(picked.id, { has: !!picked.hasBadge, items: picked.badgeItems || [] });
+          el.classList.toggle('has-badge', !!picked.hasBadge);
+        }
+        hand.appendChild(el);
         hand.lastElementChild?.scrollIntoView({ block: 'nearest', inline: 'end', behavior: 'smooth' });
       }
       item.remove();
@@ -698,11 +774,7 @@ export function openGraveyardSearchModal() {
   if (shuffleBtn) setTimeout(() => { shuffleBtn.style.display = ''; }, 0);
 }
 
-/* ===== TOKENS (Scryfall) =====
-   Version utilisant scryfallTokenSearch() défini plus haut
-   - même fenêtre (dimensions/styles) que app.js
-   - clic "Ajouter au plateau" → demande quantité → placement auto équilibré
-*/
+/* ===== TOKENS (Scryfall) ===== */
 function askTokenQuantityAndAdd(card){
   const dlg = document.createElement('dialog');
   dlg.className = 'modal-token-qty';
@@ -1101,24 +1173,32 @@ function cardObj(c){
   return {
     id: c.id, name: c.name, type: c.type || '',
     imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null,
-    tapped: !!c.tapped, phased: !!c.phased, faceDown: !!c.faceDown, isToken: !!c.isToken
+    tapped: !!c.tapped, phased: !!c.phased, faceDown: !!c.faceDown, isToken: !!c.isToken,
+    hasBadge: !!c.hasBadge,
+    badgeItems: normItems(c.badgeItems || [])
   };
 }
 
 export function serializeBoard(){
   const root = qs('main.board') || document;
 
-  const cardToObj = (el) => ({
-    id: el.dataset.cardId,
-    name: el.querySelector('.card-name')?.textContent || '',
-    type: el.querySelector('.card-type')?.textContent || '',
-    imageSmall: el.dataset.imageSmall || null,
-    imageNormal: el.dataset.imageNormal || null,
-    tapped: el.classList.contains('tapped'),
-    phased: el.classList.contains('phased'),
-    faceDown: el.classList.contains('face-down'),
-    isToken: el.dataset.isToken === '1'
-  });
+  const cardToObj = (el) => {
+    const id = el.dataset.cardId;
+    const b = readBadgeForCard(id);
+    return ({
+      id,
+      name: el.querySelector('.card-name')?.textContent || '',
+      type: el.querySelector('.card-type')?.textContent || '',
+      imageSmall: el.dataset.imageSmall || null,
+      imageNormal: el.dataset.imageNormal || null,
+      tapped: el.classList.contains('tapped'),
+      phased: el.classList.contains('phased'),
+      faceDown: el.classList.contains('face-down'),
+      isToken: el.dataset.isToken === '1',
+      hasBadge: !!b.has,
+      badgeItems: b.items
+    });
+  };
 
   const simpleZone = (sel) =>
     Array.from(root.querySelectorAll(sel + ' .cards .card')).map(cardToObj);
@@ -1132,6 +1212,7 @@ export function serializeBoard(){
   return {
     ts: Date.now(),
     life: _lifeTotal,
+    lifeList: { items: getLifeListItems() }, // ✅ liste globale Points de vie
     zones: {
       pioche:    simpleZone('.zone--pioche'),
       commander: simpleZone('.zone--commander'),
@@ -1141,8 +1222,8 @@ export function serializeBoard(){
       bataille:  battlefield
     },
     stores: {
-      exil: exileStore.map(x => ({ ...x })),
-      cimetiere: graveyardStore.map(x => ({ ...x }))
+      exil: exileStore.map(x => ({ ...x, hasBadge: !!x.hasBadge, badgeItems: normItems(x.badgeItems || []) })),
+      cimetiere: graveyardStore.map(x => ({ ...x, hasBadge: !!x.hasBadge, badgeItems: normItems(x.badgeItems || []) }))
     },
     deck: _deck.map(cardObj) // ordre complet (haut = fin du tableau)
   };
@@ -1155,15 +1236,46 @@ export function restoreBoard(state){
   _lifeTotal = Number.isFinite(state.life) ? Math.trunc(state.life) : 40;
   updateLifeDisplay();
 
+  // ✅ Liste Points de vie
+  _lifeList = { items: normItems(state.lifeList?.items || []) };
+
   // Stores (cachés)
-  exileStore.splice(0, exileStore.length, ...((state.stores?.exil) || []));
-  graveyardStore.splice(0, graveyardStore.length, ...((state.stores?.cimetiere) || []));
+  exileStore.splice(0, exileStore.length, ...((state.stores?.exil || []).map(cardObj)));
+  graveyardStore.splice(0, graveyardStore.length, ...((state.stores?.cimetiere || []).map(cardObj)));
 
   // Deck (ordre complet)
   if (Array.isArray(state.deck)) {
     _deck = state.deck.map(cardObj);
   }
   updateDeckCount();
+
+  // Rebuild badges mémoire d’après zones/stores/deck
+  Object.keys(_cardBadges).forEach(k => delete _cardBadges[k]); // reset
+  const collect = [];
+  const pushBadge = (c) => {
+    if (!c?.id) return;
+    if (c.hasBadge || (c.badgeItems && c.badgeItems.length)) {
+      _cardBadges[c.id] = { has: !!c.hasBadge, items: normItems(c.badgeItems || []) };
+    }
+  };
+
+  // zones
+  const allZones = [
+    ...(state.zones?.pioche || []),
+    ...(state.zones?.commander || []),
+    ...(state.zones?.cimetiere || []),
+    ...(state.zones?.exil || []),
+    ...(state.zones?.main || []),
+    ...((state.zones?.bataille || []).flat() || [])
+  ];
+  collect.push(...allZones);
+  // stores
+  collect.push(...(state.stores?.exil || []));
+  collect.push(...(state.stores?.cimetiere || []));
+  // deck
+  collect.push(...(state.deck || []));
+
+  collect.forEach(pushBadge);
 
   // Helper DOM reset
   const clearZone = (sel) => { const z = qs(sel); const holder = z?.querySelector('.cards') || z; if (holder) holder.innerHTML = ''; };
@@ -1174,6 +1286,7 @@ export function restoreBoard(state){
       const el = createCardEl(c, { faceDown: !!c.faceDown, isToken: !!c.isToken, interactive:true });
       el.classList.toggle('tapped', !!c.tapped);
       el.classList.toggle('phased', !!c.phased);
+      el.classList.toggle('has-badge', !!c.hasBadge); // ✅ visuel
       holder.appendChild(el);
     });
   };
@@ -1197,6 +1310,7 @@ export function restoreBoard(state){
       const el = createCardEl(c, { faceDown: !!c.faceDown, isToken: !!c.isToken, interactive:true });
       el.classList.toggle('tapped', !!c.tapped);
       el.classList.toggle('phased', !!c.phased);
+      el.classList.toggle('has-badge', !!c.hasBadge); // ✅ visuel
       holder.appendChild(el);
     });
   });
@@ -1350,7 +1464,7 @@ export function initCore(){
     if (el.closest('.btn-search-tokens'))        { openTokenDialog(); return; }
   });
 
-  // 🔁 Bouton "Untap all" (défini dans le HTML via .btn-untap-all)
+  // 🔁 Bouton "Untap all"
   qs('.btn-untap-all')?.addEventListener('click', untapAllLocal);
 
   // Boutons loupe (si absents)
