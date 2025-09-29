@@ -1,6 +1,7 @@
-// card-badges.js — Pastille cliquable + mini-liste par carte
-// Raccourci : Ctrl/⌘+C pour ajouter/retirer la pastille sur les cartes sélectionnées
-// Clic sur la pastille : ouvre un dialog pour gérer une liste d'items numérotés
+// card-badges.js — Pastille cliquable + mini-listes par carte + bouton “Liste” dans Points de vie
+// - Ctrl/⌘+C : toggle pastille sur cartes sélectionnées (la pastille dépasse et est cliquable indépendamment)
+// - Clic pastille : ouvre une fenêtre avec liste (items + quantités + suppression)
+// - Bouton permanent à côté de “Points de vie” : ouvre une liste IDENTIQUE mais globale (sans pastille)
 
 (() => {
   /* =======================
@@ -10,13 +11,13 @@
     const st = document.createElement("style");
     st.id = "cardBadgesStyles";
     st.textContent = `
-      /* La carte ne doit pas rogner la pastille qui dépasse */
+      /* Pastille carte : la carte ne doit pas rogner ce qui dépasse */
       .card.has-badge { position: relative; overflow: visible; z-index: 5; }
 
       /* Si un parent rogne encore, dé-commente au besoin : */
       /* .cards { overflow: visible !important; } */
 
-      /* Bouton pastille (DOM réel, cliquable indépendamment de la carte) */
+      /* Bouton pastille (DOM réel, cliquable) */
       .card > .badge-button{
         position: absolute;
         left: 50%;
@@ -64,18 +65,16 @@
       .badge-list{ overflow: auto; display: grid; gap: 8px; padding-right: 2px; }
       .badge-row{
         display: grid;
-        grid-template-columns: 1fr auto auto auto;
+        grid-template-columns: 1fr auto auto;
         align-items: center;
         gap: 8px;
         border: 1px solid #e6e6e6; border-radius: 10px; padding: 8px;
       }
-      .badge-name{ font-weight: 600; }
+      .badge-name{ font-weight: 600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
       .badge-qty-wrap{ display: flex; align-items: center; gap: 6px; }
       .badge-qty{
         width: 64px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 8px; text-align: right;
-      }
-      .badge-step{
-        display: inline-flex; gap: 6px;
       }
       .badge-btn{
         border: 0; background: #f1f1f1; border-radius: 8px; padding: 6px 10px; cursor: pointer;
@@ -88,6 +87,20 @@
         display: flex; justify-content: flex-end; gap: 8px;
       }
       .badge-footer .badge-close{ background: #efefef; }
+
+      /* --- Bouton “Liste” à côté de Points de vie --- */
+      .life-list-btn{
+        margin-left: 6px;
+        border: 0; border-radius: 8px;
+        padding: 4px 8px;
+        background: #f1f1f1;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      .life-list-btn:focus-visible{
+        outline: 2px solid #3aa0ff;
+        outline-offset: 2px;
+      }
     `;
     document.head.appendChild(st);
   }
@@ -95,12 +108,13 @@
   /* =======================
      État (en mémoire)
      ======================= */
-  // Données par carte : key = cardId (dataset.cardId) -> { items: [{label, qty}], ... }
-  const store = new Map();
+  // Données par "clé" : cardId (dataset.cardId) ou clé spéciale pour Points de vie
+  const LIFE_KEY = '__life__global__';
+  const store = new Map(); // key -> { items: [{label, qty}] }
 
   // Dialog global réutilisé
   let dlg = null;
-  let dlgCardId = null;
+  let dlgKey = null; // cardId ou LIFE_KEY
 
   /* =======================
      Helpers DOM / Dialog
@@ -112,7 +126,7 @@
     dlg.innerHTML = `
       <div class="badge-sheet">
         <header class="badge-header">
-          <div class="badge-title">Liste de la carte</div>
+          <div class="badge-title">Liste</div>
           <button class="badge-close" type="button" aria-label="Fermer">Fermer</button>
         </header>
         <div class="badge-searchbar">
@@ -153,38 +167,39 @@
       }
     });
 
-    // Fermer : nettoyer l'id courant
-    dlg.addEventListener('close', () => { dlgCardId = null; });
+    // Fermer : nettoyer la clé courante
+    dlg.addEventListener('close', () => { dlgKey = null; });
 
     return dlg;
+  }
+
+  function dataForKey(key){
+    if (!store.has(key)) store.set(key, { items: [] });
+    return store.get(key);
+  }
+
+  function openDialogForKey(key, titleText){
+    dlgKey = key;
+    ensureDialog();
+    const title = dlg.querySelector('.badge-title');
+    title.textContent = titleText || 'Liste';
+    renderList();
+    if (!dlg.open) dlg.showModal();
+    setTimeout(() => dlg.querySelector('.badge-input')?.focus(), 0);
   }
 
   function openDialogForCard(card){
     const cardId = card?.dataset?.cardId;
     if (!cardId) return;
-    dlgCardId = cardId;
-    ensureDialog();
-    // Titre contextualisé
-    const title = dlg.querySelector('.badge-title');
     const name = card.querySelector('.card-name')?.textContent || 'Carte';
-    title.textContent = `Liste — ${name}`;
-
-    renderList();
-    if (!dlg.open) dlg.showModal();
-    // Focus input
-    setTimeout(() => dlg.querySelector('.badge-input')?.focus(), 0);
-  }
-
-  function dataForCard(cardId){
-    if (!store.has(cardId)) store.set(cardId, { items: [] });
-    return store.get(cardId);
+    openDialogForKey(cardId, `Liste — ${name}`);
   }
 
   function renderList(){
-    if (!dlgCardId || !dlg) return;
+    if (!dlgKey || !dlg) return;
     const list = dlg.querySelector('.badge-list');
     list.innerHTML = '';
-    const data = dataForCard(dlgCardId);
+    const data = dataForKey(dlgKey);
 
     if (!data.items.length){
       const empty = document.createElement('div');
@@ -215,7 +230,6 @@
       const del = document.createElement('button');
       del.type = 'button'; del.className = 'badge-del'; del.textContent = '✕';
 
-      // Events
       minus.addEventListener('click', () => { changeQty(idx, (it.qty ?? 0) - 1); });
       plus.addEventListener('click',  () => { changeQty(idx, (it.qty ?? 0) + 1); });
       qty.addEventListener('change',  () => {
@@ -244,9 +258,8 @@
   }
 
   function addItemToCurrent(label){
-    if (!dlgCardId) return;
-    const data = dataForCard(dlgCardId);
-    // Si libellé déjà présent (insensible à la casse), on incrémente
+    if (!dlgKey) return;
+    const data = dataForKey(dlgKey);
     const i = data.items.findIndex(x => x.label.toLowerCase() === label.toLowerCase());
     if (i >= 0) data.items[i].qty = (data.items[i].qty ?? 0) + 1;
     else data.items.push({ label, qty: 1 });
@@ -254,21 +267,21 @@
   }
 
   function changeQty(idx, value){
-    const data = dataForCard(dlgCardId);
+    const data = dataForKey(dlgKey);
     if (!data.items[idx]) return;
     data.items[idx].qty = Math.max(0, Math.trunc(Number(value || 0)));
     renderList();
   }
 
   function removeItem(idx){
-    const data = dataForCard(dlgCardId);
+    const data = dataForKey(dlgKey);
     if (!data.items[idx]) return;
     data.items.splice(idx, 1);
     renderList();
   }
 
   /* =======================
-     Pastille DOM
+     Pastille DOM (par carte)
      ======================= */
   function ensureBadgeButton(card){
     if (!card.classList.contains('has-badge')) card.classList.add('has-badge');
@@ -279,7 +292,7 @@
       btn.className = 'badge-button';
       btn.title = 'Ouvrir la liste';
       btn.setAttribute('aria-label', 'Ouvrir la liste de cette carte');
-      // Ne pas laisser ce clic “toucher” la carte (drag/dblclick)
+      // éviter d'interférer avec drag/dblclick de la carte
       btn.addEventListener('mousedown', (e) => { e.stopPropagation(); });
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -293,10 +306,10 @@
   function removeBadge(card){
     card.classList.remove('has-badge');
     card.querySelector(':scope > .badge-button')?.remove();
-    const cardId = card.dataset.cardId;
-    if (cardId) {
-      store.delete(cardId);                       // ❗ supprime la liste associée
-      if (dlgCardId === cardId && dlg?.open) dlg.close(); // ferme si on regardait cette carte
+    const key = card.dataset.cardId;
+    if (key) {
+      store.delete(key);                                  // ❗ supprime la liste associée
+      if (dlgKey === key && dlg?.open) dlg.close();       // ferme si on regardait cette carte
     }
   }
 
@@ -308,7 +321,7 @@
   }
 
   /* =======================
-     Raccourci clavier
+     Raccourci clavier (cartes)
      ======================= */
   const isEditable = (el) =>
     el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
@@ -318,13 +331,42 @@
     if (!(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== 'c') return;
 
     const selectedCards = Array.from(document.querySelectorAll('.card.selected'));
-    if (!selectedCards.length) return; // pas de sélection → on ne bloque pas le copier
+    if (!selectedCards.length) return; // pas de sélection → laisser le copier natif
 
     e.preventDefault();
     e.stopPropagation();
 
     toggleBadge(selectedCards);
   });
+
+  /* =======================
+     Bouton permanent “Liste” (Points de vie)
+     ======================= */
+  function ensureLifeButton(){
+    const title = document.querySelector('.zone--life .zone-title');
+    if (!title) return;
+    if (title.querySelector('.life-list-btn')) return;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'life-list-btn';
+    btn.textContent = 'Liste'; // tu peux mettre une icône si tu veux
+    btn.title = 'Ouvrir la liste Points de vie';
+    btn.setAttribute('aria-label', 'Ouvrir la liste Points de vie');
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDialogForKey(LIFE_KEY, 'Liste — Points de vie');
+    });
+
+    title.appendChild(btn);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureLifeButton);
+  } else {
+    ensureLifeButton();
+  }
 
   /* =======================
      Nettoyage si carte retirée du DOM
@@ -336,10 +378,10 @@
         if (!(node instanceof HTMLElement)) return;
         const cards = node.matches?.('.card') ? [node] : Array.from(node.querySelectorAll?.('.card') || []);
         cards.forEach(c => {
-          const id = c.dataset?.cardId;
-          if (id && store.has(id)) {
-            store.delete(id);
-            if (dlgCardId === id && dlg?.open) dlg.close();
+          const key = c.dataset?.cardId;
+          if (key && store.has(key)) {
+            store.delete(key);
+            if (dlgKey === key && dlg?.open) dlg.close();
           }
         });
       });
