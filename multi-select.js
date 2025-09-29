@@ -163,8 +163,19 @@ function finRect(){
   touchesDansCeDrag.clear();
 }
 
-/* ---------- (Dé)sélection au clic ---------- */
 document.addEventListener('pointerdown', demarrerRect);
+
+/* ---------- Clic avec délai 0,5 s (uniquement pour clic simple) ---------- */
+const TEMPO_CLIC_MS = 500;
+const timersParCarte = new Map(); // Element -> setTimeout id
+
+// Annule tous les timers (utile si un dblclick global survient)
+function annulerTousLesTimers(){
+  for (const id of timersParCarte.values()) clearTimeout(id);
+  timersParCarte.clear();
+}
+// En cas de double-clic natif, on annule toute sélection différée
+document.addEventListener('dblclick', annulerTousLesTimers, true);
 
 document.addEventListener('click', (e) => {
   if (ignorerProchainClick) { ignorerProchainClick = false; return; }
@@ -175,19 +186,23 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  const deja = card.classList.contains('selected');
-
-  if (e.ctrlKey || e.metaKey) {         // Ctrl/⌘+clic : toggle
+  // Ctrl/⌘+clic : toggle immédiat (pas de délai)
+  if (e.ctrlKey || e.metaKey) {
+    const pending = timersParCarte.get(card);
+    if (pending) { clearTimeout(pending); timersParCarte.delete(card); }
     basculer(card);
     return;
   }
 
-  if (deja) {                            // clic simple sur une carte sélectionnée : désélectionner
-    retirer(card);
-  } else {                               // sinon, sélection exclusive
-    vider();
-    ajouter(card);
-  }
+  // Clic simple : attendre 0,5 s puis basculer la carte cliquée (sans vider la sélection)
+  const exist = timersParCarte.get(card);
+  if (exist) { clearTimeout(exist); timersParCarte.delete(card); return; }
+
+  const id = setTimeout(() => {
+    timersParCarte.delete(card);
+    basculer(card); // ⬅️ toggle simple, ne désélectionne pas les autres
+  }, TEMPO_CLIC_MS);
+  timersParCarte.set(card, id);
 }, true);
 
 /* ---------- Raccourcis clavier ---------- */
@@ -195,6 +210,8 @@ document.addEventListener('keydown', (e) => {
   if (cibleEditable(e.target)) return;   // laisser les champs texte tranquilles
   const aSel = selection.size > 0;
   const mod = e.ctrlKey || e.metaKey;    // Windows Ctrl / macOS ⌘
+
+  // On n’intercepte ces raccourcis que s’il existe au moins une sélection.
   if (!mod || !aSel) return;
 
   const k = e.key.toLowerCase();
