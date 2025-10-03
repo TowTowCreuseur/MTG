@@ -4,6 +4,9 @@
    - ✅ Cartes adverses cliquables → ouvrent la LISTE associée à la pastille (lecture seule)
    - ✅ Bouton “Liste” dans Points de vie adverse → ouvre la LISTE globale de l’adversaire (lecture seule)
    - ✅ Barre de joueurs (pseudos cliquables) + sélecteur : bascule d’un plateau à l’autre
+   - ✅ Raccourcis: Ctrl/⌘ + ←/→ navigation ; Ctrl/⌘ + ↑ ouverture ; Ctrl/⌘ + ↓ fermeture
+   - ✅ “Placement” : écran d’affectation des flèches (← ↑ →) à des adversaires (exclusivité)
+   - ✅ Si > 4 joueurs au total : pas de bouton Placement + raccourcis en mode navigation (↑ pour ouvrir, ←/→ pour parcourir)
    - Patch ciblé + refresh périodique 5s (y compris modale loupe ouverte)
    - Connexion WebSocket persistante sur refresh
 */
@@ -90,6 +93,16 @@ function ensurePlayersBar(){
     .player-dot{
       width:8px; height:8px; border-radius:50%; background:#555;
     }
+    .placement-btn{
+      border:1px solid #ddd; background:#f7f7f7; border-radius:999px; padding:4px 10px; font-size:12px; cursor:pointer;
+    }
+    /* Dialog Placement */
+    #placementDialog::backdrop{ background:rgba(0,0,0,.45); }
+    .placement-sheet{ background:#fff; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); padding:16px; width:min(720px,95vw); }
+    .placement-row{ display:grid; grid-template-columns: 1fr auto auto auto; gap:8px; align-items:center; }
+    .dir-btn{ border:1px solid #ddd; background:#f9f9f9; border-radius:8px; padding:6px 10px; cursor:pointer; min-width:40px; }
+    .dir-btn[data-active="true"]{ background:#ffefef; border-color:#e53935; color:#b71c1c; font-weight:700; }
+    .dir-btn[disabled]{ opacity:.45; cursor:not-allowed; }
   `;
   document.head.appendChild(style);
   (qs('.board') || document.body).appendChild(bar);
@@ -126,6 +139,17 @@ function renderPlayersBar(){
   for (const [pid, obj] of Object.entries(otherStates)) {
     const name = obj.name || pid;
     bar.appendChild(makeChip(name, pid, currentView === pid));
+  }
+
+  // Bouton Placement (uniquement si ≤ 4 joueurs au total)
+  if (getTotalPlayersCount() <= 4) {
+    const placeBtn = document.createElement('button');
+    placeBtn.type = 'button';
+    placeBtn.className = 'placement-btn';
+    placeBtn.textContent = 'Placement';
+    placeBtn.title = 'Associer des flèches à des adversaires';
+    placeBtn.addEventListener('click', openPlacementDialog);
+    bar.appendChild(placeBtn);
   }
 }
 
@@ -609,6 +633,164 @@ function hideOpponentOverlay(){
   if (dlg?.open) dlg.close();
 }
 
+/* =================================================
+   NAVIGATION / RACCOURCIS CLAVIER + MAPPINGS
+   ================================================= */
+function getOpponentIdListSorted(){
+  return Object.entries(otherStates)
+    .map(([pid, obj]) => ({ pid, name: (obj?.name || pid).toLowerCase() }))
+    .sort((a, b) => a.name.localeCompare(b.name) || a.pid.localeCompare(b.pid))
+    .map(x => x.pid);
+}
+
+function switchOpponentByArrow(dir){
+  const dlg = qs('#opponentOverlay');
+  if (!dlg || !dlg.open) return;
+  const ids = getOpponentIdListSorted();
+  if (!ids.length) return;
+  const curPid = (currentView === 'self') ? ids[0] : currentView;
+
+  let idx = ids.indexOf(curPid);
+  if (idx === -1) idx = 0;
+  const nextIdx = (idx + (dir > 0 ? 1 : -1) + ids.length) % ids.length;
+  const nextPid = ids[nextIdx];
+  const o = otherStates[nextPid];
+  if (!o) return;
+
+  currentView = nextPid;
+
+  const sel = qs('#boardSelect');
+  if (sel && [...sel.options].some(o => o.value === nextPid)) sel.value = nextPid;
+  renderPlayersBar();
+
+  OPP_LIST_OPEN = null;
+  showOpponentOverlay(o.state, o.name, nextPid);
+}
+
+/* ----- Stockage & accès mapping ----- */
+const MAP_KEY = (room, me) => `mtg.persist.mapping.${room}.${me}`;
+function loadMapping(){
+  try {
+    const raw = localStorage.getItem(MAP_KEY(ROOM_ID, PLAYER_ID));
+    if (!raw) return { left:null, up:null, right:null };
+    const m = JSON.parse(raw);
+    return { left: m.left || null, up: m.up || null, right: m.right || null };
+  } catch { return { left:null, up:null, right:null }; }
+}
+function saveMapping(map){
+  try { localStorage.setItem(MAP_KEY(ROOM_ID, PLAYER_ID), JSON.stringify(map)); } catch {}
+}
+function resetMapping(){
+  saveMapping({ left:null, up:null, right:null });
+  // fermer le dialog si ouvert
+  const dlg = qs('#placementDialog');
+  if (dlg?.open) try { dlg.close(); } catch {}
+}
+
+/* ----- Placement UI ----- */
+function openPlacementDialog(){
+  // Si > 4 joueurs, ne pas ouvrir
+  if (getTotalPlayersCount() > 4) return;
+
+  const opps = getOpponentIdListSorted().map(pid => ({ pid, name: otherStates[pid]?.name || pid }));
+  const dlgId = 'placementDialog';
+  let dlg = qs(`#${dlgId}`);
+  if (dlg) try { dlg.close(); dlg.remove(); } catch {}
+
+  dlg = document.createElement('dialog');
+  dlg.id = dlgId;
+  dlg.innerHTML = `
+    <div class="placement-sheet">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+        <strong>Placement des flèches</strong>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn-cancel">Annuler</button>
+          <button type="button" class="btn-validate">Valider</button>
+        </div>
+      </div>
+      <div class="placement-body" style="display:grid; gap:8px;"></div>
+      <div style="margin-top:8px; opacity:.75; font-size:12px;">
+        • Une flèche (← ↑ →) ne peut être attribuée qu’à un seul adversaire.<br/>
+        • Chaque adversaire peut avoir au plus une flèche.<br/>
+        • Si plus de 4 joueurs, la configuration est désactivée et les raccourcis passent en mode navigation (↑ pour ouvrir, ←/→ pour parcourir).
+      </div>
+    </div>
+  `;
+  document.body.appendChild(dlg);
+
+  const body = dlg.querySelector('.placement-body');
+  const mapping = loadMapping(); // {left,up,right}
+  const chosenByPlayer = new Map(); // pid -> dir
+  const chosenDirToPid = { left: mapping.left, up: mapping.up, right: mapping.right };
+
+  Object.entries(mapping).forEach(([dir, pid]) => { if (pid) chosenByPlayer.set(pid, dir); });
+
+  function labelForDir(d){ return d==='left' ? '←' : d==='right' ? '→' : '↑'; }
+
+  function render(){
+    body.innerHTML = '';
+    opps.forEach(({pid, name}) => {
+      const row = document.createElement('div');
+      row.className = 'placement-row';
+      row.dataset.pid = pid;
+
+      const nameEl = document.createElement('div');
+      nameEl.textContent = name;
+
+      const mkBtn = (dir) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'dir-btn';
+        b.textContent = labelForDir(dir);
+        const active = chosenByPlayer.get(pid) === dir;
+        b.dataset.active = active ? 'true' : 'false';
+
+        const dirUsedElsewhere = chosenDirToPid[dir] && chosenDirToPid[dir] !== pid;
+        b.disabled = (!active && !!dirUsedElsewhere);
+
+        b.addEventListener('click', () => {
+          const cur = chosenByPlayer.get(pid);
+          if (cur === dir) {
+            chosenByPlayer.delete(pid);
+            if (chosenDirToPid[dir] === pid) chosenDirToPid[dir] = null;
+          } else {
+            if (cur) { chosenDirToPid[cur] = null; chosenByPlayer.delete(pid); }
+            const takenBy = chosenDirToPid[dir];
+            if (takenBy && takenBy !== pid) return; // bloqué
+            chosenByPlayer.set(pid, dir);
+            chosenDirToPid[dir] = pid;
+          }
+          render();
+        });
+
+        return b;
+      };
+
+      const bL = mkBtn('left');
+      const bU = mkBtn('up');
+      const bR = mkBtn('right');
+
+      row.appendChild(nameEl);
+      row.appendChild(bL);
+      row.appendChild(bU);
+      row.appendChild(bR);
+      body.appendChild(row);
+    });
+  }
+
+  dlg.querySelector('.btn-cancel')?.addEventListener('click', () => dlg.close());
+  dlg.querySelector('.btn-validate')?.addEventListener('click', () => {
+    const next = { left:null, up:null, right:null };
+    chosenByPlayer.forEach((dir, pid) => { next[dir] = pid; });
+    saveMapping(next);
+    dlg.close('ok');
+  });
+
+  dlg.addEventListener('close', () => { dlg.remove(); });
+  render();
+  dlg.showModal();
+}
+
 /* =================
    WEBSOCKET CLIENT
    ================= */
@@ -641,6 +823,9 @@ function setupMultiplayer(){
     let msg; try { msg = JSON.parse(data); } catch { return; }
     if (msg.type !== 'state') return;
 
+    // detect if this is a new player joining
+    const isNewPlayer = !!msg.playerId && !otherStates[msg.playerId] && msg.playerId !== PLAYER_ID;
+
     if (msg.playerId && typeof msg.name === 'string') {
       otherStates[msg.playerId] = otherStates[msg.playerId] || {};
       otherStates[msg.playerId].name = msg.name;
@@ -648,7 +833,23 @@ function setupMultiplayer(){
     if (msg.playerId === PLAYER_ID) return;
 
     otherStates[msg.playerId] = { name: msg.name, state: msg.state };
+
+    // Réinitialiser le mapping quand un nouveau joueur rejoint
+    if (isNewPlayer) {
+      resetMapping();
+    }
+
     refreshDropdown();
+
+    // Si > 4 joueurs, s'assurer que les boutons "Placement" disparaissent
+    if (getTotalPlayersCount() > 4) {
+      // retirer le bouton près d'Untap s'il existe
+      const nearBtn = qs('#btnPlacementNearUntap');
+      if (nearBtn) nearBtn.remove();
+      // fermer le dialog placement s'il est ouvert
+      const pd = qs('#placementDialog');
+      if (pd?.open) try { pd.close(); } catch {}
+    }
 
     if (currentView === msg.playerId) {
       const dlg = qs('#opponentOverlay');
@@ -707,6 +908,45 @@ function startPeriodicOverlayRefresh(){
 }
 
 /* =============
+   Raccourcis
+   ============= */
+function getTotalPlayersCount(){
+  // self + adversaires connus
+  return 1 + Object.keys(otherStates).length;
+}
+function openFirstOpponent(){
+  const ids = getOpponentIdListSorted();
+  if (!ids.length) return;
+  const pid = ids[0];
+  const o = otherStates[pid];
+  if (!o) return;
+  currentView = pid;
+  const sel = qs('#boardSelect');
+  if (sel && [...sel.options].some(x=>x.value===pid)) sel.value = pid;
+  renderPlayersBar();
+  OPP_LIST_OPEN = null;
+  showOpponentOverlay(o.state, o.name, pid);
+}
+
+function handleMappedJump(dir){
+  const total = getTotalPlayersCount();
+  const map = loadMapping(); // {left, up, right}
+  if (total > 4) return false; // fallback si > 4 joueurs au total
+  const pid = map[dir] || null;
+  if (!pid) return false;
+  const o = otherStates[pid];
+  if (!o) return false;
+
+  currentView = pid;
+  const sel = qs('#boardSelect');
+  if (sel && [...sel.options].some(x=>x.value===pid)) sel.value = pid;
+  renderPlayersBar();
+  OPP_LIST_OPEN = null;
+  showOpponentOverlay(o.state, o.name, pid);
+  return true;
+}
+
+/* =============
    Entrée
    ============= */
 function initMulti(){
@@ -742,12 +982,91 @@ function initMulti(){
     }
   });
 
+  // Raccourcis clavier : Ctrl/⌘ + ← / → (nav), Ctrl/⌘ + ↑ (ouvrir), Ctrl/⌘ + ↓ (fermer)
+  document.addEventListener('keydown', (e) => {
+    // Ignorer si on tape dans un champ texte
+    const t = e.target;
+    const isTyping = t && (
+      t.tagName === 'INPUT' ||
+      t.tagName === 'TEXTAREA' ||
+      t.isContentEditable
+    );
+    if (isTyping) return;
+
+    const ctrlOrMeta = e.ctrlKey || e.metaKey;
+    if (!ctrlOrMeta) return;
+
+    // Fermer
+    if (e.key === 'ArrowDown') {
+      const dlg = qs('#opponentOverlay');
+      if (dlg?.open) {
+        e.preventDefault();
+        hideOpponentOverlay();
+        currentView = 'self';
+        const sel = qs('#boardSelect'); if (sel) sel.value = 'self';
+        renderPlayersBar();
+      }
+      return;
+    }
+
+    // Ouverture (↑)
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const total = getTotalPlayersCount();
+      if (total <= 4 && handleMappedJump('up')) return; // jump direct si mapping valide
+      openFirstOpponent(); // sinon ouverture du premier adversaire
+      return;
+    }
+
+    // Sauts directs via mapping si overlay pas forcément ouvert
+    if (e.key === 'ArrowLeft') {
+      if (handleMappedJump('left')) { e.preventDefault(); return; }
+      const dlg = qs('#opponentOverlay');
+      if (dlg?.open) { e.preventDefault(); switchOpponentByArrow(-1); }
+      return;
+    }
+    if (e.key === 'ArrowRight') {
+      if (handleMappedJump('right')) { e.preventDefault(); return; }
+      const dlg = qs('#opponentOverlay');
+      if (dlg?.open) { e.preventDefault(); switchOpponentByArrow(+1); }
+      return;
+    }
+  });
+
   refreshDropdown();
   setupMultiplayer();
   startPeriodicOverlayRefresh();
 }
 
+/* -------- Placement button près de "Untap all" (si présent dans le DOM principal) ------- */
+function ensurePlacementButton(){
+  // Afficher uniquement si ≤ 4 joueurs au total
+  const anchor = qs('.btn-untap-all');
+  const existing = qs('#btnPlacementNearUntap');
+
+  if (getTotalPlayersCount() > 4) {
+    if (existing) existing.remove();
+    return;
+  }
+  if (!anchor || existing) return;
+
+  const b = document.createElement('button');
+  b.id = 'btnPlacementNearUntap';
+  b.type = 'button';
+  b.className = 'placement-btn';
+  b.style.marginLeft = '6px';
+  b.textContent = 'Placement';
+  b.title = 'Associer des flèches à des adversaires';
+  b.addEventListener('click', openPlacementDialog);
+  anchor.insertAdjacentElement('afterend', b);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initCore();
   initMulti();
+  // Injecter/synchroniser le bouton Placement près de "Untap all" selon le nombre de joueurs
+  ensurePlacementButton();
+  // Re-synchroniser si la barre est re-rendue plus tard (ex: adversaires arrivent)
+  const obs = new MutationObserver(() => ensurePlacementButton());
+  obs.observe(document.body, { childList: true, subtree: true });
 });

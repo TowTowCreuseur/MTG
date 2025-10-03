@@ -1,0 +1,686 @@
+{
+  "createdAt": "2025-10-03T23:21:56.604Z",
+  "cards": [
+    {
+      "id": "25d3e595-8a14-41be-8072-1d8c14b4679b",
+      "name": "Ajani l'inébranlable",
+      "type": "Planeswalker légendaire — Ajani",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/5/25d3e595-8a14-41be-8072-1d8c14b4679b.jpg?1734879153",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/5/25d3e595-8a14-41be-8072-1d8c14b4679b.jpg?1734879153",
+      "qty": 1
+    },
+    {
+      "id": "c4e057b6-257f-49da-94e7-ad51eb172b0f",
+      "name": "Cachet d'ésotérisme",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "qty": 1
+    },
+    {
+      "id": "5e3135be-f96c-46ba-8c64-a2e6e8d7c1e8",
+      "name": "Cachet d'Azorius",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/e/5e3135be-f96c-46ba-8c64-a2e6e8d7c1e8.jpg?1744561679",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/e/5e3135be-f96c-46ba-8c64-a2e6e8d7c1e8.jpg?1744561679",
+      "qty": 1
+    },
+    {
+      "id": "bf9e62f0-14f2-43ae-8e94-6dd11ca96811",
+      "name": "Acte blasphématoire",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/f/bf9e62f0-14f2-43ae-8e94-6dd11ca96811.jpg?1744559279",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/f/bf9e62f0-14f2-43ae-8e94-6dd11ca96811.jpg?1744559279",
+      "qty": 1
+    },
+    {
+      "id": "1776d879-8fa1-4ed1-a56e-0a3805402676",
+      "name": "Cachet de Boros",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/7/1776d879-8fa1-4ed1-a56e-0a3805402676.jpg?1744561721",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/7/1776d879-8fa1-4ed1-a56e-0a3805402676.jpg?1744561721",
+      "qty": 1
+    },
+    {
+      "id": "a2a7dc01-951c-4b55-9629-0d8d1f29826d",
+      "name": "Saillies de la cascade",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/2/a2a7dc01-951c-4b55-9629-0d8d1f29826d.jpg?1744562364",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/2/a2a7dc01-951c-4b55-9629-0d8d1f29826d.jpg?1744562364",
+      "qty": 1
+    },
+    {
+      "id": "83ac2c78-04dd-4814-b4f1-ba2bf7ae4ac1",
+      "name": "Chandra, fournaise éveillée",
+      "type": "Planeswalker légendaire — Chandra",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/3/83ac2c78-04dd-4814-b4f1-ba2bf7ae4ac1.jpg?1734879868",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/3/83ac2c78-04dd-4814-b4f1-ba2bf7ae4ac1.jpg?1734879868",
+      "qty": 1
+    },
+    {
+      "id": "4306c36c-8ae2-4ae6-a6fb-1079664e6c6e",
+      "name": "Chandra, héritage de feu",
+      "type": "Planeswalker légendaire — Chandra",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/3/4306c36c-8ae2-4ae6-a6fb-1079664e6c6e.jpg?1734878037",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/3/4306c36c-8ae2-4ae6-a6fb-1079664e6c6e.jpg?1734878037",
+      "qty": 1
+    },
+    {
+      "id": "8b54f465-702f-4497-bf3b-0c4642e5dd66",
+      "name": "Chandra, torche de la défiance",
+      "type": "Planeswalker légendaire — Chandra",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/b/8b54f465-702f-4497-bf3b-0c4642e5dd66.jpg?1734879882",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/b/8b54f465-702f-4497-bf3b-0c4642e5dd66.jpg?1734879882",
+      "qty": 1
+    },
+    {
+      "id": "a76fa8d4-923d-4afc-ba47-ba10fc0fe46e",
+      "name": "Comet, Stellar Pup",
+      "type": "Legendary Planeswalker — Comet",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/7/a76fa8d4-923d-4afc-ba47-ba10fc0fe46e.jpg?1685554101",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/7/a76fa8d4-923d-4afc-ba47-ba10fc0fe46e.jpg?1685554101",
+      "qty": 1
+    },
+    {
+      "id": "2c0f3efd-c52f-4041-b8f7-7db18c51c9f4",
+      "name": "Tour de commandement",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/c/2c0f3efd-c52f-4041-b8f7-7db18c51c9f4.jpg?1740187675",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/c/2c0f3efd-c52f-4041-b8f7-7db18c51c9f4.jpg?1740187675",
+      "qty": 1
+    },
+    {
+      "id": "27ffbea7-0798-4f33-9dc5-a21f37e703a8",
+      "name": "Raie bioluminescente",
+      "type": "Créature — poisson",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/7/27ffbea7-0798-4f33-9dc5-a21f37e703a8.jpg?1734879511",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/7/27ffbea7-0798-4f33-9dc5-a21f37e703a8.jpg?1734879511",
+      "qty": 1
+    },
+    {
+      "id": "9c3f2459-8d91-43eb-a886-5eed5d3b9664",
+      "name": "Déploiement des Sentinelles",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/c/9c3f2459-8d91-43eb-a886-5eed5d3b9664.jpg?1734879227",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/c/9c3f2459-8d91-43eb-a886-5eed5d3b9664.jpg?1734879227",
+      "qty": 1
+    },
+    {
+      "id": "6361d0fe-037b-4689-a3ba-30767d049611",
+      "name": "Elspeth, championne du Soleil",
+      "type": "Planeswalker légendaire — Elspeth",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/3/6361d0fe-037b-4689-a3ba-30767d049611.jpg?1730179744",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/3/6361d0fe-037b-4689-a3ba-30767d049611.jpg?1730179744",
+      "qty": 1
+    },
+    {
+      "id": "951e5b7c-332b-4cf3-b429-d9f4279ba6ba",
+      "name": "Verger exotique",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/5/951e5b7c-332b-4cf3-b429-d9f4279ba6ba.jpg?1744562674",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/5/951e5b7c-332b-4cf3-b429-d9f4279ba6ba.jpg?1744562674",
+      "qty": 1
+    },
+    {
+      "id": "f821e8c6-3e47-4d12-8eee-be7008f1b344",
+      "name": "Pierre de Guermont",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/8/f821e8c6-3e47-4d12-8eee-be7008f1b344.jpg?1744561808",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/8/f821e8c6-3e47-4d12-8eee-be7008f1b344.jpg?1744561808",
+      "qty": 1
+    },
+    {
+      "id": "ba4ee3fb-b160-47ac-9ac2-62352e59a28c",
+      "name": "Canaliseuse de flux",
+      "type": "Créature — humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/a/ba4ee3fb-b160-47ac-9ac2-62352e59a28c.jpg?1734879545",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/a/ba4ee3fb-b160-47ac-9ac2-62352e59a28c.jpg?1734879545",
+      "qty": 1
+    },
+    {
+      "id": "114861e7-3425-4bd2-b409-8b70eeb3d669",
+      "name": "Banc de brouillard",
+      "type": "Créature — mur",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/1/114861e7-3425-4bd2-b409-8b70eeb3d669.jpg?1735679771",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/1/114861e7-3425-4bd2-b409-8b70eeb3d669.jpg?1735679771",
+      "qty": 1
+    },
+    {
+      "id": "08a3e3ab-0a67-4ca2-b899-aa0d13721e42",
+      "name": "Forge des héros",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/8/08a3e3ab-0a67-4ca2-b899-aa0d13721e42.jpg?1734881271",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/8/08a3e3ab-0a67-4ca2-b899-aa0d13721e42.jpg?1734881271",
+      "qty": 1
+    },
+    {
+      "id": "87ac0c83-74a8-4e08-949b-6a0555688f66",
+      "name": "Lacis pyrogel",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/7/87ac0c83-74a8-4e08-949b-6a0555688f66.jpg?1740191442",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/7/87ac0c83-74a8-4e08-949b-6a0555688f66.jpg?1740191442",
+      "qty": 1
+    },
+    {
+      "id": "7c5a024a-7928-4971-b370-f0432078b69d",
+      "name": "Lacis calmerage",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/c/7c5a024a-7928-4971-b370-f0432078b69d.jpg?1735681763",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/c/7c5a024a-7928-4971-b370-f0432078b69d.jpg?1735681763",
+      "qty": 1
+    },
+    {
+      "id": "ba0c7c4b-11a4-4cfc-9120-66c702b3c70c",
+      "name": "Flambeau des Sentinelles",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/a/ba0c7c4b-11a4-4cfc-9120-66c702b3c70c.jpg?1734877703",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/a/ba0c7c4b-11a4-4cfc-9120-66c702b3c70c.jpg?1734877703",
+      "qty": 1
+    },
+    {
+      "id": "74a6a179-a0c0-4663-b4eb-b5029a854e11",
+      "name": "Gideon Jura",
+      "type": "Planeswalker légendaire — Gideon",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/4/74a6a179-a0c0-4663-b4eb-b5029a854e11.jpg?1734879259",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/4/74a6a179-a0c0-4663-b4eb-b5029a854e11.jpg?1734879259",
+      "qty": 1
+    },
+    {
+      "id": "c56c22f2-6ac5-483c-9f76-7ef2013aa143",
+      "name": "Apparition reconnaissante",
+      "type": "Créature — esprit",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/5/c56c22f2-6ac5-483c-9f76-7ef2013aa143.jpg?1734879283",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/5/c56c22f2-6ac5-483c-9f76-7ef2013aa143.jpg?1734879283",
+      "qty": 1
+    },
+    {
+      "id": "ba5b62bf-1e9a-4280-8ccf-61376040b799",
+      "name": "Calembredaine réécrit l'histoire",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/a/ba5b62bf-1e9a-4280-8ccf-61376040b799.jpg?1734878085",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/a/ba5b62bf-1e9a-4280-8ccf-61376040b799.jpg?1734878085",
+      "qty": 1
+    },
+    {
+      "id": "e629705a-d381-4755-b22a-b79f1c8cf5d8",
+      "name": "Shaku usé par l'honneur",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/6/e629705a-d381-4755-b22a-b79f1c8cf5d8.jpg?1734880787",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/6/e629705a-d381-4755-b22a-b79f1c8cf5d8.jpg?1734880787",
+      "qty": 1
+    },
+    {
+      "id": "2a473aaa-5ee1-467b-96cd-494cb7e0e0d6",
+      "name": "Flambeau interplanaire",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/a/2a473aaa-5ee1-467b-96cd-494cb7e0e0d6.jpg?1734881377",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/a/2a473aaa-5ee1-467b-96cd-494cb7e0e0d6.jpg?1734881377",
+      "qty": 1
+    },
+    {
+      "id": "5e78742b-7dba-4f13-b6f7-417b63bfb603",
+      "name": "Dirgur Island Dragon // Skimming Strike",
+      "type": "Creature — Dragon // Instant — Omen",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/e/5e78742b-7dba-4f13-b6f7-417b63bfb603.jpg?1758618749",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/e/5e78742b-7dba-4f13-b6f7-417b63bfb603.jpg?1758618749",
+      "qty": 7
+    },
+    {
+      "id": "bc3a33cb-9121-4197-8099-86d4b5947b89",
+      "name": "Cachet d'Izzet",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/c/bc3a33cb-9121-4197-8099-86d4b5947b89.jpg?1744561847",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/c/bc3a33cb-9121-4197-8099-86d4b5947b89.jpg?1744561847",
+      "qty": 1
+    },
+    {
+      "id": "5411f95b-010e-46c1-be47-1caedcf2ea60",
+      "name": "Jace Beleren",
+      "type": "Planeswalker légendaire — Jace",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/4/5411f95b-010e-46c1-be47-1caedcf2ea60.jpg?1734879574",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/4/5411f95b-010e-46c1-be47-1caedcf2ea60.jpg?1734879574",
+      "qty": 1
+    },
+    {
+      "id": "2b847a85-0875-4100-bfa7-9f861a4e7943",
+      "name": "Jace, architecte des pensées",
+      "type": "Planeswalker légendaire — Jace",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/b/2b847a85-0875-4100-bfa7-9f861a4e7943.jpg?1734879586",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/b/2b847a85-0875-4100-bfa7-9f861a4e7943.jpg?1734879586",
+      "qty": 1
+    },
+    {
+      "id": "fb80e54d-c239-4a48-a21e-10812936b374",
+      "name": "Jace, mage du miroir",
+      "type": "Planeswalker légendaire — Jace",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/b/fb80e54d-c239-4a48-a21e-10812936b374.jpg?1734879595",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/b/fb80e54d-c239-4a48-a21e-10812936b374.jpg?1734879595",
+      "qty": 1
+    },
+    {
+      "id": "fe598b5e-c4e7-4d58-bca8-e1188142ddba",
+      "name": "Phénix de Jaya",
+      "type": "Créature — phénix",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/e/fe598b5e-c4e7-4d58-bca8-e1188142ddba.jpg?1734878094",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/e/fe598b5e-c4e7-4d58-bca8-e1188142ddba.jpg?1734878094",
+      "qty": 1
+    },
+    {
+      "id": "a059498a-025a-4542-be54-104a173c6e4a",
+      "name": "Bastion de Karn",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/0/a059498a-025a-4542-be54-104a173c6e4a.jpg?1730194899",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/0/a059498a-025a-4542-be54-104a173c6e4a.jpg?1730194899",
+      "qty": 1
+    },
+    {
+      "id": "f958ba0f-f0da-4735-ad2c-b2b66d8afb89",
+      "name": "Kazuul, Tyran des Falaises",
+      "type": "Créature légendaire — ogre et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/9/f958ba0f-f0da-4735-ad2c-b2b66d8afb89.jpg?1730236683",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/9/f958ba0f-f0da-4735-ad2c-b2b66d8afb89.jpg?1730236683",
+      "qty": 1
+    },
+    {
+      "id": "90434722-1f91-4cb9-91e3-1ee1b5c098c3",
+      "name": "Léori, chasseur touché par l'étincelle",
+      "type": "Créature légendaire — élémental et chat",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/0/90434722-1f91-4cb9-91e3-1ee1b5c098c3.jpg?1734877407",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/0/90434722-1f91-4cb9-91e3-1ee1b5c098c3.jpg?1734877407",
+      "qty": 1
+    },
+    {
+      "id": "95ec3162-b71e-456e-b77a-570b2d72dbb0",
+      "name": "Mangara, le diplomate",
+      "type": "Créature légendaire — humain et clerc",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/5/95ec3162-b71e-456e-b77a-570b2d72dbb0.jpg?1744557334",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/5/95ec3162-b71e-456e-b77a-570b2d72dbb0.jpg?1744557334",
+      "qty": 1
+    },
+    {
+      "id": "d106313d-0c39-4fbd-98db-23128648c8e6",
+      "name": "Circonscription mobilisée",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/1/d106313d-0c39-4fbd-98db-23128648c8e6.jpg?1734881466",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/1/d106313d-0c39-4fbd-98db-23128648c8e6.jpg?1734881466",
+      "qty": 1
+    },
+    {
+      "id": "cd8c598e-46ea-48bc-948b-f2ba28e84823",
+      "name": "Monastère de la montagne de Cori",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/d/cd8c598e-46ea-48bc-948b-f2ba28e84823.jpg?1744679547",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/d/cd8c598e-46ea-48bc-948b-f2ba28e84823.jpg?1744679547",
+      "qty": 4
+    },
+    {
+      "id": "61beca2c-859f-4449-b7b2-56e9a168f653",
+      "name": "Paysage myriadaire",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/1/61beca2c-859f-4449-b7b2-56e9a168f653.jpg?1744563070",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/1/61beca2c-859f-4449-b7b2-56e9a168f653.jpg?1744563070",
+      "qty": 1
+    },
+    {
+      "id": "807cb375-c79d-44c4-9618-e78e6431de8f",
+      "name": "Porte mystique",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/0/807cb375-c79d-44c4-9618-e78e6431de8f.jpg?1735681913",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/0/807cb375-c79d-44c4-9618-e78e6431de8f.jpg?1735681913",
+      "qty": 1
+    },
+    {
+      "id": "8bb37297-2086-4c2b-80e6-1d2f0a6979f7",
+      "name": "Monastère mystique",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/b/8bb37297-2086-4c2b-80e6-1d2f0a6979f7.jpg?1744679775",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/b/8bb37297-2086-4c2b-80e6-1d2f0a6979f7.jpg?1744679775",
+      "qty": 1
+    },
+    {
+      "id": "ed108788-020e-4a4b-8de4-4e1b25b7e1b5",
+      "name": "Nahiri, l'annonciatrice",
+      "type": "Planeswalker légendaire — Nahiri",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/d/ed108788-020e-4a4b-8de4-4e1b25b7e1b5.jpg?1734880503",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/d/ed108788-020e-4a4b-8de4-4e1b25b7e1b5.jpg?1734880503",
+      "qty": 1
+    },
+    {
+      "id": "4318928f-f580-4a64-9cc6-6a80f99028e0",
+      "name": "Narset des traditions",
+      "type": "Planeswalker légendaire — Narset",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/3/4318928f-f580-4a64-9cc6-6a80f99028e0.jpg?1734880516",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/3/4318928f-f580-4a64-9cc6-6a80f99028e0.jpg?1734880516",
+      "qty": 1
+    },
+    {
+      "id": "20953f66-0aac-435b-8643-2ba21bb8f4aa",
+      "name": "Narset, maîtresse éclairée",
+      "type": "Créature légendaire — humain et moine",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/0/20953f66-0aac-435b-8643-2ba21bb8f4aa.jpg?1734880527",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/0/20953f66-0aac-435b-8643-2ba21bb8f4aa.jpg?1734880527",
+      "qty": 1
+    },
+    {
+      "id": "6a35a687-ee8f-41b5-966e-c7d145f0b8e1",
+      "name": "Narset, déchireuse des voiles",
+      "type": "Planeswalker légendaire — Narset",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/a/6a35a687-ee8f-41b5-966e-c7d145f0b8e1.jpg?1730179654",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/a/6a35a687-ee8f-41b5-966e-c7d145f0b8e1.jpg?1730179654",
+      "qty": 1
+    },
+    {
+      "id": "9366cd14-047d-4fe7-bbdd-a0e2b3809b2c",
+      "name": "Disque de Nevinyrral",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/3/9366cd14-047d-4fe7-bbdd-a0e2b3809b2c.jpg?1734880922",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/3/9366cd14-047d-4fe7-bbdd-a0e2b3809b2c.jpg?1734880922",
+      "qty": 1
+    },
+    {
+      "id": "d2f9821a-78f7-494a-9df5-e34a17112263",
+      "name": "Annexe de Norn",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/2/d2f9821a-78f7-494a-9df5-e34a17112263.jpg?1734879342",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/2/d2f9821a-78f7-494a-9df5-e34a17112263.jpg?1734879342",
+      "qty": 1
+    },
+    {
+      "id": "effce196-bcb0-4570-9c84-eb4a2caea688",
+      "name": "Serment de Gideon",
+      "type": "Enchantement légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/f/effce196-bcb0-4570-9c84-eb4a2caea688.jpg?1734879349",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/f/effce196-bcb0-4570-9c84-eb4a2caea688.jpg?1734879349",
+      "qty": 1
+    },
+    {
+      "id": "277e0283-2e53-46af-8119-8d8f20571c80",
+      "name": "Serment de Jace",
+      "type": "Enchantement légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/7/277e0283-2e53-46af-8119-8d8f20571c80.jpg?1734879621",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/7/277e0283-2e53-46af-8119-8d8f20571c80.jpg?1734879621",
+      "qty": 1
+    },
+    {
+      "id": "963b8c10-a45c-4066-99b6-c7897ec8b899",
+      "name": "Serment de Téfeiri",
+      "type": "Enchantement légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/6/963b8c10-a45c-4066-99b6-c7897ec8b899.jpg?1734880564",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/6/963b8c10-a45c-4066-99b6-c7897ec8b899.jpg?1734880564",
+      "qty": 1
+    },
+    {
+      "id": "97bf660b-a97f-4d0f-bbe7-589aaeb5614a",
+      "name": "Gardefoi onakke",
+      "type": "Créature — ogre et esprit",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/7/97bf660b-a97f-4d0f-bbe7-589aaeb5614a.jpg?1734877724",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/7/97bf660b-a97f-4d0f-bbe7-589aaeb5614a.jpg?1734877724",
+      "qty": 1
+    },
+    {
+      "id": "c231d1dd-b79a-4589-a728-135acf3570ca",
+      "name": "Chemin vers l'exil",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/2/c231d1dd-b79a-4589-a728-135acf3570ca.jpg?1730179981",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/2/c231d1dd-b79a-4589-a728-135acf3570ca.jpg?1730179981",
+      "qty": 1
+    },
+    {
+      "id": "3395320b-6a8a-408b-9fa5-dbb237272773",
+      "name": "Plaine de Voilebrume",
+      "type": "Terrain : plaine",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/3/3395320b-6a8a-408b-9fa5-dbb237272773.jpg?1562828574",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/3/3395320b-6a8a-408b-9fa5-dbb237272773.jpg?1562828574",
+      "qty": 7
+    },
+    {
+      "id": "0dfd702e-44c0-4076-84f6-8bb8a607678a",
+      "name": "Ville portuaire",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/d/0dfd702e-44c0-4076-84f6-8bb8a607678a.jpg?1735681967",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/d/0dfd702e-44c0-4076-84f6-8bb8a607678a.jpg?1735681967",
+      "qty": 1
+    },
+    {
+      "id": "ab6d3804-2247-4872-b7fc-3b36c32323f3",
+      "name": "Prairie ruisselante",
+      "type": "Terrain — plaine et île",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/b/ab6d3804-2247-4872-b7fc-3b36c32323f3.jpg?1744563157",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/b/ab6d3804-2247-4872-b7fc-3b36c32323f3.jpg?1744563157",
+      "qty": 1
+    },
+    {
+      "id": "545901fc-5040-4bf1-9c1d-0e55705d2803",
+      "name": "Promesse de fidélité",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/4/545901fc-5040-4bf1-9c1d-0e55705d2803.jpg?1730179991",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/4/545901fc-5040-4bf1-9c1d-0e55705d2803.jpg?1730179991",
+      "qty": 1
+    },
+    {
+      "id": "3628bb21-38af-48c9-9c47-b0a8cc645466",
+      "name": "Tour du Reliquaire",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/6/3628bb21-38af-48c9-9c47-b0a8cc645466.jpg?1744563203",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/6/3628bb21-38af-48c9-9c47-b0a8cc645466.jpg?1744563203",
+      "qty": 1
+    },
+    {
+      "id": "fa6a37f4-4d9b-4a13-b26f-c6b8ab3c6b44",
+      "name": "Rayonnement répétitif",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/a/fa6a37f4-4d9b-4a13-b26f-c6b8ab3c6b44.jpg?1734879916",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/a/fa6a37f4-4d9b-4a13-b26f-c6b8ab3c6b44.jpg?1734879916",
+      "qty": 1
+    },
+    {
+      "id": "30c5762b-590b-4d0a-ab9c-a7f1148f5736",
+      "name": "Prairie rocailleuse",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/0/30c5762b-590b-4d0a-ab9c-a7f1148f5736.jpg?1744563259",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/0/30c5762b-590b-4d0a-ab9c-a7f1148f5736.jpg?1744563259",
+      "qty": 1
+    },
+    {
+      "id": "339928c8-44d7-49b1-b535-637afa9902d3",
+      "name": "Saheeli, sublime artificière",
+      "type": "Planeswalker légendaire — Saheeli",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/3/339928c8-44d7-49b1-b535-637afa9902d3.jpg?1740189967",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/3/339928c8-44d7-49b1-b535-637afa9902d3.jpg?1740189967",
+      "qty": 1
+    },
+    {
+      "id": "36faf995-21af-4b37-8ecc-e1483ca8758a",
+      "name": "Sarkhan l'Insoumis",
+      "type": "Planeswalker légendaire — Sarkhan",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/6/36faf995-21af-4b37-8ecc-e1483ca8758a.jpg?1734879929",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/6/36faf995-21af-4b37-8ecc-e1483ca8758a.jpg?1734879929",
+      "qty": 1
+    },
+    {
+      "id": "65125969-2cab-46c7-ab3b-31c372ac062b",
+      "name": "Fin de semestre",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/5/65125969-2cab-46c7-ab3b-31c372ac062b.jpg?1734879398",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/5/65125969-2cab-46c7-ab3b-31c372ac062b.jpg?1734879398",
+      "qty": 1
+    },
+    {
+      "id": "f8e59faa-69a2-452a-b9a5-082cbbd77bc4",
+      "name": "Arbitre silencieux",
+      "type": "Créature-artefact — construction",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/8/f8e59faa-69a2-452a-b9a5-082cbbd77bc4.jpg?1734881006",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/8/f8e59faa-69a2-452a-b9a5-082cbbd77bc4.jpg?1734881006",
+      "qty": 1
+    },
+    {
+      "id": "ad2a6862-9c99-4063-8fae-972181c37561",
+      "name": "Immensité de Cielcouvert",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/d/ad2a6862-9c99-4063-8fae-972181c37561.jpg?1744563364",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/d/ad2a6862-9c99-4063-8fae-972181c37561.jpg?1744563364",
+      "qty": 1
+    },
+    {
+      "id": "8a5cad93-964c-48e2-af54-924acd856c0c",
+      "name": "Anneau solaire",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "qty": 1
+    },
+    {
+      "id": "ccbbd8e9-0d20-4b9e-b01f-90351cee6201",
+      "name": "Doublure d'étincelles",
+      "type": "Créature — illusion",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/c/ccbbd8e9-0d20-4b9e-b01f-90351cee6201.jpg?1730249822",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/c/ccbbd8e9-0d20-4b9e-b01f-90351cee6201.jpg?1730249822",
+      "qty": 1
+    },
+    {
+      "id": "5d62378a-83a5-40f4-95bc-43366281ce0f",
+      "name": "Visionnaire forge-étincelle",
+      "type": "Créature — humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/d/5d62378a-83a5-40f4-95bc-43366281ce0f.jpg?1734877813",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/d/5d62378a-83a5-40f4-95bc-43366281ce0f.jpg?1734877813",
+      "qty": 1
+    },
+    {
+      "id": "cca61cee-7260-4b1d-b626-c26d6bc1525e",
+      "name": "Retour au pays",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/c/cca61cee-7260-4b1d-b626-c26d6bc1525e.jpg?1744557568",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/c/cca61cee-7260-4b1d-b626-c26d6bc1525e.jpg?1744557568",
+      "qty": 1
+    },
+    {
+      "id": "38809cf6-ebc5-4a5b-8c3f-f6986f17d19f",
+      "name": "Talisman de conviction",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/8/38809cf6-ebc5-4a5b-8c3f-f6986f17d19f.jpg?1744562055",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/8/38809cf6-ebc5-4a5b-8c3f-f6986f17d19f.jpg?1744562055",
+      "qty": 1
+    },
+    {
+      "id": "c45bbc5d-dfd3-41a9-bb94-2d57fed525aa",
+      "name": "Talisman de créativité",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c45bbc5d-dfd3-41a9-bb94-2d57fed525aa.jpg?1744562081",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c45bbc5d-dfd3-41a9-bb94-2d57fed525aa.jpg?1744562081",
+      "qty": 1
+    },
+    {
+      "id": "a64e77f0-7276-49a5-ab6b-b247f81458fb",
+      "name": "Talisman de progrès",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/6/a64e77f0-7276-49a5-ab6b-b247f81458fb.jpg?1744562140",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/6/a64e77f0-7276-49a5-ab6b-b247f81458fb.jpg?1744562140",
+      "qty": 1
+    },
+    {
+      "id": "e724babd-1dfc-4c30-ab69-bb0964e98b20",
+      "name": "Téfeiri, effileur de temps",
+      "type": "Planeswalker légendaire — Téfeiri",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/7/e724babd-1dfc-4c30-ab69-bb0964e98b20.jpg?1730179739",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/7/e724babd-1dfc-4c30-ab69-bb0964e98b20.jpg?1730179739",
+      "qty": 1
+    },
+    {
+      "id": "03dd1145-37c8-4d5d-a16e-958e8e0e8a38",
+      "name": "Temple de l'illumination",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/3/03dd1145-37c8-4d5d-a16e-958e8e0e8a38.jpg?1744563503",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/3/03dd1145-37c8-4d5d-a16e-958e8e0e8a38.jpg?1744563503",
+      "qty": 1
+    },
+    {
+      "id": "6243f905-cfc7-406b-9177-794479f5d400",
+      "name": "Temple de la révélation",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/2/6243f905-cfc7-406b-9177-794479f5d400.jpg?1744563521",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/2/6243f905-cfc7-406b-9177-794479f5d400.jpg?1744563521",
+      "qty": 1
+    },
+    {
+      "id": "11f8fa75-a0b9-4bf0-ac0a-9075e361ebfd",
+      "name": "Temple du triomphe",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/1/11f8fa75-a0b9-4bf0-ac0a-9075e361ebfd.jpg?1744563622",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/1/11f8fa75-a0b9-4bf0-ac0a-9075e361ebfd.jpg?1744563622",
+      "qty": 1
+    },
+    {
+      "id": "0ffc6a25-1fc7-4763-b33a-cd1a10222e53",
+      "name": "Teyo, tacticien géométrique",
+      "type": "Planeswalker légendaire — Teyo",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/f/0ffc6a25-1fc7-4763-b33a-cd1a10222e53.jpg?1734877790",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/f/0ffc6a25-1fc7-4763-b33a-cd1a10222e53.jpg?1734877790",
+      "qty": 1
+    },
+    {
+      "id": "f18ed1ec-c41e-4c98-b045-8fa2b4ab8445",
+      "name": "Le Voile de Chaîne",
+      "type": "Artefact légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/1/f18ed1ec-c41e-4c98-b045-8fa2b4ab8445.jpg?1734880665",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/1/f18ed1ec-c41e-4c98-b045-8fa2b4ab8445.jpg?1734880665",
+      "qty": 1
+    },
+    {
+      "id": "f9cf2613-f511-43b0-ab9a-aec2cfe0b092",
+      "name": "La Vagabonde",
+      "type": "Planeswalker légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/9/f9cf2613-f511-43b0-ab9a-aec2cfe0b092.jpg?1734879500",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/9/f9cf2613-f511-43b0-ab9a-aec2cfe0b092.jpg?1734879500",
+      "qty": 1
+    },
+    {
+      "id": "3bd9528c-f8d3-4586-a766-711953b187cf",
+      "name": "Colipervier",
+      "type": "Créature — phyrexian et oiseau et horreur",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/b/3bd9528c-f8d3-4586-a766-711953b187cf.jpg?1734879668",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/b/3bd9528c-f8d3-4586-a766-711953b187cf.jpg?1734879668",
+      "qty": 1
+    },
+    {
+      "id": "71fdcf0a-1fea-4170-b107-88b1c30a6b7a",
+      "name": "Salve désastreuse d'Urza",
+      "type": "Rituel légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/1/71fdcf0a-1fea-4170-b107-88b1c30a6b7a.jpg?1734879491",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/1/71fdcf0a-1fea-4170-b107-88b1c30a6b7a.jpg?1734879491",
+      "qty": 1
+    },
+    {
+      "id": "53efc735-b7d1-4199-bdac-568e7206df1b",
+      "name": "Vronos, inquisiteur masqué",
+      "type": "Planeswalker légendaire — Vronos",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/3/53efc735-b7d1-4199-bdac-568e7206df1b.jpg?1734877892",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/3/53efc735-b7d1-4199-bdac-568e7206df1b.jpg?1734877892",
+      "qty": 1
+    },
+    {
+      "id": "e6737a03-c4f0-411a-9e68-b5f57641ed7e",
+      "name": "Mur de déni",
+      "type": "Créature — mur",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/6/e6737a03-c4f0-411a-9e68-b5f57641ed7e.jpg?1734880617",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/6/e6737a03-c4f0-411a-9e68-b5f57641ed7e.jpg?1734880617",
+      "qty": 1
+    },
+    {
+      "id": "362b9e57-bfb6-465d-90e5-4a0fd78191b0",
+      "name": "Babiole du voyageur",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/6/362b9e57-bfb6-465d-90e5-4a0fd78191b0.jpg?1744562177",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/6/362b9e57-bfb6-465d-90e5-4a0fd78191b0.jpg?1744562177",
+      "qty": 1
+    }
+  ],
+  "commanders": [
+    {
+      "id": "87f2c20d-7587-4310-828e-1f40fe52c2c5",
+      "name": "Commodore Calembredaine",
+      "type": "Planeswalker légendaire — Calembredaine",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/7/87f2c20d-7587-4310-828e-1f40fe52c2c5.jpg?1734877323",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/7/87f2c20d-7587-4310-828e-1f40fe52c2c5.jpg?1734877323"
+    }
+  ]
+}
