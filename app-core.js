@@ -283,9 +283,17 @@ export function createCardEl(card, { faceDown=false, isToken=false, interactive=
     <div class="card-name">${card.name}</div>
   `;
 
-  // ✅ Badge visuel si présent en mémoire ou si le payload carte le précise
-  const badge = readBadgeForCard(card.id);
-  if (badge.has || card.hasBadge) el.classList.add('has-badge');
+  // ✅ Badge visuel + données pour lecture seule côté adversaire
+  const badgeState = readBadgeForCard(card.id);
+  const incomingHas = !!card.hasBadge;
+  const incomingItems = Array.isArray(card.badgeItems) ? normItems(card.badgeItems) : [];
+
+  if (badgeState.has || incomingHas) el.classList.add('has-badge');
+
+  const itemsForDataset = incomingItems.length ? incomingItems : badgeState.items;
+  if (itemsForDataset && itemsForDataset.length) {
+    try { el.dataset.badgeItems = JSON.stringify(itemsForDataset); } catch {}
+  }
 
   if (interactive) attachCardListeners(el);
   return el;

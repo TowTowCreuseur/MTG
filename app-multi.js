@@ -1,6 +1,9 @@
 /* app-multi.js — multi/overlay + point d’entrée
    - Overlay adverse readonly (bataille + command zone + cimetière + exil)
    - ✅ Cimetière/Exil avec aperçu au survol (images depuis stores)
+   - ✅ Cartes adverses cliquables → ouvrent la LISTE associée à la pastille (lecture seule)
+   - ✅ Bouton “Liste” dans Points de vie adverse → ouvre la LISTE globale de l’adversaire (lecture seule)
+   - ✅ Barre de joueurs (pseudos cliquables) + sélecteur : bascule d’un plateau à l’autre
    - Patch ciblé + refresh périodique 5s (y compris modale loupe ouverte)
    - Connexion WebSocket persistante sur refresh
 */
@@ -24,9 +27,19 @@ function computeRoomId() {
 }
 let ROOM_ID = computeRoomId();
 
+// --- Nom du joueur : priorité URL > persisted > localStorage > 'Inconnu'
+const urlp = new URLSearchParams(location.search);
+const urlPlayerName = (urlp.get('playerName') || '').trim();
 let persisted = loadConn();
 let PLAYER_ID   = persisted?.playerId || randomId();
-let PLAYER_NAME = persisted?.playerName || (localStorage.getItem('mtg.playerName') || 'Inconnu');
+let PLAYER_NAME = urlPlayerName
+  || persisted?.playerName
+  || (localStorage.getItem('mtg.playerName') || 'Inconnu');
+
+// si l’URL apporte un nom → on le mémorise local & persisted
+if (urlPlayerName) {
+  try { localStorage.setItem('mtg.playerName', urlPlayerName); } catch {}
+}
 saveConn({ ...(persisted||{}), playerId: PLAYER_ID, playerName: PLAYER_NAME, room: ROOM_ID });
 
 let socket = null;
@@ -38,7 +51,7 @@ let reconnectTimer = null;
 let OPP_LIST_OPEN = null; // { playerId, zone: 'cimetiere'|'exil' }
 
 /* ==========================
-   Sélecteur de joueur (UI)
+   UI : Sélecteurs de joueur
    ========================== */
 function ensureBoardViewerDropdown(){
   if (qs('#boardSelect')) return;
@@ -53,6 +66,69 @@ function ensureBoardViewerDropdown(){
   wrap.appendChild(label); wrap.appendChild(select);
   (qs('.board') || document.body).appendChild(wrap);
 }
+
+function ensurePlayersBar(){
+  if (qs('#playersBar')) return;
+  const bar = document.createElement('div');
+  bar.id = 'playersBar';
+  bar.style.cssText = `
+    position:fixed; top:40px; right:8px; z-index:1000;
+    display:flex; flex-wrap:wrap; gap:6px; max-width:50vw; justify-content:flex-end;
+  `;
+  const style = document.createElement('style');
+  style.textContent = `
+    .player-chip{
+      display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+      border:1px solid #e5e5e5; background:#fff; border-radius:999px;
+      padding:4px 10px; font-size:12px; box-shadow:0 1px 2px rgba(0,0,0,.05);
+      user-select:none;
+    }
+    .player-chip[data-active="true"]{
+      border-color:#bbb; box-shadow:0 2px 8px rgba(0,0,0,.12);
+      font-weight:600;
+    }
+    .player-dot{
+      width:8px; height:8px; border-radius:50%; background:#555;
+    }
+  `;
+  document.head.appendChild(style);
+  (qs('.board') || document.body).appendChild(bar);
+}
+
+function renderPlayersBar(){
+  ensurePlayersBar();
+  const bar = qs('#playersBar');
+  if (!bar) return;
+  bar.innerHTML = '';
+
+  const makeChip = (label, pid, active) => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'player-chip';
+    chip.dataset.pid = pid;
+    chip.dataset.active = active ? 'true' : 'false';
+    chip.innerHTML = `<span class="player-dot" aria-hidden="true"></span><span class="player-name">${label}</span>`;
+    chip.addEventListener('click', () => {
+      currentView = pid;
+      const sel = qs('#boardSelect');
+      if (sel && [...sel.options].some(o => o.value === pid)) sel.value = pid;
+      refreshView();
+      // visuel actif
+      qsa('.player-chip').forEach(c => c.dataset.active = (c.dataset.pid === pid ? 'true' : 'false'));
+    });
+    return chip;
+  };
+
+  // Moi
+  bar.appendChild(makeChip(`Moi (${PLAYER_NAME})`, 'self', currentView === 'self'));
+
+  // Adversaires
+  for (const [pid, obj] of Object.entries(otherStates)) {
+    const name = obj.name || pid;
+    bar.appendChild(makeChip(name, pid, currentView === pid));
+  }
+}
+
 function refreshDropdown(){
   let sel = qs('#boardSelect');
   if (!sel) { ensureBoardViewerDropdown(); sel = qs('#boardSelect'); if (!sel) return; }
@@ -63,7 +139,11 @@ function refreshDropdown(){
     opt.value = pid; opt.textContent = obj.name || pid; sel.appendChild(opt);
   }
   if ([...sel.options].some(o => o.value === cur)) sel.value = cur; else { sel.value = "self"; currentView = "self"; }
+
+  // MàJ de la barre de joueurs
+  renderPlayersBar();
 }
+
 function refreshView(){
   if (currentView === "self") hideOpponentOverlay();
   else {
@@ -71,6 +151,75 @@ function refreshView(){
     if (o) showOpponentOverlay(o.state, o.name, currentView);
     else console.warn('Aucun état reçu pour', currentView);
   }
+}
+
+/* ======================================================
+   Dialogs Readonly pour LISTES (pastilles & points de vie)
+   ====================================================== */
+function normItems(items){
+  const a = Array.isArray(items) ? items : [];
+  return a.map(x => ({ label:String(x?.label||'').trim(), qty:Math.max(0, Math.trunc(Number(x?.qty||0))) }))
+          .filter(x => x.label);
+}
+function buildReadonlyListDialog({ title='Liste', items=[] } = {}){
+  const dlg = document.createElement('dialog');
+  dlg.className = 'list-dialog';
+  dlg.innerHTML = `
+    <div class="list-sheet" style="background:#fff; border-radius:14px; box-shadow:0 20px 60px rgba(0,0,0,.35); padding:16px; width:min(560px,95vw); max-height:92vh; display:grid; gap:12px;">
+      <div class="list-header" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+        <strong>${title}</strong>
+        <div><button type="button" class="btn btn-close" title="Fermer" style="border:1px solid #ddd; background:#f7f7f7; border-radius:8px; padding:6px 10px; cursor:pointer;">×</button></div>
+      </div>
+      <div class="list-body" style="display:grid; gap:8px; overflow:auto;"></div>
+    </div>
+  `;
+  const st = document.createElement('style');
+  st.textContent = `.list-dialog::backdrop{ background:rgba(0,0,0,.45); }`;
+  document.head.appendChild(st);
+
+  document.body.appendChild(dlg);
+  const body = dlg.querySelector('.list-body');
+  const data = normItems(items);
+
+  if (!data.length){
+    const empty = document.createElement('div');
+    empty.style.cssText = 'opacity:.7; padding:8px; text-align:center;';
+    empty.textContent = 'Aucun item';
+    body.appendChild(empty);
+  } else {
+    data.forEach(it => {
+      const row = document.createElement('div');
+      row.className = 'list-row readonly';
+      row.style.cssText = 'display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:center; border:1px solid #eee; border-radius:10px; padding:8px;';
+      const lbl = document.createElement('div');
+      lbl.textContent = it.label;
+      const qty = document.createElement('div');
+      qty.textContent = String(it.qty);
+      qty.style.cssText = 'font-weight:600;';
+      row.appendChild(lbl);
+      row.appendChild(qty);
+      body.appendChild(row);
+    });
+  }
+
+  dlg.querySelector('.btn-close')?.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('cancel', (e) => { e.preventDefault(); dlg.close(); });
+  dlg.addEventListener('close', () => setTimeout(() => dlg.remove(), 0));
+  dlg.showModal();
+  return dlg;
+}
+function openReadonlyLifeListForOpponent(state){
+  const items = state?.lifeList?.items || [];
+  buildReadonlyListDialog({ title: 'Liste — Points de vie (adversaire)', items });
+}
+function tryOpenReadonlyCardListFromElement(el){
+  if (!el) return;
+  let items = [];
+  try {
+    if (el.dataset.badgeItems) items = JSON.parse(el.dataset.badgeItems);
+  } catch { items = []; }
+  if (!items || !items.length) return;
+  buildReadonlyListDialog({ title: 'Liste — Carte (adversaire)', items });
 }
 
 /* =========================================
@@ -111,9 +260,12 @@ function renderOppListIntoModal(title, cards){
     item.className = 'result-card';
     item.dataset.cardId = c.id;
 
-    // ✅ données pour aperçu au survol
+    // ✅ données pour aperçu et pour LISTE readonly
     if (c.imageNormal) item.dataset.imageNormal = c.imageNormal;
     if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
+    if (c.badgeItems && c.badgeItems.length) {
+      try { item.dataset.badgeItems = JSON.stringify(c.badgeItems); } catch {}
+    }
 
     item.innerHTML = `
       <span>
@@ -124,6 +276,10 @@ function renderOppListIntoModal(title, cards){
 
     // ✅ aperçu au survol
     attachPreviewListeners(item);
+
+    // ✅ clic → ouvrir la LISTE (lecture seule) si présente
+    item.style.cursor = 'pointer';
+    item.addEventListener('click', () => tryOpenReadonlyCardListFromElement(item));
 
     results.appendChild(item);
   });
@@ -155,7 +311,8 @@ function shallowCardSig(c){
   return [
     c?.id, c?.name, c?.type,
     c?.imageSmall, c?.imageNormal,
-    c?.tapped ? 1:0, c?.phased ? 1:0, c?.faceDown ? 1:0, c?.isToken ? 1:0
+    c?.tapped ? 1:0, c?.phased ? 1:0, c?.faceDown ? 1:0, c?.isToken ? 1:0,
+    c?.hasBadge ? 1:0, (c?.badgeItems||[]).length
   ].join('|');
 }
 function arraysEqualBySig(a=[], b=[]){
@@ -165,13 +322,13 @@ function arraysEqualBySig(a=[], b=[]){
   }
   return true;
 }
-/** Rendu carte readonly (commander + battlefield) avec aperçu au survol */
+/** Rendu carte readonly (commander + battlefield) avec aperçu au survol + clic LISTE (si pastille) */
 function renderCardsTo(holder, cards){
   if (!holder) return;
   holder.innerHTML = '';
   (cards||[]).forEach(c => {
     const el = createCardEl(
-      { id: c.id, name: c.name, type: c.type, imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null },
+      { id: c.id, name: c.name, type: c.type, imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null, hasBadge: !!c.hasBadge, badgeItems: c.badgeItems || [] },
       { faceDown: !!c.faceDown, isToken: !!c.isToken, interactive:false }
     );
     el.draggable = false;
@@ -181,10 +338,22 @@ function renderCardsTo(holder, cards){
     // ✅ activer le même zoom-aperçu que côté joueur local
     attachPreviewListeners(el);
 
+    // ✅ clic → ouvrir la LISTE (lecture seule) si la carte a une pastille/liste
+    if ((c.hasBadge || (c.badgeItems && c.badgeItems.length))) {
+      if (c.badgeItems && c.badgeItems.length) {
+        try { el.dataset.badgeItems = JSON.stringify(c.badgeItems); } catch {}
+      }
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        tryOpenReadonlyCardListFromElement(el);
+      });
+    }
+
     holder.appendChild(el);
   });
 }
-/** ✅ Rendu “liste” avec aperçu (utilisé pour cimetière & exil adverses) */
+/** ✅ Rendu “liste” avec aperçu (utilisé pour cimetière & exil adverses) + clic LISTE */
 function renderNamesWithPreview(holder, cards){
   if (!holder) return;
   holder.innerHTML = '';
@@ -194,17 +363,22 @@ function renderNamesWithPreview(holder, cards){
     row.tabIndex = 0;
     row.dataset.cardId = c.id;
 
-    // Fournir les images pour l’aperçu
     if (c.imageNormal) row.dataset.imageNormal = c.imageNormal;
     if (c.imageSmall)  row.dataset.imageSmall  = c.imageSmall;
+
+    if (c.badgeItems && c.badgeItems.length) {
+      try { row.dataset.badgeItems = JSON.stringify(c.badgeItems); } catch {}
+    }
 
     row.innerHTML = `
       <div class="card-name">${c.name || '(Carte)'}</div>
       <div class="card-type" style="opacity:.75; font-size:12px">${c.type || ''}</div>
     `;
 
-    // ✅ aperçu au survol
     attachPreviewListeners(row);
+
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => tryOpenReadonlyCardListFromElement(row));
 
     holder.appendChild(row);
   });
@@ -237,6 +411,7 @@ function ensureOpponentOverlay(){
     .zone.readonly .cards .card{ pointer-events:auto; }
     .card--nameonly{ display:block; padding:6px 8px; border-radius:8px; border:1px solid rgba(0,0,0,.08); background:#fafafa; }
     .card--nameonly + .card--nameonly{ margin-top:6px; }
+    .btn-life-list-ro{ margin-left:6px; border:1px solid #ddd; background:#f7f7f7; border-radius:8px; padding:4px 8px; cursor:pointer; }
   `;
   document.head.appendChild(style);
 
@@ -258,6 +433,7 @@ function ensureOpponentOverlay(){
     if (currentView !== 'self') {
       currentView = 'self';
       const sel = qs('#boardSelect'); if (sel) sel.value = 'self';
+      renderPlayersBar();
     }
   });
 
@@ -276,8 +452,15 @@ function buildOpponentBattlefield(state){
   life.className = 'zone zone--life readonly';
   life.setAttribute('data-zone', 'life');
   life.innerHTML = `
-    <div class="zone-title">Points de vie</div>
+    <div class="zone-title">Points de vie
+      <button type="button" class="btn-life-list-ro" title="Ouvrir la liste (adversaire)" aria-label="Ouvrir la liste (adversaire)">Liste</button>
+    </div>
     <div class="life-wrap"><div class="life-value readonly" aria-live="polite">${(state?.life ?? 40)}</div></div>`;
+
+  life.querySelector('.btn-life-list-ro')?.addEventListener('click', (e) => {
+    e.preventDefault(); e.stopPropagation();
+    openReadonlyLifeListForOpponent(state);
+  });
 
   const cmd = document.createElement('div');
   cmd.className = 'zone zone--commander readonly';
@@ -319,10 +502,10 @@ function buildOpponentBattlefield(state){
     commanderEl: cmd.querySelector('.cards'),
     graveyardEl: gy.querySelector('.cards'),
     exileEl: ex.querySelector('.cards'),
-    rowEls: []
+    rowEls: [],
+    lifeBtn: life.querySelector('.btn-life-list-ro')
   };
 
-  // ✅ Commander/images OK, cimetière & exil AVEC aperçu (depuis stores)
   renderCardsTo(mounts.commanderEl, state?.zones?.commander ?? []);
   renderNamesWithPreview(mounts.graveyardEl, state?.stores?.cimetiere ?? []);
   renderNamesWithPreview(mounts.exileEl,     state?.stores?.exil ?? []);
@@ -338,7 +521,7 @@ function buildOpponentBattlefield(state){
     holder.className = 'cards cards--battlefield';
     rowEl.appendChild(holder);
 
-    renderCardsTo(holder, cardsInRow); // ⬅️ inclut attachPreviewListeners
+    renderCardsTo(holder, cardsInRow);
     mounts.rowEls[i] = holder;
 
     rowsWrap.appendChild(rowEl);
@@ -364,7 +547,6 @@ function patchOpponentOverlay(dlg, prev, next){
   const nextCmd = next?.zones?.commander ?? [];
   if (!arraysEqualBySig(prevCmd, nextCmd)) renderCardsTo(mounts.commanderEl, nextCmd);
 
-  // ✅ PATCH cimetière/exil avec aperçu au survol (depuis STORES)
   const prevGy = prev?.stores?.cimetiere ?? [];
   const nextGy = next?.stores?.cimetiere ?? [];
   if (!arraysEqualBySig(prevGy, nextGy)) renderNamesWithPreview(mounts.graveyardEl, nextGy);
@@ -379,7 +561,6 @@ function patchOpponentOverlay(dlg, prev, next){
     if (!arraysEqualBySig(prevRow, nextRow)) renderCardsTo(mounts.rowEls[i], nextRow);
   }
 
-  // Rafraîchit la modale ouverte (liste) avec aperçu
   if (OPP_LIST_OPEN && dlg.__opp.playerId === OPP_LIST_OPEN.playerId) {
     const zone = OPP_LIST_OPEN.zone;
     const title = zone === 'cimetiere' ? 'Cimetière (adversaire)' : 'Exil (adversaire)';
@@ -391,6 +572,13 @@ function patchOpponentOverlay(dlg, prev, next){
     } else {
       OPP_LIST_OPEN = null;
     }
+  }
+
+  if (mounts.lifeBtn) {
+    mounts.lifeBtn.onclick = (e) => {
+      e.preventDefault(); e.stopPropagation();
+      openReadonlyLifeListForOpponent(next);
+    };
   }
 }
 
@@ -523,12 +711,14 @@ function startPeriodicOverlayRefresh(){
    ============= */
 function initMulti(){
   ensureBoardViewerDropdown();
+  ensurePlayersBar();
 
   document.addEventListener('DOMContentLoaded',()=>{
     qs('#setNameBtn')?.addEventListener('click',()=>{
       const val=qs('#playerName')?.value.trim();
       if(val){
         PLAYER_NAME=val;
+        try { localStorage.setItem('mtg.playerName', val); } catch {}
         saveConn({ ...(loadConn()||{}), playerName: PLAYER_NAME });
         refreshDropdown();
         sendMyState();
@@ -537,6 +727,19 @@ function initMulti(){
     const input = qs('#playerName');
     if (input && !input.value) input.value = PLAYER_NAME;
     qs('#boardSelect')?.addEventListener('change',e=>{ currentView=e.target.value; refreshView(); });
+  });
+
+  // Si le nom change dans un autre onglet (ou après builder) → maj live
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'mtg.playerName') {
+      const nv = (e.newValue || '').trim();
+      if (nv && nv !== PLAYER_NAME) {
+        PLAYER_NAME = nv;
+        saveConn({ ...(loadConn()||{}), playerName: PLAYER_NAME });
+        refreshDropdown();
+        sendMyState();
+      }
+    }
   });
 
   refreshDropdown();

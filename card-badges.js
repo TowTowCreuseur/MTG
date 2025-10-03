@@ -49,7 +49,7 @@ import {
       display:grid; grid-template-columns: 1fr auto 84px auto; gap:8px; align-items:center;
       border:1px solid #eee; border-radius:10px; padding:8px;
     }
-    .list-row.readonly{ opacity:.85; }
+    .list-row.readonly{ opacity:1.5; }
     .list-row input[type="text"]{ width:100%; padding:6px 8px; border:1px solid #ddd; border-radius:8px; }
     .qty-wrap{ display:flex; align-items:center; gap:6px; }
     .qty-wrap input[type="number"]{ width:64px; padding:6px 8px; border:1px solid #ddd; border-radius:8px; }
@@ -87,7 +87,14 @@ function ensureBadgeDot(cardEl){
   dot.addEventListener('click', (e) => {
     e.stopPropagation();
     const ro = isReadonly(cardEl);
-    openCardListDialog(cardEl.dataset.cardId, ro);
+
+    // 🔁 RÉCUPÈRE les items depuis le dataset si présents (cartes adverses)
+    let itemsFromDataset = [];
+    try {
+      if (cardEl.dataset.badgeItems) itemsFromDataset = JSON.parse(cardEl.dataset.badgeItems) || [];
+    } catch { itemsFromDataset = []; }
+
+    openCardListDialog(cardEl.dataset.cardId, ro, itemsFromDataset);
   });
   // Affichage uniquement si .has-badge
   const updateVis = () => { dot.style.display = cardEl.classList.contains('has-badge') ? '' : 'none'; };
@@ -101,7 +108,9 @@ function ensureBadgeDot(cardEl){
 function installBadgeForCard(cardEl){
   if (!cardEl?.classList?.contains('card')) return;
   const st = readBadgeForCard(cardEl.dataset.cardId);
-  if (st.has) cardEl.classList.add('has-badge'); else cardEl.classList.remove('has-badge');
+  // ⚠️ Ne force pas le visuel si déjà fourni (cartes adverses) :
+  if (st.has) cardEl.classList.add('has-badge');
+  else if (!cardEl.classList.contains('has-badge')) cardEl.classList.remove('has-badge');
   ensureBadgeDot(cardEl);
 }
 
@@ -202,7 +211,7 @@ function buildListDialog({ title='Liste', items=[], readonly=false, onChange, on
   }
 
   function addFromInput(){
-    const v = input.value.trim();
+    const v = input?.value.trim();
     if (!v) return;
     data.push({ label:v, qty: 1 });
     input.value = '';
@@ -210,13 +219,13 @@ function buildListDialog({ title='Liste', items=[], readonly=false, onChange, on
   }
 
   if (!readonly){
-    addBtn.addEventListener('click', addFromInput);
-    input.addEventListener('keydown', (e) => {
+    addBtn?.addEventListener('click', addFromInput);
+    input?.addEventListener('keydown', (e) => {
       if (e.key === 'Enter'){ e.preventDefault(); addFromInput(); }
     });
-    btnSave.addEventListener('click', () => { onChange?.(data); dlg.close('ok'); });
+    btnSave?.addEventListener('click', () => { onChange?.(data); dlg.close('ok'); });
   }
-  btnClose.addEventListener('click', () => { dlg.close('cancel'); });
+  btnClose?.addEventListener('click', () => { dlg.close('cancel'); });
 
   dlg.addEventListener('close', () => {
     onClose?.();
@@ -229,25 +238,36 @@ function buildListDialog({ title='Liste', items=[], readonly=false, onChange, on
   return dlg;
 }
 
-/* Ouvre la liste associée à une carte */
-function openCardListDialog(cardId, readonly){
-  const st = readBadgeForCard(cardId);
+/* Ouvre la liste associée à une carte
+   - NEW: itemsOverride (utilisé en lecture seule côté adverse via dataset.badgeItems) */
+function openCardListDialog(cardId, readonly, itemsOverride){
+  const base = readBadgeForCard(cardId);
+  const items = (readonly && Array.isArray(itemsOverride) && itemsOverride.length)
+    ? itemsOverride
+    : (base.items || []);
+
   buildListDialog({
     title: 'Liste — Carte',
-    items: st.items || [],
+    items,
     readonly,
-    onChange: (items) => {
-      updateBadgeForCard(cardId, { has: true, items });
+    onChange: (newItems) => {
+      if (!readonly) {
+        updateBadgeForCard(cardId, { has: true, items: newItems });
+      }
     }
   });
 }
 
 /* =========================
-   Bouton “Liste” Points de vie
+   Bouton “Liste” Points de vie (LOCAL UNIQUEMENT)
    ========================= */
 function ensureLifeListButton(){
   const zone = qs('.zone--life');
   if (!zone) return;
+
+  // 🚫 Ne pas injecter le bouton dans l’overlay adverse (géré par app-multi.js)
+  if (zone.closest?.('#opponentOverlay')) return;
+
   const title = zone.querySelector('.zone-title');
   if (!title) return;
   if (title.querySelector('.btn-life-list')) return;

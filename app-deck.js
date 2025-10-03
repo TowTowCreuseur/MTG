@@ -7,11 +7,14 @@
        • lit room/wsHost/wsPort/wsProto de l’URL
        • redirige vers index.html avec les mêmes paramètres
    - 🔥 Bouton “Réinitialiser le terrain” (efface la sauvegarde précédente du plateau : localStorage 'mtg.persist.state')
+   - 🆕 Barre de saisie “Pseudo” au-dessus de “Rejoindre la partie”
+       • stockée dans localStorage('mtg.playerName')
+       • désactivée s’il existe une partie en mémoire (PERSIST_BOARD_KEY)
 */
 
-// --- Langue d'affichage des impressions Scryfall ---
 const CARD_LANG = 'fr';
 const PERSIST_BOARD_KEY = 'mtg.persist.state';
+const PLAYER_NAME_KEY = 'mtg.playerName';
 
 const deckMap = new Map(); // id -> {card, qty}
 let commanders = [];
@@ -74,8 +77,81 @@ function confirmAndResetBoardState() {
   const ok = confirm("Réinitialiser le terrain ?\nCela efface la sauvegarde de la partie précédente (plateau, main, cimetière, etc.).");
   if (!ok) return;
   const done = resetBoardState();
-  if (done) alert("Terrain réinitialisé ✅\nLa prochaine ouverture de la table utilisera uniquement le deck choisi ici.");
-  else alert("Impossible d'effacer la sauvegarde locale du terrain.");
+  if (done) {
+    // ✅ réactiver la saisie du pseudo immédiatement
+    setPlayerNameFieldLocked(false);
+    alert("Terrain réinitialisé ✅\nLa prochaine ouverture de la table utilisera uniquement le deck choisi ici.");
+  } else {
+    alert("Impossible d'effacer la sauvegarde locale du terrain.");
+  }
+}
+
+/* ---------- Aide : partie en mémoire ? ---------- */
+function hasOngoingLocalGame(){
+  try { return !!localStorage.getItem(PERSIST_BOARD_KEY); } catch { return false; }
+}
+
+/* ---------- Pseudo : helpers ---------- */
+function setPlayerNameFieldLocked(locked){
+  const input = qs('#playerNameBuilder');
+  if (!input) return;
+  input.disabled = !!locked;
+  input.title = locked
+    ? "Un plateau est déjà sauvegardé. Réinitialisez le terrain pour changer de pseudo."
+    : "";
+  input.style.opacity = locked ? '0.6' : '';
+  input.style.cursor  = locked ? 'not-allowed' : '';
+}
+
+/* ---------- Pseudo : injection au-dessus du bouton GO ---------- */
+function ensurePlayerNameField() {
+  const btnGoPlay = qs('#btn-go-play');
+  if (!btnGoPlay) return;
+
+  // Si déjà injecté, ne rien refaire (mais s'assurer de l'état lock)
+  if (qs('#playerNameBuilder')) {
+    setPlayerNameFieldLocked(hasOngoingLocalGame());
+    return;
+  }
+
+  const wrap = document.createElement('div');
+  wrap.className = 'player-name-wrap';
+  wrap.style.cssText = 'display:grid; gap:6px; margin:10px 0 14px;';
+
+  const label = document.createElement('label');
+  label.setAttribute('for', 'playerNameBuilder');
+  label.textContent = 'Votre pseudo (affiché dans la liste des joueurs)';
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.id = 'playerNameBuilder';
+  input.placeholder = 'Ex. “NissaFan42”';
+  input.maxLength = 40;
+  input.style.cssText = 'padding:8px; border:1px solid #ddd; border-radius:8px;';
+
+  // Valeur initiale : depuis localStorage si dispo
+  try {
+    const cur = localStorage.getItem(PLAYER_NAME_KEY);
+    if (cur) input.value = cur;
+  } catch {}
+
+  wrap.appendChild(label);
+  wrap.appendChild(input);
+
+  // Injection juste AVANT le bouton "Rejoindre la partie"
+  btnGoPlay.parentElement?.insertBefore(wrap, btnGoPlay);
+
+  // État de verrouillage en fonction d’une partie en mémoire
+  const locked = hasOngoingLocalGame();
+  setPlayerNameFieldLocked(locked);
+
+  // Sauvegarde en direct si non verrouillé
+  if (!locked) {
+    input.addEventListener('input', () => {
+      const v = input.value.trim();
+      try { localStorage.setItem(PLAYER_NAME_KEY, v); } catch {}
+    });
+  }
 }
 
 /* ---------- Recherche / rendu ---------- */
@@ -484,24 +560,23 @@ function init() {
   const importBtn = qs('#btn-import');
   const fileInput = qs('#file-input');
 
-  // Bouton unique “Rejoindre la partie”
   const btnGoPlay = qs('#btn-go-play');
-
-  // ✅ Nouveau bouton : Réinitialiser le terrain
   const btnResetBoard = qs('#btn-reset-board');
 
-  // Éléments de la modale d'export
   const exportConfirmBtn = qs('#exportConfirmBtn');
   const exportCancelBtn  = qs('#exportCancelBtn');
   const exportNameInput  = qs('#exportName');
   const exportDialog     = qs('#exportDialog');
+
+  // 🆕 Champ “Pseudo” au-dessus de “Rejoindre la partie”
+  ensurePlayerNameField();
 
   renderResults([]);
   renderDeck();
   renderCommanders();
 
   let t = null;
-  input.addEventListener('input', () => {
+  input?.addEventListener('input', () => {
     clearTimeout(t);
     t = setTimeout(() => runSearch(input.value), 200);
   });
@@ -511,17 +586,22 @@ function init() {
   importBtn?.addEventListener('click', () => fileInput?.click());
   fileInput?.addEventListener('change', e => { const f = e.target.files?.[0]; if (f) importDeckFromFile(f); e.target.value=''; });
 
-  // —— Réinitialiser le terrain (efface la sauvegarde précédente) —— //
+  // —— Réinitialiser le terrain —— //
   btnResetBoard?.addEventListener('click', confirmAndResetBoardState);
 
-  // —— Rejoindre la partie : sauvegarde le deck puis redirige vers index.html avec les mêmes paramètres —— //
+  // —— Rejoindre la partie —— //
   btnGoPlay?.addEventListener('click', () => {
     if (!saveDeckToLocalStorage()) return;
 
-    // Optionnel : on s'assure que la sauvegarde précédente ne pollue pas le démarrage si l'utilisateur l'a oubliée.
-    // (On NE force pas l'effacement ici pour laisser le contrôle au bouton dédié.)
-    // => Laisser décommenté si tu veux que "Rejoindre la partie" purge toujours :
-    // resetBoardState();
+    // Récupérer/sauvegarder le pseudo
+    const nameInput = qs('#playerNameBuilder');
+    let playerName = '';
+    if (nameInput && !nameInput.disabled) {
+      playerName = (nameInput.value || '').trim();
+      try { localStorage.setItem(PLAYER_NAME_KEY, playerName); } catch {}
+    } else {
+      try { playerName = (localStorage.getItem(PLAYER_NAME_KEY) || '').trim(); } catch {}
+    }
 
     const urlp   = new URLSearchParams(location.search);
     const room   = urlp.get('room')   || '';
@@ -535,15 +615,17 @@ function init() {
     }
 
     const params = new URLSearchParams({ room, wsHost, wsPort, wsProto });
+    if (playerName) params.set('playerName', playerName); // ✅ passer le pseudo à la table
+
     window.location.href = `${baseIndexUrl()}?${params.toString()}`;
   });
 
-  // —— Wiring de la modale d'export —— //
+  // —— Modale d'export —— //
   exportConfirmBtn?.addEventListener('click', confirmExportDialog);
   exportCancelBtn?.addEventListener('click', closeExportDialog);
   exportNameInput?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); confirmExportDialog(); }
   });
-  exportDialog?.addEventListener('cancel', (e) => { e.preventDefault(); closeExportDialog(); }); // ESC sur <dialog>
+  exportDialog?.addEventListener('cancel', (e) => { e.preventDefault(); closeExportDialog(); });
 }
 document.addEventListener('DOMContentLoaded', init);

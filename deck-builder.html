@@ -50,14 +50,14 @@
 
         <div class="deck-actions">
           <button class="btn-secondary" id="btn-clear">Vider</button>
-          <!-- ✅ Nouveau : réinitialisation du terrain sauvegardé -->
+          <!-- ✅ Réinitialisation du terrain sauvegardé -->
           <button class="btn-secondary" id="btn-reset-board" title="Effacer la sauvegarde de la partie précédente (plateau, zones, etc.)">
             Réinitialiser le terrain
           </button>
           <button class="btn-secondary" id="btn-import">Importer (JSON)</button>
           <input type="file" id="file-input" accept="application/json" hidden>
           <button class="btn-primary" id="btn-export">Exporter (JSON)</button>
-          <!-- 🔥 Sessions : on remplace l'ancien bouton d'ouverture -->
+          <!-- Le champ "Pseudo" sera injecté ici juste au-dessus par app-deck.js -->
           <button class="btn-primary" id="btn-go-play">Rejoindre la partie</button>
         </div>
       </aside>
@@ -102,7 +102,7 @@
       </form>
     </dialog>
 
-    <!-- ✅ Nouvelle modale : Exporter le deck -->
+    <!-- ✅ Modale : Exporter le deck -->
     <dialog id="exportDialog" class="modal" aria-label="Exporter le deck">
       <form method="dialog" class="modal-body" onsubmit="return false;">
         <header class="modal-header">
