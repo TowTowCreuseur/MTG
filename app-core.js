@@ -624,11 +624,15 @@ export function openSearchModal() {
     };
   }
 
-  const btnShuffle = qs('.btn-shuffle', dialog);
-  if (btnShuffle) {
-    // Mélange puis ré-ouvre la liste (deck mélangé, modale conservée)
-    btnShuffle.onclick = () => { shuffleDeck(); openSearchModal(); };
-  }
+const btnShuffle = qs('.btn-shuffle', dialog);
+if (btnShuffle) {
+  // Mélange puis ferme la fenêtre pour éviter d’afficher la liste fraîchement mélangée
+  btnShuffle.onclick = () => {
+    shuffleDeck();
+    try { dialog.close(); } catch {}
+  };
+}
+
 
   // (optionnel) Si tu as un bouton dédié "mélanger & fermer"
   const btnShuffleClose = qs('.btn-shuffle-close', dialog);

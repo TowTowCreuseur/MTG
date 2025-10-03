@@ -1,0 +1,598 @@
+{
+  "createdAt": "2025-10-03T21:07:34.510Z",
+  "cards": [
+    {
+      "id": "5819e3f3-da49-4003-88ce-f3b7bb495787",
+      "name": "_____ Goblin",
+      "type": "Creature — Goblin Guest",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/8/5819e3f3-da49-4003-88ce-f3b7bb495787.jpg?1715680623",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/8/5819e3f3-da49-4003-88ce-f3b7bb495787.jpg?1715680623",
+      "qty": 1
+    },
+    {
+      "id": "09236538-8243-4e9e-b728-78328c5e2d48",
+      "name": "Automate évolutif",
+      "type": "Créature-artefact : construction",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/9/09236538-8243-4e9e-b728-78328c5e2d48.jpg?1668899562",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/9/09236538-8243-4e9e-b728-78328c5e2d48.jpg?1668899562",
+      "qty": 1
+    },
+    {
+      "id": "6dab1af6-2f4c-4ca7-a70e-f1f66c43d1cf",
+      "name": "Cavalerie axgardienne",
+      "type": "Créature — nain et berserker",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/d/6dab1af6-2f4c-4ca7-a70e-f1f66c43d1cf.jpg?1732351912",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/d/6dab1af6-2f4c-4ca7-a70e-f1f66c43d1cf.jpg?1732351912",
+      "qty": 1
+    },
+    {
+      "id": "d8f9d949-8a69-4c5b-8022-faae4650350b",
+      "name": "Moissonneur écorciforme",
+      "type": "Créature-artefact — changeforme",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/8/d8f9d949-8a69-4c5b-8022-faae4650350b.jpg?1738109875",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/8/d8f9d949-8a69-4c5b-8022-faae4650350b.jpg?1738109875",
+      "qty": 1
+    },
+    {
+      "id": "73f8b4a0-7f33-48af-abfb-ed8ac4d7b771",
+      "name": "Monolithe de basalte",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/3/73f8b4a0-7f33-48af-abfb-ed8ac4d7b771.jpg?1698805129",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/3/73f8b4a0-7f33-48af-abfb-ed8ac4d7b771.jpg?1698805129",
+      "qty": 1
+    },
+    {
+      "id": "cb4149b1-d812-42c9-a02e-5005a6676880",
+      "name": "Golem bosselé",
+      "type": "Créature-artefact : golem",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/b/cb4149b1-d812-42c9-a02e-5005a6676880.jpg?1562879744",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/b/cb4149b1-d812-42c9-a02e-5005a6676880.jpg?1562879744",
+      "qty": 1
+    },
+    {
+      "id": "8004d76d-18b9-4569-9447-7d56cacd9db2",
+      "name": "Le pactole",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/0/8004d76d-18b9-4569-9447-7d56cacd9db2.jpg?1744559257",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/0/8004d76d-18b9-4569-9447-7d56cacd9db2.jpg?1744559257",
+      "qty": 1
+    },
+    {
+      "id": "525eaf3d-92f0-4da5-bc5e-6dee622b2f3f",
+      "name": "Nain hématopyre",
+      "type": "Créature : nain",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/2/525eaf3d-92f0-4da5-bc5e-6dee622b2f3f.jpg?1562914315",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/2/525eaf3d-92f0-4da5-bc5e-6dee622b2f3f.jpg?1562914315",
+      "qty": 1
+    },
+    {
+      "id": "fe7d5f4c-cc1a-4e1a-a6b5-46bb44410124",
+      "name": "Explosion de capsules",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/e/fe7d5f4c-cc1a-4e1a-a6b5-46bb44410124.jpg?1718686116",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/e/fe7d5f4c-cc1a-4e1a-a6b5-46bb44410124.jpg?1718686116",
+      "qty": 1
+    },
+    {
+      "id": "32d2f225-7c12-4c5c-ab58-0be1bf9c8407",
+      "name": "Ruine ensevelie",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/2/32d2f225-7c12-4c5c-ab58-0be1bf9c8407.jpg?1718692281",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/2/32d2f225-7c12-4c5c-ab58-0be1bf9c8407.jpg?1718692281",
+      "qty": 1
+    },
+    {
+      "id": "33260006-ac71-4853-a216-eebd561317c4",
+      "name": "Distorsion chaotique",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/3/33260006-ac71-4853-a216-eebd561317c4.jpg?1744559303",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/3/33260006-ac71-4853-a216-eebd561317c4.jpg?1744559303",
+      "qty": 1
+    },
+    {
+      "id": "97bb6c86-02cd-423f-877f-6743062a8c0c",
+      "name": "Horloge des augures",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/7/97bb6c86-02cd-423f-877f-6743062a8c0c.jpg?1562557451",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/7/97bb6c86-02cd-423f-877f-6743062a8c0c.jpg?1562557451",
+      "qty": 1
+    },
+    {
+      "id": "f2212c08-fc88-4776-9f5e-215fcb2c874d",
+      "name": "Caravane de cultivateur",
+      "type": "Artefact — véhicule",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/2/f2212c08-fc88-4776-9f5e-215fcb2c874d.jpg?1740190265",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/2/f2212c08-fc88-4776-9f5e-215fcb2c874d.jpg?1740190265",
+      "qty": 1
+    },
+    {
+      "id": "d92b1ce9-15e5-4a63-bfa2-f13db56a3169",
+      "name": "Grille de défense",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/9/d92b1ce9-15e5-4a63-bfa2-f13db56a3169.jpg?1668901057",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/9/d92b1ce9-15e5-4a63-bfa2-f13db56a3169.jpg?1668901057",
+      "qty": 1
+    },
+    {
+      "id": "5fe917fc-5190-41fc-bbb4-54462c22f118",
+      "name": "Flûte du perturbateur",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/f/5fe917fc-5190-41fc-bbb4-54462c22f118.jpg?1730225150",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/f/5fe917fc-5190-41fc-bbb4-54462c22f118.jpg?1730225150",
+      "qty": 1
+    },
+    {
+      "id": "0e68fdda-1f94-4903-8d26-f9795fcd3571",
+      "name": "Grognard nain",
+      "type": "Créature : nain",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/e/0e68fdda-1f94-4903-8d26-f9795fcd3571.jpg?1562897789",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/e/0e68fdda-1f94-4903-8d26-f9795fcd3571.jpg?1562897789",
+      "qty": 1
+    },
+    {
+      "id": "0647d27a-80da-42b4-8523-f58084be7ca2",
+      "name": "Entrepôt nain",
+      "type": "Land",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/6/0647d27a-80da-42b4-8523-f58084be7ca2.jpg?1539779378",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/6/0647d27a-80da-42b4-8523-f58084be7ca2.jpg?1539779378",
+      "qty": 1
+    },
+    {
+      "id": "ca9d97a3-9bb8-4bb5-98b7-2915360005b3",
+      "name": "Mineur nain",
+      "type": "Creature — Dwarf",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/a/ca9d97a3-9bb8-4bb5-98b7-2915360005b3.jpg?1539717521",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/a/ca9d97a3-9bb8-4bb5-98b7-2915360005b3.jpg?1539717521",
+      "qty": 1
+    },
+    {
+      "id": "c1e53160-3320-4e14-880f-6d8a43cf8930",
+      "name": "Recruteur nain",
+      "type": "Créature : nain",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/1/c1e53160-3320-4e14-880f-6d8a43cf8930.jpg?1562931241",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/1/c1e53160-3320-4e14-880f-6d8a43cf8930.jpg?1562931241",
+      "qty": 1
+    },
+    {
+      "id": "544bc5a6-b87c-44a7-b6ae-5283f60ac7b7",
+      "name": "Nain brûleur",
+      "type": "Créature : nain",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/4/544bc5a6-b87c-44a7-b6ae-5283f60ac7b7.jpg?1562629899",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/4/544bc5a6-b87c-44a7-b6ae-5283f60ac7b7.jpg?1562629899",
+      "qty": 1
+    },
+    {
+      "id": "ec9ac8cd-5cd2-4ecc-bbc3-d81e80ca7cfc",
+      "name": "Élixir d'immortalité",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/c/ec9ac8cd-5cd2-4ecc-bbc3-d81e80ca7cfc.jpg?1618509973",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/c/ec9ac8cd-5cd2-4ecc-bbc3-d81e80ca7cfc.jpg?1618509973",
+      "qty": 1
+    },
+    {
+      "id": "39245b53-799b-439b-9284-70ca7582c8ee",
+      "name": "Naine en esclavage",
+      "type": "Créature : nain",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/9/39245b53-799b-439b-9284-70ca7582c8ee.jpg?1562629277",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/9/39245b53-799b-439b-9284-70ca7582c8ee.jpg?1562629277",
+      "qty": 1
+    },
+    {
+      "id": "de94ecf4-ad7d-4819-98d1-f7a0dda93b6c",
+      "name": "Annonciatrice sangpyre",
+      "type": "Créature : élémental et shamane",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/e/de94ecf4-ad7d-4819-98d1-f7a0dda93b6c.jpg?1562371100",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/e/de94ecf4-ad7d-4819-98d1-f7a0dda93b6c.jpg?1562371100",
+      "qty": 1
+    },
+    {
+      "id": "61dcbb6b-db4c-4f13-9d09-5f6410e3117a",
+      "name": "Flamboiement de duplication",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/1/61dcbb6b-db4c-4f13-9d09-5f6410e3117a.jpg?1730224704",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/1/61dcbb6b-db4c-4f13-9d09-5f6410e3117a.jpg?1730224704",
+      "qty": 1
+    },
+    {
+      "id": "a7b43c0d-51bd-49a4-b0a6-d00b133984bb",
+      "name": "Bolide roulevif",
+      "type": "Artefact — véhicule",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/7/a7b43c0d-51bd-49a4-b0a6-d00b133984bb.jpg?1716777908",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/7/a7b43c0d-51bd-49a4-b0a6-d00b133984bb.jpg?1716777908",
+      "qty": 1
+    },
+    {
+      "id": "f58da2b4-0226-4318-8137-3908544a5ba0",
+      "name": "Gadrak, le fléau des couronnes",
+      "type": "Créature légendaire — dragon",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/5/f58da2b4-0226-4318-8137-3908544a5ba0.jpg?1744559445",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/5/f58da2b4-0226-4318-8137-3908544a5ba0.jpg?1744559445",
+      "qty": 1
+    },
+    {
+      "id": "7bb17500-c0f8-416e-a8eb-fb5b5b01411c",
+      "name": "Glóin, émissaire nain",
+      "type": "Créature légendaire : nain et conseiller",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/b/7bb17500-c0f8-416e-a8eb-fb5b5b01411c.jpg?1698798583",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/b/7bb17500-c0f8-416e-a8eb-fb5b5b01411c.jpg?1698798583",
+      "qty": 1
+    },
+    {
+      "id": "1703c894-6bd2-4cc0-872e-0c7b304f0435",
+      "name": "Ingénieur gobelin",
+      "type": "Créature : gobelin et artificier",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/7/1703c894-6bd2-4cc0-872e-0c7b304f0435.jpg?1646046035",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/7/1703c894-6bd2-4cc0-872e-0c7b304f0435.jpg?1646046035",
+      "qty": 1
+    },
+    {
+      "id": "8b712677-70b6-4e73-b1f2-868e9cb8913a",
+      "name": "Poste de broyage",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/b/8b712677-70b6-4e73-b1f2-868e9cb8913a.jpg?1562878382",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/b/8b712677-70b6-4e73-b1f2-868e9cb8913a.jpg?1562878382",
+      "qty": 1
+    },
+    {
+      "id": "fbba5a4b-6e0d-4583-95f1-df0c9c9ac3a3",
+      "name": "Campement d'objecteurs",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/b/fbba5a4b-6e0d-4583-95f1-df0c9c9ac3a3.jpg?1562945762",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/b/fbba5a4b-6e0d-4583-95f1-df0c9c9ac3a3.jpg?1562945762",
+      "qty": 1
+    },
+    {
+      "id": "98f6f7bc-29eb-44e1-93fa-31c054ffdcba",
+      "name": "Naine libérée",
+      "type": "Créature : nain",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/8/98f6f7bc-29eb-44e1-93fa-31c054ffdcba.jpg?1562631085",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/8/98f6f7bc-29eb-44e1-93fa-31c054ffdcba.jpg?1562631085",
+      "qty": 1
+    },
+    {
+      "id": "476687d4-b39f-42ea-973c-b2da14770839",
+      "name": "Machine forge-vie",
+      "type": "Artefact — véhicule",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/7/476687d4-b39f-42ea-973c-b2da14770839.jpg?1740193853",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/7/476687d4-b39f-42ea-973c-b2da14770839.jpg?1740193853",
+      "qty": 1
+    },
+    {
+      "id": "a2f87032-f9b0-41e8-bfac-35e0c6ce0af1",
+      "name": "Foudre",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/2/a2f87032-f9b0-41e8-bfac-35e0c6ce0af1.jpg?1677128541",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/2/a2f87032-f9b0-41e8-bfac-35e0c6ce0af1.jpg?1677128541",
+      "qty": 1
+    },
+    {
+      "id": "756b775b-e9bd-4645-922e-a3c99af7ba04",
+      "name": "Jambières d'éclair",
+      "type": "Artefact — équipement",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/5/756b775b-e9bd-4645-922e-a3c99af7ba04.jpg?1744556772",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/5/756b775b-e9bd-4645-922e-a3c99af7ba04.jpg?1744556772",
+      "qty": 1
+    },
+    {
+      "id": "d4d312ff-2dc5-4e8a-9203-00c610444dbb",
+      "name": "Torque de liquimétal",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/4/d4d312ff-2dc5-4e8a-9203-00c610444dbb.jpg?1673410081",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/4/d4d312ff-2dc5-4e8a-9203-00c610444dbb.jpg?1673410081",
+      "qty": 1
+    },
+    {
+      "id": "9266d3f6-3445-4328-9de8-9a99eb9d9a4f",
+      "name": "Floraison de lotus",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/2/9266d3f6-3445-4328-9de8-9a99eb9d9a4f.jpg?1646045244",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/2/9266d3f6-3445-4328-9de8-9a99eb9d9a4f.jpg?1646045244",
+      "qty": 1
+    },
+    {
+      "id": "2c74a501-c492-4108-a374-4756f60e4c1a",
+      "name": "Magda, maîtresse du butin",
+      "type": "Créature légendaire — nain et berserker",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/c/2c74a501-c492-4108-a374-4756f60e4c1a.jpg?1730248876",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/c/2c74a501-c492-4108-a374-4756f60e4c1a.jpg?1730248876",
+      "qty": 1
+    },
+    {
+      "id": "74c5253c-885c-4d16-a618-52d5adfb22bd",
+      "name": "Nexus de Masquebois",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/4/74c5253c-885c-4d16-a618-52d5adfb22bd.jpg?1740190447",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/4/74c5253c-885c-4d16-a618-52d5adfb22bd.jpg?1740190447",
+      "qty": 1
+    },
+    {
+      "id": "c34088d4-cac3-48a2-a1c0-9d5de11980a5",
+      "name": "Mimique métallique",
+      "type": "Créature-artefact — changeforme",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/3/c34088d4-cac3-48a2-a1c0-9d5de11980a5.jpg?1730194706",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/3/c34088d4-cac3-48a2-a1c0-9d5de11980a5.jpg?1730194706",
+      "qty": 1
+    },
+    {
+      "id": "00866661-8ca9-4219-840a-e3c32e4a5470",
+      "name": "Miroir des ancêtres",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/0/00866661-8ca9-4219-840a-e3c32e4a5470.jpg?1562598074",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/0/00866661-8ca9-4219-840a-e3c32e4a5470.jpg?1562598074",
+      "qty": 1
+    },
+    {
+      "id": "a9b5aa47-5ba2-4295-9529-42d3d545a27b",
+      "name": "Ferme mobile",
+      "type": "Artefact — véhicule",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/9/a9b5aa47-5ba2-4295-9529-42d3d545a27b.jpg?1730248920",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/9/a9b5aa47-5ba2-4295-9529-42d3d545a27b.jpg?1730248920",
+      "qty": 1
+    },
+    {
+      "id": "cd8c598e-46ea-48bc-948b-f2ba28e84823",
+      "name": "Monastère de la montagne de Cori",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/d/cd8c598e-46ea-48bc-948b-f2ba28e84823.jpg?1744679547",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/d/cd8c598e-46ea-48bc-948b-f2ba28e84823.jpg?1744679547",
+      "qty": 27
+    },
+    {
+      "id": "d0c4506c-6d98-487a-bf86-e7fc23ac9210",
+      "name": "Pillage de pirate",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/0/d0c4506c-6d98-487a-bf86-e7fc23ac9210.jpg?1662549101",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/0/d0c4506c-6d98-487a-bf86-e7fc23ac9210.jpg?1662549101",
+      "qty": 1
+    },
+    {
+      "id": "a1d226cd-fe6f-4a0c-b6f3-8c54d02386be",
+      "name": "Barbare saccageur",
+      "type": "Créature : nain et barbare",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/1/a1d226cd-fe6f-4a0c-b6f3-8c54d02386be.jpg?1645516640",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/1/a1d226cd-fe6f-4a0c-b6f3-8c54d02386be.jpg?1645516640",
+      "qty": 1
+    },
+    {
+      "id": "687ca848-3eff-4f0c-bb1c-8dfc6c8fc906",
+      "name": "Divagations prophétiques",
+      "type": "Enchantement : aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/8/687ca848-3eff-4f0c-bb1c-8dfc6c8fc906.jpg?1562736893",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/8/687ca848-3eff-4f0c-bb1c-8dfc6c8fc906.jpg?1562736893",
+      "qty": 1
+    },
+    {
+      "id": "757e89d1-26a9-4afb-a3e8-29b2b02bbb8f",
+      "name": "Bombe à sortilèges de pyrite",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/5/757e89d1-26a9-4afb-a3e8-29b2b02bbb8f.jpg?1676782575",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/5/757e89d1-26a9-4afb-a3e8-29b2b02bbb8f.jpg?1676782575",
+      "qty": 1
+    },
+    {
+      "id": "f1a779ba-70fb-48d0-8234-793594110cf9",
+      "name": "Utilisation téméraire",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/1/f1a779ba-70fb-48d0-8234-793594110cf9.jpg?1685466305",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/1/f1a779ba-70fb-48d0-8234-793594110cf9.jpg?1685466305",
+      "qty": 1
+    },
+    {
+      "id": "cb17ac84-48ae-4ac4-9906-985a64681db0",
+      "name": "Salve élémentaire rouge",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/b/cb17ac84-48ae-4ac4-9906-985a64681db0.jpg?1559599140",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/b/cb17ac84-48ae-4ac4-9906-985a64681db0.jpg?1559599140",
+      "qty": 1
+    },
+    {
+      "id": "c47549d7-8d36-4ea0-ac33-b598d84576df",
+      "name": "Relique de légendes",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c47549d7-8d36-4ea0-ac33-b598d84576df.jpg?1663243887",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c47549d7-8d36-4ea0-ac33-b598d84576df.jpg?1663243887",
+      "qty": 1
+    },
+    {
+      "id": "c8b4c5b2-8d7b-4dda-ab01-df1c0991fe98",
+      "name": "Réciproquer",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/8/c8b4c5b2-8d7b-4dda-ab01-df1c0991fe98.jpg?1730248881",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/8/c8b4c5b2-8d7b-4dda-ab01-df1c0991fe98.jpg?1730248881",
+      "qty": 1
+    },
+    {
+      "id": "9b482784-7a5a-4052-a07a-d67ff75d6dc2",
+      "name": "Anneaux des Clairâtres",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/b/9b482784-7a5a-4052-a07a-d67ff75d6dc2.jpg?1645559436",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/b/9b482784-7a5a-4052-a07a-d67ff75d6dc2.jpg?1645559436",
+      "qty": 1
+    },
+    {
+      "id": "e0c2a3e5-f7eb-42c5-b20f-94ebeaa7e7b5",
+      "name": "Fête fracassante",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/0/e0c2a3e5-f7eb-42c5-b20f-94ebeaa7e7b5.jpg?1645625745",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/0/e0c2a3e5-f7eb-42c5-b20f-94ebeaa7e7b5.jpg?1645625745",
+      "qty": 1
+    },
+    {
+      "id": "411d3ea9-82a1-4a11-94a8-77a15f5ff303",
+      "name": "Fracasser le siège",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/1/411d3ea9-82a1-4a11-94a8-77a15f5ff303.jpg?1730224791",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/1/411d3ea9-82a1-4a11-94a8-77a15f5ff303.jpg?1730224791",
+      "qty": 1
+    },
+    {
+      "id": "cab4febe-4307-41fa-adcd-c88faadf2256",
+      "name": "Coptère de contrebandier",
+      "type": "Artefact : véhicule",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/a/cab4febe-4307-41fa-adcd-c88faadf2256.jpg?1645475453",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/a/cab4febe-4307-41fa-adcd-c88faadf2256.jpg?1645475453",
+      "qty": 1
+    },
+    {
+      "id": "8a5cad93-964c-48e2-af54-924acd856c0c",
+      "name": "Anneau solaire",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "qty": 1
+    },
+    {
+      "id": "2587ae60-7bf6-456d-8acd-f4652fd75811",
+      "name": "Tambour de sautefeuille",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/5/2587ae60-7bf6-456d-8acd-f4652fd75811.jpg?1668905631",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/5/2587ae60-7bf6-456d-8acd-f4652fd75811.jpg?1668905631",
+      "qty": 1
+    },
+    {
+      "id": "3f9859aa-4a05-4547-8ac1-db7bd0557f3f",
+      "name": "Faire fortune",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/f/3f9859aa-4a05-4547-8ac1-db7bd0557f3f.jpg?1646220797",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/f/3f9859aa-4a05-4547-8ac1-db7bd0557f3f.jpg?1646220797",
+      "qty": 1
+    },
+    {
+      "id": "1f6f7b08-f72b-4d40-ae38-9cf7a52d76ca",
+      "name": "Campement des survivants",
+      "type": "Terrain : désert",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/f/1f6f7b08-f72b-4d40-ae38-9cf7a52d76ca.jpg?1562791765",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/f/1f6f7b08-f72b-4d40-ae38-9cf7a52d76ca.jpg?1562791765",
+      "qty": 1
+    },
+    {
+      "id": "af2a2f96-dca5-4026-b8f2-5e23e9d557f9",
+      "name": "Bottes de piedagile",
+      "type": "Artefact — équipement",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/f/af2a2f96-dca5-4026-b8f2-5e23e9d557f9.jpg?1744562039",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/f/af2a2f96-dca5-4026-b8f2-5e23e9d557f9.jpg?1744562039",
+      "qty": 1
+    },
+    {
+      "id": "eb680e0a-f056-4e17-ae57-bb603fdb4437",
+      "name": "Les Jardins de mycosynthèse",
+      "type": "Terrain : sphère",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/b/eb680e0a-f056-4e17-ae57-bb603fdb4437.jpg?1677110333",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/b/eb680e0a-f056-4e17-ae57-bb603fdb4437.jpg?1677110333",
+      "qty": 1
+    },
+    {
+      "id": "407e43e5-6583-44c6-a230-8c4b46761d56",
+      "name": "Éclat d'améthyste",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/0/407e43e5-6583-44c6-a230-8c4b46761d56.jpg?1668906163",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/0/407e43e5-6583-44c6-a230-8c4b46761d56.jpg?1668906163",
+      "qty": 1
+    },
+    {
+      "id": "49ef619a-f29b-43ac-a9f8-d31abaa79959",
+      "name": "Mascotte des Trois arbres",
+      "type": "Créature-artefact — changeforme",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/9/49ef619a-f29b-43ac-a9f8-d31abaa79959.jpg?1738110048",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/9/49ef619a-f29b-43ac-a9f8-d31abaa79959.jpg?1738110048",
+      "qty": 1
+    },
+    {
+      "id": "eb9a2fde-e7c5-4c33-9495-15ffaa136bc1",
+      "name": "Salle au trésor",
+      "type": "Terrain-artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/b/eb9a2fde-e7c5-4c33-9495-15ffaa136bc1.jpg?1740192338",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/b/eb9a2fde-e7c5-4c33-9495-15ffaa136bc1.jpg?1740192338",
+      "qty": 1
+    },
+    {
+      "id": "2ab5b8a2-fb32-40bf-aaa9-d11e8832d8d3",
+      "name": "Franc-tireur double-tir",
+      "type": "Créature-artefact — gobelin et archer",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/a/2ab5b8a2-fb32-40bf-aaa9-d11e8832d8d3.jpg?1724732686",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/a/2ab5b8a2-fb32-40bf-aaa9-d11e8832d8d3.jpg?1724732686",
+      "qty": 1
+    },
+    {
+      "id": "5a6b81b1-5177-48d0-8072-0d80d1e19000",
+      "name": "Automate universel",
+      "type": "Créature-artefact : changeforme",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/a/5a6b81b1-5177-48d0-8072-0d80d1e19000.jpg?1677140905",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/a/5a6b81b1-5177-48d0-8072-0d80d1e19000.jpg?1677140905",
+      "qty": 1
+    },
+    {
+      "id": "2f21c16e-269d-4d1f-9a83-0229ef88b21d",
+      "name": "Corbillard illicite",
+      "type": "Artefact — véhicule",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/f/2f21c16e-269d-4d1f-9a83-0229ef88b21d.jpg?1713753198",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/f/2f21c16e-269d-4d1f-9a83-0229ef88b21d.jpg?1713753198",
+      "qty": 1
+    },
+    {
+      "id": "9fb7b025-de64-4a19-a872-1b494b743acf",
+      "name": "Voleur de caveau",
+      "type": "Créature : nain et gredin",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/f/9fb7b025-de64-4a19-a872-1b494b743acf.jpg?1677138897",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/f/9fb7b025-de64-4a19-a872-1b494b743acf.jpg?1677138897",
+      "qty": 1
+    },
+    {
+      "id": "099f29e5-d103-4214-8c79-79cb7eae8044",
+      "name": "Faille volatile",
+      "type": "Terrain — caverne",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/9/099f29e5-d103-4214-8c79-79cb7eae8044.jpg?1735682430",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/9/099f29e5-d103-4214-8c79-79cb7eae8044.jpg?1735682430",
+      "qty": 1
+    },
+    {
+      "id": "cab177c2-1605-4f82-9d27-f6da6231f1e5",
+      "name": "Jarre à souder",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/a/cab177c2-1605-4f82-9d27-f6da6231f1e5.jpg?1676783399",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/a/cab177c2-1605-4f82-9d27-f6da6231f1e5.jpg?1676783399",
+      "qty": 1
+    },
+    {
+      "id": "6832d8da-16bf-4dca-9541-b67b68b4c5f4",
+      "name": "Déferlement de magie sauvage",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/8/6832d8da-16bf-4dca-9541-b67b68b4c5f4.jpg?1739408310",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/8/6832d8da-16bf-4dca-9541-b67b68b4c5f4.jpg?1739408310",
+      "qty": 1
+    },
+    {
+      "id": "95bbc46e-5610-481f-9de4-3074540d3a84",
+      "name": "Lune hivernale",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/5/95bbc46e-5610-481f-9de4-3074540d3a84.jpg?1730225169",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/5/95bbc46e-5610-481f-9de4-3074540d3a84.jpg?1730225169",
+      "qty": 1
+    },
+    {
+      "id": "9a42e107-1e36-452b-a8ab-da402871e7ae",
+      "name": "Xorn",
+      "type": "Créature : élémental",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/a/9a42e107-1e36-452b-a8ab-da402871e7ae.jpg?1645516694",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/a/9a42e107-1e36-452b-a8ab-da402871e7ae.jpg?1645516694",
+      "qty": 1
+    },
+    {
+      "id": "b1569477-6a09-42f7-a36a-10e508bb50e2",
+      "name": "Justice de Zoyowa",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/1/b1569477-6a09-42f7-a36a-10e508bb50e2.jpg?1730205617",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/1/b1569477-6a09-42f7-a36a-10e508bb50e2.jpg?1730205617",
+      "qty": 1
+    }
+  ],
+  "commanders": [
+    {
+      "id": "4978940c-e2fe-47c7-a1ea-343a4cf97f0e",
+      "name": "Magda, Hors-la-loi intrépide",
+      "type": "Créature légendaire — nain et berserker",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/9/4978940c-e2fe-47c7-a1ea-343a4cf97f0e.jpg?1734859610",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/9/4978940c-e2fe-47c7-a1ea-343a4cf97f0e.jpg?1734859610"
+    }
+  ]
+}
