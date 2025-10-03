@@ -1,0 +1,758 @@
+{
+  "createdAt": "2025-10-03T18:40:40.155Z",
+  "cards": [
+    {
+      "id": "c4e057b6-257f-49da-94e7-ad51eb172b0f",
+      "name": "Cachet d'ésotérisme",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "qty": 1
+    },
+    {
+      "id": "66b6c5af-fa5e-4894-aa54-6a63081772fc",
+      "name": "Landes cendreuses",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/6/66b6c5af-fa5e-4894-aa54-6a63081772fc.jpg?1744562251",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/6/66b6c5af-fa5e-4894-aa54-6a63081772fc.jpg?1744562251",
+      "qty": 1
+    },
+    {
+      "id": "3eb551e0-4177-4b09-92d9-96cbd6a74fe2",
+      "name": "Slivoïde aiguisé",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/e/3eb551e0-4177-4b09-92d9-96cbd6a74fe2.jpg?1734879821",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/e/3eb551e0-4177-4b09-92d9-96cbd6a74fe2.jpg?1734879821",
+      "qty": 1
+    },
+    {
+      "id": "6cbedf6d-7cdf-4385-9498-330e436b6d4a",
+      "name": "Slivoïde flou",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/c/6cbedf6d-7cdf-4385-9498-330e436b6d4a.jpg?1734879844",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/c/6cbedf6d-7cdf-4385-9498-330e436b6d4a.jpg?1734879844",
+      "qty": 1
+    },
+    {
+      "id": "8dfb6926-f544-47f1-a71c-f82ec461bac3",
+      "name": "Slivoïde ossefaux",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/d/8dfb6926-f544-47f1-a71c-f82ec461bac3.jpg?1734879180",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/d/8dfb6926-f544-47f1-a71c-f82ec461bac3.jpg?1734879180",
+      "qty": 1
+    },
+    {
+      "id": "ef521aa9-e4df-4a52-bf7f-196d2f80aad7",
+      "name": "Slivoïde scinde-os",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/f/ef521aa9-e4df-4a52-bf7f-196d2f80aad7.jpg?1734879858",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/f/ef521aa9-e4df-4a52-bf7f-196d2f80aad7.jpg?1734879858",
+      "qty": 1
+    },
+    {
+      "id": "65792fa9-fa34-49ee-88f7-69da3e0a00a6",
+      "name": "Slivoïde géniteur",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/5/65792fa9-fa34-49ee-88f7-69da3e0a00a6.jpg?1734880013",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/5/65792fa9-fa34-49ee-88f7-69da3e0a00a6.jpg?1734880013",
+      "qty": 1
+    },
+    {
+      "id": "51e01579-de0d-4df8-845b-d1af485638a2",
+      "name": "Vue de la canopée",
+      "type": "Terrain — forêt et plaine",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/1/51e01579-de0d-4df8-845b-d1af485638a2.jpg?1744562326",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/1/51e01579-de0d-4df8-845b-d1af485638a2.jpg?1744562326",
+      "qty": 1
+    },
+    {
+      "id": "93ba8124-5720-4423-9bff-bf2561dc214c",
+      "name": "Slivoïde capricieux",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/3/93ba8124-5720-4423-9bff-bf2561dc214c.jpg?1734878015",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/3/93ba8124-5720-4423-9bff-bf2561dc214c.jpg?1734878015",
+      "qty": 1
+    },
+    {
+      "id": "6dc04974-8f83-44d3-b889-4bad859621a5",
+      "name": "Clairière de scories",
+      "type": "Terrain — montagne et forêt",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/d/6dc04974-8f83-44d3-b889-4bad859621a5.jpg?1744562466",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/d/6dc04974-8f83-44d3-b889-4bad859621a5.jpg?1744562466",
+      "qty": 1
+    },
+    {
+      "id": "5da1dfef-97bc-429b-b7c3-128898f4874b",
+      "name": "Nova purificatrice",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/d/5da1dfef-97bc-429b-b7c3-128898f4874b.jpg?1734879203",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/d/5da1dfef-97bc-429b-b7c3-128898f4874b.jpg?1734879203",
+      "qty": 1
+    },
+    {
+      "id": "79f74e4e-dc1b-4060-96f8-8606c2b26b92",
+      "name": "Slivoïde tranchant",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/9/79f74e4e-dc1b-4060-96f8-8606c2b26b92.jpg?1734879891",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/9/79f74e4e-dc1b-4060-96f8-8606c2b26b92.jpg?1734879891",
+      "qty": 1
+    },
+    {
+      "id": "3c72063e-54e8-4b33-81ec-18bd60453704",
+      "name": "Slivoïde coagulé",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/c/3c72063e-54e8-4b33-81ec-18bd60453704.jpg?1734879705",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/c/3c72063e-54e8-4b33-81ec-18bd60453704.jpg?1734879705",
+      "qty": 1
+    },
+    {
+      "id": "3d994720-c0ce-40bf-a5f7-ab69d1184347",
+      "name": "Slivoïde déchiqueteur de nuage",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/d/3d994720-c0ce-40bf-a5f7-ab69d1184347.jpg?1734880389",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/d/3d994720-c0ce-40bf-a5f7-ab69d1184347.jpg?1734880389",
+      "qty": 1
+    },
+    {
+      "id": "2c0f3efd-c52f-4041-b8f7-7db18c51c9f4",
+      "name": "Tour de commandement",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/c/2c0f3efd-c52f-4041-b8f7-7db18c51c9f4.jpg?1740187675",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/c/2c0f3efd-c52f-4041-b8f7-7db18c51c9f4.jpg?1740187675",
+      "qty": 1
+    },
+    {
+      "id": "6aa351a2-2634-4985-896d-942efcdea9fa",
+      "name": "Slivoïde constricteur",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/a/6aa351a2-2634-4985-896d-942efcdea9fa.jpg?1734879213",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/a/6aa351a2-2634-4985-896d-942efcdea9fa.jpg?1734879213",
+      "qty": 1
+    },
+    {
+      "id": "7ee19e98-4ab7-4f47-8a79-62f54928325d",
+      "name": "Peur paralysante",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/e/7ee19e98-4ab7-4f47-8a79-62f54928325d.jpg?1734879715",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/e/7ee19e98-4ab7-4f47-8a79-62f54928325d.jpg?1734879715",
+      "qty": 1
+    },
+    {
+      "id": "fae7ae1e-50fc-42de-97eb-34a0a395bd59",
+      "name": "Slivoïde des cryptes",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/a/fae7ae1e-50fc-42de-97eb-34a0a395bd59.jpg?1734879729",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/a/fae7ae1e-50fc-42de-97eb-34a0a395bd59.jpg?1734879729",
+      "qty": 1
+    },
+    {
+      "id": "b18eddac-6d56-494f-b107-20fb5f087cb9",
+      "name": "Slivoïde cristallin",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/1/b18eddac-6d56-494f-b107-20fb5f087cb9.jpg?1734880400",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/1/b18eddac-6d56-494f-b107-20fb5f087cb9.jpg?1734880400",
+      "qty": 1
+    },
+    {
+      "id": "0caf665d-76ba-48e2-957e-1f2bbdc6f068",
+      "name": "Culture",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/c/0caf665d-76ba-48e2-957e-1f2bbdc6f068.jpg?1744560307",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/c/0caf665d-76ba-48e2-957e-1f2bbdc6f068.jpg?1744560307",
+      "qty": 1
+    },
+    {
+      "id": "8935b815-902d-4163-90bb-377bb51c28b5",
+      "name": "Décimation",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/9/8935b815-902d-4163-90bb-377bb51c28b5.jpg?1730180399",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/9/8935b815-902d-4163-90bb-377bb51c28b5.jpg?1730180399",
+      "qty": 1
+    },
+    {
+      "id": "48f8127f-e3d5-4b20-a837-2c60587982cc",
+      "name": "Fureur des descendants",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/8/48f8127f-e3d5-4b20-a837-2c60587982cc.jpg?1734878061",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/8/48f8127f-e3d5-4b20-a837-2c60587982cc.jpg?1734878061",
+      "qty": 1
+    },
+    {
+      "id": "563433a8-4266-4f78-ae66-084c39d069a6",
+      "name": "Slivoïde de diffusion",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/6/563433a8-4266-4f78-ae66-084c39d069a6.jpg?1734879522",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/6/563433a8-4266-4f78-ae66-084c39d069a6.jpg?1734879522",
+      "qty": 1
+    },
+    {
+      "id": "3699b7b5-b0f8-4a89-b286-19ab26b869ac",
+      "name": "Mélodie lointaine",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/6/3699b7b5-b0f8-4a89-b286-19ab26b869ac.jpg?1730193885",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/6/3699b7b5-b0f8-4a89-b286-19ab26b869ac.jpg?1730193885",
+      "qty": 1
+    },
+    {
+      "id": "951e5b7c-332b-4cf3-b429-d9f4279ba6ba",
+      "name": "Verger exotique",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/5/951e5b7c-332b-4cf3-b429-d9f4279ba6ba.jpg?1744562674",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/5/951e5b7c-332b-4cf3-b429-d9f4279ba6ba.jpg?1744562674",
+      "qty": 1
+    },
+    {
+      "id": "64c4b2cb-a36e-4671-b9e2-06cbb8964455",
+      "name": "Cherchauloin",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/4/64c4b2cb-a36e-4671-b9e2-06cbb8964455.jpg?1744560357",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/4/64c4b2cb-a36e-4671-b9e2-06cbb8964455.jpg?1744560357",
+      "qty": 1
+    },
+    {
+      "id": "f821e8c6-3e47-4d12-8eee-be7008f1b344",
+      "name": "Pierre de Guermont",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/8/f821e8c6-3e47-4d12-8eee-be7008f1b344.jpg?1744561808",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/8/f821e8c6-3e47-4d12-8eee-be7008f1b344.jpg?1744561808",
+      "qty": 1
+    },
+    {
+      "id": "a6ffa804-ded5-4bc0-a90c-6b8d4382d200",
+      "name": "Slivoïde houachefeu",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/6/a6ffa804-ded5-4bc0-a90c-6b8d4382d200.jpg?1734880436",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/6/a6ffa804-ded5-4bc0-a90c-6b8d4382d200.jpg?1734880436",
+      "qty": 1
+    },
+    {
+      "id": "727d7435-beaa-4f02-a6b0-bf855752e92f",
+      "name": "Plaine inondée",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/2/727d7435-beaa-4f02-a6b0-bf855752e92f.jpg?1734881262",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/2/727d7435-beaa-4f02-a6b0-bf855752e92f.jpg?1734881262",
+      "qty": 1
+    },
+    {
+      "id": "c54199c5-2bd1-4010-baad-932e9b524c10",
+      "name": "Pour les ancêtres",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/5/c54199c5-2bd1-4010-baad-932e9b524c10.jpg?1734878118",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/5/c54199c5-2bd1-4010-baad-932e9b524c10.jpg?1734878118",
+      "qty": 1
+    },
+    {
+      "id": "2c07e9bc-11a2-47ab-b700-0dedf95e8ba8",
+      "name": "Limite forestière arctique",
+      "type": "Terrain neigeux — forêt et plaine",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/c/2c07e9bc-11a2-47ab-b700-0dedf95e8ba8.jpg?1734868630",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/c/2c07e9bc-11a2-47ab-b700-0dedf95e8ba8.jpg?1734868630",
+      "qty": 3
+    },
+    {
+      "id": "f3fffa51-c386-45fa-942f-7193dabd7e0a",
+      "name": "Bivouac de frontière",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/3/f3fffa51-c386-45fa-942f-7193dabd7e0a.jpg?1744679631",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/3/f3fffa51-c386-45fa-942f-7193dabd7e0a.jpg?1744679631",
+      "qty": 1
+    },
+    {
+      "id": "cea3b217-dd5d-4e49-8b1b-59473710d9cd",
+      "name": "Slivoïde des bourrasques",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/e/cea3b217-dd5d-4e49-8b1b-59473710d9cd.jpg?1734879565",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/e/cea3b217-dd5d-4e49-8b1b-59473710d9cd.jpg?1734879565",
+      "qty": 1
+    },
+    {
+      "id": "0fa2973c-ae21-47e1-bcca-4aac54f0e9f0",
+      "name": "Slivoïde cuirgemme",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/f/0fa2973c-ae21-47e1-bcca-4aac54f0e9f0.jpg?1734880121",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/f/0fa2973c-ae21-47e1-bcca-4aac54f0e9f0.jpg?1734880121",
+      "qty": 1
+    },
+    {
+      "id": "359c252c-6c23-4f0d-a40f-158b6d61f4c9",
+      "name": "Herbages",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/5/359c252c-6c23-4f0d-a40f-158b6d61f4c9.jpg?1734881355",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/5/359c252c-6c23-4f0d-a40f-158b6d61f4c9.jpg?1734881355",
+      "qty": 1
+    },
+    {
+      "id": "fc77910b-3fa4-4c4b-aecf-35dccd0fd8b3",
+      "name": "Slivoïde harmonique",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/c/fc77910b-3fa4-4c4b-aecf-35dccd0fd8b3.jpg?1734880444",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/c/fc77910b-3fa4-4c4b-aecf-35dccd0fd8b3.jpg?1734880444",
+      "qty": 1
+    },
+    {
+      "id": "71641ae1-dc7e-4ff2-bc2e-87f2c1df8bbb",
+      "name": "Cruelle miséricorde",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/1/71641ae1-dc7e-4ff2-bc2e-87f2c1df8bbb.jpg?1734879291",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/1/71641ae1-dc7e-4ff2-bc2e-87f2c1df8bbb.jpg?1734879291",
+      "qty": 1
+    },
+    {
+      "id": "f285457e-c7f3-4150-a461-9054405105e7",
+      "name": "Slivoïde du couvoir",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/2/f285457e-c7f3-4150-a461-9054405105e7.jpg?1734878130",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/2/f285457e-c7f3-4150-a461-9054405105e7.jpg?1734878130",
+      "qty": 1
+    },
+    {
+      "id": "b6e6b68d-df2c-440d-8fcf-a91e302744e3",
+      "name": "Cor du héraut",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/6/b6e6b68d-df2c-440d-8fcf-a91e302744e3.jpg?1735681200",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/6/b6e6b68d-df2c-440d-8fcf-a91e302744e3.jpg?1735681200",
+      "qty": 1
+    },
+    {
+      "id": "4e9357da-ddfc-4a15-8741-45d3654ec958",
+      "name": "Slivoïde hibernateur",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/e/4e9357da-ddfc-4a15-8741-45d3654ec958.jpg?1734880458",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/e/4e9357da-ddfc-4a15-8741-45d3654ec958.jpg?1734880458",
+      "qty": 1
+    },
+    {
+      "id": "1dc04b97-0a4a-4494-aae1-13cc7f9f8d06",
+      "name": "Slivoïde à tête creuse",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/d/1dc04b97-0a4a-4494-aae1-13cc7f9f8d06.jpg?1734879906",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/d/1dc04b97-0a4a-4494-aae1-13cc7f9f8d06.jpg?1734879906",
+      "qty": 1
+    },
+    {
+      "id": "4e54ca10-2cf9-4482-a751-a4d3427f9224",
+      "name": "Icône de l'Ascendance",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/e/4e54ca10-2cf9-4482-a751-a4d3427f9224.jpg?1730194681",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/e/4e54ca10-2cf9-4482-a751-a4d3427f9224.jpg?1730194681",
+      "qty": 1
+    },
+    {
+      "id": "03cdfd22-3d62-42c0-b372-0547ba821dea",
+      "name": "Terres arables irriguées",
+      "type": "Terrain — plaine et île",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/3/03cdfd22-3d62-42c0-b372-0547ba821dea.jpg?1744562917",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/3/03cdfd22-3d62-42c0-b372-0547ba821dea.jpg?1744562917",
+      "qty": 1
+    },
+    {
+      "id": "5e78742b-7dba-4f13-b6f7-417b63bfb603",
+      "name": "Dirgur Island Dragon // Skimming Strike",
+      "type": "Creature — Dragon // Instant — Omen",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/e/5e78742b-7dba-4f13-b6f7-417b63bfb603.jpg?1758618749",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/e/5e78742b-7dba-4f13-b6f7-417b63bfb603.jpg?1758618749",
+      "qty": 2
+    },
+    {
+      "id": "e2241b65-b8dc-4a10-89bd-af1bddd484a6",
+      "name": "Reliquaire de la jungle",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/2/e2241b65-b8dc-4a10-89bd-af1bddd484a6.jpg?1730248294",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/2/e2241b65-b8dc-4a10-89bd-af1bddd484a6.jpg?1730248294",
+      "qty": 1
+    },
+    {
+      "id": "0793d47b-2428-4bab-9e2f-fb0d8dce255b",
+      "name": "Slivoïde ventrelave",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/7/0793d47b-2428-4bab-9e2f-fb0d8dce255b.jpg?1734880480",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/7/0793d47b-2428-4bab-9e2f-fb0d8dce255b.jpg?1734880480",
+      "qty": 1
+    },
+    {
+      "id": "678c3eaa-b37c-4fae-93c9-fc03e2a92604",
+      "name": "Slivoïde de lazotèpe",
+      "type": "Créature — zombie et slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/7/678c3eaa-b37c-4fae-93c9-fc03e2a92604.jpg?1734877994",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/7/678c3eaa-b37c-4fae-93c9-fc03e2a92604.jpg?1734877994",
+      "qty": 1
+    },
+    {
+      "id": "1d39f23d-e6ff-4b2e-a59b-14cb539b7c3c",
+      "name": "Slivoïde manaduite",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/d/1d39f23d-e6ff-4b2e-a59b-14cb539b7c3c.jpg?1734880166",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/d/1d39f23d-e6ff-4b2e-a59b-14cb539b7c3c.jpg?1734880166",
+      "qty": 1
+    },
+    {
+      "id": "d897876c-41cd-49a5-ae4c-5a186b2cd96b",
+      "name": "Slivoïde mégantique",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/8/d897876c-41cd-49a5-ae4c-5a186b2cd96b.jpg?1734880179",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/8/d897876c-41cd-49a5-ae4c-5a186b2cd96b.jpg?1734880179",
+      "qty": 1
+    },
+    {
+      "id": "52462830-cfe7-4b12-8dad-19cf72b439a7",
+      "name": "Slivoïde de puissance",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/2/52462830-cfe7-4b12-8dad-19cf72b439a7.jpg?1734880200",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/2/52462830-cfe7-4b12-8dad-19cf72b439a7.jpg?1734880200",
+      "qty": 1
+    },
+    {
+      "id": "cd8c598e-46ea-48bc-948b-f2ba28e84823",
+      "name": "Monastère de la montagne de Cori",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/d/cd8c598e-46ea-48bc-948b-f2ba28e84823.jpg?1744679547",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/d/cd8c598e-46ea-48bc-948b-f2ba28e84823.jpg?1744679547",
+      "qty": 2
+    },
+    {
+      "id": "655e4ddb-c70c-4925-a75b-1dd4ea063d2b",
+      "name": "Vallée forestière",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/5/655e4ddb-c70c-4925-a75b-1dd4ea063d2b.jpg?1734881479",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/5/655e4ddb-c70c-4925-a75b-1dd4ea063d2b.jpg?1734881479",
+      "qty": 1
+    },
+    {
+      "id": "8bb37297-2086-4c2b-80e6-1d2f0a6979f7",
+      "name": "Monastère mystique",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/b/8bb37297-2086-4c2b-80e6-1d2f0a6979f7.jpg?1744679775",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/b/8bb37297-2086-4c2b-80e6-1d2f0a6979f7.jpg?1744679775",
+      "qty": 1
+    },
+    {
+      "id": "165857d9-18c9-48be-8383-58a7ac813e1f",
+      "name": "Sapience naturaliste",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/6/165857d9-18c9-48be-8383-58a7ac813e1f.jpg?1730236764",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/6/165857d9-18c9-48be-8383-58a7ac813e1f.jpg?1730236764",
+      "qty": 1
+    },
+    {
+      "id": "87538881-fc08-474c-98dc-7afe9d093e78",
+      "name": "Slivoïde nécrotique",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/7/87538881-fc08-474c-98dc-7afe9d093e78.jpg?1734880538",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/7/87538881-fc08-474c-98dc-7afe9d093e78.jpg?1734880538",
+      "qty": 1
+    },
+    {
+      "id": "b85e294f-dbcb-4a8d-8f90-236a045612b9",
+      "name": "Avant-poste nomade",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/8/b85e294f-dbcb-4a8d-8f90-236a045612b9.jpg?1744679797",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/8/b85e294f-dbcb-4a8d-8f90-236a045612b9.jpg?1744679797",
+      "qty": 1
+    },
+    {
+      "id": "cbfbaf50-79fc-4a4c-96ac-e3bb3c425038",
+      "name": "Palais opulent",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/b/cbfbaf50-79fc-4a4c-96ac-e3bb3c425038.jpg?1744679814",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/b/cbfbaf50-79fc-4a4c-96ac-e3bb3c425038.jpg?1744679814",
+      "qty": 1
+    },
+    {
+      "id": "2fe910ef-dc28-49ca-b526-b0066bf36a9e",
+      "name": "Voie de l'Ascendance",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/f/2fe910ef-dc28-49ca-b526-b0066bf36a9e.jpg?1744563107",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/f/2fe910ef-dc28-49ca-b526-b0066bf36a9e.jpg?1744563107",
+      "qty": 1
+    },
+    {
+      "id": "5aeaf082-30ad-47bd-8159-0f7f3675a47f",
+      "name": "Pilier des origines",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/a/5aeaf082-30ad-47bd-8159-0f7f3675a47f.jpg?1734880981",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/a/5aeaf082-30ad-47bd-8159-0f7f3675a47f.jpg?1734880981",
+      "qty": 1
+    },
+    {
+      "id": "3395320b-6a8a-408b-9fa5-dbb237272773",
+      "name": "Plaine de Voilebrume",
+      "type": "Terrain : plaine",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/3/3395320b-6a8a-408b-9fa5-dbb237272773.jpg?1562828574",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/3/3395320b-6a8a-408b-9fa5-dbb237272773.jpg?1562828574",
+      "qty": 2
+    },
+    {
+      "id": "ab6d3804-2247-4872-b7fc-3b36c32323f3",
+      "name": "Prairie ruisselante",
+      "type": "Terrain — plaine et île",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/b/ab6d3804-2247-4872-b7fc-3b36c32323f3.jpg?1744563157",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/b/ab6d3804-2247-4872-b7fc-3b36c32323f3.jpg?1744563157",
+      "qty": 1
+    },
+    {
+      "id": "3eeb09d3-dd67-4904-b47c-1661a01586c3",
+      "name": "Slivoïde rapide",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/e/3eeb09d3-dd67-4904-b47c-1661a01586c3.jpg?1734880247",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/e/3eeb09d3-dd67-4904-b47c-1661a01586c3.jpg?1734880247",
+      "qty": 1
+    },
+    {
+      "id": "a7c202a7-a072-4aee-9d85-fede68cdcc6d",
+      "name": "Marcheroyaume",
+      "type": "Créature — changeforme",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/7/a7c202a7-a072-4aee-9d85-fede68cdcc6d.jpg?1730194333",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/7/a7c202a7-a072-4aee-9d85-fede68cdcc6d.jpg?1730194333",
+      "qty": 1
+    },
+    {
+      "id": "5e03aa2e-3416-41f6-83a8-db218ac0f531",
+      "name": "Slivoïde royal",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/e/5e03aa2e-3416-41f6-83a8-db218ac0f531.jpg?1734877768",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/e/5e03aa2e-3416-41f6-83a8-db218ac0f531.jpg?1734877768",
+      "qty": 1
+    },
+    {
+      "id": "f676ea4e-72d9-4554-8c8c-737a146a6e8a",
+      "name": "Fosse d'huile de roche",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/6/f676ea4e-72d9-4554-8c8c-737a146a6e8a.jpg?1734881592",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/6/f676ea4e-72d9-4554-8c8c-737a146a6e8a.jpg?1734881592",
+      "qty": 1
+    },
+    {
+      "id": "63de53a4-5694-4f64-a688-335d06dd56d6",
+      "name": "Rukarumel, biologiste",
+      "type": "Créature légendaire — humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/3/63de53a4-5694-4f64-a688-335d06dd56d6.jpg?1734877460",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/3/63de53a4-5694-4f64-a688-335d06dd56d6.jpg?1734877460",
+      "qty": 1
+    },
+    {
+      "id": "ece0e38a-d49e-4904-81fd-c5f467077f34",
+      "name": "Citadelle de la steppe de sable",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/c/ece0e38a-d49e-4904-81fd-c5f467077f34.jpg?1744679855",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/c/ece0e38a-d49e-4904-81fd-c5f467077f34.jpg?1744679855",
+      "qty": 1
+    },
+    {
+      "id": "e36055ff-ed81-4243-8eb9-cdb9c8ab761e",
+      "name": "Terres sauvages",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/3/e36055ff-ed81-4243-8eb9-cdb9c8ab761e.jpg?1735682042",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/3/e36055ff-ed81-4243-8eb9-cdb9c8ab761e.jpg?1735682042",
+      "qty": 1
+    },
+    {
+      "id": "aa3f3e2d-cb61-46e9-b96a-3ce6434c677f",
+      "name": "Bosquets épars",
+      "type": "Terrain — forêt et plaine",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/a/aa3f3e2d-cb61-46e9-b96a-3ce6434c677f.jpg?1730248299",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/a/aa3f3e2d-cb61-46e9-b96a-3ce6434c677f.jpg?1730248299",
+      "qty": 1
+    },
+    {
+      "id": "0ef5ff06-85fc-4890-83f9-b2e357bff8e2",
+      "name": "Citadelle maritime",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/e/0ef5ff06-85fc-4890-83f9-b2e357bff8e2.jpg?1730180677",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/e/0ef5ff06-85fc-4890-83f9-b2e357bff8e2.jpg?1730180677",
+      "qty": 1
+    },
+    {
+      "id": "a820dfba-5cb3-4cf4-b679-582c11efdfdc",
+      "name": "Cour retirée",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/8/a820dfba-5cb3-4cf4-b679-582c11efdfdc.jpg?1732353396",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/8/a820dfba-5cb3-4cf4-b679-582c11efdfdc.jpg?1732353396",
+      "qty": 1
+    },
+    {
+      "id": "2d87bd0b-f0e5-465f-bb0e-a1cbaa7a6711",
+      "name": "Slivoïde sentinelle",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/d/2d87bd0b-f0e5-465f-bb0e-a1cbaa7a6711.jpg?1734879410",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/d/2d87bd0b-f0e5-465f-bb0e-a1cbaa7a6711.jpg?1734879410",
+      "qty": 1
+    },
+    {
+      "id": "02a3e7d9-9e7c-4a2a-bfb8-5176112b504d",
+      "name": "Halliers protégés",
+      "type": "Terrain — montagne et forêt",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/2/02a3e7d9-9e7c-4a2a-bfb8-5176112b504d.jpg?1744563319",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/2/02a3e7d9-9e7c-4a2a-bfb8-5176112b504d.jpg?1744563319",
+      "qty": 1
+    },
+    {
+      "id": "a0fa8ac5-d27b-4327-8325-d9e3d40e590b",
+      "name": "Slivoïde changeant",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/0/a0fa8ac5-d27b-4327-8325-d9e3d40e590b.jpg?1734879633",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/0/a0fa8ac5-d27b-4327-8325-d9e3d40e590b.jpg?1734879633",
+      "qty": 1
+    },
+    {
+      "id": "bb6a920d-410c-45a7-8e22-a6d30ac9c7d8",
+      "name": "Slivoïde ligamenteux",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/b/bb6a920d-410c-45a7-8e22-a6d30ac9c7d8.jpg?1734879431",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/b/bb6a920d-410c-45a7-8e22-a6d30ac9c7d8.jpg?1734879431",
+      "qty": 1
+    },
+    {
+      "id": "dea201ef-2ef0-47e5-9933-c2736b2f7460",
+      "name": "Seigneur d'essaim slivoïde",
+      "type": "Créature légendaire — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/e/dea201ef-2ef0-47e5-9933-c2736b2f7460.jpg?1734880595",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/e/dea201ef-2ef0-47e5-9933-c2736b2f7460.jpg?1734880595",
+      "qty": 1
+    },
+    {
+      "id": "f44398c8-1e1f-4f59-8245-d367d4791407",
+      "name": "Marécage fumant",
+      "type": "Terrain — marais et montagne",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/4/f44398c8-1e1f-4f59-8245-d367d4791407.jpg?1744563390",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/4/f44398c8-1e1f-4f59-8245-d367d4791407.jpg?1744563390",
+      "qty": 1
+    },
+    {
+      "id": "8a5cad93-964c-48e2-af54-924acd856c0c",
+      "name": "Anneau solaire",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "qty": 1
+    },
+    {
+      "id": "26dbf564-bcbe-4b7f-90b5-d40d8acab84c",
+      "name": "Slivoïde malveillant",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/6/26dbf564-bcbe-4b7f-90b5-d40d8acab84c.jpg?1734879941",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/6/26dbf564-bcbe-4b7f-90b5-d40d8acab84c.jpg?1734879941",
+      "qty": 1
+    },
+    {
+      "id": "691275c1-1c55-42a1-9714-81f0838faf73",
+      "name": "Slivoïde frappeur",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/9/691275c1-1c55-42a1-9714-81f0838faf73.jpg?1734879951",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/9/691275c1-1c55-42a1-9714-81f0838faf73.jpg?1734879951",
+      "qty": 1
+    },
+    {
+      "id": "7b17558d-c19c-4895-afc3-dfc4fcc3aa95",
+      "name": "Dépression engloutie",
+      "type": "Terrain — île et marais",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/b/7b17558d-c19c-4895-afc3-dfc4fcc3aa95.jpg?1744563443",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/b/7b17558d-c19c-4895-afc3-dfc4fcc3aa95.jpg?1744563443",
+      "qty": 1
+    },
+    {
+      "id": "2c3f6fdd-a517-4542-8ba8-d5114c559748",
+      "name": "Marais envahi par les sangsues",
+      "type": "Terrain — marais",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/c/2c3f6fdd-a517-4542-8ba8-d5114c559748.jpg?1726881144",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/c/2c3f6fdd-a517-4542-8ba8-d5114c559748.jpg?1726881144",
+      "qty": 2
+    },
+    {
+      "id": "f92bd7da-89fd-4bc1-8afe-b57363a4bfe9",
+      "name": "Slivoïde synaptique",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/9/f92bd7da-89fd-4bc1-8afe-b57363a4bfe9.jpg?1734879654",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/9/f92bd7da-89fd-4bc1-8afe-b57363a4bfe9.jpg?1734879654",
+      "qty": 1
+    },
+    {
+      "id": "d8972597-ee34-41cf-beb5-c99c4440672b",
+      "name": "Slivoïde aspireur",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/8/d8972597-ee34-41cf-beb5-c99c4440672b.jpg?1734879812",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/8/d8972597-ee34-41cf-beb5-c99c4440672b.jpg?1734879812",
+      "qty": 1
+    },
+    {
+      "id": "04a3ecaa-6625-46b1-a6c5-ace14400e1c6",
+      "name": "Slivoïde moqueur",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/4/04a3ecaa-6625-46b1-a6c5-ace14400e1c6.jpg?1734877840",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/4/04a3ecaa-6625-46b1-a6c5-ace14400e1c6.jpg?1734877840",
+      "qty": 1
+    },
+    {
+      "id": "c5666418-1f17-45ef-8557-2c768456f973",
+      "name": "Trois visites",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/5/c5666418-1f17-45ef-8557-2c768456f973.jpg?1730248255",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/5/c5666418-1f17-45ef-8557-2c768456f973.jpg?1730248255",
+      "qty": 1
+    },
+    {
+      "id": "bf530a75-2812-4a5d-9bf1-c86b5a14c19a",
+      "name": "Titan de Littjara",
+      "type": "Créature — illusion",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/f/bf530a75-2812-4a5d-9bf1-c86b5a14c19a.jpg?1734877863",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/f/bf530a75-2812-4a5d-9bf1-c86b5a14c19a.jpg?1734877863",
+      "qty": 1
+    },
+    {
+      "id": "916a3482-633b-4c94-87c0-7f4c679d50c5",
+      "name": "Slivoïde à deux têtes",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/1/916a3482-633b-4c94-87c0-7f4c679d50c5.jpg?1734879965",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/1/916a3482-633b-4c94-87c0-7f4c679d50c5.jpg?1734879965",
+      "qty": 1
+    },
+    {
+      "id": "41609b12-2b15-4a89-890e-9cddb3fb83c7",
+      "name": "Terra nullius",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/1/41609b12-2b15-4a89-890e-9cddb3fb83c7.jpg?1735682340",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/1/41609b12-2b15-4a89-890e-9cddb3fb83c7.jpg?1735682340",
+      "qty": 1
+    },
+    {
+      "id": "4c8c5267-3877-42db-8f6c-744792a3cb3c",
+      "name": "Bannière du vainqueur",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/c/4c8c5267-3877-42db-8f6c-744792a3cb3c.jpg?1730194757",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/c/4c8c5267-3877-42db-8f6c-744792a3cb3c.jpg?1730194757",
+      "qty": 1
+    },
+    {
+      "id": "ce0e2d7b-3317-485c-98b8-0fe52b88dc65",
+      "name": "Slivoïde venimeux",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/e/ce0e2d7b-3317-485c-98b8-0fe52b88dc65.jpg?1734880333",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/e/ce0e2d7b-3317-485c-98b8-0fe52b88dc65.jpg?1734880333",
+      "qty": 1
+    },
+    {
+      "id": "ca08a407-dfab-49d4-af63-2cd477781083",
+      "name": "Aubaine inattendue",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/a/ca08a407-dfab-49d4-af63-2cd477781083.jpg?1718690343",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/a/ca08a407-dfab-49d4-af63-2cd477781083.jpg?1718690343",
+      "qty": 1
+    },
+    {
+      "id": "a765eb69-63d6-4ab0-92cd-16aadd991c39",
+      "name": "Slivoïde ailé",
+      "type": "Créature — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/7/a765eb69-63d6-4ab0-92cd-16aadd991c39.jpg?1734879691",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/7/a765eb69-63d6-4ab0-92cd-16aadd991c39.jpg?1734879691",
+      "qty": 1
+    }
+  ],
+  "commanders": [
+    {
+      "id": "fee62a5d-954f-4a8e-9925-e84acb7c9375",
+      "name": "Mère des tombes slivoïde",
+      "type": "Créature légendaire — slivoïde",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/e/fee62a5d-954f-4a8e-9925-e84acb7c9375.jpg?1734877350",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/e/fee62a5d-954f-4a8e-9925-e84acb7c9375.jpg?1734877350"
+    }
+  ]
+}

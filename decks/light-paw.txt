@@ -1,0 +1,69 @@
+1 All That Glitters
+1 Angelic Gift
+1 Benevolent Blessing
+1 Black Ward
+1 Blue Ward
+1 Calamity's Wake
+1 Cartouche of Solidarity
+1 Chained to the Rocks
+1 Chains of Custody
+1 Cho-Manno's Blessing
+1 Curse of Silence
+1 Darksteel Mutation
+1 Defense Grid
+1 Detainment Spell
+1 Disenchant
+1 Divine Reckoning
+1 Eidolon of Countless Battles
+1 Ethereal Armor
+1 Favorable Destiny
+1 Feather of Flight
+1 Flaming Fist
+1 Flickerform
+1 Flickering Ward
+1 Gift of Granite
+1 Grasp of Fate
+1 Heliod's Pilgrim
+1 Heliod's Punishment
+1 Hyena Umbra
+1 Idolized
+1 Indomitable Will
+1 Kor Spiritdancer
+1 Lashknife
+1 Loran's Escape
+1 Mask of Law and Grace
+1 Military Discipline
+1 Mortal Obstinacy
+1 Nevermore
+1 Noble Heritage
+1 Open the Armory
+1 Orim's Chant
+1 Ossification
+1 Overencumbered
+1 Pariah
+34 Plains
+1 Portcullis
+1 Red Ward
+1 Reprobation
+1 Sage's Reverie
+1 Saving Grace
+1 Sentinel's Eyes
+1 Shardmage's Rescue
+1 Sheltered by Ghosts
+1 Shield of Duty and Reason
+1 Silence
+1 Solid Footing
+1 Soul Tithe
+1 Spirit Link
+1 Spirit Mantle
+1 Springleaf Drum
+1 Stony Silence
+1 Strionic Resonator
+1 Swords to Plowshares
+1 Timely Ward
+1 Triclopean Sight
+1 Twinblade Blessing
+1 White Scarab
+1 Winds of Rath
+
+1 Light-Paws, Emperor's Voice

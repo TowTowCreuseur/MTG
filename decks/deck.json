@@ -1,401 +1,101 @@
 {
-  "createdAt": "2025-09-27T23:59:21.398008Z",
+  "createdAt": "2025-09-29T00:00:00.000Z",
   "cards": [
-    {
-      "name": "Aetherize",
-      "qty": 1
-    },
-    {
-      "name": "Ancient Tomb",
-      "qty": 1
-    },
-    {
-      "name": "Arcane Signet",
-      "qty": 1
-    },
-    {
-      "name": "Brain Freeze",
-      "qty": 1
-    },
-    {
-      "name": "Brainstorm",
-      "qty": 1
-    },
-    {
-      "name": "Cascade Bluffs",
-      "qty": 1
-    },
-    {
-      "name": "Cavern of Souls",
-      "qty": 1
-    },
-    {
-      "name": "Cephalid Coliseum",
-      "qty": 1
-    },
-    {
-      "name": "Chain of Vapor",
-      "qty": 1
-    },
-    {
-      "name": "Chrome Mox",
-      "qty": 1
-    },
-    {
-      "name": "City of Brass",
-      "qty": 1
-    },
-    {
-      "name": "City of Traitors",
-      "qty": 1
-    },
-    {
-      "name": "Command Tower",
-      "qty": 1
-    },
-    {
-      "name": "Coruscation Mage",
-      "qty": 1
-    },
-    {
-      "name": "Counterspell",
-      "qty": 1
-    },
-    {
-      "name": "Crystal Vein",
-      "qty": 1
-    },
-    {
-      "name": "Cyclonic Rift",
-      "qty": 1
-    },
-    {
-      "name": "Deflecting Swat",
-      "qty": 1
-    },
-    {
-      "name": "Delay",
-      "qty": 1
-    },
-    {
-      "name": "Den of the Bugbear",
-      "qty": 1
-    },
-    {
-      "name": "Dragon's Hoard",
-      "qty": 1
-    },
-    {
-      "name": "Electrodominance",
-      "qty": 1
-    },
-    {
-      "name": "Exotic Orchard",
-      "qty": 1
-    },
-    {
-      "name": "Faithless Looting",
-      "qty": 1
-    },
-    {
-      "name": "Fellwar Stone",
-      "qty": 1
-    },
-    {
-      "name": "Fiery Islet",
-      "qty": 1
-    },
-    {
-      "name": "Finale of Promise",
-      "qty": 1
-    },
-    {
-      "name": "Fire Magic",
-      "qty": 1
-    },
-    {
-      "name": "Flusterstorm",
-      "qty": 1
-    },
-    {
-      "name": "Force of Negation",
-      "qty": 1
-    },
-    {
-      "name": "Force of Will",
-      "qty": 1
-    },
-    {
-      "name": "Frantic Search",
-      "qty": 1
-    },
-    {
-      "name": "Gamble",
-      "qty": 1
-    },
-    {
-      "name": "Gemstone Mine",
-      "qty": 1
-    },
-    {
-      "name": "Gitaxian Probe",
-      "qty": 1
-    },
-    {
-      "name": "Goblin Engineer",
-      "qty": 1
-    },
-    {
-      "name": "Goldhound",
-      "qty": 1
-    },
-    {
-      "name": "Grapeshot",
-      "qty": 1
-    },
-    {
-      "name": "Grim Monolith",
-      "qty": 1
-    },
-    {
-      "name": "Guttersnipe",
-      "qty": 1
-    },
-    {
-      "name": "Hall of Storm Giants",
-      "qty": 1
-    },
-    {
-      "name": "Hall of the Bandit Lord",
-      "qty": 1
-    },
-    {
-      "name": "Impact Tremors",
-      "qty": 1
-    },
-    {
-      "name": "Island",
-      "qty": 1
-    },
-    {
-      "name": "Izzet Charm",
-      "qty": 1
-    },
-    {
-      "name": "Izzet Signet",
-      "qty": 1
-    },
-    {
-      "name": "Jace, Vryn's Prodigy / Jace, Telepath Unbound",
-      "qty": 1
-    },
-    {
-      "name": "Jeska's Will",
-      "qty": 1
-    },
-    {
-      "name": "Lightning Greaves",
-      "qty": 1
-    },
-    {
-      "name": "Lion's Eye Diamond",
-      "qty": 1
-    },
-    {
-      "name": "Lotus Petal",
-      "qty": 1
-    },
-    {
-      "name": "Mana Confluence",
-      "qty": 1
-    },
-    {
-      "name": "Mana Vault",
-      "qty": 1
-    },
-    {
-      "name": "March of Swirling Mist",
-      "qty": 1
-    },
-    {
-      "name": "Mental Misstep",
-      "qty": 1
-    },
-    {
-      "name": "Misty Rainforest",
-      "qty": 1
-    },
-    {
-      "name": "Mountain",
-      "qty": 1
-    },
-    {
-      "name": "Mox Amber",
-      "qty": 1
-    },
-    {
-      "name": "Mox Opal",
-      "qty": 1
-    },
-    {
-      "name": "Mystic Reflection",
-      "qty": 1
-    },
-    {
-      "name": "Narset, Parter of Veils",
-      "qty": 1
-    },
-    {
-      "name": "Niv-Mizzet, Parun",
-      "qty": 1
-    },
-    {
-      "name": "Ophidian Eye",
-      "qty": 1
-    },
-    {
-      "name": "Otawara, Soaring City",
-      "qty": 1
-    },
-    {
-      "name": "Past in Flames",
-      "qty": 1
-    },
-    {
-      "name": "Polluted Delta",
-      "qty": 1
-    },
-    {
-      "name": "Ponder",
-      "qty": 1
-    },
-    {
-      "name": "Preordain",
-      "qty": 1
-    },
-    {
-      "name": "Pyroblast",
-      "qty": 1
-    },
-    {
-      "name": "Queen Brahne",
-      "qty": 1
-    },
-    {
-      "name": "Ral, Storm Conduit",
-      "qty": 1
-    },
-    {
-      "name": "Recoup",
-      "qty": 1
-    },
-    {
-      "name": "Reflecting Pool",
-      "qty": 1
-    },
-    {
-      "name": "Reiterate",
-      "qty": 1
-    },
-    {
-      "name": "Riverglide Pathway / Lavaglide Pathway",
-      "qty": 1
-    },
-    {
-      "name": "Sabotender",
-      "qty": 1
-    },
-    {
-      "name": "Scalding Tarn",
-      "qty": 1
-    },
-    {
-      "name": "Sensei's Divining Top",
-      "qty": 1
-    },
-    {
-      "name": "Shantotto, Tactician Magician",
-      "qty": 1
-    },
-    {
-      "name": "Shivan Reef",
-      "qty": 1
-    },
-    {
-      "name": "Snapback",
-      "qty": 1
-    },
-    {
-      "name": "Sol Ring",
-      "qty": 1
-    },
-    {
-      "name": "Solve the Equation",
-      "qty": 1
-    },
-    {
-      "name": "Spirebluff Canal",
-      "qty": 1
-    },
-    {
-      "name": "Steam Vents",
-      "qty": 1
-    },
-    {
-      "name": "Sulfur Falls",
-      "qty": 1
-    },
-    {
-      "name": "Swiftfoot Boots",
-      "qty": 1
-    },
-    {
-      "name": "Talisman of Creativity",
-      "qty": 1
-    },
-    {
-      "name": "Talrand, Sky Summoner",
-      "qty": 1
-    },
-    {
-      "name": "Thassa's Oracle",
-      "qty": 1
-    },
-    {
-      "name": "Thousand-Year Storm",
-      "qty": 1
-    },
-    {
-      "name": "Training Center",
-      "qty": 1
-    },
-    {
-      "name": "Twinflame",
-      "qty": 1
-    },
-    {
-      "name": "Underworld Breach",
-      "qty": 1
-    },
-    {
-      "name": "Vandalblast",
-      "qty": 1
-    },
-    {
-      "name": "Volcanic Island",
-      "qty": 1
-    },
-    {
-      "name": "Windfall",
-      "qty": 1
-    },
-    {
-      "name": "Young Pyromancer",
-      "qty": 1
-    },
-    {
-      "name": "Zell Dincht",
-      "qty": 1
-    }
+    { "id": "Arcane Signet", "name": "Arcane Signet", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Ash Barrens", "name": "Ash Barrens", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Blade Sliver", "name": "Blade Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Blur Sliver", "name": "Blur Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Bonescythe Sliver", "name": "Bonescythe Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Bonesplitter Sliver", "name": "Bonesplitter Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Brood Sliver", "name": "Brood Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Canopy Vista", "name": "Canopy Vista", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Capricious Sliver", "name": "Capricious Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Cinder Glade", "name": "Cinder Glade", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Cleansing Nova", "name": "Cleansing Nova", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Cleaving Sliver", "name": "Cleaving Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Clot Sliver", "name": "Clot Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Cloudshredder Sliver", "name": "Cloudshredder Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Command Tower", "name": "Command Tower", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Constricting Sliver", "name": "Constricting Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Crippling Fear", "name": "Crippling Fear", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Crypt Sliver", "name": "Crypt Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Crystalline Sliver", "name": "Crystalline Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Cultivate", "name": "Cultivate", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Decimate", "name": "Decimate", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Descendants' Fury", "name": "Descendants' Fury", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Diffusion Sliver", "name": "Diffusion Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Distant Melody", "name": "Distant Melody", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Exotic Orchard", "name": "Exotic Orchard", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Farseek", "name": "Farseek", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Fellwar Stone", "name": "Fellwar Stone", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Firewake Sliver", "name": "Firewake Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Flood Plain", "name": "Flood Plain", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "For the Ancestors", "name": "For the Ancestors", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Forest", "name": "Forest", "type": null, "imageSmall": null, "imageNormal": null, "qty": 3 },
+    { "id": "Frontier Bivouac", "name": "Frontier Bivouac", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Galerider Sliver", "name": "Galerider Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Gemhide Sliver", "name": "Gemhide Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Grasslands", "name": "Grasslands", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Harmonic Sliver", "name": "Harmonic Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Harsh Mercy", "name": "Harsh Mercy", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Hatchery Sliver", "name": "Hatchery Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Herald's Horn", "name": "Herald's Horn", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Hibernation Sliver", "name": "Hibernation Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Hollowhead Sliver", "name": "Hollowhead Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Icon of Ancestry", "name": "Icon of Ancestry", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Irrigated Farmland", "name": "Irrigated Farmland", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Island", "name": "Island", "type": null, "imageSmall": null, "imageNormal": null, "qty": 2 },
+    { "id": "Jungle Shrine", "name": "Jungle Shrine", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Lavabelly Sliver", "name": "Lavabelly Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Lazotep Sliver", "name": "Lazotep Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Manaweft Sliver", "name": "Manaweft Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Megantic Sliver", "name": "Megantic Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Might Sliver", "name": "Might Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Mountain", "name": "Mountain", "type": null, "imageSmall": null, "imageNormal": null, "qty": 2 },
+    { "id": "Mountain Valley", "name": "Mountain Valley", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Mystic Monastery", "name": "Mystic Monastery", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Nature's Lore", "name": "Nature's Lore", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Necrotic Sliver", "name": "Necrotic Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Nomad Outpost", "name": "Nomad Outpost", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Opulent Palace", "name": "Opulent Palace", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Path of Ancestry", "name": "Path of Ancestry", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Pillar of Origins", "name": "Pillar of Origins", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Plains", "name": "Plains", "type": null, "imageSmall": null, "imageNormal": null, "qty": 2 },
+    { "id": "Prairie Stream", "name": "Prairie Stream", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Quick Sliver", "name": "Quick Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Realmwalker", "name": "Realmwalker", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Regal Sliver", "name": "Regal Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Rocky Tar Pit", "name": "Rocky Tar Pit", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Sandsteppe Citadel", "name": "Sandsteppe Citadel", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Savage Lands", "name": "Savage Lands", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Scattered Groves", "name": "Scattered Groves", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Seaside Citadel", "name": "Seaside Citadel", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Secluded Courtyard", "name": "Secluded Courtyard", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Sentinel Sliver", "name": "Sentinel Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Sheltered Thicket", "name": "Sheltered Thicket", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Shifting Sliver", "name": "Shifting Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Sinew Sliver", "name": "Sinew Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Sliver Hivelord", "name": "Sliver Hivelord", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Smoldering Marsh", "name": "Smoldering Marsh", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Sol Ring", "name": "Sol Ring", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Spiteful Sliver", "name": "Spiteful Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Striking Sliver", "name": "Striking Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Sunken Hollow", "name": "Sunken Hollow", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Swamp", "name": "Swamp", "type": null, "imageSmall": null, "imageNormal": null, "qty": 2 },
+    { "id": "Synapse Sliver", "name": "Synapse Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Syphon Sliver", "name": "Syphon Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Taunting Sliver", "name": "Taunting Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Three Visits", "name": "Three Visits", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Titan of Littjara", "name": "Titan of Littjara", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Two-Headed Sliver", "name": "Two-Headed Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Unclaimed Territory", "name": "Unclaimed Territory", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Vanquisher's Banner", "name": "Vanquisher's Banner", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Venom Sliver", "name": "Venom Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Windfall", "name": "Windfall", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 },
+    { "id": "Winged Sliver", "name": "Winged Sliver", "type": null, "imageSmall": null, "imageNormal": null, "qty": 1 }
+  ],
+  "commanders": [
+    { "id": "Sliver Gravemother", "name": "Sliver Gravemother", "type": null, "imageSmall": null, "imageNormal": null },
+    { "id": "Rukarumel, Biologist", "name": "Rukarumel, Biologist", "type": null, "imageSmall": null, "imageNormal": null }
   ]
 }
