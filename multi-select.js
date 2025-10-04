@@ -40,7 +40,22 @@ function majCompteurDeck(){
   if (c) c.textContent = deck().length;
 }
 
-/* ---------- Actions (Ctrl/⌘ + X / G / D) ---------- */
+/* ---------- Conversions alignées sur app-core ---------- */
+function cardElVersObj(el){
+  return {
+    id: el.dataset.cardId,
+    name: el.querySelector('.card-name')?.textContent || '',
+    type: el.querySelector('.card-type')?.textContent || '',
+    imageSmall: el.dataset.imageSmall || null,
+    imageNormal: el.dataset.imageNormal || null,
+    tapped: el.classList.contains('tapped'),
+    phased: el.classList.contains('phased'),
+    faceDown: el.classList.contains('face-down'),
+    isToken: el.dataset.isToken === '1'
+  };
+}
+
+/* ---------- Actions (Ctrl/⌘ + X / G / D / H) ---------- */
 function versExil(){
   if (selection.size === 0) return;
   [...selection].forEach(card => {
@@ -73,19 +88,33 @@ function versDessusPioche(){
   vider();
 }
 
-// Conversions alignées sur app-core
-function cardElVersObj(el){
-  return {
-    id: el.dataset.cardId,
-    name: el.querySelector('.card-name')?.textContent || '',
-    type: el.querySelector('.card-type')?.textContent || '',
-    imageSmall: el.dataset.imageSmall || null,
-    imageNormal: el.dataset.imageNormal || null,
-    tapped: el.classList.contains('tapped'),
-    phased: el.classList.contains('phased'),
-    faceDown: el.classList.contains('face-down'),
-    isToken: el.dataset.isToken === '1'
-  };
+/* ---------- NOUVEAU : renvoyer dans la main (Ctrl/⌘ + H) ---------- */
+function conteneurMain(){
+  // Adapte le sélecteur si besoin selon ton markup (zone--main .cards est le plus probable)
+  return qs('.zone--main .cards') || qs('.zone-main .cards') || qs('.hand .cards');
+}
+
+function nettoyerEtatPourMain(card){
+  // La main ne doit pas contenir tap/phased
+  card.classList.remove('tapped', 'phased');
+  // Nettoyage styles de placement/drag éventuels
+  card.style.removeProperty('left');
+  card.style.removeProperty('top');
+  card.style.removeProperty('transform');
+  card.style.removeProperty('z-index');
+  card.classList.remove('dragging');
+}
+
+function versMain(){
+  if (selection.size === 0) return;
+  const hand = conteneurMain();
+  if (!hand) return; // pas de conteneur de main détecté
+
+  [...selection].forEach(card => {
+    nettoyerEtatPourMain(card);
+    hand.appendChild(card);
+  });
+  vider();
 }
 
 /* ---------- Rectangle de sélection (garde la sélection + toggle à l’entrée) ---------- */
@@ -136,8 +165,7 @@ function majRect(e){
   rect.style.width  = (x2 - x1) + "px";
   rect.style.height = (y2 - y1) + "px";
 
-  // 🟦 Toggle à l’entrée : dès qu’une carte entre pour la 1ʳᵉ fois dans le rectangle,
-  // on inverse son état sélectionné/désélectionné. Pas d’action à la sortie.
+  // 🟦 Toggle à l’entrée : inverse l’état au premier chevauchement
   cartes().forEach(card => {
     if (touchesDansCeDrag.has(card)) return;
     const r = card.getBoundingClientRect();
@@ -154,7 +182,6 @@ function finRect(){
   if (rect) { rect.remove(); rect = null; }
   dragDebut = null;
 
-  // si c’était un vrai drag, on ignore le “click” synthétique qui suit
   if (aBouge) {
     ignorerProchainClick = true;
     setTimeout(() => { ignorerProchainClick = false; }, 0);
@@ -169,12 +196,10 @@ document.addEventListener('pointerdown', demarrerRect);
 const TEMPO_CLIC_MS = 500;
 const timersParCarte = new Map(); // Element -> setTimeout id
 
-// Annule tous les timers (utile si un dblclick global survient)
 function annulerTousLesTimers(){
   for (const id of timersParCarte.values()) clearTimeout(id);
   timersParCarte.clear();
 }
-// En cas de double-clic natif, on annule toute sélection différée
 document.addEventListener('dblclick', annulerTousLesTimers, true);
 
 document.addEventListener('click', (e) => {
@@ -186,7 +211,7 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Ctrl/⌘+clic : toggle immédiat (pas de délai)
+  // Ctrl/⌘+clic : toggle immédiat
   if (e.ctrlKey || e.metaKey) {
     const pending = timersParCarte.get(card);
     if (pending) { clearTimeout(pending); timersParCarte.delete(card); }
@@ -194,13 +219,13 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Clic simple : attendre 0,5 s puis basculer la carte cliquée (sans vider la sélection)
+  // Clic simple : toggle après 0,5 s
   const exist = timersParCarte.get(card);
   if (exist) { clearTimeout(exist); timersParCarte.delete(card); return; }
 
   const id = setTimeout(() => {
     timersParCarte.delete(card);
-    basculer(card); // ⬅️ toggle simple, ne désélectionne pas les autres
+    basculer(card);
   }, TEMPO_CLIC_MS);
   timersParCarte.set(card, id);
 }, true);
@@ -210,12 +235,11 @@ document.addEventListener('keydown', (e) => {
   if (cibleEditable(e.target)) return;   // laisser les champs texte tranquilles
   const aSel = selection.size > 0;
   const mod = e.ctrlKey || e.metaKey;    // Windows Ctrl / macOS ⌘
-
-  // On n’intercepte ces raccourcis que s’il existe au moins une sélection.
   if (!mod || !aSel) return;
 
   const k = e.key.toLowerCase();
   if (k === 'x') { e.preventDefault(); e.stopPropagation(); versExil(); }
   else if (k === 'g') { e.preventDefault(); e.stopPropagation(); versCimetiere(); }
   else if (k === 'd') { e.preventDefault(); e.stopPropagation(); versDessusPioche(); }
+  else if (k === 'h') { e.preventDefault(); e.stopPropagation(); versMain(); } // ⬅️ NOUVEAU
 });

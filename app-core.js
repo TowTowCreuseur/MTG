@@ -77,6 +77,68 @@ export function getLifeListItems(){ return normItems(_lifeList.items); }
 export function setLifeListItems(items){ _lifeList.items = normItems(items); }
 
 /* =========================================================
+   Types FR/EN → Forcer l’affichage en FR + détection robuste
+   ========================================================= */
+
+function normalize(str){ return (String(str||'')).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+
+/** Traduction légère des supertypes/types EN → FR pour l’affichage.
+ *  On ne touche PAS aux sous-types (après le "—") hormis les plus courants.
+ *  Objectif : garantir au moins les catégories clés en FR.
+ */
+function translateTypeToFR(typeLineRaw){
+  const typeLine = String(typeLineRaw || '').trim();
+  if (!typeLine) return typeLine;
+
+  // Séparer avant/après le "—" (em dash / hyphen)
+  const parts = typeLine.split(/—|-/);
+  const left = parts[0].trim();
+  const right = parts.slice(1).join('—').trim(); // on recolle si plusieurs
+
+  // Remplacements côté gauche (supertypes/types)
+  let L = left;
+
+  const repl = [
+    // supertypes
+    [/(\b|^)(Legendary)(\b|$)/i, 'Légendaire'],
+    [/(\b|^)(Basic)(\b|$)/i, 'De base'],
+    [/(\b|^)(Snow)(\b|$)/i, 'Neigeux'],
+    [/(\b|^)(Token)(\b|$)/i, 'Jeton'],
+    [/(\b|^)(World)(\b|$)/i, 'Mondial'],
+
+    // types majeurs
+    [/(\b|^)(Land)(\b|$)/i, 'Terrain'],
+    [/(\b|^)(Artifact)(\b|$)/i, 'Artefact'],
+    [/(\b|^)(Creature)(\b|$)/i, 'Créature'],
+    [/(\b|^)(Enchantment)(\b|$)/i, 'Enchantement'],
+    [/(\b|^)(Instant)(\b|$)/i, 'Éphémère'],
+    [/(\b|^)(Sorcery)(\b|$)/i, 'Rituel'],
+    [/(\b|^)(Planeswalker)(\b|$)/i, 'Planeswalker'],
+    [/(\b|^)(Battle)(\b|$)/i, 'Bataille'],
+    [/(\b|^)(Tribal)(\b|$)/i, 'Tribal'],
+  ];
+  repl.forEach(([re, fr]) => { L = L.replace(re, fr); });
+
+  // Côté droit : on laisse les sous-types tels quels (souvent déjà FR via printed_type_line).
+  // Quelques normalisations mineures usuelles :
+  let R = right;
+
+  // Reconstruire
+  return R ? `${L} — ${R}` : L;
+}
+
+/** Détermination du type primaire (pour placement auto). Accepte FR et EN. */
+function cardPrimaryTypeFRorEN(typeLine){
+  const t = normalize(typeLine);
+  if (t.includes('terrain') || t.includes('land')) return 'land';
+  if (t.includes('artefact') || t.includes('artifact')) return 'artifact';
+  if (t.includes('ephemere') || t.includes('instant')) return 'instant';
+  if (t.includes('rituel') || t.includes('sorcery')) return 'sorcery';
+  if (t.includes('creature') || t.includes('créature')) return 'creature';
+  return 'other';
+}
+
+/* =========================================================
    TOKENS: normalisation + recherche Scryfall (réutilisable)
    ========================================================= */
 
@@ -86,10 +148,14 @@ export function normalizeTokenCard(c){
   const uris  = c.image_uris || face?.image_uris || {};
   const imgSmall  = uris.small  ?? null;
   const imgNormal = uris.normal ?? imgSmall;
+
+  const rawType = c.printed_type_line || c.type_line || '';
+  const frType  = translateTypeToFR(rawType);
+
   return {
     id: c.id,
     name: c.printed_name || c.name,
-    type: c.printed_type_line || c.type_line || '',
+    type: frType,
     imageSmall: imgSmall || null,
     imageNormal: imgNormal || null
   };
@@ -222,7 +288,7 @@ function makeDeck(cards) {
   return cards.map(c => ({
     id: `${c.name}-${++counter}`,
     name: c.name,
-    type: c.type,
+    type: translateTypeToFR(c.type || ''),
     imageSmall: c.imageSmall || null,
     imageNormal: c.imageNormal || null
   }));
@@ -259,6 +325,49 @@ export function changeLife(delta){
   setLife(_lifeTotal + Math.trunc(delta));
 }
 
+// ---------- Helpers rangées champ de bataille + placement ----------
+function getBattleRows() {
+  const top = qs('.zone--bataille .battle-row[data-subrow="1"] .cards') || qs('.zone--bataille .battle-row:nth-of-type(1) .cards');
+  const mid = qs('.zone--bataille .battle-row[data-subrow="2"] .cards') || qs('.zone--bataille .battle-row:nth-of-type(2) .cards');
+  const bot = qs('.zone--bataille .battle-row[data-subrow="3"] .cards') || qs('.zone--bataille .battle-row:nth-of-type(3) .cards');
+  return [top, mid, bot].filter(Boolean);
+}
+function rowIsFull(rowEl){
+  const max = parseInt(rowEl?.closest('.battle-row')?.dataset?.max || '0', 10);
+  if (!max) return false;
+  return (rowEl.querySelectorAll('.card').length >= max);
+}
+function pickBattleRowForCardType(cardEl){
+  const rows = getBattleRows();
+  if (!rows.length) return null;
+
+  // type depuis dataset (assigné lors du rendu) ou fallback via texte
+  const typeLine = cardEl.dataset.cardType || cardEl.querySelector('.card-type')?.textContent || '';
+  const primary = cardPrimaryTypeFRorEN(typeLine);
+
+  let target = null;
+  const [rowTop, rowMid, rowBot] = rows;
+
+  if (primary === 'land' || primary === 'artifact') target = rowBot || rows[rows.length-1];
+  else if (primary === 'instant' || primary === 'sorcery') target = rowMid || rows[Math.floor(rows.length/2)];
+  else if (primary === 'creature') target = rowTop || rows[0];
+  else {
+    target = rows.slice().sort((a,b)=> a.querySelectorAll('.card').length - b.querySelectorAll('.card').length)[0];
+  }
+
+  if (!target || rowIsFull(target)) {
+    target = rows.slice().sort((a,b)=> a.querySelectorAll('.card').length - b.querySelectorAll('.card').length)[0];
+  }
+
+  return target;
+}
+function moveCardFromHandToBattlefield(cardEl){
+  const target = pickBattleRowForCardType(cardEl);
+  if (!target) return;
+  cardEl.classList.remove('face-down','tapped','phased');
+  target.appendChild(cardEl);
+}
+
 // ---------- Carte ----------
 export function createCardEl(card, { faceDown=false, isToken=false, interactive=true } = {}) {
   const el = document.createElement('article');
@@ -268,6 +377,9 @@ export function createCardEl(card, { faceDown=false, isToken=false, interactive=
   el.tabIndex = 0;
 
   if (isToken) el.dataset.isToken = '1';
+
+  // ✅ garder type FR pour détection/affichage futur
+  if (card.type) el.dataset.cardType = translateTypeToFR(card.type);
 
   if (card.imageSmall)  el.dataset.imageSmall  = card.imageSmall;
   if (card.imageNormal) el.dataset.imageNormal = card.imageNormal;
@@ -311,7 +423,7 @@ function showCardPreview(fromEl){
   window.__previewSourceEl = fromEl;
 
   const name = fromEl.querySelector('.card-name')?.textContent || '';
-  const type = fromEl.querySelector('.card-type')?.textContent || '';
+  const type = fromEl.querySelector('.card-type')?.textContent || fromEl.dataset.cardType || '';
   const imgSrc =
     fromEl.dataset.imageNormal ||
     fromEl.querySelector('.card-illust img')?.getAttribute('src') ||
@@ -347,7 +459,7 @@ function showCardPreview(fromEl){
 
   if (type) {
     const ty = document.createElement('div');
-    ty.textContent = type;
+    ty.textContent = translateTypeToFR(type);
     ty.style.cssText = 'opacity:.8; font-size:clamp(14px,2.2vw,18px);';
     cardWrap.appendChild(ty);
   }
@@ -415,7 +527,7 @@ function cardElToObj(el){
   return {
     id,
     name: el.querySelector('.card-name')?.textContent || '',
-    type: el.querySelector('.card-type')?.textContent || '',
+    type: translateTypeToFR(el.dataset.cardType || el.querySelector('.card-type')?.textContent || ''),
     imageSmall: el.dataset.imageSmall || null,
     imageNormal: el.dataset.imageNormal || null,
     tapped: el.classList.contains('tapped'),
@@ -432,7 +544,22 @@ function cardElToObj(el){
 function attachCardListeners(cardEl) {
   cardEl.addEventListener('dragstart', handleDragStart);
   cardEl.addEventListener('dragend', handleDragEnd);
-  cardEl.addEventListener('dblclick', () => toggleTappedOn(cardEl));
+
+  // Double-clic : depuis la main → poser sur le champ de bataille selon le type
+  //               depuis le champ de bataille → toggler tapped (comportement existant)
+  cardEl.addEventListener('dblclick', () => {
+    const inBattle = !!cardEl.closest('.zone--bataille');
+    const inHand   = !!cardEl.closest('.zone--main');
+    if (inHand) {
+      moveCardFromHandToBattlefield(cardEl);
+    } else if (inBattle) {
+      toggleTappedOn(cardEl);
+    } else {
+      // autres zones → placer sur la rangée la moins chargée
+      moveCardFromHandToBattlefield(cardEl);
+    }
+  });
+
   cardEl.addEventListener('keydown', (e) => { if (e.key.toLowerCase() === 't') toggleTappedOn(cardEl); });
 
   // triple clic = phased
@@ -624,15 +751,14 @@ export function openSearchModal() {
     };
   }
 
-const btnShuffle = qs('.btn-shuffle', dialog);
-if (btnShuffle) {
-  // Mélange puis ferme la fenêtre pour éviter d’afficher la liste fraîchement mélangée
-  btnShuffle.onclick = () => {
-    shuffleDeck();
-    try { dialog.close(); } catch {}
-  };
-}
-
+  const btnShuffle = qs('.btn-shuffle', dialog);
+  if (btnShuffle) {
+    // Mélange puis ferme la fenêtre pour éviter d’afficher la liste fraîchement mélangée
+    btnShuffle.onclick = () => {
+      shuffleDeck();
+      try { dialog.close(); } catch {}
+    };
+  }
 
   // (optionnel) Si tu as un bouton dédié "mélanger & fermer"
   const btnShuffleClose = qs('.btn-shuffle-close', dialog);
@@ -825,7 +951,7 @@ function placeTokenCopies(card, n){
     const holder = rows[idx];
     const el = createCardEl(
       { id: `${card.id}-token-${randomId().slice(0,8)}`,
-        name: card.name, type: card.type,
+        name: card.name, type: translateTypeToFR(card.type),
         imageSmall: card.imageSmall || null, imageNormal: card.imageNormal || null
       },
       { isToken:true, faceDown:false, interactive:true }
@@ -886,7 +1012,7 @@ export async function openTokenDialog(){
       head.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:8px;';
 
       const title = document.createElement('div');
-      title.innerHTML = `<strong class="card-name">${c.name}</strong><div class="card-type" style="opacity:.75">${c.type||''}</div>`;
+      title.innerHTML = `<strong class="card-name">${c.name}</strong><div class="card-type" style="opacity:.75">${translateTypeToFR(c.type)||''}</div>`;
 
       const actions = document.createElement('div');
       const add = document.createElement('button');
@@ -1069,7 +1195,7 @@ function openScryDialog(n){
       const up = btn('↑','btn btn-up'); up.title = 'Remonter';
       const down = btn('↓','btn btn-down'); down.title = 'Descendre';
       const name = document.createElement('span'); name.textContent = c.name || '(Carte)'; name.className = 'card-name'; name.style.flex = '1';
-      const type = document.createElement('span'); type.textContent = c.type || ''; type.className = 'card-type'; type.style.opacity = '.75';
+      const type = document.createElement('span'); type.textContent = translateTypeToFR(c.type || ''); type.className = 'card-type'; type.style.opacity = '.75';
       const back = btn('↩ Source','btn');
 
       up.onclick = () => { if (i>0) { [arr[i-1], arr[i]] = [arr[i], arr[i-1]]; renderAll(); } };
@@ -1110,7 +1236,7 @@ function openScryDialog(n){
       name.style.flex = '1';
 
       const type = document.createElement('span');
-      type.textContent = c.type || '';
+      type.textContent = translateTypeToFR(c.type || '');
       type.className = 'card-type';
       type.style.opacity = '.75';
 
@@ -1183,7 +1309,7 @@ const PERSIST_KEY = 'mtg.persist.state';
 
 function cardObj(c){
   return {
-    id: c.id, name: c.name, type: c.type || '',
+    id: c.id, name: c.name, type: translateTypeToFR(c.type || ''),
     imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null,
     tapped: !!c.tapped, phased: !!c.phased, faceDown: !!c.faceDown, isToken: !!c.isToken,
     hasBadge: !!c.hasBadge,
@@ -1200,7 +1326,7 @@ export function serializeBoard(){
     return ({
       id,
       name: el.querySelector('.card-name')?.textContent || '',
-      type: el.querySelector('.card-type')?.textContent || '',
+      type: translateTypeToFR(el.dataset.cardType || el.querySelector('.card-type')?.textContent || ''),
       imageSmall: el.dataset.imageSmall || null,
       imageNormal: el.dataset.imageNormal || null,
       tapped: el.classList.contains('tapped'),
@@ -1234,8 +1360,8 @@ export function serializeBoard(){
       bataille:  battlefield
     },
     stores: {
-      exil: exileStore.map(x => ({ ...x, hasBadge: !!x.hasBadge, badgeItems: normItems(x.badgeItems || []) })),
-      cimetiere: graveyardStore.map(x => ({ ...x, hasBadge: !!x.hasBadge, badgeItems: normItems(x.badgeItems || []) }))
+      exil: exileStore.map(x => ({ ...x, type: translateTypeToFR(x.type || ''), hasBadge: !!x.hasBadge, badgeItems: normItems(x.badgeItems || []) })),
+      cimetiere: graveyardStore.map(x => ({ ...x, type: translateTypeToFR(x.type || ''), hasBadge: !!x.hasBadge, badgeItems: normItems(x.badgeItems || []) }))
     },
     deck: _deck.map(cardObj) // ordre complet (haut = fin du tableau)
   };
@@ -1279,13 +1405,13 @@ export function restoreBoard(state){
     ...(state.zones?.exil || []),
     ...(state.zones?.main || []),
     ...((state.zones?.bataille || []).flat() || [])
-  ];
+  ].map(cardObj);
   collect.push(...allZones);
   // stores
-  collect.push(...(state.stores?.exil || []));
-  collect.push(...(state.stores?.cimetiere || []));
+  collect.push(...(state.stores?.exil || []).map(cardObj));
+  collect.push(...(state.stores?.cimetiere || []).map(cardObj));
   // deck
-  collect.push(...(state.deck || []));
+  collect.push(...(state.deck || []).map(cardObj));
 
   collect.forEach(pushBadge);
 
@@ -1308,10 +1434,10 @@ export function restoreBoard(state){
   qsa('.zone--bataille .battle-row .cards').forEach(h => h.innerHTML='');
 
   // Rebuild Commander/Main/Exil/Cimetière depuis state.zones
-  pushTo('.zone--commander', state.zones?.commander || []);
-  pushTo('.zone--cimetiere', state.zones?.cimetiere || []);
-  pushTo('.zone--exil',      state.zones?.exil || []);
-  pushTo('.zone--main',      state.zones?.main || []);
+  pushTo('.zone--commander', (state.zones?.commander || []).map(cardObj));
+  pushTo('.zone--cimetiere', (state.zones?.cimetiere || []).map(cardObj));
+  pushTo('.zone--exil',      (state.zones?.exil || []).map(cardObj));
+  pushTo('.zone--main',      (state.zones?.main || []).map(cardObj));
 
   // Battlefield (3 rangées)
   const rows = (state.zones?.bataille || []);
@@ -1319,7 +1445,7 @@ export function restoreBoard(state){
     const holder = qs(`.zone--bataille .battle-row[data-subrow="${i+1}"] .cards`);
     if (!holder) return;
     (rowCards || []).forEach(c => {
-      const el = createCardEl(c, { faceDown: !!c.faceDown, isToken: !!c.isToken, interactive:true });
+      const el = createCardEl(cardObj(c), { faceDown: !!c.faceDown, isToken: !!c.isToken, interactive:true });
       el.classList.toggle('tapped', !!c.tapped);
       el.classList.toggle('phased', !!c.phased);
       el.classList.toggle('has-badge', !!c.hasBadge); // ✅ visuel
@@ -1357,11 +1483,12 @@ function tryLoadDeckFromLocalStorage(){
 
     (payload.cards || []).forEach(c => {
       const qty = Math.max(0, Number(c.qty || 0));
+      const typeFR = translateTypeToFR(c.type || '');
       for (let i = 0; i < qty; i++) {
         _deck.push({
           id: `${(c.id || c.name)}-${++counter}`,
           name: c.name,
-          type: c.type || '',
+          type: typeFR,
           imageSmall: c.imageSmall || null,
           imageNormal: c.imageNormal || c.image || null
         });
@@ -1376,7 +1503,7 @@ function tryLoadDeckFromLocalStorage(){
         const el = createCardEl({
           id: `${(c.id || c.name)}-cmd-${Math.random().toString(36).slice(2,7)}`,
           name: c.name,
-          type: c.type || '',
+          type: translateTypeToFR(c.type || ''),
           imageSmall: c.imageSmall || null,
           imageNormal: c.imageNormal || c.image || null
         });
