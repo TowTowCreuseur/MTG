@@ -40,6 +40,31 @@ async function checkWebSocketUp(host, { timeoutMs=1500 } = {}) {
   });
 }
 
+// --- Copie presse-papiers (HTTPS/localhost + fallback HTTP/file://) ---
+async function copyToClipboard(text){
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {}
+  // Fallback compatible HTTP / file://
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly','');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
 function init() {
   // Pré-remplir host avec location.hostname mais éditable (Option A)
   $('#serverHost').value = location.hostname;
@@ -50,10 +75,14 @@ function init() {
   $('#serverHost').oninput = setInviteLink;
   $('#roomId').oninput = setInviteLink;
 
-  $('#copyLink').onclick = ()=> {
+  $('#copyLink').onclick = async ()=> {
     const link = $('#inviteLink').value;
     if (!link) return;
-    navigator.clipboard.writeText(link).catch(()=>{});
+    const ok = await copyToClipboard(link);
+    const btn = $('#copyLink');
+    const old = btn.textContent;
+    btn.textContent = ok ? 'Copié !' : 'Échec';
+    setTimeout(()=> btn.textContent = old || 'Copier le lien', 1000);
   };
 
   $('#checkWs').onclick = async ()=> {
