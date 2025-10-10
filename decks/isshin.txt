@@ -1,0 +1,101 @@
+1 Adaptive Omnitool
+1 Akiri, Fearless Voyager
+1 Akroma's Will
+1 Ancient Den
+1 Andúril, Narsil Reforged
+1 Arcane Signet
+1 Ardenn, Intrepid Archaeologist
+1 Argentum Armor
+1 Arid Mesa
+1 Armored Skyhunter
+1 Ashe, Princess of Dalmasca
+1 Badlands
+1 Battlefield Forge
+1 Blade of Selves
+1 Blood Crypt
+1 Bloodstained Mire
+1 Caduceus, Staff of Hermes
+1 Caves of Koilos
+1 Cid, Freeflier Pilot
+1 City of Brass
+1 Cloud, Midgar Mercenary
+1 Colossus Hammer
+1 Command Tower
+1 Conjurer's Mantle
+1 Crackling Doom
+1 Darksteel Citadel
+1 Deflecting Swat
+1 Demonic Tutor
+1 Dolmen Gate
+1 Esper Sentinel
+1 Etali, Primal Storm
+1 Fetid Heath
+1 Final Showdown
+1 Flooded Strand
+1 Forge Anew
+1 Galadriel's Dismissal
+1 Genji Glove
+1 Gilgamesh, Master-at-Arms
+1 Gisa's Favorite Shovel
+1 Godless Shrine
+1 Godo, Bandit Warlord
+1 Great Furnace
+1 Helm of the Host
+1 Idyllic Tutor
+1 Imperial Recruiter
+1 Iroas, God of Victory
+1 Krenko, Tin Street Kingpin
+1 Leonin Abunas
+1 Luxury Suite
+1 Mantle of the Ancients
+1 Marsh Flats
+1 Maze of Ith
+1 Mountain
+1 Myrel, Shield of Argive
+1 Path to Exile
+1 Piko Piko Hammer
+1 Plains
+1 Plateau
+1 Polluted Delta
+1 Puresteel Paladin
+1 Reconnaissance
+1 Recruiter of the Guard
+1 Rugged Prairie
+1 Ruinous Ultimatum
+1 Sacred Foundry
+1 Savai Triome
+1 Scalding Tarn
+1 Scrubland
+1 Shadowspear
+1 Shizo, Death's Storehouse
+1 Sigarda's Aid
+1 Snow-Covered Plains
+1 Sol Ring
+1 Spectator Seating
+1 Spellbook
+1 Stoneforge Mystic
+1 Stonehewer Giant
+1 Sun Titan
+1 Sunforger
+1 Swamp
+1 Swiftfoot Boots
+1 Sword of the Animist
+1 Swords to Plowshares
+1 Talisman of Conviction
+1 Talisman of Hierarchy
+1 Teferi's Protection
+1 The Regalia
+1 Thought Vessel
+1 Ultima Weapon
+1 Urza's Saga
+1 Vandalblast
+1 Vault of Champions
+1 Vault of Whispers
+1 Verdant Catacombs
+1 Voice of Victory
+1 Welding Jar
+1 Winds of Abandon
+1 Windswept Heath
+1 Wooded Foothills
+
+1 Isshin, Two Heavens as One

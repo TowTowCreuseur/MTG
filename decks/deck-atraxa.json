@@ -1,0 +1,734 @@
+{
+  "createdAt": "2025-10-09T02:07:39.761Z",
+  "cards": [
+    {
+      "id": "cca61cee-7260-4b1d-b626-c26d6bc1525e",
+      "name": "Retour au pays",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/c/cca61cee-7260-4b1d-b626-c26d6bc1525e.jpg?1744557568",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/c/cca61cee-7260-4b1d-b626-c26d6bc1525e.jpg?1744557568",
+      "qty": 1
+    },
+    {
+      "id": "a7c2b878-de5a-4875-b9b7-abedb936009d",
+      "name": "Contaminateur enflé",
+      "type": "Créature : phyrexian et bête",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/7/a7c2b878-de5a-4875-b9b7-abedb936009d.jpg?1677109059",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/7/a7c2b878-de5a-4875-b9b7-abedb936009d.jpg?1677109059",
+      "qty": 1
+    },
+    {
+      "id": "cfa5e677-27bd-4611-b795-5389e0ab93ff",
+      "name": "Île",
+      "type": "Terrain de base — île",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/f/cfa5e677-27bd-4611-b795-5389e0ab93ff.jpg?1744679999",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/f/cfa5e677-27bd-4611-b795-5389e0ab93ff.jpg?1744679999",
+      "qty": 6
+    },
+    {
+      "id": "c4e057b6-257f-49da-94e7-ad51eb172b0f",
+      "name": "Cachet d'ésotérisme",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "qty": 1
+    },
+    {
+      "id": "775e3d7f-04a0-4498-a811-269a49e24c34",
+      "name": "Atlas phyrexian",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/7/775e3d7f-04a0-4498-a811-269a49e24c34.jpg?1677110115",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/7/775e3d7f-04a0-4498-a811-269a49e24c34.jpg?1677110115",
+      "qty": 1
+    },
+    {
+      "id": "cee13951-b0c2-464b-8187-7b62e7d8b3c4",
+      "name": "Conforme à la prédiction",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/e/cee13951-b0c2-464b-8187-7b62e7d8b3c4.jpg?1698794279",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/e/cee13951-b0c2-464b-8187-7b62e7d8b3c4.jpg?1698794279",
+      "qty": 1
+    },
+    {
+      "id": "ccf86bca-6a91-466e-8eb3-ab75297c9fd7",
+      "name": "Elfe luisant",
+      "type": "Créature : elfe et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/c/ccf86bca-6a91-466e-8eb3-ab75297c9fd7.jpg?1562881600",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/c/ccf86bca-6a91-466e-8eb3-ab75297c9fd7.jpg?1562881600",
+      "qty": 1
+    },
+    {
+      "id": "a059498a-025a-4542-be54-104a173c6e4a",
+      "name": "Bastion de Karn",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/0/a059498a-025a-4542-be54-104a173c6e4a.jpg?1730194899",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/0/a059498a-025a-4542-be54-104a173c6e4a.jpg?1730194899",
+      "qty": 1
+    },
+    {
+      "id": "dfa2d1c2-3fba-423c-b6f9-2109720483dc",
+      "name": "Pari de Tezzeret",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/f/dfa2d1c2-3fba-423c-b6f9-2109720483dc.jpg?1735679855",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/f/dfa2d1c2-3fba-423c-b6f9-2109720483dc.jpg?1735679855",
+      "qty": 1
+    },
+    {
+      "id": "4dea55b3-31ab-47e6-9330-8dd8f1bc3a1f",
+      "name": "Converti myr",
+      "type": "Créature-artefact : phyrexian et myr",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/d/4dea55b3-31ab-47e6-9330-8dd8f1bc3a1f.jpg?1677110081",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/d/4dea55b3-31ab-47e6-9330-8dd8f1bc3a1f.jpg?1677110081",
+      "qty": 1
+    },
+    {
+      "id": "f821e8c6-3e47-4d12-8eee-be7008f1b344",
+      "name": "Pierre de Guermont",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/8/f821e8c6-3e47-4d12-8eee-be7008f1b344.jpg?1744561808",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/8/f821e8c6-3e47-4d12-8eee-be7008f1b344.jpg?1744561808",
+      "qty": 1
+    },
+    {
+      "id": "7f389ea3-38bd-4bf0-8f6f-8c633754eed5",
+      "name": "Cavernes de Koïlos",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/f/7f389ea3-38bd-4bf0-8f6f-8c633754eed5.jpg?1744562424",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/f/7f389ea3-38bd-4bf0-8f6f-8c633754eed5.jpg?1744562424",
+      "qty": 1
+    },
+    {
+      "id": "829b8d51-9f62-4dde-a69a-1ce34611997d",
+      "name": "Marée inexorable",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/2/829b8d51-9f62-4dde-a69a-1ce34611997d.jpg?1718689879",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/2/829b8d51-9f62-4dde-a69a-1ce34611997d.jpg?1718689879",
+      "qty": 1
+    },
+    {
+      "id": "9edb91ce-f487-4fff-9785-22d230bb2151",
+      "name": "Révocation",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/e/9edb91ce-f487-4fff-9785-22d230bb2151.jpg?1732356866",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/e/9edb91ce-f487-4fff-9785-22d230bb2151.jpg?1732356866",
+      "qty": 1
+    },
+    {
+      "id": "ad194d6a-2692-4410-bc98-40760ebbb1af",
+      "name": "Prison fantomale",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/d/ad194d6a-2692-4410-bc98-40760ebbb1af.jpg?1744557071",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/d/ad194d6a-2692-4410-bc98-40760ebbb1af.jpg?1744557071",
+      "qty": 1
+    },
+    {
+      "id": "3bd9528c-f8d3-4586-a766-711953b187cf",
+      "name": "Colipervier",
+      "type": "Créature — phyrexian et oiseau et horreur",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/b/3bd9528c-f8d3-4586-a766-711953b187cf.jpg?1734879668",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/b/3bd9528c-f8d3-4586-a766-711953b187cf.jpg?1734879668",
+      "qty": 1
+    },
+    {
+      "id": "6d8829fb-b7d1-4ed7-8524-698de1bb61f5",
+      "name": "Tekuthal, Dominus des enquêtes",
+      "type": "Créature légendaire : phyrexian et horreur",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/d/6d8829fb-b7d1-4ed7-8524-698de1bb61f5.jpg?1677107072",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/d/6d8829fb-b7d1-4ed7-8524-698de1bb61f5.jpg?1677107072",
+      "qty": 1
+    },
+    {
+      "id": "57e01f10-919d-46b5-84d0-e35b13bfec9f",
+      "name": "Forêt",
+      "type": "Terrain de base — forêt",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/7/57e01f10-919d-46b5-84d0-e35b13bfec9f.jpg?1744680073",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/7/57e01f10-919d-46b5-84d0-e35b13bfec9f.jpg?1744680073",
+      "qty": 2
+    },
+    {
+      "id": "0ae7415f-e7a1-4cbd-ad06-b4d6d8538310",
+      "name": "Mortification",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/a/0ae7415f-e7a1-4cbd-ad06-b4d6d8538310.jpg?1730165826",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/a/0ae7415f-e7a1-4cbd-ad06-b4d6d8538310.jpg?1730165826",
+      "qty": 1
+    },
+    {
+      "id": "77cd3842-ddf0-48d9-b4f5-f5f1f200c762",
+      "name": "Prisonnier de la lune",
+      "type": "Enchantement — aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/7/77cd3842-ddf0-48d9-b4f5-f5f1f200c762.jpg?1732351311",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/7/77cd3842-ddf0-48d9-b4f5-f5f1f200c762.jpg?1732351311",
+      "qty": 1
+    },
+    {
+      "id": "40878f86-26e7-4f90-b21a-fbcd76c9a6ec",
+      "name": "Rat au ventre de peste",
+      "type": "Créature : phyrexian et rat",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/0/40878f86-26e7-4f90-b21a-fbcd76c9a6ec.jpg?1677107376",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/0/40878f86-26e7-4f90-b21a-fbcd76c9a6ec.jpg?1677107376",
+      "qty": 1
+    },
+    {
+      "id": "41609b12-2b15-4a89-890e-9cddb3fb83c7",
+      "name": "Terra nullius",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/1/41609b12-2b15-4a89-890e-9cddb3fb83c7.jpg?1735682340",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/1/41609b12-2b15-4a89-890e-9cddb3fb83c7.jpg?1735682340",
+      "qty": 1
+    },
+    {
+      "id": "2c0f3efd-c52f-4041-b8f7-7db18c51c9f4",
+      "name": "Tour de commandement",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/c/2c0f3efd-c52f-4041-b8f7-7db18c51c9f4.jpg?1740187675",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/c/2c0f3efd-c52f-4041-b8f7-7db18c51c9f4.jpg?1740187675",
+      "qty": 1
+    },
+    {
+      "id": "6092752a-76fc-406c-8853-057f168ec74a",
+      "name": "Marais enneigé",
+      "type": "Terrain neigeux de base — marais",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/0/6092752a-76fc-406c-8853-057f168ec74a.jpg?1734871245",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/0/6092752a-76fc-406c-8853-057f168ec74a.jpg?1734871245",
+      "qty": 3
+    },
+    {
+      "id": "0caf665d-76ba-48e2-957e-1f2bbdc6f068",
+      "name": "Culture",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/c/0caf665d-76ba-48e2-957e-1f2bbdc6f068.jpg?1744560307",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/c/0caf665d-76ba-48e2-957e-1f2bbdc6f068.jpg?1744560307",
+      "qty": 1
+    },
+    {
+      "id": "742c5670-d0da-4a64-bb90-3901700dcbb4",
+      "name": "Morsure infectieuse",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/4/742c5670-d0da-4a64-bb90-3901700dcbb4.jpg?1677109329",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/4/742c5670-d0da-4a64-bb90-3901700dcbb4.jpg?1677109329",
+      "qty": 1
+    },
+    {
+      "id": "740ad31e-420d-4d91-8e7b-bd627a973aab",
+      "name": "Myr sanigriffe",
+      "type": "Créature-artefact : phyrexian et myr",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/4/740ad31e-420d-4d91-8e7b-bd627a973aab.jpg?1677108344",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/4/740ad31e-420d-4d91-8e7b-bd627a973aab.jpg?1677108344",
+      "qty": 1
+    },
+    {
+      "id": "72b40a5c-937d-4707-b512-b2034f3904ae",
+      "name": "Négation",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/2/72b40a5c-937d-4707-b512-b2034f3904ae.jpg?1716763690",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/2/72b40a5c-937d-4707-b512-b2034f3904ae.jpg?1716763690",
+      "qty": 1
+    },
+    {
+      "id": "8159ff98-7d35-4599-8cfa-a63b88927c8e",
+      "name": "Enquête infectieuse",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/1/8159ff98-7d35-4599-8cfa-a63b88927c8e.jpg?1677107671",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/1/8159ff98-7d35-4599-8cfa-a63b88927c8e.jpg?1677107671",
+      "qty": 1
+    },
+    {
+      "id": "3b240c70-883c-4df5-b5e0-24c22a9d4411",
+      "name": "Bâton de parachèvement",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/b/3b240c70-883c-4df5-b5e0-24c22a9d4411.jpg?1744562001",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/b/3b240c70-883c-4df5-b5e0-24c22a9d4411.jpg?1744562001",
+      "qty": 1
+    },
+    {
+      "id": "fbe457ad-9a21-4df6-917e-1da04a42ba7e",
+      "name": "Expulsion impitoyable",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/b/fbe457ad-9a21-4df6-917e-1da04a42ba7e.jpg?1677108037",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/b/fbe457ad-9a21-4df6-917e-1da04a42ba7e.jpg?1677108037",
+      "qty": 1
+    },
+    {
+      "id": "8104ae73-41dc-400f-8219-f80020e827d1",
+      "name": "Piqueur de peste",
+      "type": "Créature : phyrexian et insecte et horreur",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/1/8104ae73-41dc-400f-8219-f80020e827d1.jpg?1677107474",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/1/8104ae73-41dc-400f-8219-f80020e827d1.jpg?1677107474",
+      "qty": 1
+    },
+    {
+      "id": "2afde2b7-087d-45e2-a41b-010d34abed05",
+      "name": "Chute de Vraska",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/a/2afde2b7-087d-45e2-a41b-010d34abed05.jpg?1677108108",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/a/2afde2b7-087d-45e2-a41b-010d34abed05.jpg?1677108108",
+      "qty": 1
+    },
+    {
+      "id": "469746fe-d359-4480-8d98-7bc5530b0ad2",
+      "name": "Détermination corrompue",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/6/469746fe-d359-4480-8d98-7bc5530b0ad2.jpg?1562877198",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/6/469746fe-d359-4480-8d98-7bc5530b0ad2.jpg?1562877198",
+      "qty": 1
+    },
+    {
+      "id": "cad34c46-b218-4ae8-a090-1ad9807ba709",
+      "name": "Crânoglodyte biliaire",
+      "type": "Créature : phyrexian et insecte",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/a/cad34c46-b218-4ae8-a090-1ad9807ba709.jpg?1677107327",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/a/cad34c46-b218-4ae8-a090-1ad9807ba709.jpg?1677107327",
+      "qty": 1
+    },
+    {
+      "id": "ef2b24f7-887f-4318-851b-f6ca5d3fc5ee",
+      "name": "Observateur souillé",
+      "type": "Créature : phyrexian et oiseau",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/f/ef2b24f7-887f-4318-851b-f6ca5d3fc5ee.jpg?1677109882",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/f/ef2b24f7-887f-4318-851b-f6ca5d3fc5ee.jpg?1677109882",
+      "qty": 1
+    },
+    {
+      "id": "0add6f24-78ab-4473-8955-ec97e219e7a3",
+      "name": "Parchemin de marchand",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/a/0add6f24-78ab-4473-8955-ec97e219e7a3.jpg?1562897115",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/a/0add6f24-78ab-4473-8955-ec97e219e7a3.jpg?1562897115",
+      "qty": 1
+    },
+    {
+      "id": "889a9581-7af9-4769-a6d1-2d303f9ae199",
+      "name": "Nourrir la cause",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/8/889a9581-7af9-4769-a6d1-2d303f9ae199.jpg?1562612819",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/8/889a9581-7af9-4769-a6d1-2d303f9ae199.jpg?1562612819",
+      "qty": 1
+    },
+    {
+      "id": "ee61b751-fb1f-4d09-afb7-6103d67a43ee",
+      "name": "Myr de peste",
+      "type": "Créature-artefact : phyrexian et myr",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/e/ee61b751-fb1f-4d09-afb7-6103d67a43ee.jpg?1677108502",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/e/ee61b751-fb1f-4d09-afb7-6103d67a43ee.jpg?1677108502",
+      "qty": 1
+    },
+    {
+      "id": "fb49b8b6-a36d-4947-a28b-55243880dd83",
+      "name": "Décret de Norn",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/b/fb49b8b6-a36d-4947-a28b-55243880dd83.jpg?1677105531",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/b/fb49b8b6-a36d-4947-a28b-55243880dd83.jpg?1677105531",
+      "qty": 1
+    },
+    {
+      "id": "a3c1bc5c-cdba-49b7-b5ca-c6247981a239",
+      "name": "Restauration surnaturelle",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/3/a3c1bc5c-cdba-49b7-b5ca-c6247981a239.jpg?1677109573",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/3/a3c1bc5c-cdba-49b7-b5ca-c6247981a239.jpg?1677109573",
+      "qty": 1
+    },
+    {
+      "id": "1016a0a3-ddc9-408d-86e3-4a72c34c5488",
+      "name": "Chuchotements nocturnes",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/0/1016a0a3-ddc9-408d-86e3-4a72c34c5488.jpg?1733877197",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/0/1016a0a3-ddc9-408d-86e3-4a72c34c5488.jpg?1733877197",
+      "qty": 1
+    },
+    {
+      "id": "cad9e700-d8ab-4d64-863d-cbd31e5eb1b0",
+      "name": "Chancreflore",
+      "type": "Créature : phyrexian et fongus",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/a/cad9e700-d8ab-4d64-863d-cbd31e5eb1b0.jpg?1677109093",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/a/cad9e700-d8ab-4d64-863d-cbd31e5eb1b0.jpg?1677109093",
+      "qty": 1
+    },
+    {
+      "id": "332857c3-e4de-40ba-89e3-966d0836b375",
+      "name": "Temple du silence",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/3/332857c3-e4de-40ba-89e3-966d0836b375.jpg?1744563605",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/3/332857c3-e4de-40ba-89e3-966d0836b375.jpg?1744563605",
+      "qty": 1
+    },
+    {
+      "id": "b1e2c0c9-ac57-46eb-9c20-d5cdc302e9be",
+      "name": "Rats septiques",
+      "type": "Créature : rat",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/1/b1e2c0c9-ac57-46eb-9c20-d5cdc302e9be.jpg?1562613956",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/1/b1e2c0c9-ac57-46eb-9c20-d5cdc302e9be.jpg?1562613956",
+      "qty": 1
+    },
+    {
+      "id": "3ec4d4a7-717a-4ad9-9006-937cf97ac3d7",
+      "name": "Contresort",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/e/3ec4d4a7-717a-4ad9-9006-937cf97ac3d7.jpg?1726875250",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/e/3ec4d4a7-717a-4ad9-9006-937cf97ac3d7.jpg?1726875250",
+      "qty": 1
+    },
+    {
+      "id": "49ff49c1-6eac-436e-adf3-6d3723fa54f2",
+      "name": "Putréfier",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/9/49ff49c1-6eac-436e-adf3-6d3723fa54f2.jpg?1744561425",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/9/49ff49c1-6eac-436e-adf3-6d3723fa54f2.jpg?1744561425",
+      "qty": 1
+    },
+    {
+      "id": "d545d096-f328-4731-9588-3497967aad6d",
+      "name": "Temple de la profusion",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/5/d545d096-f328-4731-9588-3497967aad6d.jpg?1744563581",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/5/d545d096-f328-4731-9588-3497967aad6d.jpg?1744563581",
+      "qty": 1
+    },
+    {
+      "id": "c4816e7f-456b-469b-b91b-1235e848e6c3",
+      "name": "Boucle de contagion",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c4816e7f-456b-469b-b91b-1235e848e6c3.jpg?1718691514",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c4816e7f-456b-469b-b91b-1235e848e6c3.jpg?1718691514",
+      "qty": 1
+    },
+    {
+      "id": "4c899570-16de-4551-953c-31bb14cea33e",
+      "name": "Fynn, le porteur de croc",
+      "type": "Créature légendaire : humain et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/c/4c899570-16de-4551-953c-31bb14cea33e.jpg?1681968248",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/c/4c899570-16de-4551-953c-31bb14cea33e.jpg?1681968248",
+      "qty": 1
+    },
+    {
+      "id": "7f8b9870-6526-4c5a-ae49-0c3908886f9e",
+      "name": "Augure expérimental",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/f/7f8b9870-6526-4c5a-ae49-0c3908886f9e.jpg?1677106419",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/f/7f8b9870-6526-4c5a-ae49-0c3908886f9e.jpg?1677106419",
+      "qty": 1
+    },
+    {
+      "id": "d5e41033-e299-4973-9111-4ac8244531bb",
+      "name": "Flambée de phyrésie",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/5/d5e41033-e299-4973-9111-4ac8244531bb.jpg?1677105578",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/5/d5e41033-e299-4973-9111-4ac8244531bb.jpg?1677105578",
+      "qty": 1
+    },
+    {
+      "id": "e5b93218-7e3f-426d-a243-52dfd0112e8e",
+      "name": "Temple du mystère",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/5/e5b93218-7e3f-426d-a243-52dfd0112e8e.jpg?1744563561",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/5/e5b93218-7e3f-426d-a243-52dfd0112e8e.jpg?1744563561",
+      "qty": 1
+    },
+    {
+      "id": "3374c9ab-e782-4b57-a562-e082160f9b80",
+      "name": "Sphère du commandant",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/3/3374c9ab-e782-4b57-a562-e082160f9b80.jpg?1740190197",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/3/3374c9ab-e782-4b57-a562-e082160f9b80.jpg?1740190197",
+      "qty": 1
+    },
+    {
+      "id": "8a5cad93-964c-48e2-af54-924acd856c0c",
+      "name": "Anneau solaire",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "qty": 1
+    },
+    {
+      "id": "a820dfba-5cb3-4cf4-b679-582c11efdfdc",
+      "name": "Cour retirée",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/8/a820dfba-5cb3-4cf4-b679-582c11efdfdc.jpg?1732353396",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/8/a820dfba-5cb3-4cf4-b679-582c11efdfdc.jpg?1732353396",
+      "qty": 1
+    },
+    {
+      "id": "0121faf7-517c-49d9-b6b9-6ab8dc35e2bb",
+      "name": "Plaine",
+      "type": "Terrain de base — plaine",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/1/0121faf7-517c-49d9-b6b9-6ab8dc35e2bb.jpg?1744679981",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/1/0121faf7-517c-49d9-b6b9-6ab8dc35e2bb.jpg?1744679981",
+      "qty": 2
+    },
+    {
+      "id": "51e01579-de0d-4df8-845b-d1af485638a2",
+      "name": "Vue de la canopée",
+      "type": "Terrain — forêt et plaine",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/1/51e01579-de0d-4df8-845b-d1af485638a2.jpg?1744562326",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/1/51e01579-de0d-4df8-845b-d1af485638a2.jpg?1744562326",
+      "qty": 1
+    },
+    {
+      "id": "bb32a7ad-5e7d-459d-9ad3-569f383be31a",
+      "name": "Confluence des Courtiers",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/b/bb32a7ad-5e7d-459d-9ad3-569f383be31a.jpg?1741142100",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/b/bb32a7ad-5e7d-459d-9ad3-569f383be31a.jpg?1741142100",
+      "qty": 1
+    },
+    {
+      "id": "d3bb460e-2581-4f43-98ec-2259dbdd7304",
+      "name": "Rejet de l'imperfection",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/3/d3bb460e-2581-4f43-98ec-2259dbdd7304.jpg?1677106987",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/3/d3bb460e-2581-4f43-98ec-2259dbdd7304.jpg?1677106987",
+      "qty": 1
+    },
+    {
+      "id": "433c2611-abae-40c5-8577-309a1b556b6b",
+      "name": "Rivière souterraine",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/3/433c2611-abae-40c5-8577-309a1b556b6b.jpg?1740192371",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/3/433c2611-abae-40c5-8577-309a1b556b6b.jpg?1740192371",
+      "qty": 1
+    },
+    {
+      "id": "099adf1f-932a-4ff7-be37-954f05119e6f",
+      "name": "Temple de la tromperie",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/9/099adf1f-932a-4ff7-be37-954f05119e6f.jpg?1740192208",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/9/099adf1f-932a-4ff7-be37-954f05119e6f.jpg?1740192208",
+      "qty": 1
+    },
+    {
+      "id": "7939b73e-7b4b-49e3-9376-7a31fb09371d",
+      "name": "Calice toujours ruisselant",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/9/7939b73e-7b4b-49e3-9376-7a31fb09371d.jpg?1735681141",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/9/7939b73e-7b4b-49e3-9376-7a31fb09371d.jpg?1735681141",
+      "qty": 1
+    },
+    {
+      "id": "107b145d-69a0-4cd5-b481-896e39285019",
+      "name": "Agent gangrené",
+      "type": "Créature : humain et gredin",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/0/107b145d-69a0-4cd5-b481-896e39285019.jpg?1562875586",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/0/107b145d-69a0-4cd5-b481-896e39285019.jpg?1562875586",
+      "qty": 1
+    },
+    {
+      "id": "bdd6a4bf-43fb-4c94-af7f-3e19449f7923",
+      "name": "Greffeur de polluants",
+      "type": "Créature : phyrexian et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/d/bdd6a4bf-43fb-4c94-af7f-3e19449f7923.jpg?1677105688",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/d/bdd6a4bf-43fb-4c94-af7f-3e19449f7923.jpg?1677105688",
+      "qty": 1
+    },
+    {
+      "id": "4f5400fa-71d3-4a5b-9e56-89a814e16a75",
+      "name": "Broussaille",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/f/4f5400fa-71d3-4a5b-9e56-89a814e16a75.jpg?1730180553",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/f/4f5400fa-71d3-4a5b-9e56-89a814e16a75.jpg?1730180553",
+      "qty": 1
+    },
+    {
+      "id": "65c5600c-e0d0-4e73-854a-a999b703a94f",
+      "name": "Lanterne chromatique",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/5/65c5600c-e0d0-4e73-854a-a999b703a94f.jpg?1740187427",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/5/65c5600c-e0d0-4e73-854a-a999b703a94f.jpg?1740187427",
+      "qty": 1
+    },
+    {
+      "id": "8cb1dff5-9250-40d5-8a24-9807283a40ae",
+      "name": "Réanimation délétère",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/c/8cb1dff5-9250-40d5-8a24-9807283a40ae.jpg?1677107811",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/c/8cb1dff5-9250-40d5-8a24-9807283a40ae.jpg?1677107811",
+      "qty": 1
+    },
+    {
+      "id": "c231d1dd-b79a-4589-a728-135acf3570ca",
+      "name": "Chemin vers l'exil",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/2/c231d1dd-b79a-4589-a728-135acf3570ca.jpg?1730179981",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/2/c231d1dd-b79a-4589-a728-135acf3570ca.jpg?1730179981",
+      "qty": 1
+    },
+    {
+      "id": "bbece682-c6c2-4223-8648-ef5d808a8a59",
+      "name": "Côte de la Yavimaya",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/b/bbece682-c6c2-4223-8648-ef5d808a8a59.jpg?1744563750",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/b/bbece682-c6c2-4223-8648-ef5d808a8a59.jpg?1744563750",
+      "qty": 1
+    },
+    {
+      "id": "9a987881-d1ca-479f-82b0-bef302097ec6",
+      "name": "Caresse de Phyrexia",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/a/9a987881-d1ca-479f-82b0-bef302097ec6.jpg?1677107359",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/a/9a987881-d1ca-479f-82b0-bef302097ec6.jpg?1677107359",
+      "qty": 1
+    },
+    {
+      "id": "951e5b7c-332b-4cf3-b429-d9f4279ba6ba",
+      "name": "Verger exotique",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/5/951e5b7c-332b-4cf3-b429-d9f4279ba6ba.jpg?1744562674",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/5/951e5b7c-332b-4cf3-b429-d9f4279ba6ba.jpg?1744562674",
+      "qty": 1
+    },
+    {
+      "id": "403369dc-367a-40cc-bfe6-68c482157b1b",
+      "name": "Pont de glace de Tendo",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/0/403369dc-367a-40cc-bfe6-68c482157b1b.jpg?1735682276",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/0/403369dc-367a-40cc-bfe6-68c482157b1b.jpg?1735682276",
+      "qty": 1
+    },
+    {
+      "id": "ba4ee3fb-b160-47ac-9ac2-62352e59a28c",
+      "name": "Canaliseuse de flux",
+      "type": "Créature — humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/a/ba4ee3fb-b160-47ac-9ac2-62352e59a28c.jpg?1734879545",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/a/ba4ee3fb-b160-47ac-9ac2-62352e59a28c.jpg?1734879545",
+      "qty": 1
+    },
+    {
+      "id": "8b5a0bcb-340f-413a-99f6-cd772b09300a",
+      "name": "Déclaration du néant",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/b/8b5a0bcb-340f-413a-99f6-cd772b09300a.jpg?1562879909",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/b/8b5a0bcb-340f-413a-99f6-cd772b09300a.jpg?1562879909",
+      "qty": 1
+    },
+    {
+      "id": "7c29eefc-3a01-49ae-8237-934ae98ce293",
+      "name": "Extension de la sphère",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/c/7c29eefc-3a01-49ae-8237-934ae98ce293.jpg?1677109254",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/c/7c29eefc-3a01-49ae-8237-934ae98ce293.jpg?1677109254",
+      "qty": 1
+    },
+    {
+      "id": "7b07b418-db82-42c4-ad08-54f6bbdf83a6",
+      "name": "Sphère luisante",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/b/7b07b418-db82-42c4-ad08-54f6bbdf83a6.jpg?1677105754",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/b/7b07b418-db82-42c4-ad08-54f6bbdf83a6.jpg?1677105754",
+      "qty": 1
+    },
+    {
+      "id": "f3bbf6f5-54d3-4db8-b650-70be7b40316c",
+      "name": "Bois souillé",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/3/f3bbf6f5-54d3-4db8-b650-70be7b40316c.jpg?1726881600",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/3/f3bbf6f5-54d3-4db8-b650-70be7b40316c.jpg?1726881600",
+      "qty": 1
+    },
+    {
+      "id": "03dd1145-37c8-4d5d-a16e-958e8e0e8a38",
+      "name": "Temple de l'illumination",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/3/03dd1145-37c8-4d5d-a16e-958e8e0e8a38.jpg?1744563503",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/3/03dd1145-37c8-4d5d-a16e-958e8e0e8a38.jpg?1744563503",
+      "qty": 1
+    },
+    {
+      "id": "f00e6bd4-61b1-4cb7-be51-0208fe9c66a2",
+      "name": "Collet de sérum",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/0/f00e6bd4-61b1-4cb7-be51-0208fe9c66a2.jpg?1677107007",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/0/f00e6bd4-61b1-4cb7-be51-0208fe9c66a2.jpg?1677107007",
+      "qty": 1
+    },
+    {
+      "id": "53d294dd-cc3d-4430-b6d2-4e26ad6e67b2",
+      "name": "Conscience corrompue",
+      "type": "Enchantement : aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/3/53d294dd-cc3d-4430-b6d2-4e26ad6e67b2.jpg?1562611371",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/3/53d294dd-cc3d-4430-b6d2-4e26ad6e67b2.jpg?1562611371",
+      "qty": 1
+    },
+    {
+      "id": "ddb1bd5c-ea78-48cc-ad07-ee64e76a04b0",
+      "name": "Siphonneur pestiféré",
+      "type": "Créature : phyrexian et insecte",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/d/ddb1bd5c-ea78-48cc-ad07-ee64e76a04b0.jpg?1677107805",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/d/ddb1bd5c-ea78-48cc-ad07-ee64e76a04b0.jpg?1677107805",
+      "qty": 1
+    },
+    {
+      "id": "a5f7bc77-d3f0-4f6f-a235-2a44bf288ec8",
+      "name": "Plan litigieux",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/5/a5f7bc77-d3f0-4f6f-a235-2a44bf288ec8.jpg?1646001411",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/5/a5f7bc77-d3f0-4f6f-a235-2a44bf288ec8.jpg?1646001411",
+      "qty": 1
+    },
+    {
+      "id": "1e1405d2-3b23-42fe-aff0-af244249f560",
+      "name": "Temple de la maladie",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/e/1e1405d2-3b23-42fe-aff0-af244249f560.jpg?1744563545",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/e/1e1405d2-3b23-42fe-aff0-af244249f560.jpg?1744563545",
+      "qty": 1
+    },
+    {
+      "id": "b3a0cc38-2c1e-44a4-93eb-2f6d0256ff9c",
+      "name": "Progression régulière",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/3/b3a0cc38-2c1e-44a4-93eb-2f6d0256ff9c.jpg?1562821990",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/3/b3a0cc38-2c1e-44a4-93eb-2f6d0256ff9c.jpg?1562821990",
+      "qty": 1
+    },
+    {
+      "id": "2fe910ef-dc28-49ca-b526-b0066bf36a9e",
+      "name": "Voie de l'Ascendance",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/f/2fe910ef-dc28-49ca-b526-b0066bf36a9e.jpg?1744563107",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/f/2fe910ef-dc28-49ca-b526-b0066bf36a9e.jpg?1744563107",
+      "qty": 1
+    },
+    {
+      "id": "aed69a7f-ce5a-425d-ad02-d3d08a170224",
+      "name": "Landes de Llanowar",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/e/aed69a7f-ce5a-425d-ad02-d3d08a170224.jpg?1744562991",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/e/aed69a7f-ce5a-425d-ad02-d3d08a170224.jpg?1744562991",
+      "qty": 1
+    },
+    {
+      "id": "2119b485-782d-4a62-9986-a2cf207161c0",
+      "name": "Prologue à la phyrésie",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/1/2119b485-782d-4a62-9986-a2cf207161c0.jpg?1677106937",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/1/2119b485-782d-4a62-9986-a2cf207161c0.jpg?1677106937",
+      "qty": 1
+    },
+    {
+      "id": "ece0e38a-d49e-4904-81fd-c5f467077f34",
+      "name": "Citadelle de la steppe de sable",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/c/ece0e38a-d49e-4904-81fd-c5f467077f34.jpg?1744679855",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/c/ece0e38a-d49e-4904-81fd-c5f467077f34.jpg?1744679855",
+      "qty": 1
+    },
+    {
+      "id": "c787b547-28de-4167-9158-d2536cf353eb",
+      "name": "Hybride vidaile",
+      "type": "Créature : phyrexian et chauve-souris",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/7/c787b547-28de-4167-9158-d2536cf353eb.jpg?1677109933",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/7/c787b547-28de-4167-9158-d2536cf353eb.jpg?1677109933",
+      "qty": 1
+    }
+  ],
+  "commanders": [
+    {
+      "id": "165c2d15-bd17-480f-b131-b4faae9fb2d1",
+      "name": "Atraxa, voix des praetors",
+      "type": "Créature légendaire : phyrexian et ange et horreur",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/6/165c2d15-bd17-480f-b131-b4faae9fb2d1.jpg?1681969177",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/6/165c2d15-bd17-480f-b131-b4faae9fb2d1.jpg?1681969177"
+    }
+  ]
+}

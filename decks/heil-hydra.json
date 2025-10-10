@@ -1,0 +1,622 @@
+{
+  "createdAt": "2025-10-10T18:08:46.281Z",
+  "cards": [
+    {
+      "id": "3a902889-6135-486b-a2fc-01f9492af485",
+      "name": "Mémorial d'Akroma",
+      "type": "Artefact légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/a/3a902889-6135-486b-a2fc-01f9492af485.jpg?1646045170",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/a/3a902889-6135-486b-a2fc-01f9492af485.jpg?1646045170",
+      "qty": 1
+    },
+    {
+      "id": "f76a1a3f-ad1e-4a3f-98df-1e5b0fa299df",
+      "name": "Elfe de la charmille",
+      "type": "Créature : elfe et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/7/f76a1a3f-ad1e-4a3f-98df-1e5b0fa299df.jpg?1698804599",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/7/f76a1a3f-ad1e-4a3f-98df-1e5b0fa299df.jpg?1698804599",
+      "qty": 1
+    },
+    {
+      "id": "947aef84-98b2-4c44-ab7f-cd2daf95bf49",
+      "name": "Charme de l'archidruide",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/4/947aef84-98b2-4c44-ab7f-cd2daf95bf49.jpg?1730244669",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/4/947aef84-98b2-4c44-ab7f-cd2daf95bf49.jpg?1730244669",
+      "qty": 1
+    },
+    {
+      "id": "b3729ce2-dbb4-4840-ad3a-6a35926ce2da",
+      "name": "Bala Ged Recovery // Bala Ged Sanctuary",
+      "type": "Sorcery // Land",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/3/b3729ce2-dbb4-4840-ad3a-6a35926ce2da.jpg?1646019735",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/3/b3729ce2-dbb4-4840-ad3a-6a35926ce2da.jpg?1646019735",
+      "qty": 1
+    },
+    {
+      "id": "2054de2b-047e-4789-b336-6729e5e2b447",
+      "name": "Ombre d'ours",
+      "type": "Enchantement : aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/0/2054de2b-047e-4789-b336-6729e5e2b447.jpg?1694574418",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/0/2054de2b-047e-4789-b336-6729e5e2b447.jpg?1694574418",
+      "qty": 1
+    },
+    {
+      "id": "c6a25fe1-132c-4766-bd63-f497a46c9fdd",
+      "name": "Chuchoteur de bête",
+      "type": "Créature — elfe et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/6/c6a25fe1-132c-4766-bd63-f497a46c9fdd.jpg?1730236718",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/6/c6a25fe1-132c-4766-bd63-f497a46c9fdd.jpg?1730236718",
+      "qty": 1
+    },
+    {
+      "id": "8d7644fb-3c0e-4842-9ccb-ff70a0ea8e0d",
+      "name": "Réveiller la bête",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/d/8d7644fb-3c0e-4842-9ccb-ff70a0ea8e0d.jpg?1744560216",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/d/8d7644fb-3c0e-4842-9ccb-ff70a0ea8e0d.jpg?1744560216",
+      "qty": 1
+    },
+    {
+      "id": "55958f44-d664-4bdb-a8f6-a49ae7a137c0",
+      "name": "Boseiju, celui qui résiste",
+      "type": "Terrain légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/5/55958f44-d664-4bdb-a8f6-a49ae7a137c0.jpg?1724739708",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/5/55958f44-d664-4bdb-a8f6-a49ae7a137c0.jpg?1724739708",
+      "qty": 1
+    },
+    {
+      "id": "1370e4d2-0b8c-4d18-9a93-d3fa7365cd6a",
+      "name": "Évolution bifurcatrice",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/3/1370e4d2-0b8c-4d18-9a93-d3fa7365cd6a.jpg?1730225539",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/3/1370e4d2-0b8c-4d18-9a93-d3fa7365cd6a.jpg?1730225539",
+      "qty": 1
+    },
+    {
+      "id": "44f96319-cc4d-40c5-8642-e5f7885f22cb",
+      "name": "Château Garenbrig",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/4/44f96319-cc4d-40c5-8642-e5f7885f22cb.jpg?1725589382",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/4/44f96319-cc4d-40c5-8642-e5f7885f22cb.jpg?1725589382",
+      "qty": 1
+    },
+    {
+      "id": "bb246bea-0fe1-46e6-b6c5-d3fd3bc0d7a3",
+      "name": "Druide du cercle des rêves",
+      "type": "Créature : elfe et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/b/bb246bea-0fe1-46e6-b6c5-d3fd3bc0d7a3.jpg?1645516751",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/b/bb246bea-0fe1-46e6-b6c5-d3fd3bc0d7a3.jpg?1645516751",
+      "qty": 1
+    },
+    {
+      "id": "e7c30fc4-9111-42be-8db5-4d59de0289bf",
+      "name": "Flambeau du Commandement",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/7/e7c30fc4-9111-42be-8db5-4d59de0289bf.jpg?1744562506",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/7/e7c30fc4-9111-42be-8db5-4d59de0289bf.jpg?1744562506",
+      "qty": 1
+    },
+    {
+      "id": "d7a8cc1d-aabb-4eb6-b0f1-6c93ec246f61",
+      "name": "Court of Garenbrig",
+      "type": "Enchantment",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/7/d7a8cc1d-aabb-4eb6-b0f1-6c93ec246f61.jpg?1692933973",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/7/d7a8cc1d-aabb-4eb6-b0f1-6c93ec246f61.jpg?1692933973",
+      "qty": 1
+    },
+    {
+      "id": "4077210c-31d6-41a3-b2f8-c21bb9ae0f2a",
+      "name": "Contaminateur de la vigueur",
+      "type": "Créature : phyrexian et guivre",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/0/4077210c-31d6-41a3-b2f8-c21bb9ae0f2a.jpg?1663240544",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/0/4077210c-31d6-41a3-b2f8-c21bb9ae0f2a.jpg?1663240544",
+      "qty": 1
+    },
+    {
+      "id": "b1622bce-3504-47ef-8e53-1fd9b2e41491",
+      "name": "Disciple of Freyalise // Garden of Freyalise",
+      "type": "Creature — Elf Druid // Land",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/1/b1622bce-3504-47ef-8e53-1fd9b2e41491.jpg?1730225351",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/1/b1622bce-3504-47ef-8e53-1fd9b2e41491.jpg?1730225351",
+      "qty": 1
+    },
+    {
+      "id": "91faffa9-ea7f-456a-980f-3c0a0472599d",
+      "name": "Mystique elfe",
+      "type": "Créature — elfe et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/1/91faffa9-ea7f-456a-980f-3c0a0472599d.jpg?1734874640",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/1/91faffa9-ea7f-456a-980f-3c0a0472599d.jpg?1734874640",
+      "qty": 1
+    },
+    {
+      "id": "fa4bf849-abdb-4276-9045-ab761d3bbfe2",
+      "name": "Médaillon d'émeraude",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/a/fa4bf849-abdb-4276-9045-ab761d3bbfe2.jpg?1730225565",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/a/fa4bf849-abdb-4276-9045-ab761d3bbfe2.jpg?1730225565",
+      "qty": 1
+    },
+    {
+      "id": "11ae253d-a024-4370-95dd-6888b10653e1",
+      "name": "Fanatique de Rhonas",
+      "type": "Créature — serpent et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/1/11ae253d-a024-4370-95dd-6888b10653e1.jpg?1730224872",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/1/11ae253d-a024-4370-95dd-6888b10653e1.jpg?1730224872",
+      "qty": 1
+    },
+    {
+      "id": "57e01f10-919d-46b5-84d0-e35b13bfec9f",
+      "name": "Forêt",
+      "type": "Terrain de base — forêt",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/7/57e01f10-919d-46b5-84d0-e35b13bfec9f.jpg?1744680073",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/7/57e01f10-919d-46b5-84d0-e35b13bfec9f.jpg?1744680073",
+      "qty": 24
+    },
+    {
+      "id": "4869702a-9056-4752-a13c-bf0c6a69be0a",
+      "name": "Soulèvement de Garruk",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/8/4869702a-9056-4752-a13c-bf0c6a69be0a.jpg?1732352479",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/8/4869702a-9056-4752-a13c-bf0c6a69be0a.jpg?1732352479",
+      "qty": 1
+    },
+    {
+      "id": "9fd28631-bcae-48bd-9826-098a0cab30da",
+      "name": "Hydre de genèse",
+      "type": "Créature — plante et hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/f/9fd28631-bcae-48bd-9826-098a0cab30da.jpg?1730248247",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/f/9fd28631-bcae-48bd-9826-098a0cab30da.jpg?1730248247",
+      "qty": 1
+    },
+    {
+      "id": "c6a0304f-b759-4d0f-bb90-fda031d18a0e",
+      "name": "Hydre veinedor",
+      "type": "Créature — hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/6/c6a0304f-b759-4d0f-bb90-fda031d18a0e.jpg?1730248890",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/6/c6a0304f-b759-4d0f-bb90-fda031d18a0e.jpg?1730248890",
+      "qty": 1
+    },
+    {
+      "id": "b073908e-14d0-4af0-ac8f-12171bfacc3c",
+      "name": "Pour le plus grand bien",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/0/b073908e-14d0-4af0-ac8f-12171bfacc3c.jpg?1730180304",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/0/b073908e-14d0-4af0-ac8f-12171bfacc3c.jpg?1730180304",
+      "qty": 1
+    },
+    {
+      "id": "2a5cbb10-f8cc-441f-84f2-bb8219238768",
+      "name": "Salle du seigneur bandit",
+      "type": "Terrain légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/a/2a5cbb10-f8cc-441f-84f2-bb8219238768.jpg?1537581599",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/a/2a5cbb10-f8cc-441f-84f2-bb8219238768.jpg?1537581599",
+      "qty": 1
+    },
+    {
+      "id": "f3c8fe22-d10c-4d66-b9c6-f1ead8b730cb",
+      "name": "Intervention héroïque",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/3/f3c8fe22-d10c-4d66-b9c6-f1ead8b730cb.jpg?1718690673",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/3/f3c8fe22-d10c-4d66-b9c6-f1ead8b730cb.jpg?1718690673",
+      "qty": 1
+    },
+    {
+      "id": "9a341399-2ef4-42db-81cf-346b9f9e70dc",
+      "name": "Perspicacité du chasseur",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/a/9a341399-2ef4-42db-81cf-346b9f9e70dc.jpg?1645453166",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/a/9a341399-2ef4-42db-81cf-346b9f9e70dc.jpg?1645453166",
+      "qty": 1
+    },
+    {
+      "id": "eabd807a-69a0-49b1-aeba-9be8b9160be9",
+      "name": "Appel inspirateur",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/a/eabd807a-69a0-49b1-aeba-9be8b9160be9.jpg?1732352598",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/a/eabd807a-69a0-49b1-aeba-9be8b9160be9.jpg?1732352598",
+      "qty": 1
+    },
+    {
+      "id": "0ca7ddf7-c74c-4022-b8a7-9fa8ec08119f",
+      "name": "Hydre kalonienne",
+      "type": "Créature — hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/c/0ca7ddf7-c74c-4022-b8a7-9fa8ec08119f.jpg?1730180313",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/c/0ca7ddf7-c74c-4022-b8a7-9fa8ec08119f.jpg?1730180313",
+      "qty": 1
+    },
+    {
+      "id": "014ae7ce-4aca-44e3-8248-8c1f087be788",
+      "name": "Acolyte de Karametra",
+      "type": "Créature : humain et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/1/014ae7ce-4aca-44e3-8248-8c1f087be788.jpg?1562813983",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/1/014ae7ce-4aca-44e3-8248-8c1f087be788.jpg?1562813983",
+      "qty": 1
+    },
+    {
+      "id": "b9e2ee84-8fb4-4e31-a765-ed40aaefde05",
+      "name": "Transformation de Kenrith",
+      "type": "Enchantement : aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/9/b9e2ee84-8fb4-4e31-a765-ed40aaefde05.jpg?1694575976",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/9/b9e2ee84-8fb4-4e31-a765-ed40aaefde05.jpg?1694575976",
+      "qty": 1
+    },
+    {
+      "id": "07fea740-09c2-492b-a261-a6b9b77ad8c9",
+      "name": "Khalni Ambush // Khalni Territory",
+      "type": "Instant // Land",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/7/07fea740-09c2-492b-a261-a6b9b77ad8c9.jpg?1646019967",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/7/07fea740-09c2-492b-a261-a6b9b77ad8c9.jpg?1646019967",
+      "qty": 1
+    },
+    {
+      "id": "a50679d5-2723-405c-a799-a72e8106de82",
+      "name": "Kodama de l'Arbre de l'ouest",
+      "type": "Créature légendaire — esprit",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/5/a50679d5-2723-405c-a799-a72e8106de82.jpg?1733869291",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/5/a50679d5-2723-405c-a799-a72e8106de82.jpg?1733869291",
+      "qty": 1
+    },
+    {
+      "id": "0ca33274-3bc5-4bcb-9dfa-b84dfbbc8f40",
+      "name": "Portée du kodama",
+      "type": "Rituel — arcane",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/c/0ca33274-3bc5-4bcb-9dfa-b84dfbbc8f40.jpg?1744560486",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/c/0ca33274-3bc5-4bcb-9dfa-b84dfbbc8f40.jpg?1744560486",
+      "qty": 1
+    },
+    {
+      "id": "8937843e-89bc-44d5-ac10-28fb961a6c46",
+      "name": "Repaire de l'hydre",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/9/8937843e-89bc-44d5-ac10-28fb961a6c46.jpg?1735681849",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/9/8937843e-89bc-44d5-ac10-28fb961a6c46.jpg?1735681849",
+      "qty": 1
+    },
+    {
+      "id": "851c0167-04ba-4d15-b0fa-c211bd8826f1",
+      "name": "Legolas's Quick Reflexes",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/5/851c0167-04ba-4d15-b0fa-c211bd8826f1.jpg?1695346458",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/5/851c0167-04ba-4d15-b0fa-c211bd8826f1.jpg?1695346458",
+      "qty": 1
+    },
+    {
+      "id": "aa1404e3-520a-4ebb-924f-ef55247db970",
+      "name": "Hydre de force vive",
+      "type": "Créature — hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/a/aa1404e3-520a-4ebb-924f-ef55247db970.jpg?1734870713",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/a/aa1404e3-520a-4ebb-924f-ef55247db970.jpg?1734870713",
+      "qty": 1
+    },
+    {
+      "id": "756b775b-e9bd-4645-922e-a3c99af7ba04",
+      "name": "Jambières d'éclair",
+      "type": "Artefact — équipement",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/5/756b775b-e9bd-4645-922e-a3c99af7ba04.jpg?1744556772",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/5/756b775b-e9bd-4645-922e-a3c99af7ba04.jpg?1744556772",
+      "qty": 1
+    },
+    {
+      "id": "b164bd6d-260c-4f02-affe-fc774d433ae8",
+      "name": "Elfes de Llanowar",
+      "type": "Créature — elfe et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/1/b164bd6d-260c-4f02-affe-fc774d433ae8.jpg?1732352615",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/1/b164bd6d-260c-4f02-affe-fc774d433ae8.jpg?1732352615",
+      "qty": 1
+    },
+    {
+      "id": "efb90f3e-42f3-4888-b25d-1e179d075a41",
+      "name": "Tribu de Llanowar",
+      "type": "Créature : elfe et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/f/efb90f3e-42f3-4888-b25d-1e179d075a41.jpg?1677129062",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/f/efb90f3e-42f3-4888-b25d-1e179d075a41.jpg?1677129062",
+      "qty": 1
+    },
+    {
+      "id": "9f7ce8ed-dea1-47bb-b32e-4155485bc830",
+      "name": "Marteau de guerre loxodon",
+      "type": "Artefact : équipement",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/f/9f7ce8ed-dea1-47bb-b32e-4155485bc830.jpg?1677108404",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/f/9f7ce8ed-dea1-47bb-b32e-4155485bc830.jpg?1677108404",
+      "qty": 1
+    },
+    {
+      "id": "089f7cc4-432f-473b-bc0c-92aedbd22f20",
+      "name": "Hydre avaleuse de mana",
+      "type": "Créature — hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/8/089f7cc4-432f-473b-bc0c-92aedbd22f20.jpg?1730180328",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/8/089f7cc4-432f-473b-bc0c-92aedbd22f20.jpg?1730180328",
+      "qty": 1
+    },
+    {
+      "id": "37da8aaf-fbb0-418c-9ebb-07b7958af528",
+      "name": "Chute considérable",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/7/37da8aaf-fbb0-418c-9ebb-07b7958af528.jpg?1645512963",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/7/37da8aaf-fbb0-418c-9ebb-07b7958af528.jpg?1645512963",
+      "qty": 1
+    },
+    {
+      "id": "3e5f3020-471d-49c9-88ec-6ac0c2d21d26",
+      "name": "Carnage monstrueux",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/e/3e5f3020-471d-49c9-88ec-6ac0c2d21d26.jpg?1645558929",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/e/3e5f3020-471d-49c9-88ec-6ac0c2d21d26.jpg?1645558929",
+      "qty": 1
+    },
+    {
+      "id": "165857d9-18c9-48be-8383-58a7ac813e1f",
+      "name": "Sapience naturaliste",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/6/165857d9-18c9-48be-8383-58a7ac813e1f.jpg?1730236764",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/6/165857d9-18c9-48be-8383-58a7ac813e1f.jpg?1730236764",
+      "qty": 1
+    },
+    {
+      "id": "e2b9c4b7-9afd-45b8-b3c4-63759864f943",
+      "name": "Pèlerinage de Nissa",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/2/e2b9c4b7-9afd-45b8-b3c4-63759864f943.jpg?1562626747",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/2/e2b9c4b7-9afd-45b8-b3c4-63759864f943.jpg?1562626747",
+      "qty": 1
+    },
+    {
+      "id": "9bb1d12d-8b3d-4091-99f2-cd5eaaec3485",
+      "name": "Nykthos, reliquaire de Nyx",
+      "type": "Terrain légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/b/9bb1d12d-8b3d-4091-99f2-cd5eaaec3485.jpg?1562822223",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/b/9bb1d12d-8b3d-4091-99f2-cd5eaaec3485.jpg?1562822223",
+      "qty": 1
+    },
+    {
+      "id": "3481fb34-792f-4f44-b25c-d1b1171c8c60",
+      "name": "Prêtresse de Titania",
+      "type": "Créature — elfe et druide",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/4/3481fb34-792f-4f44-b25c-d1b1171c8c60.jpg?1730225544",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/4/3481fb34-792f-4f44-b25c-d1b1171c8c60.jpg?1730225544",
+      "qty": 1
+    },
+    {
+      "id": "7f253736-ec6e-46e8-b724-51a4c062f28a",
+      "name": "Hydre primordiale",
+      "type": "Créature : hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/f/7f253736-ec6e-46e8-b724-51a4c062f28a.jpg?1677139925",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/f/7f253736-ec6e-46e8-b724-51a4c062f28a.jpg?1677139925",
+      "qty": 1
+    },
+    {
+      "id": "c7fad543-d63f-4519-a707-bf81974d15e0",
+      "name": "Coup de bélier",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/7/c7fad543-d63f-4519-a707-bf81974d15e0.jpg?1677129776",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/7/c7fad543-d63f-4519-a707-bf81974d15e0.jpg?1677129776",
+      "qty": 1
+    },
+    {
+      "id": "3628bb21-38af-48c9-9c47-b0a8cc645466",
+      "name": "Tour du Reliquaire",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/6/3628bb21-38af-48c9-9c47-b0a8cc645466.jpg?1744563203",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/6/3628bb21-38af-48c9-9c47-b0a8cc645466.jpg?1744563203",
+      "qty": 1
+    },
+    {
+      "id": "ccce0841-60df-4911-8bfb-69894eb72ad4",
+      "name": "Retour du Languebestion",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/c/ccce0841-60df-4911-8bfb-69894eb72ad4.jpg?1735680440",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/c/ccce0841-60df-4911-8bfb-69894eb72ad4.jpg?1735680440",
+      "qty": 1
+    },
+    {
+      "id": "a1dd3b1d-300e-4d52-a57f-5c5c4903a5e7",
+      "name": "Expertise de Rishkar",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/1/a1dd3b1d-300e-4d52-a57f-5c5c4903a5e7.jpg?1735682481",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/1/a1dd3b1d-300e-4d52-a57f-5c5c4903a5e7.jpg?1735682481",
+      "qty": 1
+    },
+    {
+      "id": "9bf204e2-034e-4e70-a037-0f0a77bfa282",
+      "name": "Passage des malandrins",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/b/9bf204e2-034e-4e70-a037-0f0a77bfa282.jpg?1732353336",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/b/9bf204e2-034e-4e70-a037-0f0a77bfa282.jpg?1732353336",
+      "qty": 1
+    },
+    {
+      "id": "606967f0-cd8c-4047-a29a-a7b25cfc3a6e",
+      "name": "Runadi, meneur de béhémoths",
+      "type": "Créature légendaire : chat et shamane",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/0/606967f0-cd8c-4047-a29a-a7b25cfc3a6e.jpg?1677128416",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/0/606967f0-cd8c-4047-a29a-a7b25cfc3a6e.jpg?1677128416",
+      "qty": 1
+    },
+    {
+      "id": "3dfac799-6e5c-48c9-b483-b8d04aa5921b",
+      "name": "Charme de la pépinière",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/d/3dfac799-6e5c-48c9-b483-b8d04aa5921b.jpg?1539718350",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/d/3dfac799-6e5c-48c9-b483-b8d04aa5921b.jpg?1539718350",
+      "qty": 1
+    },
+    {
+      "id": "3d3a699b-e872-4114-8630-ba1b69341825",
+      "name": "Selvala, cœur des terres sauvages",
+      "type": "Créature légendaire — elfe et éclaireur",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/d/3d3a699b-e872-4114-8630-ba1b69341825.jpg?1735680492",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/d/3d3a699b-e872-4114-8630-ba1b69341825.jpg?1735680492",
+      "qty": 1
+    },
+    {
+      "id": "8673b7c0-88ce-48f1-9f42-9b485ae756a2",
+      "name": "Mot de protection",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/6/8673b7c0-88ce-48f1-9f42-9b485ae756a2.jpg?1561874589",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/6/8673b7c0-88ce-48f1-9f42-9b485ae756a2.jpg?1561874589",
+      "qty": 1
+    },
+    {
+      "id": "8a5cad93-964c-48e2-af54-924acd856c0c",
+      "name": "Anneau solaire",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "qty": 1
+    },
+    {
+      "id": "4b8ae4bd-d81b-44fb-a192-5d186b4aad3d",
+      "name": "Solidarité des héros",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/b/4b8ae4bd-d81b-44fb-a192-5d186b4aad3d.jpg?1562398896",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/b/4b8ae4bd-d81b-44fb-a192-5d186b4aad3d.jpg?1562398896",
+      "qty": 1
+    },
+    {
+      "id": "4ca37ad1-0662-4dfe-b341-7d64e1aa8c40",
+      "name": "Chant des dryades",
+      "type": "Enchantement — aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/c/4ca37ad1-0662-4dfe-b341-7d64e1aa8c40.jpg?1734871071",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/c/4ca37ad1-0662-4dfe-b341-7d64e1aa8c40.jpg?1734871071",
+      "qty": 1
+    },
+    {
+      "id": "5bab5940-607c-4ccd-8637-ba623b84312a",
+      "name": "Ombre d'araignée",
+      "type": "Enchantement : aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/b/5bab5940-607c-4ccd-8637-ba623b84312a.jpg?1562704173",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/b/5bab5940-607c-4ccd-8637-ba623b84312a.jpg?1562704173",
+      "qty": 1
+    },
+    {
+      "id": "20e6d19f-0002-46c9-8426-5a8626a36277",
+      "name": "Hydre fléau d'acier",
+      "type": "Créature — tortue terrestre et hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/0/20e6d19f-0002-46c9-8426-5a8626a36277.jpg?1741150361",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/0/20e6d19f-0002-46c9-8426-5a8626a36277.jpg?1741150361",
+      "qty": 1
+    },
+    {
+      "id": "af2a2f96-dca5-4026-b8f2-5e23e9d557f9",
+      "name": "Bottes de piedagile",
+      "type": "Artefact — équipement",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/f/af2a2f96-dca5-4026-b8f2-5e23e9d557f9.jpg?1744562039",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/f/af2a2f96-dca5-4026-b8f2-5e23e9d557f9.jpg?1744562039",
+      "qty": 1
+    },
+    {
+      "id": "c27687c7-005d-496a-af89-66405a4e20eb",
+      "name": "Bibliothèque sylvestre",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/2/c27687c7-005d-496a-af89-66405a4e20eb.jpg?1677130998",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/2/c27687c7-005d-496a-af89-66405a4e20eb.jpg?1677130998",
+      "qty": 1
+    },
+    {
+      "id": "2fa365ba-522b-48c9-b9cb-7cd84de698f2",
+      "name": "Sauvegarde de Tamiyo",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/f/2fa365ba-522b-48c9-b9cb-7cd84de698f2.jpg?1724735751",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/f/2fa365ba-522b-48c9-b9cb-7cd84de698f2.jpg?1724735751",
+      "qty": 1
+    },
+    {
+      "id": "02971a09-6092-465a-8c81-67ad1a2585ba",
+      "name": "Le Grand Cromlech",
+      "type": "Artefact légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/2/02971a09-6092-465a-8c81-67ad1a2585ba.jpg?1734870582",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/2/02971a09-6092-465a-8c81-67ad1a2585ba.jpg?1734870582",
+      "qty": 1
+    },
+    {
+      "id": "9738143a-e3cb-49f9-8e5b-b3ed02095027",
+      "name": "Urne de pensée",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/7/9738143a-e3cb-49f9-8e5b-b3ed02095027.jpg?1726880483",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/7/9738143a-e3cb-49f9-8e5b-b3ed02095027.jpg?1726880483",
+      "qty": 1
+    },
+    {
+      "id": "c5666418-1f17-45ef-8557-2c768456f973",
+      "name": "Trois visites",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/5/c5666418-1f17-45ef-8557-2c768456f973.jpg?1730248255",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/5/c5666418-1f17-45ef-8557-2c768456f973.jpg?1730248255",
+      "qty": 1
+    },
+    {
+      "id": "f465ecf8-3ece-4344-beaa-84decf7c8e49",
+      "name": "Position de Tyvar",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/4/f465ecf8-3ece-4344-beaa-84decf7c8e49.jpg?1677109565",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/4/f465ecf8-3ece-4344-beaa-84decf7c8e49.jpg?1677109565",
+      "qty": 1
+    },
+    {
+      "id": "123b3cce-0663-4afd-bb19-c97a14ae3f95",
+      "name": "Hydre d'Ulvenwald",
+      "type": "Créature — hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/2/123b3cce-0663-4afd-bb19-c97a14ae3f95.jpg?1735680537",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/2/123b3cce-0663-4afd-bb19-c97a14ae3f95.jpg?1735680537",
+      "qty": 1
+    },
+    {
+      "id": "7516652f-57cb-4871-bab3-6de49592f9b9",
+      "name": "À l'assaut de la tige de haricot",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/5/7516652f-57cb-4871-bab3-6de49592f9b9.jpg?1703743420",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/5/7516652f-57cb-4871-bab3-6de49592f9b9.jpg?1703743420",
+      "qty": 1
+    },
+    {
+      "id": "70337910-cf86-4ef9-8ee3-46bb86055d57",
+      "name": "Amulette de vigueur",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/0/70337910-cf86-4ef9-8ee3-46bb86055d57.jpg?1730193692",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/0/70337910-cf86-4ef9-8ee3-46bb86055d57.jpg?1730193692",
+      "qty": 1
+    },
+    {
+      "id": "bfc52416-0f4b-490f-b986-ae048b93fef4",
+      "name": "Hydre vorace",
+      "type": "Créature : hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/f/bfc52416-0f4b-490f-b986-ae048b93fef4.jpg?1645863743",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/f/bfc52416-0f4b-490f-b986-ae048b93fef4.jpg?1645863743",
+      "qty": 1
+    },
+    {
+      "id": "1a8a7826-7be8-4a7f-8f84-6feb876ab810",
+      "name": "Hydre à langue de fouet",
+      "type": "Créature : lézard et hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/a/1a8a7826-7be8-4a7f-8f84-6feb876ab810.jpg?1645461502",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/a/1a8a7826-7be8-4a7f-8f84-6feb876ab810.jpg?1645461502",
+      "qty": 1
+    },
+    {
+      "id": "9ebd151b-ae02-4313-b62f-cf4b33f4f85d",
+      "name": "Précepteur matérialiste",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/e/9ebd151b-ae02-4313-b62f-cf4b33f4f85d.jpg?1677131114",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/e/9ebd151b-ae02-4313-b62f-cf4b33f4f85d.jpg?1677131114",
+      "qty": 1
+    },
+    {
+      "id": "94ef175f-ceae-472d-a2cb-17e5304996ea",
+      "name": "Yavimaya, berceau de croissance",
+      "type": "Terrain légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/4/94ef175f-ceae-472d-a2cb-17e5304996ea.jpg?1735682454",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/4/94ef175f-ceae-472d-a2cb-17e5304996ea.jpg?1735682454",
+      "qty": 1
+    }
+  ],
+  "commanders": [
+    {
+      "id": "2b67e8e2-41a0-4943-ad95-bd1a15656e21",
+      "name": "Gargos, gardien vicieux",
+      "type": "Créature légendaire : hydre",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/b/2b67e8e2-41a0-4943-ad95-bd1a15656e21.jpg?1645863403",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/b/2b67e8e2-41a0-4943-ad95-bd1a15656e21.jpg?1645863403"
+    }
+  ]
+}

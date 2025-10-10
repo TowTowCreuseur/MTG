@@ -941,9 +941,11 @@ function askTokenQuantityAndAdd(card){
 }
 
 function placeTokenCopies(card, n){
-  // Placement sur les 3 rangées du champ de bataille — équilibré
-  const rows = qsa('.zone--bataille .battle-row .cards');
+  // ⚠️ Correction : borner la sélection des rangées au plateau local
+  const root = qs('main.board') || document;
+  const rows = qsa('.zone--bataille .battle-row .cards', root);
   if (!rows.length) return;
+
   const counts = rows.map(r => r.querySelectorAll('.card').length);
   for (let i = 0; i < n; i++){
     const minCount = Math.min(...counts);

@@ -1,0 +1,590 @@
+{
+  "createdAt": "2025-10-10T18:03:32.640Z",
+  "cards": [
+    {
+      "id": "d98033c7-fc90-4fea-95b5-3f2de6d9c11f",
+      "name": "Fourmi agitatrice",
+      "type": "Créature — insecte",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/9/d98033c7-fc90-4fea-95b5-3f2de6d9c11f.jpg?1730236637",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/9/d98033c7-fc90-4fea-95b5-3f2de6d9c11f.jpg?1730236637",
+      "qty": 1
+    },
+    {
+      "id": "803ba224-b50c-41be-a55e-4b2c200b09de",
+      "name": "Alexios, Deimos de Kosmos",
+      "type": "Créature légendaire — humain et berserker",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/0/803ba224-b50c-41be-a55e-4b2c200b09de.jpg?1730165594",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/0/803ba224-b50c-41be-a55e-4b2c200b09de.jpg?1730165594",
+      "qty": 1
+    },
+    {
+      "id": "c4e057b6-257f-49da-94e7-ad51eb172b0f",
+      "name": "Cachet d'ésotérisme",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "qty": 1
+    },
+    {
+      "id": "99ac6be3-1cb3-411b-b6aa-6b0f7263ae51",
+      "name": "Archétype de l'agressivité",
+      "type": "Créature-enchantement : humain et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/9/99ac6be3-1cb3-411b-b6aa-6b0f7263ae51.jpg?1562513618",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/9/99ac6be3-1cb3-411b-b6aa-6b0f7263ae51.jpg?1562513618",
+      "qty": 1
+    },
+    {
+      "id": "e8673f2b-151b-4545-aae2-96efc6442ea5",
+      "name": "World at War",
+      "type": "Sorcery",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/8/e8673f2b-151b-4545-aae2-96efc6442ea5.jpg?1759243418",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/8/e8673f2b-151b-4545-aae2-96efc6442ea5.jpg?1759243418",
+      "qty": 1
+    },
+    {
+      "id": "bf9e62f0-14f2-43ae-8e94-6dd11ca96811",
+      "name": "Acte blasphématoire",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/f/bf9e62f0-14f2-43ae-8e94-6dd11ca96811.jpg?1744559279",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/f/bf9e62f0-14f2-43ae-8e94-6dd11ca96811.jpg?1744559279",
+      "qty": 1
+    },
+    {
+      "id": "68ecf96f-15bf-4454-b2ad-0ec1b948c641",
+      "name": "Buveur de sang",
+      "type": "Créature : démon",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/8/68ecf96f-15bf-4454-b2ad-0ec1b948c641.jpg?1676769559",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/8/68ecf96f-15bf-4454-b2ad-0ec1b948c641.jpg?1676769559",
+      "qty": 1
+    },
+    {
+      "id": "cbe78e42-e5c9-4c0f-8bb5-78c49d6a4bd7",
+      "name": "Taquineur effronté",
+      "type": "Créature — gobelin",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/b/cbe78e42-e5c9-4c0f-8bb5-78c49d6a4bd7.jpg?1726877118",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/b/cbe78e42-e5c9-4c0f-8bb5-78c49d6a4bd7.jpg?1726877118",
+      "qty": 1
+    },
+    {
+      "id": "33260006-ac71-4853-a216-eebd561317c4",
+      "name": "Distorsion chaotique",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/3/33260006-ac71-4853-a216-eebd561317c4.jpg?1744559303",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/3/33260006-ac71-4853-a216-eebd561317c4.jpg?1744559303",
+      "qty": 1
+    },
+    {
+      "id": "9a069e96-2786-493d-aca8-f70611435dbe",
+      "name": "Clive, Ifrit's Dominant // Ifrit, Warden of Inferno",
+      "type": "Legendary Creature — Human Noble Warrior // Legendary Enchantment Creature — Saga Demon",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/a/9a069e96-2786-493d-aca8-f70611435dbe.jpg?1748707817",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/a/9a069e96-2786-493d-aca8-f70611435dbe.jpg?1748707817",
+      "qty": 1
+    },
+    {
+      "id": "864606d9-f0ac-4059-92c4-af2713df4749",
+      "name": "Compter sur la chance",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/6/864606d9-f0ac-4059-92c4-af2713df4749.jpg?1740190897",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/6/864606d9-f0ac-4059-92c4-af2713df4749.jpg?1740190897",
+      "qty": 1
+    },
+    {
+      "id": "1a5dfe77-c4b4-4853-b9b1-51a6b5001d0a",
+      "name": "Passer à travers",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/a/1a5dfe77-c4b4-4853-b9b1-51a6b5001d0a.jpg?1645714583",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/a/1a5dfe77-c4b4-4853-b9b1-51a6b5001d0a.jpg?1645714583",
+      "qty": 1
+    },
+    {
+      "id": "6953558f-ffe9-4e42-9e2e-e57995c927d6",
+      "name": "Espace confiné",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/9/6953558f-ffe9-4e42-9e2e-e57995c927d6.jpg?1677131575",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/9/6953558f-ffe9-4e42-9e2e-e57995c927d6.jpg?1677131575",
+      "qty": 1
+    },
+    {
+      "id": "54c20144-013a-4c32-b93e-611f29cadd3b",
+      "name": "Miroir maudit",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/4/54c20144-013a-4c32-b93e-611f29cadd3b.jpg?1730225511",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/4/54c20144-013a-4c32-b93e-611f29cadd3b.jpg?1730225511",
+      "qty": 1
+    },
+    {
+      "id": "4dd03250-1ea4-45aa-b37d-47791da1df7e",
+      "name": "Bouleversement des convenances",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/d/4dd03250-1ea4-45aa-b37d-47791da1df7e.jpg?1730236660",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/d/4dd03250-1ea4-45aa-b37d-47791da1df7e.jpg?1730236660",
+      "qty": 1
+    },
+    {
+      "id": "d37d9ce2-a4b4-49a6-ae23-493380942460",
+      "name": "Dowsing Dagger // Lost Vale",
+      "type": "Artifact — Equipment // Land",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/3/d37d9ce2-a4b4-49a6-ae23-493380942460.jpg?1646006143",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/3/d37d9ce2-a4b4-49a6-ae23-493380942460.jpg?1646006143",
+      "qty": 1
+    },
+    {
+      "id": "797b660b-b9d6-4120-8175-796fabf071be",
+      "name": "Capitaine de Folbraise",
+      "type": "Créature : djinn et pirate",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/9/797b660b-b9d6-4120-8175-796fabf071be.jpg?1645558558",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/9/797b660b-b9d6-4120-8175-796fabf071be.jpg?1645558558",
+      "qty": 1
+    },
+    {
+      "id": "986e206d-9665-4f01-93f8-66c63c8d533c",
+      "name": "Fanatique de Mogis",
+      "type": "Créature : minotaure et shamane",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/8/986e206d-9665-4f01-93f8-66c63c8d533c.jpg?1562821776",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/8/986e206d-9665-4f01-93f8-66c63c8d533c.jpg?1562821776",
+      "qty": 1
+    },
+    {
+      "id": "5a8c750b-2a1e-4519-9773-82432a82e97c",
+      "name": "Duo fielleux",
+      "type": "Créature — diable",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/a/5a8c750b-2a1e-4519-9773-82432a82e97c.jpg?1733878595",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/a/5a8c750b-2a1e-4519-9773-82432a82e97c.jpg?1733878595",
+      "qty": 1
+    },
+    {
+      "id": "1d4fa93b-8823-4537-aed4-46d9003ec63f",
+      "name": "Belliciste des frontières",
+      "type": "Créature — humain et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/d/1d4fa93b-8823-4537-aed4-46d9003ec63f.jpg?1730236674",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/d/1d4fa93b-8823-4537-aed4-46d9003ec63f.jpg?1730236674",
+      "qty": 1
+    },
+    {
+      "id": "a7005fce-feff-46ef-83e6-276884968164",
+      "name": "Risque-tout",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/7/a7005fce-feff-46ef-83e6-276884968164.jpg?1677129738",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/7/a7005fce-feff-46ef-83e6-276884968164.jpg?1677129738",
+      "qty": 1
+    },
+    {
+      "id": "4bafd9b6-1d74-4a09-bad0-5e504e4e441e",
+      "name": "Précipice glaciaire",
+      "type": "Land",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/b/4bafd9b6-1d74-4a09-bad0-5e504e4e441e.jpg?1562908825",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/b/4bafd9b6-1d74-4a09-bad0-5e504e4e441e.jpg?1562908825",
+      "qty": 1
+    },
+    {
+      "id": "9eeb2bf7-3110-4eb7-8e84-0fa19b5c92e4",
+      "name": "Gornog, le faucheur écarlate",
+      "type": "Créature légendaire — minotaure et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/e/9eeb2bf7-3110-4eb7-8e84-0fa19b5c92e4.jpg?1733868666",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/e/9eeb2bf7-3110-4eb7-8e84-0fa19b5c92e4.jpg?1733868666",
+      "qty": 1
+    },
+    {
+      "id": "be77b98a-dd79-477c-8ab2-7ebf5637a89e",
+      "name": "Headliner Scarlett",
+      "type": "Legendary Creature — Human Warlock",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/e/be77b98a-dd79-477c-8ab2-7ebf5637a89e.jpg?1706239565",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/e/be77b98a-dd79-477c-8ab2-7ebf5637a89e.jpg?1706239565",
+      "qty": 1
+    },
+    {
+      "id": "0b6cc046-4735-41e2-93e2-1d64e7097232",
+      "name": "Hidetsugu le malfaisant",
+      "type": "Créature légendaire — ogre et shamane",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/b/0b6cc046-4735-41e2-93e2-1d64e7097232.jpg?1734869527",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/b/0b6cc046-4735-41e2-93e2-1d64e7097232.jpg?1734869527",
+      "qty": 1
+    },
+    {
+      "id": "38acf999-7ae3-4413-9ad7-93ca7e4d3927",
+      "name": "Ilharg, le Sanglier terrasseur",
+      "type": "Créature légendaire — sanglier et dieu",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/8/38acf999-7ae3-4413-9ad7-93ca7e4d3927.jpg?1730249839",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/8/38acf999-7ae3-4413-9ad7-93ca7e4d3927.jpg?1730249839",
+      "qty": 1
+    },
+    {
+      "id": "b53ba28c-5ed9-4ba8-afbf-7083186efd7b",
+      "name": "Jeter dans le feu",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/5/b53ba28c-5ed9-4ba8-afbf-7083186efd7b.jpg?1698797540",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/5/b53ba28c-5ed9-4ba8-afbf-7083186efd7b.jpg?1698797540",
+      "qty": 1
+    },
+    {
+      "id": "5fe7b3f6-2c5d-48dd-909a-3c223b085266",
+      "name": "Volonté de Jeska",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/f/5fe7b3f6-2c5d-48dd-909a-3c223b085266.jpg?1730236681",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/f/5fe7b3f6-2c5d-48dd-909a-3c223b085266.jpg?1730236681",
+      "qty": 1
+    },
+    {
+      "id": "f958ba0f-f0da-4735-ad2c-b2b66d8afb89",
+      "name": "Kazuul, Tyran des Falaises",
+      "type": "Créature légendaire — ogre et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/9/f958ba0f-f0da-4735-ad2c-b2b66d8afb89.jpg?1730236683",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/9/f958ba0f-f0da-4735-ad2c-b2b66d8afb89.jpg?1730236683",
+      "qty": 1
+    },
+    {
+      "id": "75fb5cb6-e8ab-4fd5-a1f3-985de4fda226",
+      "name": "Pyrohemia",
+      "type": "Enchantment",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/5/75fb5cb6-e8ab-4fd5-a1f3-985de4fda226.jpg?1759900632",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/5/75fb5cb6-e8ab-4fd5-a1f3-985de4fda226.jpg?1759900632",
+      "qty": 1
+    },
+    {
+      "id": "fa172dc8-46a7-4b6b-9feb-c11e02ef3be0",
+      "name": "Laelia, la lame reforgée",
+      "type": "Créature légendaire — esprit et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/a/fa172dc8-46a7-4b6b-9feb-c11e02ef3be0.jpg?1730225520",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/a/fa172dc8-46a7-4b6b-9feb-c11e02ef3be0.jpg?1730225520",
+      "qty": 1
+    },
+    {
+      "id": "2ed837bc-46a2-46ef-afcc-255f933d99ef",
+      "name": "Boute-en-train",
+      "type": "Créature — élémental",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/e/2ed837bc-46a2-46ef-afcc-255f933d99ef.jpg?1741141306",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/e/2ed837bc-46a2-46ef-afcc-255f933d99ef.jpg?1741141306",
+      "qty": 1
+    },
+    {
+      "id": "c253e5c4-d7be-4f6a-8b0f-3fa14b05e0c4",
+      "name": "Éclairer la piste",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/2/c253e5c4-d7be-4f6a-8b0f-3fa14b05e0c4.jpg?1726877319",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/2/c253e5c4-d7be-4f6a-8b0f-3fa14b05e0c4.jpg?1726877319",
+      "qty": 1
+    },
+    {
+      "id": "756b775b-e9bd-4645-922e-a3c99af7ba04",
+      "name": "Jambières d'éclair",
+      "type": "Artefact — équipement",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/5/756b775b-e9bd-4645-922e-a3c99af7ba04.jpg?1744556772",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/5/756b775b-e9bd-4645-922e-a3c99af7ba04.jpg?1744556772",
+      "qty": 1
+    },
+    {
+      "id": "a6341ca9-fedf-4df4-9a48-78d7b1902727",
+      "name": "Geyser de mana",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/6/a6341ca9-fedf-4df4-9a48-78d7b1902727.jpg?1744559646",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/6/a6341ca9-fedf-4df4-9a48-78d7b1902727.jpg?1744559646",
+      "qty": 1
+    },
+    {
+      "id": "4bcbf8f7-3960-4388-ab26-121efa950204",
+      "name": "Chute de Mercadia",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/b/4bcbf8f7-3960-4388-ab26-121efa950204.jpg?1539644668",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/b/4bcbf8f7-3960-4388-ab26-121efa950204.jpg?1539644668",
+      "qty": 1
+    },
+    {
+      "id": "a7a2db5c-4a3d-4824-9c30-5deb6dda7c57",
+      "name": "Mikokoro, Centre de la mer",
+      "type": "Terrain légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/7/a7a2db5c-4a3d-4824-9c30-5deb6dda7c57.jpg?1673233959",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/7/a7a2db5c-4a3d-4824-9c30-5deb6dda7c57.jpg?1673233959",
+      "qty": 1
+    },
+    {
+      "id": "4f065fe9-1a15-4c50-bf8a-95f150f24c88",
+      "name": "Mjölnir, marteau du Tonnerre",
+      "type": "Artefact légendaire — équipement",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/f/4f065fe9-1a15-4c50-bf8a-95f150f24c88.jpg?1730165740",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/f/4f065fe9-1a15-4c50-bf8a-95f150f24c88.jpg?1730165740",
+      "qty": 1
+    },
+    {
+      "id": "ed8cf74f-a85c-4d15-87b8-dbbe87e4b172",
+      "name": "Pillage du monastère",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/d/ed8cf74f-a85c-4d15-87b8-dbbe87e4b172.jpg?1730165603",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/d/ed8cf74f-a85c-4d15-87b8-dbbe87e4b172.jpg?1730165603",
+      "qty": 1
+    },
+    {
+      "id": "97c70380-23f4-4a68-a50c-de80c3ea54e2",
+      "name": "Montagne",
+      "type": "Terrain de base — montagne",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/7/97c70380-23f4-4a68-a50c-de80c3ea54e2.jpg?1744680048",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/7/97c70380-23f4-4a68-a50c-de80c3ea54e2.jpg?1744680048",
+      "qty": 28
+    },
+    {
+      "id": "123ea3d1-0d50-45db-ba86-958274fdc33f",
+      "name": "Neheb, champion de la Horde de l'effroi",
+      "type": "Créature légendaire : zombie et minotaure et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/2/123ea3d1-0d50-45db-ba86-958274fdc33f.jpg?1673227759",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/2/123ea3d1-0d50-45db-ba86-958274fdc33f.jpg?1673227759",
+      "qty": 1
+    },
+    {
+      "id": "19a102f9-a9da-48e7-b69a-74f24ef42f86",
+      "name": "Neheb, l'Éternel",
+      "type": "Créature légendaire — zombie et minotaure et guerrier",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/9/19a102f9-a9da-48e7-b69a-74f24ef42f86.jpg?1730236688",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/9/19a102f9-a9da-48e7-b69a-74f24ef42f86.jpg?1730236688",
+      "qty": 1
+    },
+    {
+      "id": "7f3f13ef-8b93-40e7-ba5f-8d1f9c98d61a",
+      "name": "Olifant",
+      "type": "Créature : éléphant",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/f/7f3f13ef-8b93-40e7-ba5f-8d1f9c98d61a.jpg?1698799055",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/f/7f3f13ef-8b93-40e7-ba5f-8d1f9c98d61a.jpg?1698799055",
+      "qty": 1
+    },
+    {
+      "id": "d2948913-817b-4715-92d5-ed3cde347be7",
+      "name": "Pain for All",
+      "type": "Enchantment — Aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/2/d2948913-817b-4715-92d5-ed3cde347be7.jpg?1752947164",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/2/d2948913-817b-4715-92d5-ed3cde347be7.jpg?1752947164",
+      "qty": 1
+    },
+    {
+      "id": "c8b4c5b2-8d7b-4dda-ab01-df1c0991fe98",
+      "name": "Réciproquer",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/8/c8b4c5b2-8d7b-4dda-ab01-df1c0991fe98.jpg?1730248881",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/8/c8b4c5b2-8d7b-4dda-ab01-df1c0991fe98.jpg?1730248881",
+      "qty": 1
+    },
+    {
+      "id": "3bd1b1d7-0b41-47f0-904b-76f214a5e979",
+      "name": "Médaillon de rubis",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/b/3bd1b1d7-0b41-47f0-904b-76f214a5e979.jpg?1730225581",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/b/3bd1b1d7-0b41-47f0-904b-76f214a5e979.jpg?1730225581",
+      "qty": 1
+    },
+    {
+      "id": "2a9c5052-d953-4fb7-9d44-8bdfb6f5965d",
+      "name": "Némésis hurlante",
+      "type": "Créature — esprit",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/a/2a9c5052-d953-4fb7-9d44-8bdfb6f5965d.jpg?1742316060",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/a/2a9c5052-d953-4fb7-9d44-8bdfb6f5965d.jpg?1742316060",
+      "qty": 1
+    },
+    {
+      "id": "bcb5a39f-a800-4d79-b87c-7eb035b0c123",
+      "name": "Chant bouillonnant",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/c/bcb5a39f-a800-4d79-b87c-7eb035b0c123.jpg?1618496039",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/c/bcb5a39f-a800-4d79-b87c-7eb035b0c123.jpg?1618496039",
+      "qty": 1
+    },
+    {
+      "id": "e5adc338-ac3c-45b6-9076-54e7b59059dc",
+      "name": "Saisir l'occasion",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/5/e5adc338-ac3c-45b6-9076-54e7b59059dc.jpg?1730248241",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/5/e5adc338-ac3c-45b6-9076-54e7b59059dc.jpg?1730248241",
+      "qty": 1
+    },
+    {
+      "id": "665a0b99-45a8-4aa8-81b9-05ec5e61b144",
+      "name": "Sokenzan, le Creuset de la défiance",
+      "type": "Terrain légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/6/665a0b99-45a8-4aa8-81b9-05ec5e61b144.jpg?1724740438",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/6/665a0b99-45a8-4aa8-81b9-05ec5e61b144.jpg?1724740438",
+      "qty": 1
+    },
+    {
+      "id": "8a5cad93-964c-48e2-af54-924acd856c0c",
+      "name": "Anneau solaire",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "qty": 1
+    },
+    {
+      "id": "4544399f-dfe2-4e1a-bf28-d93416aa335b",
+      "name": "Affrontement spectaculaire",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/5/4544399f-dfe2-4e1a-bf28-d93416aa335b.jpg?1730236703",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/5/4544399f-dfe2-4e1a-bf28-d93416aa335b.jpg?1730236703",
+      "qty": 1
+    },
+    {
+      "id": "f6fd67b3-14c6-466b-959a-f23381e2cfb0",
+      "name": "Doigts baladeurs",
+      "type": "Enchantement — aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/6/f6fd67b3-14c6-466b-959a-f23381e2cfb0.jpg?1718690289",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/6/f6fd67b3-14c6-466b-959a-f23381e2cfb0.jpg?1718690289",
+      "qty": 1
+    },
+    {
+      "id": "121ac637-6963-469a-b76d-443b8c0c09e7",
+      "name": "Sundering Eruption // Volcanic Fissure",
+      "type": "Sorcery // Land",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/2/121ac637-6963-469a-b76d-443b8c0c09e7.jpg?1730225332",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/2/121ac637-6963-469a-b76d-443b8c0c09e7.jpg?1730225332",
+      "qty": 1
+    },
+    {
+      "id": "b4590c4f-c42e-4a59-955b-4c42be25d574",
+      "name": "Géant tectonique",
+      "type": "Créature — élémental et géant",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/4/b4590c4f-c42e-4a59-955b-4c42be25d574.jpg?1726877414",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/4/b4590c4f-c42e-4a59-955b-4c42be25d574.jpg?1726877414",
+      "qty": 1
+    },
+    {
+      "id": "67dd3d5d-b200-4228-b72b-285b74eda569",
+      "name": "Rite of Flame",
+      "type": "Sorcery",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/7/67dd3d5d-b200-4228-b72b-285b74eda569.jpg?1759414945",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/7/67dd3d5d-b200-4228-b72b-285b74eda569.jpg?1759414945",
+      "qty": 1
+    },
+    {
+      "id": "5b6791c1-090e-4cd8-be9c-f25c702b7a36",
+      "name": "L'Anneau Unique",
+      "type": "Artefact légendaire",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/b/5b6791c1-090e-4cd8-be9c-f25c702b7a36.jpg?1698799614",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/b/5b6791c1-090e-4cd8-be9c-f25c702b7a36.jpg?1698799614",
+      "qty": 1
+    },
+    {
+      "id": "b47c0ed0-155f-4653-88ed-c3a5261aad65",
+      "name": "Torbran, Thane de Mont Rouge",
+      "type": "Créature légendaire — nain et noble",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/4/b47c0ed0-155f-4653-88ed-c3a5261aad65.jpg?1725577753",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/4/b47c0ed0-155f-4653-88ed-c3a5261aad65.jpg?1725577753",
+      "qty": 1
+    },
+    {
+      "id": "4a953d30-fdc3-4dfd-9769-e4a0f9bffc44",
+      "name": "Tyran pyrojumeau",
+      "type": "Créature — dragon",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/a/4a953d30-fdc3-4dfd-9769-e4a0f9bffc44.jpg?1732350133",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/a/4a953d30-fdc3-4dfd-9769-e4a0f9bffc44.jpg?1732350133",
+      "qty": 1
+    },
+    {
+      "id": "95e36348-69a3-475a-8f52-319bec159655",
+      "name": "Sanctuaire de tyrite",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/5/95e36348-69a3-475a-8f52-319bec159655.jpg?1734881904",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/5/95e36348-69a3-475a-8f52-319bec159655.jpg?1734881904",
+      "qty": 1
+    },
+    {
+      "id": "fac9d5a7-2b2d-40af-84f9-0b5cfa1d93e2",
+      "name": "Défaillance inopportune",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/a/fac9d5a7-2b2d-40af-84f9-0b5cfa1d93e2.jpg?1742316152",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/a/fac9d5a7-2b2d-40af-84f9-0b5cfa1d93e2.jpg?1742316152",
+      "qty": 1
+    },
+    {
+      "id": "77c6eca4-8c80-45b1-962e-8d041ab252af",
+      "name": "Bataille sur les hauteurs",
+      "type": "Enchantment",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/7/77c6eca4-8c80-45b1-962e-8d041ab252af.jpg?1539644933",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/7/77c6eca4-8c80-45b1-962e-8d041ab252af.jpg?1539644933",
+      "qty": 1
+    },
+    {
+      "id": "8a227f2c-5b66-4c12-b669-58c058c8ded2",
+      "name": "Urabrask, le Secret",
+      "type": "Créature légendaire : phyrexian et praetor",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/a/8a227f2c-5b66-4c12-b669-58c058c8ded2.jpg?1681967846",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/a/8a227f2c-5b66-4c12-b669-58c058c8ded2.jpg?1681967846",
+      "qty": 1
+    },
+    {
+      "id": "1ab3dbbe-8111-41aa-ae7d-15a19db05b78",
+      "name": "Urabrask, praetor hérétique",
+      "type": "Créature légendaire : phyrexian et praetor",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/a/1ab3dbbe-8111-41aa-ae7d-15a19db05b78.jpg?1651572312",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/a/1ab3dbbe-8111-41aa-ae7d-15a19db05b78.jpg?1651572312",
+      "qty": 1
+    },
+    {
+      "id": "5317ff21-86b3-43bc-99df-bed1322228f7",
+      "name": "Valakut Awakening // Valakut Stoneforge",
+      "type": "Instant // Land",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/3/5317ff21-86b3-43bc-99df-bed1322228f7.jpg?1646019483",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/3/5317ff21-86b3-43bc-99df-bed1322228f7.jpg?1646019483",
+      "qty": 1
+    },
+    {
+      "id": "6fabd67c-9914-456e-84be-c409bcacc6b5",
+      "name": "Valakut, la Cime en fusion",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/f/6fabd67c-9914-456e-84be-c409bcacc6b5.jpg?1605560559",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/f/6fabd67c-9914-456e-84be-c409bcacc6b5.jpg?1605560559",
+      "qty": 1
+    },
+    {
+      "id": "efa0d91d-b05a-493a-9efa-d6b2ec91a266",
+      "name": "Salle de guerre",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/f/efa0d91d-b05a-493a-9efa-d6b2ec91a266.jpg?1718697786",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/f/efa0d91d-b05a-493a-9efa-d6b2ec91a266.jpg?1718697786",
+      "qty": 1
+    },
+    {
+      "id": "362b9e57-bfb6-465d-90e5-4a0fd78191b0",
+      "name": "Babiole du voyageur",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/6/362b9e57-bfb6-465d-90e5-4a0fd78191b0.jpg?1744562177",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/6/362b9e57-bfb6-465d-90e5-4a0fd78191b0.jpg?1744562177",
+      "qty": 1
+    },
+    {
+      "id": "6832d8da-16bf-4dca-9541-b67b68b4c5f4",
+      "name": "Déferlement de magie sauvage",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/8/6832d8da-16bf-4dca-9541-b67b68b4c5f4.jpg?1739408310",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/8/6832d8da-16bf-4dca-9541-b67b68b4c5f4.jpg?1739408310",
+      "qty": 1
+    },
+    {
+      "id": "05638ce2-6a40-4dc0-b0aa-1ed528057e2d",
+      "name": "Marque de l'envoûteuse",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/5/05638ce2-6a40-4dc0-b0aa-1ed528057e2d.jpg?1703741646",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/5/05638ce2-6a40-4dc0-b0aa-1ed528057e2d.jpg?1703741646",
+      "qty": 1
+    },
+    {
+      "id": "9e142f52-1709-4cfc-99b5-4a3047d1b650",
+      "name": "Détermination de Wrenn",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/e/9e142f52-1709-4cfc-99b5-4a3047d1b650.jpg?1716771404",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/e/9e142f52-1709-4cfc-99b5-4a3047d1b650.jpg?1716771404",
+      "qty": 1
+    },
+    {
+      "id": "b1569477-6a09-42f7-a36a-10e508bb50e2",
+      "name": "Justice de Zoyowa",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/1/b1569477-6a09-42f7-a36a-10e508bb50e2.jpg?1730205617",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/1/b1569477-6a09-42f7-a36a-10e508bb50e2.jpg?1730205617",
+      "qty": 1
+    }
+  ],
+  "commanders": [
+    {
+      "id": "fb97e2a1-0e86-4c12-8d31-6ff7b825ca10",
+      "name": "Kratos, God of War",
+      "type": "Legendary Creature — God Warrior",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/b/fb97e2a1-0e86-4c12-8d31-6ff7b825ca10.jpg?1758930105",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/b/fb97e2a1-0e86-4c12-8d31-6ff7b825ca10.jpg?1758930105"
+    }
+  ]
+}

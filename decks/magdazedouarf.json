@@ -1,14 +1,6 @@
 {
-  "createdAt": "2025-10-03T20:41:34.613Z",
+  "createdAt": "2025-10-08T21:33:48.527Z",
   "cards": [
-    {
-      "id": "5819e3f3-da49-4003-88ce-f3b7bb495787",
-      "name": "_____ Goblin",
-      "type": "Creature — Goblin Guest",
-      "imageSmall": "https://cards.scryfall.io/small/front/5/8/5819e3f3-da49-4003-88ce-f3b7bb495787.jpg?1715680623",
-      "imageNormal": "https://cards.scryfall.io/normal/front/5/8/5819e3f3-da49-4003-88ce-f3b7bb495787.jpg?1715680623",
-      "qty": 1
-    },
     {
       "id": "2c86aace-ea7b-46e2-a395-986e7bd8125e",
       "name": "Fissuration",
@@ -98,14 +90,6 @@
       "qty": 1
     },
     {
-      "id": "be571bd6-c1c4-4d9a-b9ab-cb70ef284a6f",
-      "name": "Capitaine Lanneray Tempeste",
-      "type": "Créature légendaire — humain et pirate",
-      "imageSmall": "https://cards.scryfall.io/small/front/b/e/be571bd6-c1c4-4d9a-b9ab-cb70ef284a6f.jpg?1730248232",
-      "imageNormal": "https://cards.scryfall.io/normal/front/b/e/be571bd6-c1c4-4d9a-b9ab-cb70ef284a6f.jpg?1730248232",
-      "qty": 1
-    },
-    {
       "id": "33260006-ac71-4853-a216-eebd561317c4",
       "name": "Distorsion chaotique",
       "type": "Éphémère",
@@ -146,27 +130,11 @@
       "qty": 1
     },
     {
-      "id": "c674787d-e303-4063-81dd-1714d2b2361a",
-      "name": "Excavateur nain",
-      "type": "Créature : nain",
-      "imageSmall": "https://cards.scryfall.io/small/front/c/6/c674787d-e303-4063-81dd-1714d2b2361a.jpg?1562941849",
-      "imageNormal": "https://cards.scryfall.io/normal/front/c/6/c674787d-e303-4063-81dd-1714d2b2361a.jpg?1562941849",
-      "qty": 1
-    },
-    {
       "id": "0e68fdda-1f94-4903-8d26-f9795fcd3571",
       "name": "Grognard nain",
       "type": "Créature : nain",
       "imageSmall": "https://cards.scryfall.io/small/front/0/e/0e68fdda-1f94-4903-8d26-f9795fcd3571.jpg?1562897789",
       "imageNormal": "https://cards.scryfall.io/normal/front/0/e/0e68fdda-1f94-4903-8d26-f9795fcd3571.jpg?1562897789",
-      "qty": 1
-    },
-    {
-      "id": "0647d27a-80da-42b4-8523-f58084be7ca2",
-      "name": "Entrepôt nain",
-      "type": "Land",
-      "imageSmall": "https://cards.scryfall.io/small/front/0/6/0647d27a-80da-42b4-8523-f58084be7ca2.jpg?1539779378",
-      "imageNormal": "https://cards.scryfall.io/normal/front/0/6/0647d27a-80da-42b4-8523-f58084be7ca2.jpg?1539779378",
       "qty": 1
     },
     {
@@ -258,19 +226,19 @@
       "qty": 1
     },
     {
-      "id": "05511122-2de8-416a-9fb5-2f6cc3bda45f",
-      "name": "Statue du Dieu-Pharaon",
-      "type": "Artefact légendaire",
-      "imageSmall": "https://cards.scryfall.io/small/front/0/5/05511122-2de8-416a-9fb5-2f6cc3bda45f.jpg?1646003975",
-      "imageNormal": "https://cards.scryfall.io/normal/front/0/5/05511122-2de8-416a-9fb5-2f6cc3bda45f.jpg?1646003975",
-      "qty": 1
-    },
-    {
       "id": "8b712677-70b6-4e73-b1f2-868e9cb8913a",
       "name": "Poste de broyage",
       "type": "Artefact",
       "imageSmall": "https://cards.scryfall.io/small/front/8/b/8b712677-70b6-4e73-b1f2-868e9cb8913a.jpg?1562878382",
       "imageNormal": "https://cards.scryfall.io/normal/front/8/b/8b712677-70b6-4e73-b1f2-868e9cb8913a.jpg?1562878382",
+      "qty": 1
+    },
+    {
+      "id": "551877ef-8658-4938-9759-2b4c16bc87dc",
+      "name": "Mage aux marteaux",
+      "type": "Creature — Human Spellshaper",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/5/551877ef-8658-4938-9759-2b4c16bc87dc.jpg?1539644467",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/5/551877ef-8658-4938-9759-2b4c16bc87dc.jpg?1539644467",
       "qty": 1
     },
     {
@@ -338,6 +306,14 @@
       "qty": 1
     },
     {
+      "id": "6911191c-788b-4ca8-952e-ba2fdbeda404",
+      "name": "Pétale de lotus",
+      "type": "Artifact",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/9/6911191c-788b-4ca8-952e-ba2fdbeda404.jpg?1539705795",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/9/6911191c-788b-4ca8-952e-ba2fdbeda404.jpg?1539705795",
+      "qty": 1
+    },
+    {
       "id": "2c74a501-c492-4108-a374-4756f60e4c1a",
       "name": "Magda, maîtresse du butin",
       "type": "Créature légendaire — nain et berserker",
@@ -378,12 +354,12 @@
       "qty": 1
     },
     {
-      "id": "cd8c598e-46ea-48bc-948b-f2ba28e84823",
-      "name": "Monastère de la montagne de Cori",
-      "type": "Terrain",
-      "imageSmall": "https://cards.scryfall.io/small/front/c/d/cd8c598e-46ea-48bc-948b-f2ba28e84823.jpg?1744679547",
-      "imageNormal": "https://cards.scryfall.io/normal/front/c/d/cd8c598e-46ea-48bc-948b-f2ba28e84823.jpg?1744679547",
-      "qty": 33
+      "id": "97c70380-23f4-4a68-a50c-de80c3ea54e2",
+      "name": "Montagne",
+      "type": "Terrain de base — montagne",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/7/97c70380-23f4-4a68-a50c-de80c3ea54e2.jpg?1744680048",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/7/97c70380-23f4-4a68-a50c-de80c3ea54e2.jpg?1744680048",
+      "qty": 23
     },
     {
       "id": "d0c4506c-6d98-487a-bf86-e7fc23ac9210",
@@ -434,14 +410,6 @@
       "qty": 1
     },
     {
-      "id": "c47549d7-8d36-4ea0-ac33-b598d84576df",
-      "name": "Relique de légendes",
-      "type": "Artefact",
-      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c47549d7-8d36-4ea0-ac33-b598d84576df.jpg?1663243887",
-      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c47549d7-8d36-4ea0-ac33-b598d84576df.jpg?1663243887",
-      "qty": 1
-    },
-    {
       "id": "c8b4c5b2-8d7b-4dda-ab01-df1c0991fe98",
       "name": "Réciproquer",
       "type": "Éphémère",
@@ -455,6 +423,14 @@
       "type": "Artefact",
       "imageSmall": "https://cards.scryfall.io/small/front/9/b/9b482784-7a5a-4052-a07a-d67ff75d6dc2.jpg?1645559436",
       "imageNormal": "https://cards.scryfall.io/normal/front/9/b/9b482784-7a5a-4052-a07a-d67ff75d6dc2.jpg?1645559436",
+      "qty": 1
+    },
+    {
+      "id": "bcb5a39f-a800-4d79-b87c-7eb035b0c123",
+      "name": "Chant bouillonnant",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/c/bcb5a39f-a800-4d79-b87c-7eb035b0c123.jpg?1618496039",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/c/bcb5a39f-a800-4d79-b87c-7eb035b0c123.jpg?1618496039",
       "qty": 1
     },
     {
@@ -506,6 +482,14 @@
       "qty": 1
     },
     {
+      "id": "bc528c4d-8989-49b5-bdca-3b214427859e",
+      "name": "Découverte soudaine",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/c/bc528c4d-8989-49b5-bdca-3b214427859e.jpg?1677141259",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/c/bc528c4d-8989-49b5-bdca-3b214427859e.jpg?1677141259",
+      "qty": 1
+    },
+    {
       "id": "1f6f7b08-f72b-4d40-ae38-9cf7a52d76ca",
       "name": "Campement des survivants",
       "type": "Terrain : désert",
@@ -543,14 +527,6 @@
       "type": "Créature-artefact — changeforme",
       "imageSmall": "https://cards.scryfall.io/small/front/4/9/49ef619a-f29b-43ac-a9f8-d31abaa79959.jpg?1738110048",
       "imageNormal": "https://cards.scryfall.io/normal/front/4/9/49ef619a-f29b-43ac-a9f8-d31abaa79959.jpg?1738110048",
-      "qty": 1
-    },
-    {
-      "id": "7019c569-d2e5-43c9-be0f-18287128b993",
-      "name": "Coup de tonnerre",
-      "type": "Instant",
-      "imageSmall": "https://cards.scryfall.io/small/front/7/0/7019c569-d2e5-43c9-be0f-18287128b993.jpg?1539644883",
-      "imageNormal": "https://cards.scryfall.io/normal/front/7/0/7019c569-d2e5-43c9-be0f-18287128b993.jpg?1539644883",
       "qty": 1
     },
     {
@@ -610,19 +586,19 @@
       "qty": 1
     },
     {
+      "id": "158b8269-5d57-4cec-8c03-5d17837a89d5",
+      "name": "Roue de l'infortune",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/5/158b8269-5d57-4cec-8c03-5d17837a89d5.jpg?1645558747",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/5/158b8269-5d57-4cec-8c03-5d17837a89d5.jpg?1645558747",
+      "qty": 1
+    },
+    {
       "id": "6832d8da-16bf-4dca-9541-b67b68b4c5f4",
       "name": "Déferlement de magie sauvage",
       "type": "Éphémère",
       "imageSmall": "https://cards.scryfall.io/small/front/6/8/6832d8da-16bf-4dca-9541-b67b68b4c5f4.jpg?1739408310",
       "imageNormal": "https://cards.scryfall.io/normal/front/6/8/6832d8da-16bf-4dca-9541-b67b68b4c5f4.jpg?1739408310",
-      "qty": 1
-    },
-    {
-      "id": "95bbc46e-5610-481f-9de4-3074540d3a84",
-      "name": "Lune hivernale",
-      "type": "Artefact",
-      "imageSmall": "https://cards.scryfall.io/small/front/9/5/95bbc46e-5610-481f-9de4-3074540d3a84.jpg?1730225169",
-      "imageNormal": "https://cards.scryfall.io/normal/front/9/5/95bbc46e-5610-481f-9de4-3074540d3a84.jpg?1730225169",
       "qty": 1
     },
     {
@@ -643,139 +619,6 @@
     }
   ],
   "commanders": [
-    {
-      "id": "002368ba-f921-4d3a-8dbf-09b2ae0558f9",
-      "name": "Fabricateur de l'académie",
-      "type": "Créature-artefact — ouvrier spécialisé",
-      "imageSmall": "https://cards.scryfall.io/small/front/0/0/002368ba-f921-4d3a-8dbf-09b2ae0558f9.jpg?1730180443",
-      "imageNormal": "https://cards.scryfall.io/normal/front/0/0/002368ba-f921-4d3a-8dbf-09b2ae0558f9.jpg?1730180443"
-    },
-    {
-      "id": "1e495089-593a-4986-9343-10f1b8178cf0",
-      "name": "Lune de sang",
-      "type": "Enchantement",
-      "imageSmall": "https://cards.scryfall.io/small/front/1/e/1e495089-593a-4986-9343-10f1b8178cf0.jpg?1711305445",
-      "imageNormal": "https://cards.scryfall.io/normal/front/1/e/1e495089-593a-4986-9343-10f1b8178cf0.jpg?1711305445"
-    },
-    {
-      "id": "c6667e4f-f0f6-4416-940a-d03bed75f5a7",
-      "name": "Clown Car",
-      "type": "Artifact — Vehicle",
-      "imageSmall": "https://cards.scryfall.io/small/front/c/6/c6667e4f-f0f6-4416-940a-d03bed75f5a7.jpg?1732663805",
-      "imageNormal": "https://cards.scryfall.io/normal/front/c/6/c6667e4f-f0f6-4416-940a-d03bed75f5a7.jpg?1732663805"
-    },
-    {
-      "id": "e7c30fc4-9111-42be-8db5-4d59de0289bf",
-      "name": "Flambeau du Commandement",
-      "type": "Terrain",
-      "imageSmall": "https://cards.scryfall.io/small/front/e/7/e7c30fc4-9111-42be-8db5-4d59de0289bf.jpg?1744562506",
-      "imageNormal": "https://cards.scryfall.io/normal/front/e/7/e7c30fc4-9111-42be-8db5-4d59de0289bf.jpg?1744562506"
-    },
-    {
-      "id": "20720060-b4b1-424c-b6c0-6adabec7f22c",
-      "name": "Nain sanguin",
-      "type": "Créature : nain",
-      "imageSmall": "https://cards.scryfall.io/small/front/2/0/20720060-b4b1-424c-b6c0-6adabec7f22c.jpg?1562628947",
-      "imageNormal": "https://cards.scryfall.io/normal/front/2/0/20720060-b4b1-424c-b6c0-6adabec7f22c.jpg?1562628947"
-    },
-    {
-      "id": "a7005fce-feff-46ef-83e6-276884968164",
-      "name": "Risque-tout",
-      "type": "Rituel",
-      "imageSmall": "https://cards.scryfall.io/small/front/a/7/a7005fce-feff-46ef-83e6-276884968164.jpg?1677129738",
-      "imageNormal": "https://cards.scryfall.io/normal/front/a/7/a7005fce-feff-46ef-83e6-276884968164.jpg?1677129738"
-    },
-    {
-      "id": "6911191c-788b-4ca8-952e-ba2fdbeda404",
-      "name": "Pétale de lotus",
-      "type": "Artifact",
-      "imageSmall": "https://cards.scryfall.io/small/front/6/9/6911191c-788b-4ca8-952e-ba2fdbeda404.jpg?1539705795",
-      "imageNormal": "https://cards.scryfall.io/normal/front/6/9/6911191c-788b-4ca8-952e-ba2fdbeda404.jpg?1539705795"
-    },
-    {
-      "id": "35222f44-2efb-4320-9e46-6cbeb2f86375",
-      "name": "Mage de la lune",
-      "type": "Créature : humain et sorcier",
-      "imageSmall": "https://cards.scryfall.io/small/front/3/5/35222f44-2efb-4320-9e46-6cbeb2f86375.jpg?1646044227",
-      "imageNormal": "https://cards.scryfall.io/normal/front/3/5/35222f44-2efb-4320-9e46-6cbeb2f86375.jpg?1646044227"
-    },
-    {
-      "id": "3eec0880-cffa-4a37-b83e-48b781eeede1",
-      "name": "Manteau de paradis",
-      "type": "Artefact : équipement",
-      "imageSmall": "https://cards.scryfall.io/small/front/3/e/3eec0880-cffa-4a37-b83e-48b781eeede1.jpg?1562876502",
-      "imageNormal": "https://cards.scryfall.io/normal/front/3/e/3eec0880-cffa-4a37-b83e-48b781eeede1.jpg?1562876502"
-    },
-    {
-      "id": "1a84424e-84f1-4010-9f83-26fec0d1ad4a",
-      "name": "Portail de Phyrexia",
-      "type": "Artefact",
-      "imageSmall": "https://cards.scryfall.io/small/front/1/a/1a84424e-84f1-4010-9f83-26fec0d1ad4a.jpg?1668931135",
-      "imageNormal": "https://cards.scryfall.io/normal/front/1/a/1a84424e-84f1-4010-9f83-26fec0d1ad4a.jpg?1668931135"
-    },
-    {
-      "id": "e2cd9215-8a43-49b0-ac1a-432d01fdbec9",
-      "name": "Pyrosalve",
-      "type": "Instant",
-      "imageSmall": "https://cards.scryfall.io/small/front/e/2/e2cd9215-8a43-49b0-ac1a-432d01fdbec9.jpg?1539778063",
-      "imageNormal": "https://cards.scryfall.io/normal/front/e/2/e2cd9215-8a43-49b0-ac1a-432d01fdbec9.jpg?1539778063"
-    },
-    {
-      "id": "35142d1e-4ea4-47cf-80b8-727e8ca7e16d",
-      "name": "Pyrokinésie",
-      "type": "Instant",
-      "imageSmall": "https://cards.scryfall.io/small/front/3/5/35142d1e-4ea4-47cf-80b8-727e8ca7e16d.jpg?1539727209",
-      "imageNormal": "https://cards.scryfall.io/normal/front/3/5/35142d1e-4ea4-47cf-80b8-727e8ca7e16d.jpg?1539727209"
-    },
-    {
-      "id": "575baf40-82d3-451f-8c6f-1f59aa77f304",
-      "name": "Trône errant",
-      "type": "Créature-artefact — golem",
-      "imageSmall": "https://cards.scryfall.io/small/front/5/7/575baf40-82d3-451f-8c6f-1f59aa77f304.jpg?1730206078",
-      "imageNormal": "https://cards.scryfall.io/normal/front/5/7/575baf40-82d3-451f-8c6f-1f59aa77f304.jpg?1730206078"
-    },
-    {
-      "id": "3bd1b1d7-0b41-47f0-904b-76f214a5e979",
-      "name": "Médaillon de rubis",
-      "type": "Artefact",
-      "imageSmall": "https://cards.scryfall.io/small/front/3/b/3bd1b1d7-0b41-47f0-904b-76f214a5e979.jpg?1730225581",
-      "imageNormal": "https://cards.scryfall.io/normal/front/3/b/3bd1b1d7-0b41-47f0-904b-76f214a5e979.jpg?1730225581"
-    },
-    {
-      "id": "14667d9a-e5f3-47b8-8a77-081cfb730fdb",
-      "name": "Enchevêtrement de câbles",
-      "type": "Artifact",
-      "imageSmall": "https://cards.scryfall.io/small/front/1/4/14667d9a-e5f3-47b8-8a77-081cfb730fdb.jpg?1562628746",
-      "imageNormal": "https://cards.scryfall.io/normal/front/1/4/14667d9a-e5f3-47b8-8a77-081cfb730fdb.jpg?1562628746"
-    },
-    {
-      "id": "5b6791c1-090e-4cd8-be9c-f25c702b7a36",
-      "name": "L'Anneau Unique",
-      "type": "Artefact légendaire",
-      "imageSmall": "https://cards.scryfall.io/small/front/5/b/5b6791c1-090e-4cd8-be9c-f25c702b7a36.jpg?1698799614",
-      "imageNormal": "https://cards.scryfall.io/normal/front/5/b/5b6791c1-090e-4cd8-be9c-f25c702b7a36.jpg?1698799614"
-    },
-    {
-      "id": "bc1e78c6-3ce3-4b5c-828b-d43301a50697",
-      "name": "Tromperie selon Tibalt",
-      "type": "Éphémère",
-      "imageSmall": "https://cards.scryfall.io/small/front/b/c/bc1e78c6-3ce3-4b5c-828b-d43301a50697.jpg?1734860589",
-      "imageNormal": "https://cards.scryfall.io/normal/front/b/c/bc1e78c6-3ce3-4b5c-828b-d43301a50697.jpg?1734860589"
-    },
-    {
-      "id": "fac9d5a7-2b2d-40af-84f9-0b5cfa1d93e2",
-      "name": "Défaillance inopportune",
-      "type": "Éphémère",
-      "imageSmall": "https://cards.scryfall.io/small/front/f/a/fac9d5a7-2b2d-40af-84f9-0b5cfa1d93e2.jpg?1742316152",
-      "imageNormal": "https://cards.scryfall.io/normal/front/f/a/fac9d5a7-2b2d-40af-84f9-0b5cfa1d93e2.jpg?1742316152"
-    },
-    {
-      "id": "dbbb3cb9-d1e4-4168-befe-9fdbb067a3b1",
-      "name": "Caverne d'Urza",
-      "type": "Terrain — Caverne d'Urza",
-      "imageSmall": "https://cards.scryfall.io/small/front/d/b/dbbb3cb9-d1e4-4168-befe-9fdbb067a3b1.jpg?1730225255",
-      "imageNormal": "https://cards.scryfall.io/normal/front/d/b/dbbb3cb9-d1e4-4168-befe-9fdbb067a3b1.jpg?1730225255"
-    },
     {
       "id": "4978940c-e2fe-47c7-a1ea-343a4cf97f0e",
       "name": "Magda, Hors-la-loi intrépide",
