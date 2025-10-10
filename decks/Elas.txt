@@ -1,0 +1,67 @@
+1 Animate Dead
+1 Arcane Signet
+1 Ashnod's Altar
+1 Bastion of Remembrance
+1 Blood Artist
+1 Bloodthirsty Conqueror
+1 Bolas's Citadel
+1 Caves of Koilos
+1 Chromatic Lantern
+1 Cliffhaven Vampire
+1 Command Tower
+1 Corpse Knight
+1 Crawling Chorus
+1 Cruel Celebrant
+1 Dark Ritual
+1 Demonic Collusion
+1 Diabolic Intent
+1 Diabolic Tutor
+1 Enlightened Tutor
+1 Exquisite Blood
+1 Exsanguinate
+1 Feast of the Victorious Dead
+1 Fleshtaker
+1 Fracture
+1 Griffin Aerie
+1 Grim Tutor
+1 Hidden Stockpile
+1 High Market
+1 Insatiable Avarice
+1 Jet Medallion
+1 Kambal, Profiteering Mayor
+1 Leonin Relic-Warder
+1 Luminous Broodmoth
+1 Lunar Convocation
+1 Marauding Blight-Priest
+1 Martial Coup
+1 Necropotence
+1 Nine Lives
+1 Orzhov Signet
+1 Path to Exile
+1 Pearl Medallion
+1 Phyrexian Arena
+1 Phyrexian Reclamation
+1 Pitiless Plunderer
+18 Plains
+1 Polluted Bonds
+1 Priest of Forgotten Gods
+1 Razaketh's Rite
+1 Reanimate
+1 Reassembling Skeleton
+1 Reliquary Tower
+1 Sanguine Bond
+1 Secure the Wastes
+1 Servo Exhibition
+1 Skrelv's Hive
+1 Sol Ring
+1 Spawning Bed
+1 Starscape Cleric
+1 Suture Priest
+18 Swamp
+1 Swords to Plowshares
+1 Viscera Seer
+1 Vito, Thorn of the Dusk Rose
+1 Warren Soultrader
+1 Zulaport Cutthroat
+
+1 Elas il-Kor, Sadistic Pilgrim

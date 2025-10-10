@@ -1,0 +1,630 @@
+{
+  "createdAt": "2025-10-10T18:28:12.402Z",
+  "cards": [
+    {
+      "id": "e6c48f49-e4c4-45a6-bbfe-b06841f3382e",
+      "name": "Bombe à sortilèges d'Éther",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/6/e6c48f49-e4c4-45a6-bbfe-b06841f3382e.jpg?1677140358",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/6/e6c48f49-e4c4-45a6-bbfe-b06841f3382e.jpg?1677140358",
+      "qty": 1
+    },
+    {
+      "id": "a2cbb739-bb2c-4d78-a861-5ddc2e5e5d85",
+      "name": "Récupération de l'alchimiste",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/2/a2cbb739-bb2c-4d78-a861-5ddc2e5e5d85.jpg?1741127939",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/2/a2cbb739-bb2c-4d78-a861-5ddc2e5e5d85.jpg?1741127939",
+      "qty": 1
+    },
+    {
+      "id": "b3f66fcb-8cec-4ff9-8005-4de516fd1034",
+      "name": "Altération de la réalité",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/3/b3f66fcb-8cec-4ff9-8005-4de516fd1034.jpg?1562631629",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/3/b3f66fcb-8cec-4ff9-8005-4de516fd1034.jpg?1562631629",
+      "qty": 1
+    },
+    {
+      "id": "742d3c75-4b85-475b-b97e-e5430422ea01",
+      "name": "Volonté de l'aquitecte",
+      "type": "Rituel tribal : ondin",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/4/742d3c75-4b85-475b-b97e-e5430422ea01.jpg?1562353349",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/4/742d3c75-4b85-475b-b97e-e5430422ea01.jpg?1562353349",
+      "qty": 1
+    },
+    {
+      "id": "c4e057b6-257f-49da-94e7-ad51eb172b0f",
+      "name": "Cachet d'ésotérisme",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/4/c4e057b6-257f-49da-94e7-ad51eb172b0f.jpg?1740187340",
+      "qty": 1
+    },
+    {
+      "id": "bfde5161-c654-4467-a0e0-8a3edc12eb77",
+      "name": "Mutation de l'argent",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/f/bfde5161-c654-4467-a0e0-8a3edc12eb77.jpg?1562881225",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/f/bfde5161-c654-4467-a0e0-8a3edc12eb77.jpg?1562881225",
+      "qty": 1
+    },
+    {
+      "id": "bb185889-8b50-433e-8e3c-217c37d3d9e9",
+      "name": "Artisane des formes",
+      "type": "Créature : humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/b/bb185889-8b50-433e-8e3c-217c37d3d9e9.jpg?1562827819",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/b/bb185889-8b50-433e-8e3c-217c37d3d9e9.jpg?1562827819",
+      "qty": 1
+    },
+    {
+      "id": "e16ed7aa-1280-428e-a5b6-1ef6b58c2294",
+      "name": "Rivière souillée",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/1/e16ed7aa-1280-428e-a5b6-1ef6b58c2294.jpg?1673232642",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/1/e16ed7aa-1280-428e-a5b6-1ef6b58c2294.jpg?1673232642",
+      "qty": 1
+    },
+    {
+      "id": "73f8b4a0-7f33-48af-abfb-ed8ac4d7b771",
+      "name": "Monolithe de basalte",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/3/73f8b4a0-7f33-48af-abfb-ed8ac4d7b771.jpg?1698805129",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/3/73f8b4a0-7f33-48af-abfb-ed8ac4d7b771.jpg?1698805129",
+      "qty": 1
+    },
+    {
+      "id": "64336f1e-5d56-46c1-b664-68371834aac2",
+      "name": "Zone de déflagration",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/4/64336f1e-5d56-46c1-b664-68371834aac2.jpg?1735681518",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/4/64336f1e-5d56-46c1-b664-68371834aac2.jpg?1735681518",
+      "qty": 1
+    },
+    {
+      "id": "a2574d2b-daf5-4120-91a3-f28d28971459",
+      "name": "Clepsydre",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/2/a2574d2b-daf5-4120-91a3-f28d28971459.jpg?1698794296",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/2/a2574d2b-daf5-4120-91a3-f28d28971459.jpg?1698794296",
+      "qty": 1
+    },
+    {
+      "id": "e1beb637-bd55-4e32-8889-cb32140e1535",
+      "name": "Guet des nuages",
+      "type": "Terrain — site",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/1/e1beb637-bd55-4e32-8889-cb32140e1535.jpg?1735681600",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/1/e1beb637-bd55-4e32-8889-cb32140e1535.jpg?1735681600",
+      "qty": 1
+    },
+    {
+      "id": "3374c9ab-e782-4b57-a562-e082160f9b80",
+      "name": "Sphère du commandant",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/3/3374c9ab-e782-4b57-a562-e082160f9b80.jpg?1740190197",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/3/3374c9ab-e782-4b57-a562-e082160f9b80.jpg?1740190197",
+      "qty": 1
+    },
+    {
+      "id": "0707b96a-aea3-467e-9e8c-a4b5e05774bf",
+      "name": "Lingot de sombracier",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/7/0707b96a-aea3-467e-9e8c-a4b5e05774bf.jpg?1730248274",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/7/0707b96a-aea3-467e-9e8c-a4b5e05774bf.jpg?1730248274",
+      "qty": 1
+    },
+    {
+      "id": "cc792e8a-a7cf-405f-82e4-c9d65ccce3e4",
+      "name": "Fouille temporelle",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/c/cc792e8a-a7cf-405f-82e4-c9d65ccce3e4.jpg?1726875291",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/c/cc792e8a-a7cf-405f-82e4-c9d65ccce3e4.jpg?1726875291",
+      "qty": 1
+    },
+    {
+      "id": "010004b9-ba52-42d1-b183-3651a1d1c772",
+      "name": "Plongée",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/1/010004b9-ba52-42d1-b183-3651a1d1c772.jpg?1646004016",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/1/010004b9-ba52-42d1-b183-3651a1d1c772.jpg?1646004016",
+      "qty": 1
+    },
+    {
+      "id": "3fb36dfd-61d5-4ba6-9cab-5993306adba2",
+      "name": "Malaise",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/f/3fb36dfd-61d5-4ba6-9cab-5993306adba2.jpg?1741833164",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/f/3fb36dfd-61d5-4ba6-9cab-5993306adba2.jpg?1741833164",
+      "qty": 1
+    },
+    {
+      "id": "b3272166-83c7-4c9b-8494-4c6d19d450a5",
+      "name": "Emprise des rêves",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/3/b3272166-83c7-4c9b-8494-4c6d19d450a5.jpg?1562155106",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/3/b3272166-83c7-4c9b-8494-4c6d19d450a5.jpg?1562155106",
+      "qty": 1
+    },
+    {
+      "id": "e7edeab5-ab11-4815-9df5-3273f2740b84",
+      "name": "Aveulissement",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/7/e7edeab5-ab11-4815-9df5-3273f2740b84.jpg?1539776446",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/7/e7edeab5-ab11-4815-9df5-3273f2740b84.jpg?1539776446",
+      "qty": 1
+    },
+    {
+      "id": "7939b73e-7b4b-49e3-9376-7a31fb09371d",
+      "name": "Calice toujours ruisselant",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/9/7939b73e-7b4b-49e3-9376-7a31fb09371d.jpg?1735681141",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/9/7939b73e-7b4b-49e3-9376-7a31fb09371d.jpg?1735681141",
+      "qty": 1
+    },
+    {
+      "id": "e52933c2-a271-4d39-8150-c37ab5d4c802",
+      "name": "Peur des imposteurs",
+      "type": "Créature-enchantement — cauchemar",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/5/e52933c2-a271-4d39-8150-c37ab5d4c802.jpg?1742313927",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/5/e52933c2-a271-4d39-8150-c37ab5d4c802.jpg?1742313927",
+      "qty": 1
+    },
+    {
+      "id": "f821e8c6-3e47-4d12-8eee-be7008f1b344",
+      "name": "Pierre de Guermont",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/8/f821e8c6-3e47-4d12-8eee-be7008f1b344.jpg?1744561808",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/8/f821e8c6-3e47-4d12-8eee-be7008f1b344.jpg?1744561808",
+      "qty": 1
+    },
+    {
+      "id": "727d7435-beaa-4f02-a6b0-bf855752e92f",
+      "name": "Plaine inondée",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/2/727d7435-beaa-4f02-a6b0-bf855752e92f.jpg?1734881262",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/2/727d7435-beaa-4f02-a6b0-bf855752e92f.jpg?1734881262",
+      "qty": 1
+    },
+    {
+      "id": "77e12956-b026-4e19-a869-5a480c31d615",
+      "name": "Flot de savoir",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/7/77e12956-b026-4e19-a869-5a480c31d615.jpg?1668917147",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/7/77e12956-b026-4e19-a869-5a480c31d615.jpg?1668917147",
+      "qty": 1
+    },
+    {
+      "id": "7b0232d3-c2e5-4c17-a7ce-20c803c61d17",
+      "name": "Fils cachés",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/b/7b0232d3-c2e5-4c17-a7ce-20c803c61d17.jpg?1562917723",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/b/7b0232d3-c2e5-4c17-a7ce-20c803c61d17.jpg?1562917723",
+      "qty": 1
+    },
+    {
+      "id": "f5874220-0720-4534-bc2d-54840e639c52",
+      "name": "Marée haute",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/5/f5874220-0720-4534-bc2d-54840e639c52.jpg?1677127718",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/5/f5874220-0720-4534-bc2d-54840e639c52.jpg?1677127718",
+      "qty": 1
+    },
+    {
+      "id": "ad304c9c-943f-442f-bb82-ff378ad7d7ba",
+      "name": "Ice Flan",
+      "type": "Creature — Elemental Ooze",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/d/ad304c9c-943f-442f-bb82-ff378ad7d7ba.jpg?1748705958",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/d/ad304c9c-943f-442f-bb82-ff378ad7d7ba.jpg?1748705958",
+      "qty": 1
+    },
+    {
+      "id": "fc9e1def-e174-4a01-802a-48dd2d6304f9",
+      "name": "Idole de l'oubli",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/c/fc9e1def-e174-4a01-802a-48dd2d6304f9.jpg?1744561826",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/c/fc9e1def-e174-4a01-802a-48dd2d6304f9.jpg?1744561826",
+      "qty": 1
+    },
+    {
+      "id": "f2cfd6c8-de31-4d82-be52-68cc081bab2b",
+      "name": "Agir par impulsion",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/2/f2cfd6c8-de31-4d82-be52-68cc081bab2b.jpg?1677137603",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/2/f2cfd6c8-de31-4d82-be52-68cc081bab2b.jpg?1677137603",
+      "qty": 1
+    },
+    {
+      "id": "caf1a926-70b7-4569-9d5d-20f7f3405b8e",
+      "name": "Infuser l'âme aux artefacts",
+      "type": "Enchantement : aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/a/caf1a926-70b7-4569-9d5d-20f7f3405b8e.jpg?1562794301",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/a/caf1a926-70b7-4569-9d5d-20f7f3405b8e.jpg?1562794301",
+      "qty": 1
+    },
+    {
+      "id": "8966ee48-b991-4b4d-8f97-2accb0c8bbb7",
+      "name": "En plein Roulis",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/9/8966ee48-b991-4b4d-8f97-2accb0c8bbb7.jpg?1732356995",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/9/8966ee48-b991-4b4d-8f97-2accb0c8bbb7.jpg?1732356995",
+      "qty": 1
+    },
+    {
+      "id": "ec5ea6fb-924f-4238-8dee-9cc9c481d637",
+      "name": "Ruisseau Ipnu",
+      "type": "Terrain — désert",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/c/ec5ea6fb-924f-4238-8dee-9cc9c481d637.jpg?1733882856",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/c/ec5ea6fb-924f-4238-8dee-9cc9c481d637.jpg?1733882856",
+      "qty": 1
+    },
+    {
+      "id": "cfa5e677-27bd-4611-b795-5389e0ab93ff",
+      "name": "Île",
+      "type": "Terrain de base — île",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/f/cfa5e677-27bd-4611-b795-5389e0ab93ff.jpg?1744679999",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/f/cfa5e677-27bd-4611-b795-5389e0ab93ff.jpg?1744679999",
+      "qty": 23
+    },
+    {
+      "id": "bacf4acf-0047-4d88-93c4-c0561a2644db",
+      "name": "Mauvaise passe",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/b/a/bacf4acf-0047-4d88-93c4-c0561a2644db.jpg?1562216915",
+      "imageNormal": "https://cards.scryfall.io/normal/front/b/a/bacf4acf-0047-4d88-93c4-c0561a2644db.jpg?1562216915",
+      "qty": 1
+    },
+    {
+      "id": "99b35053-ce60-424a-af9f-50eecacd1f33",
+      "name": "Secousse brutale",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/9/99b35053-ce60-424a-af9f-50eecacd1f33.jpg?1539716656",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/9/99b35053-ce60-424a-af9f-50eecacd1f33.jpg?1539716656",
+      "qty": 1
+    },
+    {
+      "id": "9266d3f6-3445-4328-9de8-9a99eb9d9a4f",
+      "name": "Floraison de lotus",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/2/9266d3f6-3445-4328-9de8-9a99eb9d9a4f.jpg?1646045244",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/2/9266d3f6-3445-4328-9de8-9a99eb9d9a4f.jpg?1646045244",
+      "qty": 1
+    },
+    {
+      "id": "0784c9f1-f4b8-4513-b158-e7f3d3adf106",
+      "name": "Micromancienne",
+      "type": "Créature — humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/0/7/0784c9f1-f4b8-4513-b158-e7f3d3adf106.jpg?1732351345",
+      "imageNormal": "https://cards.scryfall.io/normal/front/0/7/0784c9f1-f4b8-4513-b158-e7f3d3adf106.jpg?1732351345",
+      "qty": 1
+    },
+    {
+      "id": "173059f8-47fd-40f5-a1c8-5e3778bcd19e",
+      "name": "Flagelleur mental",
+      "type": "Créature — horreur",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/7/173059f8-47fd-40f5-a1c8-5e3778bcd19e.jpg?1739420771",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/7/173059f8-47fd-40f5-a1c8-5e3778bcd19e.jpg?1739420771",
+      "qty": 1
+    },
+    {
+      "id": "a53179d0-aad6-4895-ad27-bc48ef6b4d2a",
+      "name": "Jeux d'esprit",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/5/a53179d0-aad6-4895-ad27-bc48ef6b4d2a.jpg?1539693273",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/5/a53179d0-aad6-4895-ad27-bc48ef6b4d2a.jpg?1539693273",
+      "qty": 1
+    },
+    {
+      "id": "498feeda-e387-42c8-b526-0fc279d40df1",
+      "name": "Pierre de l'esprit",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/9/498feeda-e387-42c8-b526-0fc279d40df1.jpg?1726880305",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/9/498feeda-e387-42c8-b526-0fc279d40df1.jpg?1726880305",
+      "qty": 1
+    },
+    {
+      "id": "707e9b00-a19f-4829-9475-555cb90f76f6",
+      "name": "Peau de mizzium",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/0/707e9b00-a19f-4829-9475-555cb90f76f6.jpg?1562788046",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/0/707e9b00-a19f-4829-9475-555cb90f76f6.jpg?1562788046",
+      "qty": 1
+    },
+    {
+      "id": "22640d45-188d-49fd-a386-bb32b73f1fe2",
+      "name": "Farfadette moqueuse",
+      "type": "Créature — peuple fée et gredin",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/2/22640d45-188d-49fd-a386-bb32b73f1fe2.jpg?1732351365",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/2/22640d45-188d-49fd-a386-bb32b73f1fe2.jpg?1732351365",
+      "qty": 1
+    },
+    {
+      "id": "61beca2c-859f-4449-b7b2-56e9a168f653",
+      "name": "Paysage myriadaire",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/6/1/61beca2c-859f-4449-b7b2-56e9a168f653.jpg?1744563070",
+      "imageNormal": "https://cards.scryfall.io/normal/front/6/1/61beca2c-859f-4449-b7b2-56e9a168f653.jpg?1744563070",
+      "qty": 1
+    },
+    {
+      "id": "a602c343-c8a8-42e9-863a-0dc96f4a3af1",
+      "name": "Sanctuaire mystique",
+      "type": "Terrain — île",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/6/a602c343-c8a8-42e9-863a-0dc96f4a3af1.jpg?1730237167",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/6/a602c343-c8a8-42e9-863a-0dc96f4a3af1.jpg?1730237167",
+      "qty": 1
+    },
+    {
+      "id": "4d89063a-239c-4c56-8fd2-786b8c90bb9e",
+      "name": "Naïade des criques cachées",
+      "type": "Créature-enchantement — nymphe",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/d/4d89063a-239c-4c56-8fd2-786b8c90bb9e.jpg?1733874575",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/d/4d89063a-239c-4c56-8fd2-786b8c90bb9e.jpg?1733874575",
+      "qty": 1
+    },
+    {
+      "id": "72b40a5c-937d-4707-b512-b2034f3904ae",
+      "name": "Négation",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/2/72b40a5c-937d-4707-b512-b2034f3904ae.jpg?1716763690",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/2/72b40a5c-937d-4707-b512-b2034f3904ae.jpg?1716763690",
+      "qty": 1
+    },
+    {
+      "id": "e094e0f7-f899-45e6-8ac7-1d24aa99c751",
+      "name": "Augure de la mer",
+      "type": "Enchantement",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/0/e094e0f7-f899-45e6-8ac7-1d24aa99c751.jpg?1733874629",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/0/e094e0f7-f899-45e6-8ac7-1d24aa99c751.jpg?1733874629",
+      "qty": 1
+    },
+    {
+      "id": "c98e17ee-a1d8-4c44-bdb4-55f9d8a95e0e",
+      "name": "Amalgame surchargé",
+      "type": "Créature — zombie et horreur",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/9/c98e17ee-a1d8-4c44-bdb4-55f9d8a95e0e.jpg?1739420812",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/9/c98e17ee-a1d8-4c44-bdb4-55f9d8a95e0e.jpg?1739420812",
+      "qty": 1
+    },
+    {
+      "id": "4857716f-9264-40e3-952b-eaec01de6160",
+      "name": "Présage du devin",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/8/4857716f-9264-40e3-952b-eaec01de6160.jpg?1645592165",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/8/4857716f-9264-40e3-952b-eaec01de6160.jpg?1645592165",
+      "qty": 1
+    },
+    {
+      "id": "fa78bffe-24c7-446e-b244-e67724a5610d",
+      "name": "Éclat de lithoforce",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/a/fa78bffe-24c7-446e-b244-e67724a5610d.jpg?1645611543",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/a/fa78bffe-24c7-446e-b244-e67724a5610d.jpg?1645611543",
+      "qty": 1
+    },
+    {
+      "id": "2f823dce-2193-4d2d-af03-568e531a80b3",
+      "name": "Prédestination",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/2/f/2f823dce-2193-4d2d-af03-568e531a80b3.jpg?1744558221",
+      "imageNormal": "https://cards.scryfall.io/normal/front/2/f/2f823dce-2193-4d2d-af03-568e531a80b3.jpg?1744558221",
+      "qty": 1
+    },
+    {
+      "id": "e6e5e12a-3ef0-488e-8672-866aa912f96b",
+      "name": "Lentille prismatique",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/6/e6e5e12a-3ef0-488e-8672-866aa912f96b.jpg?1730248278",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/6/e6e5e12a-3ef0-488e-8672-866aa912f96b.jpg?1730248278",
+      "qty": 1
+    },
+    {
+      "id": "3659e33e-25ee-431c-b1ba-6b89ed3ae7a2",
+      "name": "Ride de réalité",
+      "type": "Instant",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/6/3659e33e-25ee-431c-b1ba-6b89ed3ae7a2.jpg?1539716811",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/6/3659e33e-25ee-431c-b1ba-6b89ed3ae7a2.jpg?1539716811",
+      "qty": 1
+    },
+    {
+      "id": "752f9e7c-d2a6-43c4-b6f1-b26dcbef9879",
+      "name": "Resculpter",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/5/752f9e7c-d2a6-43c4-b6f1-b26dcbef9879.jpg?1734850665",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/5/752f9e7c-d2a6-43c4-b6f1-b26dcbef9879.jpg?1734850665",
+      "qty": 1
+    },
+    {
+      "id": "72f96397-07b5-4346-b280-31d3e369d4dc",
+      "name": "Laboratoire du projet Jusant",
+      "type": "Terrain",
+      "imageSmall": "https://cards.scryfall.io/small/front/7/2/72f96397-07b5-4346-b280-31d3e369d4dc.jpg?1646222903",
+      "imageNormal": "https://cards.scryfall.io/normal/front/7/2/72f96397-07b5-4346-b280-31d3e369d4dc.jpg?1646222903",
+      "qty": 1
+    },
+    {
+      "id": "f105e1c4-9f84-4e07-b182-07b049b4a17a",
+      "name": "Oracle de Porte des Mers",
+      "type": "Créature : humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/1/f105e1c4-9f84-4e07-b182-07b049b4a17a.jpg?1677127177",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/1/f105e1c4-9f84-4e07-b182-07b049b4a17a.jpg?1677127177",
+      "qty": 1
+    },
+    {
+      "id": "c55cb65a-a520-4cce-bd1c-ad7bd5d22cd1",
+      "name": "Voir double",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/c/5/c55cb65a-a520-4cce-bd1c-ad7bd5d22cd1.jpg?1716764341",
+      "imageNormal": "https://cards.scryfall.io/normal/front/c/5/c55cb65a-a520-4cce-bd1c-ad7bd5d22cd1.jpg?1716764341",
+      "qty": 1
+    },
+    {
+      "id": "52f02210-e980-4bed-bb26-bdd3995708e7",
+      "name": "Mirage chatoyant",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/2/52f02210-e980-4bed-bb26-bdd3995708e7.jpg?1562914480",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/2/52f02210-e980-4bed-bb26-bdd3995708e7.jpg?1562914480",
+      "qty": 1
+    },
+    {
+      "id": "a25f5f8a-3d20-464e-b39b-246681b020d7",
+      "name": "Diamant du ciel",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/2/a25f5f8a-3d20-464e-b39b-246681b020d7.jpg?1739412354",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/2/a25f5f8a-3d20-464e-b39b-246681b020d7.jpg?1739412354",
+      "qty": 1
+    },
+    {
+      "id": "8a5cad93-964c-48e2-af54-924acd856c0c",
+      "name": "Anneau solaire",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/a/8a5cad93-964c-48e2-af54-924acd856c0c.jpg?1740187538",
+      "qty": 1
+    },
+    {
+      "id": "aba07772-68e8-43d4-86e8-04ba4d650fc3",
+      "name": "Simulacre solennel",
+      "type": "Créature-artefact — golem",
+      "imageSmall": "https://cards.scryfall.io/small/front/a/b/aba07772-68e8-43d4-86e8-04ba4d650fc3.jpg?1744561977",
+      "imageNormal": "https://cards.scryfall.io/normal/front/a/b/aba07772-68e8-43d4-86e8-04ba4d650fc3.jpg?1744561977",
+      "qty": 1
+    },
+    {
+      "id": "1d16ed01-542b-47a9-a3d5-f0b296d0bdce",
+      "name": "Arcaniste spectral",
+      "type": "Créature : esprit et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/d/1d16ed01-542b-47a9-a3d5-f0b296d0bdce.jpg?1645980128",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/d/1d16ed01-542b-47a9-a3d5-f0b296d0bdce.jpg?1645980128",
+      "qty": 1
+    },
+    {
+      "id": "345d21ed-42e6-4135-9376-6aed657e8ac8",
+      "name": "Franchir le seuil",
+      "type": "Rituel",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/4/345d21ed-42e6-4135-9376-6aed657e8ac8.jpg?1646219711",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/4/345d21ed-42e6-4135-9376-6aed657e8ac8.jpg?1646219711",
+      "qty": 1
+    },
+    {
+      "id": "f3d9cd22-2851-4133-a2d4-82ea15bfacae",
+      "name": "Cristal parle-pierre",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/3/f3d9cd22-2851-4133-a2d4-82ea15bfacae.jpg?1739412412",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/3/f3d9cd22-2851-4133-a2d4-82ea15bfacae.jpg?1739412412",
+      "qty": 1
+    },
+    {
+      "id": "5c69feb1-706d-412c-bd78-307b1a82f03a",
+      "name": "Désert brûlé par le soleil",
+      "type": "Terrain : désert",
+      "imageSmall": "https://cards.scryfall.io/small/front/5/c/5c69feb1-706d-412c-bd78-307b1a82f03a.jpg?1561786464",
+      "imageNormal": "https://cards.scryfall.io/normal/front/5/c/5c69feb1-706d-412c-bd78-307b1a82f03a.jpg?1561786464",
+      "qty": 1
+    },
+    {
+      "id": "9587d9c4-8862-4e7a-819a-c115cc385ec6",
+      "name": "Flux thermique",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/5/9587d9c4-8862-4e7a-819a-c115cc385ec6.jpg?1562188134",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/5/9587d9c4-8862-4e7a-819a-c115cc385ec6.jpg?1562188134",
+      "qty": 1
+    },
+    {
+      "id": "ed3f6aa8-9998-4f56-9ccf-81ecd7262761",
+      "name": "Carcasse mécanique torrentielle",
+      "type": "Créature-artefact — construction",
+      "imageSmall": "https://cards.scryfall.io/small/front/e/d/ed3f6aa8-9998-4f56-9ccf-81ecd7262761.jpg?1734851256",
+      "imageNormal": "https://cards.scryfall.io/normal/front/e/d/ed3f6aa8-9998-4f56-9ccf-81ecd7262761.jpg?1734851256",
+      "qty": 1
+    },
+    {
+      "id": "1eb382cd-7ced-4533-87a5-843423b9eed5",
+      "name": "Mage aux breloques",
+      "type": "Créature : humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/e/1eb382cd-7ced-4533-87a5-843423b9eed5.jpg?1646045771",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/e/1eb382cd-7ced-4533-87a5-843423b9eed5.jpg?1646045771",
+      "qty": 1
+    },
+    {
+      "id": "8c8843b5-d435-4b5e-8f8a-4d3e7929fe9d",
+      "name": "Spasmœil",
+      "type": "Créature — œil et chauve-souris",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/c/8c8843b5-d435-4b5e-8f8a-4d3e7929fe9d.jpg?1724116587",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/c/8c8843b5-d435-4b5e-8f8a-4d3e7929fe9d.jpg?1724116587",
+      "qty": 1
+    },
+    {
+      "id": "84fc6516-8c5c-40af-a8c2-49aeb2b960dd",
+      "name": "Abolir",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/8/4/84fc6516-8c5c-40af-a8c2-49aeb2b960dd.jpg?1645713874",
+      "imageNormal": "https://cards.scryfall.io/normal/front/8/4/84fc6516-8c5c-40af-a8c2-49aeb2b960dd.jpg?1645713874",
+      "qty": 1
+    },
+    {
+      "id": "d1864083-fd7e-4f08-b409-afcfd8b8ab98",
+      "name": "Insignifiance totale",
+      "type": "Enchantement — aura",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/1/d1864083-fd7e-4f08-b409-afcfd8b8ab98.jpg?1730224506",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/1/d1864083-fd7e-4f08-b409-afcfd8b8ab98.jpg?1730224506",
+      "qty": 1
+    },
+    {
+      "id": "912f5075-38fe-43cf-959e-5540a44270cb",
+      "name": "Æthermage vedalken",
+      "type": "Créature : vedalken et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/1/912f5075-38fe-43cf-959e-5540a44270cb.jpg?1719135373",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/1/912f5075-38fe-43cf-959e-5540a44270cb.jpg?1719135373",
+      "qty": 1
+    },
+    {
+      "id": "d52227bd-052a-4dee-a502-d6275289c71b",
+      "name": "Venser, forgeur savant",
+      "type": "Créature légendaire — humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/d/5/d52227bd-052a-4dee-a502-d6275289c71b.jpg?1733869065",
+      "imageNormal": "https://cards.scryfall.io/normal/front/d/5/d52227bd-052a-4dee-a502-d6275289c71b.jpg?1733869065",
+      "qty": 1
+    },
+    {
+      "id": "362b9e57-bfb6-465d-90e5-4a0fd78191b0",
+      "name": "Babiole du voyageur",
+      "type": "Artefact",
+      "imageSmall": "https://cards.scryfall.io/small/front/3/6/362b9e57-bfb6-465d-90e5-4a0fd78191b0.jpg?1744562177",
+      "imageNormal": "https://cards.scryfall.io/normal/front/3/6/362b9e57-bfb6-465d-90e5-4a0fd78191b0.jpg?1744562177",
+      "qty": 1
+    },
+    {
+      "id": "19df8618-87fb-4834-a061-ffe8a2f12d8d",
+      "name": "Sorcier des vents",
+      "type": "Créature — humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/1/9/19df8618-87fb-4834-a061-ffe8a2f12d8d.jpg?1734851523",
+      "imageNormal": "https://cards.scryfall.io/normal/front/1/9/19df8618-87fb-4834-a061-ffe8a2f12d8d.jpg?1734851523",
+      "qty": 1
+    },
+    {
+      "id": "4dc501eb-79d8-4bea-9763-9eb26521510f",
+      "name": "Magiciens de Thay",
+      "type": "Créature — humain et sorcier",
+      "imageSmall": "https://cards.scryfall.io/small/front/4/d/4dc501eb-79d8-4bea-9763-9eb26521510f.jpg?1739405237",
+      "imageNormal": "https://cards.scryfall.io/normal/front/4/d/4dc501eb-79d8-4bea-9763-9eb26521510f.jpg?1739405237",
+      "qty": 1
+    },
+    {
+      "id": "971fff95-799f-4510-a6ee-da4c9b77cef7",
+      "name": "Vous voyez un garde approcher",
+      "type": "Éphémère",
+      "imageSmall": "https://cards.scryfall.io/small/front/9/7/971fff95-799f-4510-a6ee-da4c9b77cef7.jpg?1645516160",
+      "imageNormal": "https://cards.scryfall.io/normal/front/9/7/971fff95-799f-4510-a6ee-da4c9b77cef7.jpg?1645516160",
+      "qty": 1
+    }
+  ],
+  "commanders": [
+    {
+      "id": "f2fce100-a071-4e07-b381-216f031a96a9",
+      "name": "Orvar, le Tout-forme",
+      "type": "Créature légendaire — changeforme",
+      "imageSmall": "https://cards.scryfall.io/small/front/f/2/f2fce100-a071-4e07-b381-216f031a96a9.jpg?1734853493",
+      "imageNormal": "https://cards.scryfall.io/normal/front/f/2/f2fce100-a071-4e07-b381-216f031a96a9.jpg?1734853493"
+    }
+  ]
+}

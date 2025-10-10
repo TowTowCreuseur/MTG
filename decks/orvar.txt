@@ -1,0 +1,79 @@
+1 Aether Spellbomb
+1 Alchemist's Retrieval
+1 Alter Reality
+1 Aquitect's Will
+1 Arcane Signet
+1 Argent Mutation
+1 Artisan of Forms
+1 Bad River
+1 Basalt Monolith
+1 Blast Zone
+1 Clockspinning
+1 Cloudpost
+1 Commander's Sphere
+1 Darksteel Ingot
+1 Dig Through Time
+1 Dive Down
+1 Dizzy Spell
+1 Dream's Grip
+1 Enervate
+1 Everflowing Chalice
+1 Fear of Impostors
+1 Fellwar Stone
+1 Flood Plain
+1 Flow of Knowledge
+1 Hidden Strings
+1 High Tide
+1 Ice Flan
+1 Idol of Oblivion
+1 Impulse
+1 Infuse
+1 Into the Roil
+1 Ipnu Rivulet
+23 Island
+1 Jinx
+1 Jolt
+1 Lotus Bloom
+1 Micromancer
+1 Mind Flayer
+1 Mind Games
+1 Mind Stone
+1 Mizzium Skin
+1 Mocking Sprite
+1 Myriad Landscape
+1 Mystic Sanctuary
+1 Naiad of Hidden Coves
+1 Negate
+1 Omen of the Sea
+1 Overcharged Amalgam
+1 Portent
+1 Powerstone Shard
+1 Preordain
+1 Prismatic Lens
+1 Reality Ripple
+1 Resculpt
+1 Riptide Laboratory
+1 Sea Gate Oracle
+1 See Double
+1 Shimmering Mirage
+1 Sky Diamond
+1 Sol Ring
+1 Solemn Simulacrum
+1 Spectral Arcanist
+1 Step Through
+1 Stonespeaker Crystal
+1 Sunscorched Desert
+1 Thermal Flux
+1 Torrential Gearhulk
+1 Trinket Mage
+1 Twitch
+1 Unsubstantiate
+1 Utter Insignificance
+1 Vedalken Aethermage
+1 Venser, Shaper Savant
+1 Wayfarer's Bauble
+1 Windrider Wizard
+1 Wizards of Thay
+1 You See a Guard Approach
+
+1 Orvar, the All-Form
