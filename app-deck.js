@@ -609,9 +609,9 @@ function init() {
     const wsPort = urlp.get('wsPort') || '8787';
     const wsProto= urlp.get('wsProto')|| (location.protocol === 'https:' ? 'wss' : 'ws');
 
+    // Si pas de room dans l'URL, en générer une automatiquement
     if (!room) {
-      alert("Paramètre 'room' manquant dans l'URL. Ouvrez le builder via le lien d'invitation généré par l'hôte.");
-      return;
+      room = Math.random().toString(36).slice(2, 8);
     }
 
     const params = new URLSearchParams({ room, wsHost, wsPort, wsProto });
