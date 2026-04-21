@@ -3,164 +3,60 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Plateau MTG — Prototype</title>
-    <link rel="stylesheet" href="styles.css" />
-    <!-- Entrée JS -->
-    <script type="module" src="app-multi.js"></script>
-    <script type="module" src="multi-select.js"></script>
-    <script type="module" src="card-badges.js"></script>
+    <title>Deck Builder — MTG</title>
+    <link rel="stylesheet" href="styles-deck.css" />
+    <script type="module" src="app-deck.js" defer></script>
   </head>
   <body>
     <header class="app-header">
-      <div class="header-row">
-        <div>
-          <h1>Plateau MTG — Prototype</h1>
-        </div>
-        <a class="btn-nav" href="deck-builder.html" title="Retour au Deck Builder">↩︎ Deck Builder</a>
-      </div>
+      <h1>Deck Builder — MTG</h1>
+      <p class="subtitle">Rechercher des cartes et les ajouter au deck</p>
     </header>
 
-    <main class="board" aria-label="Plateau de jeu MTG">
-      <div class="board-layout">
-        <!-- Colonne gauche -->
-        <aside class="side-zones">
+    <main class="builder">
+      <!-- Colonne gauche : recherche + résultats -->
+      <section class="search-panel">
+        <div class="searchbar">
+          <span class="icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"/>
+              <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <input id="q" type="text" placeholder="Nom de la carte…" aria-label="Rechercher une carte" />
+        </div>
 
-          <!-- 🆕 POINTS DE VIE -->
-          <div class="zone zone--life" data-zone="life" aria-label="Points de vie">
-            <div class="zone-title">Points de vie</div>
-            <div class="life-wrap">
-              <button type="button" class="btn-life btn-life-minus" title="Retirer 1 point" aria-label="Retirer 1 point">−</button>
-              <button type="button" class="life-value" title="Cliquer pour définir la valeur" aria-live="polite">40</button>
-              <button type="button" class="btn-life btn-life-plus" title="Ajouter 1 point" aria-label="Ajouter 1 point">+</button>
-            </div>
-          </div>
+        <!-- Résultats (2 colonnes) -->
+        <div class="results" aria-live="polite" aria-label="Résultats de recherche"></div>
 
-          <!-- PIOCHE (⚠️ ajouté: dropzone) -->
-          <div class="zone zone--pioche dropzone" data-zone="pioche" aria-label="Pioche (bibliothèque)">
-            <div class="zone-title">Pioche</div>
-            <div class="pioche-controls">
-              <button class="btn-draw" title="Cliquer pour prendre la carte du dessus">Piocher</button>
-              <button class="btn-search" title="Chercher dans la bibliothèque" aria-label="Chercher dans la pioche">
-                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"></circle>
-                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
-                </svg>
-              </button>
-            </div>
-            <div class="cards cards--pioche" aria-live="polite"></div>
-            <div class="deck-count" aria-live="polite"><span data-count>0</span> cartes</div>
-          </div>
-
-          <!-- COMMANDER -->
-          <div class="zone zone--commander dropzone" data-zone="commander" aria-label="Zone de commandement">
-            <div class="zone-title">Commander</div>
-            <div class="cards"></div>
-          </div>
-
-          <!-- CIMETIÈRE -->
-          <div class="zone zone--cimetiere dropzone" data-zone="cimetiere" aria-label="Cimetière">
-            <div class="zone-title">
-              Cimetière
-              <button class="btn-search btn-search-graveyard" title="Chercher dans le cimetière" aria-label="Chercher dans le cimetière">
-                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"></circle>
-                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
-                </svg>
-              </button>
-            </div>
-            <div class="cards"></div>
-          </div>
-
-          <!-- EXIL -->
-          <div class="zone zone--exil dropzone" data-zone="exil" aria-label="Exil">
-            <div class="zone-title">
-              Exil
-              <button class="btn-search btn-search-exile" title="Chercher dans l’exil" aria-label="Chercher dans l’exil">
-                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"></circle>
-                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
-                </svg>
-              </button>
-            </div>
-            <div class="cards"></div>
-          </div>
-
-          <!-- 🪙 TOKENS -->
-          <div class="zone zone--tokens" data-zone="tokens" aria-label="Tokens">
-            <div class="zone-title">
-              Tokens
-              <button class="btn-search btn-search-tokens" title="Rechercher des tokens" aria-label="Rechercher des tokens">Token</button>
-            </div>
-            <div class="cards cards--tokens"></div>
-          </div>
-
-        </aside>
-
-        <!-- Champ de bataille -->
-        <section class="zone zone--bataille" data-zone="bataille" aria-label="Champ de bataille">
-          <div class="zone-title">Champ de bataille</div>
-          <div class="battle-rows">
-            <div class="battle-row dropzone" data-subrow="1">
-              <div class="cards cards--battlefield"></div>
-            </div>
-            <div class="battle-row dropzone" data-subrow="2">
-              <div class="cards cards--battlefield"></div>
-            </div>
-            <div class="battle-row dropzone" data-subrow="3">
-              <div class="cards cards--battlefield"></div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- Main du joueur -->
-      <section class="zone zone--main dropzone" data-zone="main" aria-label="Main du joueur">
-        <div class="zone-title">Main</div>
-        <div class="cards cards--hand"></div>
-
-        <!-- 🆕 Bouton Untap all -->
-        <footer class="hand-actions">
-          <button type="button"
-                  class="btn btn-untap-all"
-                  title="Dégager toutes vos cartes du champ de bataille"
-                  aria-label="Dégager toutes vos cartes du champ de bataille">
-            Untap all
-          </button>
-        </footer>
+        <!-- Pagination tout en bas -->
+        <div id="pager" class="pager" aria-label="Pagination"></div>
       </section>
+
+      <!-- Colonne droite : deck courant -->
+      <aside class="deck-panel" aria-label="Deck en construction">
+        <div class="deck-header">
+          <h2>Deck</h2>
+          <div class="deck-stats"><span id="deck-count">0</span> cartes</div>
+        </div>
+
+        <!-- Commander -->
+        <section class="commander-box" aria-label="Commander">
+          <div class="commander-title">Commander</div>
+          <div id="commander-slot" class="commander-slot empty">Aucun commander</div>
+        </section>
+
+        <div class="deck-list" id="deck-list"></div>
+
+        <div class="deck-actions">
+          <button class="btn-secondary" id="btn-clear">Vider</button>
+          <button class="btn-secondary" id="btn-import">Importer (JSON)</button>
+          <input type="file" id="file-input" accept="application/json" hidden>
+          <button class="btn-primary" id="btn-export">Exporter (JSON)</button>
+          <!-- 🔥 Nouveau : passage vers le plateau -->
+          <button class="btn-primary" id="btn-open-board">Ouvrir le plateau avec ce deck</button>
+        </div>
+      </aside>
     </main>
-
-    <!-- Modale de recherche (bibliothèque/exil/cimetière/overlay) -->
-    <dialog class="modal modal-search" aria-label="Chercher dans la bibliothèque">
-      <form method="dialog" class="modal-body" id="search-form" onsubmit="this.closest('dialog').close()">
-        <header class="modal-header">
-          <h2 class="search-title">Recherche dans la bibliothèque</h2>
-          <input type="text" class="search-input" placeholder="Nom, type..." aria-label="Filtrer les cartes" />
-        </header>
-        <div class="search-results" aria-live="polite"></div>
-        <footer class="modal-footer">
-          <button value="close" class="btn-secondary">Fermer</button>
-          <button type="button" class="btn-secondary btn-shuffle">Mélanger</button>
-        </footer>
-      </form>
-    </dialog>
-
-    <!-- Dialog Recherche de TOKENS (utilisé par app.js) -->
-    <dialog id="tokenDialog" aria-label="Recherche de tokens">
-      <div class="token-sheet">
-        <header class="token-header">
-          <div class="token-searchbar">
-            <input id="tokenQuery" class="token-input" type="text"
-                   placeholder="Nom, type (Zombie, Trésor, Jeton…)" aria-label="Filtrer les tokens" />
-            <button id="tokenSearchBtn" class="btn-primary" type="button">Rechercher</button>
-          </div>
-          <button id="tokenCloseBtn" class="btn token-close" type="button" aria-label="Fermer">Fermer</button>
-        </header>
-
-        <section class="token-results" aria-live="polite"></section>
-
-        <footer class="token-pager"></footer>
-      </div>
-    </dialog>
   </body>
 </html>

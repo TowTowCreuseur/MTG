@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plateau MTG — Prototype</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-row">
+        <div>
+          <h1>Plateau MTG — Prototype</h1>
+          <p class="subtitle">Zones : Pioche • Commander • Cimetière • Exil (à gauche) — Champ de bataille (à droite) — Main en bas</p>
+        </div>
+        <!-- 🔥 Nouveau : retour au deck builder -->
+        <a class="btn-nav" href="index.html" title="Retour au Deck Builder">↩︎ Deck Builder</a>
+      </div>
+      <!-- 🔥 Ajout dans le header -->
+      <div class="session-controls" style="margin-top:12px;">
+        <button id="createSessionBtn">Créer une session</button>
+        <input type="text" id="joinLink" placeholder="Coller un lien de session" style="width:280px; margin-left:8px;">
+        <button id="joinSessionBtn">Rejoindre</button>
+      </div>
+    </header>
+
+    <main class="board" aria-label="Plateau de jeu MTG">
+      <div class="board-layout">
+        <!-- Colonne gauche -->
+        <aside class="side-zones">
+          <!-- PIOCHE -->
+          <div class="zone zone--pioche" data-zone="pioche" aria-label="Pioche (bibliothèque)">
+            <div class="zone-title">Pioche</div>
+            <div class="pioche-controls">
+              <button class="btn-draw" title="Cliquer pour prendre la carte du dessus">Piocher</button>
+              <button class="btn-search" title="Chercher dans la bibliothèque" aria-label="Chercher dans la pioche">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"/>
+                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <div class="cards cards--pioche" aria-live="polite"></div>
+            <div class="deck-count" aria-live="polite"><span data-count>0</span> cartes</div>
+          </div>
+
+          <!-- COMMANDER -->
+          <div class="zone zone--commander dropzone" data-zone="commander" aria-label="Zone de commandement">
+            <div class="zone-title">Commander</div>
+            <div class="cards"></div>
+          </div>
+
+          <!-- CIMETIÈRE -->
+          <div class="zone zone--cimetiere dropzone" data-zone="cimetiere" aria-label="Cimetière">
+            <div class="zone-title">Cimetière</div>
+            <div class="cards"></div>
+          </div>
+
+          <!-- EXIL -->
+          <div class="zone zone--exil dropzone" data-zone="exil" aria-label="Exil">
+            <div class="zone-title">Exil</div>
+            <div class="cards"></div>
+          </div>
+        </aside>
+
+        <!-- Champ de bataille -->
+        <section class="zone zone--bataille" data-zone="bataille" aria-label="Champ de bataille">
+          <div class="zone-title">Champ de bataille</div>
+          <div class="battle-rows">
+            <div class="battle-row dropzone" data-subrow="1">
+              <div class="cards cards--battlefield"></div>
+            </div>
+            <div class="battle-row dropzone" data-subrow="2">
+              <div class="cards cards--battlefield"></div>
+            </div>
+            <div class="battle-row dropzone" data-subrow="3">
+              <div class="cards cards--battlefield"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Main du joueur -->
+      <section class="zone zone--main dropzone" data-zone="main" aria-label="Main du joueur">
+        <div class="zone-title">Main</div>
+        <div class="cards cards--hand"></div>
+      </section>
+    </main>
+
+    <!-- Modale de recherche -->
+    <dialog class="modal modal-search" aria-label="Chercher dans la bibliothèque">
+      <form method="dialog" class="modal-body" id="search-form" onsubmit="this.closest('dialog').close()">
+        <header class="modal-header">
+          <h2>Recherche de carte dans la bibliothèque</h2>
+          <input type="text" class="search-input" placeholder="Nom, type..." aria-label="Filtrer les cartes" />
+        </header>
+        <div class="search-results" aria-live="polite"></div>
+        <footer class="modal-footer">
+          <button value="close" class="btn-secondary">Fermer</button>
+          <button type="button" class="btn-secondary btn-shuffle">Mélanger</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- 🔥 Nouvelle modale pour afficher le lien de session -->
+    <dialog id="inviteDialog" class="modal modal-invite" aria-label="Lien de session">
+      <form method="dialog" class="modal-body">
+        <header class="modal-header">
+          <h2>Lien de session</h2>
+        </header>
+        <p>Copiez ce lien et partagez-le avec vos amis :</p>
+        <input type="text" id="inviteLink" readonly style="width:100%;margin:8px 0;">
+        <footer class="modal-footer">
+          <button value="close" class="btn-secondary">Fermer</button>
+        </footer>
+      </form>
+    </dialog>
+  </body>
+</html>
