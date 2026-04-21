@@ -8,8 +8,8 @@
 // 2) node server.js
 // (Servez vos fichiers statiques à part, ex. `npx serve .`)
 
-const http = require('http');
-const { WebSocketServer, WebSocket } = require('ws');
+import http from 'http';
+import { WebSocketServer, WebSocket } from 'ws';
 
 const PORT = Number(process.env.PORT || process.env.WS_PORT || 8787);
 const rooms = new Map(); // roomId -> Set<ws>
