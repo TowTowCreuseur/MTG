@@ -51,6 +51,7 @@
         <div class="deck-actions">
           <button class="btn-secondary" id="btn-clear">Vider</button>
           <button class="btn-secondary" id="btn-import">Importer (JSON)</button>
+          <button class="btn-secondary" id="btn-decklist">Entrer decklist</button>
           <input type="file" id="file-input" accept="application/json" hidden>
           <button class="btn-primary" id="btn-export">Exporter (JSON)</button>
           <!-- 🔥 Nouveau : passage vers le plateau -->
@@ -58,5 +59,31 @@
         </div>
       </aside>
     </main>
+
+    <!-- Dialog : saisie decklist MTGO -->
+    <dialog id="dlg-decklist">
+      <h3 style="margin:0 0 12px">Entrer une decklist (format MTGO)</h3>
+      <textarea id="decklist-input" rows="22" style="width:100%;box-sizing:border-box;background:#0e1522;color:#e6e9ee;border:1px solid #22314a;border-radius:8px;padding:10px;font-family:monospace;font-size:13px;resize:vertical;" placeholder="1 Abrade&#10;4 Mountain&#10;...&#10;&#10;SIDEBOARD:&#10;1 Rowan, Scion of War"></textarea>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px;">
+        <button class="btn-secondary" id="btn-decklist-cancel">Annuler</button>
+        <button class="btn-primary" id="btn-decklist-generate">Générer le deck</button>
+      </div>
+    </dialog>
+
+    <!-- Dialog : saisie nom du deck -->
+    <dialog id="dlg-deckname">
+      <h3 style="margin:0 0 12px">Nom du deck</h3>
+      <input id="deck-name-input" type="text" placeholder="Mon deck" style="width:100%;box-sizing:border-box;background:#0e1522;color:#e6e9ee;border:1px solid #22314a;border-radius:8px;padding:10px;font-size:15px;" />
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px;">
+        <button class="btn-secondary" id="btn-deckname-cancel">Annuler</button>
+        <button class="btn-primary" id="btn-deckname-download">Télécharger</button>
+      </div>
+    </dialog>
+
+    <!-- Overlay enrichissement -->
+    <div id="enrich-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
+      <div style="color:#fff;font-size:1.2rem;font-weight:600;">Enrichissement en cours…</div>
+      <div id="enrich-progress" style="color:#9aa3b2;font-size:.95rem;"></div>
+    </div>
   </body>
 </html>

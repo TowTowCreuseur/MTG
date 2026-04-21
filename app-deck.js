@@ -330,5 +330,134 @@ function init() {
   fileInput?.addEventListener('change', e => { const f = e.target.files?.[0]; if (f) importDeckFromFile(f); e.target.value=''; });
 
   openBoardBtn?.addEventListener('click', openBoardWithDeck);
+
+  // --- Decklist MTGO ---
+  let pendingEnrichedPayload = null;
+
+  qs('#btn-decklist')?.addEventListener('click', () => qs('#dlg-decklist')?.showModal());
+  qs('#btn-decklist-cancel')?.addEventListener('click', () => qs('#dlg-decklist')?.close());
+  qs('#btn-deckname-cancel')?.addEventListener('click', () => qs('#dlg-deckname')?.close());
+
+  qs('#btn-decklist-generate')?.addEventListener('click', async () => {
+    const text = qs('#decklist-input')?.value || '';
+    if (!text.trim()) return;
+    qs('#dlg-decklist').close();
+    const { cards, sideboard } = parseMtgoDecklist(text);
+    const enriched = await enrichWithRetry(cards, sideboard);
+    pendingEnrichedPayload = {
+      createdAt: new Date().toISOString(),
+      cards: enriched.cards,
+      commanders: enriched.commanders,
+    };
+    const nameInput = qs('#deck-name-input');
+    if (nameInput) nameInput.value = '';
+    qs('#dlg-deckname')?.showModal();
+  });
+
+  qs('#btn-deckname-download')?.addEventListener('click', () => {
+    const name = qs('#deck-name-input')?.value || 'deck';
+    if (pendingEnrichedPayload) downloadDeckJson(pendingEnrichedPayload, name);
+    qs('#dlg-deckname')?.close();
+    pendingEnrichedPayload = null;
+  });
 }
+
+/* ---------- Decklist MTGO — Parser ---------- */
+function parseMtgoDecklist(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const cards = [];
+  const sideboard = [];
+  let inSideboard = false;
+
+  for (const line of lines) {
+    if (/^sideboard/i.test(line)) { inSideboard = true; continue; }
+    const match = line.match(/^(\d+)\s+(.+)$/);
+    if (!match) continue;
+    const qty = parseInt(match[1]);
+    const name = match[2].trim();
+    (inSideboard ? sideboard : cards).push({ name, qty });
+  }
+  return { cards, sideboard };
+}
+
+/* ---------- Decklist MTGO — Enrichissement Scryfall ---------- */
+const ENRICH_DELAY_MS = 120;
+const enrichSleep = ms => new Promise(r => setTimeout(r, ms));
+
+function normalizeFromScryFull(card) {
+  const face = Array.isArray(card.card_faces) && card.card_faces.length ? card.card_faces[0] : null;
+  const uris = card.image_uris || face?.image_uris || {};
+  return {
+    id: card.id,
+    name: card.printed_name || card.name || face?.name,
+    type: card.printed_type_line || card.type_line || face?.type_line,
+    image: uris.small ?? uris.normal ?? null,
+  };
+}
+
+async function fetchCardEnrich(name) {
+  const base = 'https://api.scryfall.com/cards/search?order=name&unique=prints&q=';
+  const queries = [
+    `lang:fr (printed_name:"${name}" OR name:"${name}")`,
+    `(printed_name:"${name}" OR name:"${name}")`,
+    `!"${name}"`,
+  ];
+  for (const q of queries) {
+    try {
+      const res = await fetch(base + encodeURIComponent(q));
+      const json = await res.json();
+      if (!res.ok || json.object === 'error' || !json.data?.length) continue;
+      await enrichSleep(ENRICH_DELAY_MS);
+      return normalizeFromScryFull(json.data[0]);
+    } catch { continue; }
+  }
+  return null;
+}
+
+async function enrichList(items, onProgress) {
+  const out = [...items];
+  for (let i = 0; i < out.length; i++) {
+    if (out[i].image) continue; // déjà enrichi
+    if (onProgress) onProgress(`${i + 1} / ${out.length}`);
+    const found = await fetchCardEnrich(out[i].name);
+    if (found) out[i] = { ...found, ...(out[i].qty !== undefined ? { qty: out[i].qty } : {}) };
+  }
+  return out;
+}
+
+async function enrichWithRetry(cards, sideboard, MAX_TRIES = 4) {
+  const overlay = qs('#enrich-overlay');
+  const progressEl = qs('#enrich-progress');
+  overlay.style.display = 'flex';
+
+  let enrichedCards = cards;
+  let enrichedSide = sideboard;
+
+  for (let attempt = 1; attempt <= MAX_TRIES; attempt++) {
+    const missingC = enrichedCards.filter(c => !c.image).length;
+    const missingS = enrichedSide.filter(c => !c.image).length;
+    if (attempt > 1 && missingC === 0 && missingS === 0) break;
+
+    if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — principales (${missingC || enrichedCards.length} cartes)…`;
+    enrichedCards = await enrichList(enrichedCards, txt => { if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — ${txt}`; });
+
+    if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — sideboard (${missingS || enrichedSide.length} cartes)…`;
+    enrichedSide = await enrichList(enrichedSide, null);
+  }
+
+  overlay.style.display = 'none';
+  return { cards: enrichedCards, commanders: enrichedSide };
+}
+
+/* ---------- Decklist MTGO — Téléchargement JSON ---------- */
+function downloadDeckJson(payload, name) {
+  const filename = (name.trim().replace(/\s+/g, '-').toLowerCase() || 'deck') + '.json';
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+
 document.addEventListener('DOMContentLoaded', init);
