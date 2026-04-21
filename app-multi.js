@@ -1066,6 +1066,35 @@ function ensurePlacementButton(){
 document.addEventListener('DOMContentLoaded', () => {
   initCore();
   initMulti();
+
+  // —— Boutons session sur le plateau —— //
+  const statusEl = document.querySelector('#sessionStatus');
+
+  function connectToRoom(room) {
+    const params = new URLSearchParams({ room, wsHost: 'mtg-qb1a.onrender.com', wsPort: '443', wsProto: 'wss' });
+    if (PLAYER_NAME) params.set('playerName', PLAYER_NAME);
+    window.location.href = `${location.pathname}?${params.toString()}`;
+  }
+
+  document.querySelector('#createSessionBtn')?.addEventListener('click', () => {
+    const room = Math.random().toString(36).slice(2, 8);
+    const link = `${location.origin}${location.pathname.replace('plateau.html', 'index.html')}?room=${room}&wsHost=mtg-qb1a.onrender.com&wsPort=443&wsProto=wss`;
+    navigator.clipboard.writeText(link).catch(() => {});
+    if (statusEl) statusEl.textContent = `Session créée : ${room} — lien copié !`;
+    connectToRoom(room);
+  });
+
+  document.querySelector('#joinSessionBtn')?.addEventListener('click', () => {
+    const input = document.querySelector('#joinSessionInput');
+    const room = (input?.value || '').trim();
+    if (!room) { if (statusEl) statusEl.textContent = 'Entrez un code de session.'; return; }
+    connectToRoom(room);
+  });
+
+  document.querySelector('#joinSessionInput')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.querySelector('#joinSessionBtn')?.click();
+  });
+
   // Injecter/synchroniser le bouton Placement près de "Untap all" selon le nombre de joueurs
   ensurePlacementButton();
   // Re-synchroniser si la barre est re-rendue plus tard (ex: adversaires arrivent)

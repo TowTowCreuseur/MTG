@@ -589,35 +589,13 @@ function init() {
   // —— Réinitialiser le terrain —— //
   btnResetBoard?.addEventListener('click', confirmAndResetBoardState);
 
-  // —— Rejoindre la partie —— //
+  // —— Rejoindre la partie : sauvegarder le deck et aller sur le plateau —— //
   btnGoPlay?.addEventListener('click', () => {
     if (!saveDeckToLocalStorage()) return;
-
-    // Récupérer/sauvegarder le pseudo
     const nameInput = qs('#playerNameBuilder');
-    let playerName = '';
-    if (nameInput && !nameInput.disabled) {
-      playerName = (nameInput.value || '').trim();
-      try { localStorage.setItem(PLAYER_NAME_KEY, playerName); } catch {}
-    } else {
-      try { playerName = (localStorage.getItem(PLAYER_NAME_KEY) || '').trim(); } catch {}
-    }
-
-    const urlp   = new URLSearchParams(location.search);
-    const room   = urlp.get('room')   || '';
-    const wsHost = urlp.get('wsHost') || location.hostname;
-    const wsPort = urlp.get('wsPort') || '8787';
-    const wsProto= urlp.get('wsProto')|| (location.protocol === 'https:' ? 'wss' : 'ws');
-
-    // Si pas de room dans l'URL, en générer une automatiquement
-    if (!room) {
-      room = Math.random().toString(36).slice(2, 8);
-    }
-
-    const params = new URLSearchParams({ room, wsHost, wsPort, wsProto });
-    if (playerName) params.set('playerName', playerName); // ✅ passer le pseudo à la table
-
-    window.location.href = `${baseIndexUrl()}?${params.toString()}`;
+    const playerName = (nameInput && !nameInput.disabled) ? (nameInput.value || '').trim() : '';
+    if (playerName) { try { localStorage.setItem(PLAYER_NAME_KEY, playerName); } catch {} }
+    window.location.href = baseIndexUrl();
   });
 
   // —— Modale d'export —— //
@@ -627,7 +605,6 @@ function init() {
     if (e.key === 'Enter') { e.preventDefault(); confirmExportDialog(); }
   });
   exportDialog?.addEventListener('cancel', (e) => { e.preventDefault(); closeExportDialog(); });
-
   // —— Decklist MTGO —— //
   let pendingEnrichedPayload = null;
   qs('#btn-decklist')?.addEventListener('click', () => qs('#dlg-decklist')?.showModal());

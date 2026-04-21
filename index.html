@@ -64,45 +64,6 @@
       </aside>
     </main>
 
-    <!-- 🔥 Modale : Rejoindre une session -->
-    <dialog id="joinDialog" class="modal" aria-label="Rejoindre une session">
-      <form method="dialog" class="modal-body">
-        <header class="modal-header">
-          <h2>Rejoindre une session</h2>
-        </header>
-        <label>Pseudo</label>
-        <input type="text" id="joinPseudo" placeholder="Entrez votre pseudo">
-        <label>Entrer le numéro de session</label>
-        <input type="text" id="joinSessionId" placeholder="ex: abc123">
-        <div id="joinError" class="modal-error"></div>
-        <footer class="modal-footer">
-          <button value="close" class="btn-secondary">Annuler</button>
-          <button type="button" class="btn-primary" id="joinConfirmBtn">Rejoindre</button>
-        </footer>
-      </form>
-    </dialog>
-
-    <!-- 🔥 Modale : Créer une session -->
-    <dialog id="createDialog" class="modal" aria-label="Créer une session">
-      <form method="dialog" class="modal-body">
-        <header class="modal-header">
-          <h2>Créer une session</h2>
-        </header>
-        <label>Pseudo</label>
-        <input type="text" id="createPseudo" placeholder="Entrez votre pseudo">
-        <p style="margin:12px 0 6px;">Partagez ensuite ce lien aux autres joueurs :</p>
-        <div class="inline-group">
-          <input type="text" id="inviteLink" readonly>
-          <button type="button" class="btn-secondary" id="copyInviteBtn">Copier</button>
-        </div>
-        <div id="createError" class="modal-error"></div>
-        <footer class="modal-footer">
-          <button value="close" class="btn-secondary">Fermer</button>
-          <button type="button" class="btn-primary" id="startGameBtn">Commencer la partie</button>
-        </footer>
-      </form>
-    </dialog>
-
     <!-- ✅ Modale : Exporter le deck -->
     <dialog id="exportDialog" class="modal" aria-label="Exporter le deck">
       <form method="dialog" class="modal-body" onsubmit="return false;">
