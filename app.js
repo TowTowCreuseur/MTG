@@ -117,7 +117,7 @@ let currentView = "self";
 function serializeBoard(){ /* sérialise DOM en JSON */ }
 function renderBoard(state,isSelf){ /* rendu plateau, main seulement si isSelf */ }
 // 🔧 URL du serveur WebSocket — remplace par ton URL Render après déploiement
-const WS_SERVER_URL = "wss://TON-APPLI.onrender.com";
+const WS_SERVER_URL = "wss://mtg-qb1a.onrender.com";
 
 function setupMultiplayer(){
   const url=`${WS_SERVER_URL}/?room=${encodeURIComponent(ROOM_ID)}`;
