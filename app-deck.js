@@ -37,7 +37,7 @@ function buildPayload() {
       id: card.id,
       name: card.name,
       type: card.type,
-      imageSmall: card.imageSmall || null,
+      imageSmall: card.imageSmall || card.image || null,
       imageNormal: card.imageNormal || card.image || null,
       qty
     })),
@@ -45,7 +45,7 @@ function buildPayload() {
       id: c.id,
       name: c.name,
       type: c.type,
-      imageSmall: c.imageSmall || null,
+      imageSmall: c.imageSmall || c.imageNormal || c.image || null,
       imageNormal: c.imageNormal || c.image || null
     }))
   };
@@ -178,7 +178,7 @@ function normalizeCard(c) {
     name: c.printed_name || c.name,
     type: c.printed_type_line || c.type_line,
     image: imgNormal || null,
-    imageSmall: imgSmall || null,
+    imageSmall: imgNormal || imgSmall || null,  // normal = meilleure qualité sur le plateau
     imageNormal: imgNormal || null
   };
 }
@@ -416,7 +416,7 @@ function importDeckFromFile(file) {
             name: c.name,
             type: c.type,
             image: c.imageNormal || c.image || null,
-            imageSmall: c.imageSmall || null,
+            imageSmall: c.imageSmall || c.imageNormal || c.image || null,
             imageNormal: c.imageNormal || c.image || null
           };
           deckMap.set(card.id, { card, qty: Number(c.qty || 0) });
@@ -428,7 +428,7 @@ function importDeckFromFile(file) {
           name: c.name,
           type: c.type,
           image: c.imageNormal || c.image || null,
-          imageSmall: c.imageSmall || null,
+          imageSmall: c.imageSmall || c.imageNormal || c.image || null,
           imageNormal: c.imageNormal || c.image || null
         }));
       } else if (obj.commander) {
@@ -658,7 +658,8 @@ function normalizeFromScryFull(card) {
     id: card.id,
     name: card.printed_name || card.name || face?.name,
     type: card.printed_type_line || card.type_line || face?.type_line,
-    image: uris.small ?? uris.normal ?? null,
+    imageSmall: uris.normal ?? uris.small ?? null,
+    imageNormal: uris.normal ?? uris.small ?? null,
   };
 }
 
