@@ -50,34 +50,97 @@
 
         <div class="deck-actions">
           <button class="btn-secondary" id="btn-clear">Vider</button>
+          <!-- ✅ Réinitialisation du terrain sauvegardé -->
+          <button class="btn-secondary" id="btn-reset-board" title="Effacer la sauvegarde de la partie précédente (plateau, zones, etc.)">
+            Réinitialiser le terrain
+          </button>
           <button class="btn-secondary" id="btn-import">Importer (JSON)</button>
           <button class="btn-secondary" id="btn-decklist">Entrer decklist</button>
           <input type="file" id="file-input" accept="application/json" hidden>
           <button class="btn-primary" id="btn-export">Exporter (JSON)</button>
-          <!-- 🔥 Nouveau : passage vers le plateau -->
-          <button class="btn-primary" id="btn-open-board">Ouvrir le plateau avec ce deck</button>
+          <!-- Le champ "Pseudo" sera injecté ici juste au-dessus par app-deck.js -->
+          <button class="btn-primary" id="btn-go-play">Rejoindre la partie</button>
         </div>
       </aside>
     </main>
 
+    <!-- 🔥 Modale : Rejoindre une session -->
+    <dialog id="joinDialog" class="modal" aria-label="Rejoindre une session">
+      <form method="dialog" class="modal-body">
+        <header class="modal-header">
+          <h2>Rejoindre une session</h2>
+        </header>
+        <label>Pseudo</label>
+        <input type="text" id="joinPseudo" placeholder="Entrez votre pseudo">
+        <label>Entrer le numéro de session</label>
+        <input type="text" id="joinSessionId" placeholder="ex: abc123">
+        <div id="joinError" class="modal-error"></div>
+        <footer class="modal-footer">
+          <button value="close" class="btn-secondary">Annuler</button>
+          <button type="button" class="btn-primary" id="joinConfirmBtn">Rejoindre</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- 🔥 Modale : Créer une session -->
+    <dialog id="createDialog" class="modal" aria-label="Créer une session">
+      <form method="dialog" class="modal-body">
+        <header class="modal-header">
+          <h2>Créer une session</h2>
+        </header>
+        <label>Pseudo</label>
+        <input type="text" id="createPseudo" placeholder="Entrez votre pseudo">
+        <p style="margin:12px 0 6px;">Partagez ensuite ce lien aux autres joueurs :</p>
+        <div class="inline-group">
+          <input type="text" id="inviteLink" readonly>
+          <button type="button" class="btn-secondary" id="copyInviteBtn">Copier</button>
+        </div>
+        <div id="createError" class="modal-error"></div>
+        <footer class="modal-footer">
+          <button value="close" class="btn-secondary">Fermer</button>
+          <button type="button" class="btn-primary" id="startGameBtn">Commencer la partie</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- ✅ Modale : Exporter le deck -->
+    <dialog id="exportDialog" class="modal" aria-label="Exporter le deck">
+      <form method="dialog" class="modal-body" onsubmit="return false;">
+        <header class="modal-header">
+          <h2>Exporter le deck</h2>
+        </header>
+        <label for="exportName">Nom du fichier</label>
+        <input id="exportName" type="text" placeholder="deck-AAAAMMJJ-HHMM">
+        <div id="exportError" class="modal-error"></div>
+        <footer class="modal-footer">
+          <button type="button" class="btn-secondary" id="exportCancelBtn">Annuler</button>
+          <button type="button" class="btn-primary" id="exportConfirmBtn">Exporter</button>
+        </footer>
+      </form>
+    </dialog>
+  
     <!-- Dialog : saisie decklist MTGO -->
-    <dialog id="dlg-decklist">
-      <h3 style="margin:0 0 12px">Entrer une decklist (format MTGO)</h3>
-      <textarea id="decklist-input" rows="22" style="width:100%;box-sizing:border-box;background:#0e1522;color:#e6e9ee;border:1px solid #22314a;border-radius:8px;padding:10px;font-family:monospace;font-size:13px;resize:vertical;" placeholder="1 Abrade&#10;4 Mountain&#10;...&#10;&#10;SIDEBOARD:&#10;1 Rowan, Scion of War"></textarea>
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px;">
-        <button class="btn-secondary" id="btn-decklist-cancel">Annuler</button>
-        <button class="btn-primary" id="btn-decklist-generate">Générer le deck</button>
-      </div>
+    <dialog id="dlg-decklist" class="modal" aria-label="Entrer une decklist">
+      <form method="dialog" class="modal-body">
+        <header class="modal-header"><h2>Entrer une decklist (format MTGO)</h2></header>
+        <textarea id="decklist-input" rows="22" style="width:100%;box-sizing:border-box;background:#0e1522;color:#e6e9ee;border:1px solid #22314a;border-radius:8px;padding:10px;font-family:monospace;font-size:13px;resize:vertical;" placeholder="1 Abrade&#10;4 Mountain&#10;...&#10;&#10;SIDEBOARD:&#10;1 Rowan, Scion of War"></textarea>
+        <footer class="modal-footer">
+          <button type="button" class="btn-secondary" id="btn-decklist-cancel">Annuler</button>
+          <button type="button" class="btn-primary" id="btn-decklist-generate">Générer le deck</button>
+        </footer>
+      </form>
     </dialog>
 
     <!-- Dialog : saisie nom du deck -->
-    <dialog id="dlg-deckname">
-      <h3 style="margin:0 0 12px">Nom du deck</h3>
-      <input id="deck-name-input" type="text" placeholder="Mon deck" style="width:100%;box-sizing:border-box;background:#0e1522;color:#e6e9ee;border:1px solid #22314a;border-radius:8px;padding:10px;font-size:15px;" />
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px;">
-        <button class="btn-secondary" id="btn-deckname-cancel">Annuler</button>
-        <button class="btn-primary" id="btn-deckname-download">Télécharger</button>
-      </div>
+    <dialog id="dlg-deckname" class="modal" aria-label="Nom du deck">
+      <form method="dialog" class="modal-body">
+        <header class="modal-header"><h2>Nom du deck</h2></header>
+        <input id="deck-name-input" type="text" placeholder="Mon deck" />
+        <footer class="modal-footer">
+          <button type="button" class="btn-secondary" id="btn-deckname-cancel">Annuler</button>
+          <button type="button" class="btn-primary" id="btn-deckname-download">Télécharger</button>
+        </footer>
+      </form>
     </dialog>
 
     <!-- Overlay enrichissement -->
@@ -85,5 +148,6 @@
       <div style="color:#fff;font-size:1.2rem;font-weight:600;">Enrichissement en cours…</div>
       <div id="enrich-progress" style="color:#9aa3b2;font-size:.95rem;"></div>
     </div>
-  </body>
+
+</body>
 </html>

@@ -5,7 +5,7 @@
    - 👉 Bouton unique “Rejoindre la partie” qui :
        • sauvegarde le deck dans localStorage
        • lit room/wsHost/wsPort/wsProto de l’URL
-       • redirige vers index.html avec les mêmes paramètres
+       • redirige vers plateau.html avec les mêmes paramètres
    - 🔥 Bouton “Réinitialiser le terrain” (efface la sauvegarde précédente du plateau : localStorage 'mtg.persist.state')
    - 🆕 Barre de saisie “Pseudo” au-dessus de “Rejoindre la partie”
        • stockée dans localStorage('mtg.playerName')
@@ -61,7 +61,7 @@ function saveDeckToLocalStorage() {
 }
 function baseIndexUrl() {
   const base = location.pathname.replace(/[^/]+$/, '');
-  return `${location.origin}${base}index.html`;
+  return `${location.origin}${base}plateau.html`;
 }
 
 /* ---------- Réinitialisation du terrain ---------- */

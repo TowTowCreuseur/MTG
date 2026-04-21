@@ -5,23 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Plateau MTG — Prototype</title>
     <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="app.js" defer></script>
+    <!-- Entrée JS -->
+    <script type="module" src="app-multi.js"></script>
+    <script type="module" src="multi-select.js"></script>
+    <script type="module" src="card-badges.js"></script>
   </head>
   <body>
     <header class="app-header">
       <div class="header-row">
         <div>
           <h1>Plateau MTG — Prototype</h1>
-          <p class="subtitle">Zones : Pioche • Commander • Cimetière • Exil (à gauche) — Champ de bataille (à droite) — Main en bas</p>
         </div>
-        <!-- 🔥 Nouveau : retour au deck builder -->
         <a class="btn-nav" href="index.html" title="Retour au Deck Builder">↩︎ Deck Builder</a>
-      </div>
-      <!-- 🔥 Ajout dans le header -->
-      <div class="session-controls" style="margin-top:12px;">
-        <button id="createSessionBtn">Créer une session</button>
-        <input type="text" id="joinLink" placeholder="Coller un lien de session" style="width:280px; margin-left:8px;">
-        <button id="joinSessionBtn">Rejoindre</button>
       </div>
     </header>
 
@@ -29,15 +24,26 @@
       <div class="board-layout">
         <!-- Colonne gauche -->
         <aside class="side-zones">
-          <!-- PIOCHE -->
-          <div class="zone zone--pioche" data-zone="pioche" aria-label="Pioche (bibliothèque)">
+
+          <!-- 🆕 POINTS DE VIE -->
+          <div class="zone zone--life" data-zone="life" aria-label="Points de vie">
+            <div class="zone-title">Points de vie</div>
+            <div class="life-wrap">
+              <button type="button" class="btn-life btn-life-minus" title="Retirer 1 point" aria-label="Retirer 1 point">−</button>
+              <button type="button" class="life-value" title="Cliquer pour définir la valeur" aria-live="polite">40</button>
+              <button type="button" class="btn-life btn-life-plus" title="Ajouter 1 point" aria-label="Ajouter 1 point">+</button>
+            </div>
+          </div>
+
+          <!-- PIOCHE (⚠️ ajouté: dropzone) -->
+          <div class="zone zone--pioche dropzone" data-zone="pioche" aria-label="Pioche (bibliothèque)">
             <div class="zone-title">Pioche</div>
             <div class="pioche-controls">
               <button class="btn-draw" title="Cliquer pour prendre la carte du dessus">Piocher</button>
               <button class="btn-search" title="Chercher dans la bibliothèque" aria-label="Chercher dans la pioche">
                 <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"/>
-                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"></circle>
+                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
                 </svg>
               </button>
             </div>
@@ -53,15 +59,41 @@
 
           <!-- CIMETIÈRE -->
           <div class="zone zone--cimetiere dropzone" data-zone="cimetiere" aria-label="Cimetière">
-            <div class="zone-title">Cimetière</div>
+            <div class="zone-title">
+              Cimetière
+              <button class="btn-search btn-search-graveyard" title="Chercher dans le cimetière" aria-label="Chercher dans le cimetière">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"></circle>
+                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                </svg>
+              </button>
+            </div>
             <div class="cards"></div>
           </div>
 
           <!-- EXIL -->
           <div class="zone zone--exil dropzone" data-zone="exil" aria-label="Exil">
-            <div class="zone-title">Exil</div>
+            <div class="zone-title">
+              Exil
+              <button class="btn-search btn-search-exile" title="Chercher dans l’exil" aria-label="Chercher dans l’exil">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" fill="none" stroke-width="2"></circle>
+                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                </svg>
+              </button>
+            </div>
             <div class="cards"></div>
           </div>
+
+          <!-- 🪙 TOKENS -->
+          <div class="zone zone--tokens" data-zone="tokens" aria-label="Tokens">
+            <div class="zone-title">
+              Tokens
+              <button class="btn-search btn-search-tokens" title="Rechercher des tokens" aria-label="Rechercher des tokens">Token</button>
+            </div>
+            <div class="cards cards--tokens"></div>
+          </div>
+
         </aside>
 
         <!-- Champ de bataille -->
@@ -85,14 +117,24 @@
       <section class="zone zone--main dropzone" data-zone="main" aria-label="Main du joueur">
         <div class="zone-title">Main</div>
         <div class="cards cards--hand"></div>
+
+        <!-- 🆕 Bouton Untap all -->
+        <footer class="hand-actions">
+          <button type="button"
+                  class="btn btn-untap-all"
+                  title="Dégager toutes vos cartes du champ de bataille"
+                  aria-label="Dégager toutes vos cartes du champ de bataille">
+            Untap all
+          </button>
+        </footer>
       </section>
     </main>
 
-    <!-- Modale de recherche -->
+    <!-- Modale de recherche (bibliothèque/exil/cimetière/overlay) -->
     <dialog class="modal modal-search" aria-label="Chercher dans la bibliothèque">
       <form method="dialog" class="modal-body" id="search-form" onsubmit="this.closest('dialog').close()">
         <header class="modal-header">
-          <h2>Recherche de carte dans la bibliothèque</h2>
+          <h2 class="search-title">Recherche dans la bibliothèque</h2>
           <input type="text" class="search-input" placeholder="Nom, type..." aria-label="Filtrer les cartes" />
         </header>
         <div class="search-results" aria-live="polite"></div>
@@ -103,18 +145,22 @@
       </form>
     </dialog>
 
-    <!-- 🔥 Nouvelle modale pour afficher le lien de session -->
-    <dialog id="inviteDialog" class="modal modal-invite" aria-label="Lien de session">
-      <form method="dialog" class="modal-body">
-        <header class="modal-header">
-          <h2>Lien de session</h2>
+    <!-- Dialog Recherche de TOKENS (utilisé par app.js) -->
+    <dialog id="tokenDialog" aria-label="Recherche de tokens">
+      <div class="token-sheet">
+        <header class="token-header">
+          <div class="token-searchbar">
+            <input id="tokenQuery" class="token-input" type="text"
+                   placeholder="Nom, type (Zombie, Trésor, Jeton…)" aria-label="Filtrer les tokens" />
+            <button id="tokenSearchBtn" class="btn-primary" type="button">Rechercher</button>
+          </div>
+          <button id="tokenCloseBtn" class="btn token-close" type="button" aria-label="Fermer">Fermer</button>
         </header>
-        <p>Copiez ce lien et partagez-le avec vos amis :</p>
-        <input type="text" id="inviteLink" readonly style="width:100%;margin:8px 0;">
-        <footer class="modal-footer">
-          <button value="close" class="btn-secondary">Fermer</button>
-        </footer>
-      </form>
+
+        <section class="token-results" aria-live="polite"></section>
+
+        <footer class="token-pager"></footer>
+      </div>
     </dialog>
   </body>
 </html>
