@@ -797,16 +797,18 @@ function openPlacementDialog(){
 function getWsParams(){
   const urlp = new URLSearchParams(location.search);
   const persisted = loadConn();
-  const wsHost  = urlp.get('wsHost')  || persisted?.wsHost  || location.hostname || '127.0.0.1';
-  const wsPort  = urlp.get('wsPort')  || persisted?.wsPort  || '8787';
-  const wsProto = urlp.get('wsProto') || persisted?.wsProto || (location.protocol === 'https:' ? 'wss' : 'ws');
+  const wsHost  = urlp.get('wsHost')  || persisted?.wsHost  || 'mtg-qb1a.onrender.com';
+  const wsPort  = urlp.get('wsPort')  || persisted?.wsPort  || '443';
+  const wsProto = urlp.get('wsProto') || persisted?.wsProto || 'wss';
   return { wsHost, wsPort, wsProto };
 }
 function setupMultiplayer(){
   const { wsHost, wsPort, wsProto } = getWsParams();
   saveConn({ ...(loadConn()||{}), wsHost, wsPort, wsProto, room: ROOM_ID, playerId: PLAYER_ID, playerName: PLAYER_NAME });
 
-  const url = `${wsProto}://${wsHost}:${wsPort}/?room=${encodeURIComponent(ROOM_ID)}`;
+  const defaultPort = (wsProto === 'wss') ? '443' : '80';
+  const portStr = String(wsPort) === defaultPort ? '' : `:${wsPort}`;
+  const url = `${wsProto}://${wsHost}${portStr}/?room=${encodeURIComponent(ROOM_ID)}`;
   try { socket?.close(); } catch {}
   socket = new WebSocket(url);
 

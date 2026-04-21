@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tutoriel — MTG Multijoueur</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #111826;
+      --panel-2: #0e1522;
+      --accent: #4f8cff;
+      --accent-glow: rgba(79,140,255,.18);
+      --gold: #ffd24d;
+      --gold-bg: #1a1505;
+      --text: #e6e9ee;
+      --muted: #9aa3b2;
+      --border: #22314a;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(180deg, #0a0f18 0%, #060a10 60%);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      max-width: 860px;
+      margin: 36px auto 32px;
+      padding: 0 20px;
+      opacity: 0;
+      animation: fadeDown .5s ease forwards;
+    }
+    header h1 {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+    header h1 span { color: var(--accent); }
+    header p {
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 14px;
+    }
+    .url-badge {
+      display: inline-block;
+      margin-top: 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .url-badge:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* ── Nav latérale ── */
+    .layout {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    nav {
+      position: sticky;
+      top: 20px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 10px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      animation: fadeDown .5s .15s ease forwards;
+    }
+    nav p {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      padding: 0 8px 8px;
+    }
+    nav a {
+      display: block;
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: background .15s, color .15s;
+    }
+    nav a:hover, nav a.active {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+    nav .nav-sub {
+      padding-left: 18px;
+      font-size: 12px;
+    }
+
+    /* ── Contenu ── */
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    section.card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+      opacity: 0;
+      animation: fadeUp .45s ease forwards;
+    }
+    section.card:nth-child(1) { animation-delay: .1s; }
+    section.card:nth-child(2) { animation-delay: .18s; }
+    section.card:nth-child(3) { animation-delay: .26s; }
+    section.card:nth-child(4) { animation-delay: .34s; }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .icon-blue  { background: rgba(79,140,255,.15); border: 1px solid rgba(79,140,255,.3); }
+    .icon-gold  { background: rgba(255,210,77,.1);  border: 1px solid rgba(255,210,77,.3); }
+    .icon-green { background: rgba(56,195,120,.1);  border: 1px solid rgba(56,195,120,.3); }
+    .icon-red   { background: rgba(255,90,90,.1);   border: 1px solid rgba(255,90,90,.3); }
+
+    .section-title h2 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    /* ── Blocs de commandes ── */
+    .block { margin-bottom: 18px; }
+    .block:last-child { margin-bottom: 0; }
+    .block-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .cmd-list { display: flex; flex-direction: column; gap: 6px; }
+    .cmd-row {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 8px 10px;
+      border-radius: 9px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid transparent;
+      transition: border-color .15s, background .15s;
+    }
+    .cmd-row:hover {
+      border-color: var(--border);
+      background: rgba(79,140,255,.04);
+    }
+    .cmd-key {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      align-items: center;
+    }
+    .cmd-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Badges / kbd */
+    kbd {
+      display: inline-block;
+      background: #0f1a2e;
+      border: 1px solid #2d3d61;
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .badge {
+      display: inline-block;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-blue   { background: rgba(79,140,255,.15); color: #7aaeff; border: 1px solid rgba(79,140,255,.3); }
+    .badge-gold   { background: rgba(255,210,77,.1);  color: #ffd24d; border: 1px solid rgba(255,210,77,.3); }
+    .badge-muted  { background: rgba(154,163,178,.1); color: var(--muted); border: 1px solid var(--border); }
+    .badge-green  { background: rgba(56,195,120,.1);  color: #56c378; border: 1px solid rgba(56,195,120,.3); }
+
+    /* Format MTGO */
+    pre {
+      background: #060c14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #a8c4e8;
+      font-family: 'Consolas', 'Courier New', monospace;
+      overflow-x: auto;
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+    pre .comment { color: var(--muted); }
+    pre .section  { color: var(--gold); font-weight: bold; }
+
+    /* Note */
+    .note {
+      display: flex;
+      gap: 10px;
+      background: rgba(79,140,255,.07);
+      border: 1px solid rgba(79,140,255,.2);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .note-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Animations */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { position: static; display: flex; flex-wrap: wrap; gap: 4px; padding: 10px; }
+      nav p { display: none; }
+      .cmd-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Tutoriel — <span>MTG Multijoueur</span></h1>
+  <p>Guide complet de toutes les commandes et fonctionnalités de l'application</p>
+  <a class="url-badge" href="https://towtowcreuseur.github.io/MTG/" target="_blank">
+    🌐 towtowcreuseur.github.io/MTG
+  </a>
+</header>
+
+<div class="layout">
+
+  <!-- Nav -->
+  <nav>
+    <p>Sections</p>
+    <a href="#deck-builder">🃏 Deck Builder</a>
+    <a href="#recherche" class="nav-sub">Recherche</a>
+    <a href="#import-export" class="nav-sub">Import / Export</a>
+    <a href="#decklist" class="nav-sub">Entrer decklist</a>
+    <a href="#plateau">⚔️ Plateau de jeu</a>
+    <a href="#session" class="nav-sub">Sessions</a>
+    <a href="#cartes" class="nav-sub">Interactions cartes</a>
+    <a href="#shortcuts" class="nav-sub">⌨️ Raccourcis</a>
+    <a href="#notes">⚙️ Notes techniques</a>
+  </nav>
+
+  <!-- Contenu -->
+  <div class="content">
+
+    <!-- DECK BUILDER -->
+    <section class="card" id="deck-builder">
+      <div class="section-title">
+        <div class="section-icon icon-blue">🃏</div>
+        <h2>Deck Builder</h2>
+      </div>
+
+      <div class="block" id="recherche">
+        <div class="block-label">Recherche de cartes</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key">Barre de recherche</div>
+            <div class="cmd-desc">Tape le nom d'une carte — les résultats apparaissent en temps réel (images incluses)</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><kbd>+</kbd> <span style="color:var(--muted);font-size:11px">blanc</span></div>
+            <div class="cmd-desc">Ajouter la carte au deck principal</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><kbd style="border-color:#cda21f;color:#ffd24d">+</kbd> <span style="color:#ffd24d;font-size:11px">doré</span></div>
+            <div class="cmd-desc">Ajouter la carte en tant que Commander (uniquement disponible sur les créatures légendaires)</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><kbd>← Précédent</kbd> <kbd>Suivant →</kbd></div>
+            <div class="cmd-desc">Paginer les résultats Scryfall</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Gestion du deck</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key"><kbd>−</kbd> <kbd>+</kbd> sur une ligne</div>
+            <div class="cmd-desc">Modifier la quantité d'une carte dans le deck</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><kbd>×</kbd> sur une ligne</div>
+            <div class="cmd-desc">Retirer entièrement la carte du deck</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-muted">Vider</span></div>
+            <div class="cmd-desc">Vider tout le deck et les commanders en un clic</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-blue">Ouvrir le plateau</span></div>
+            <div class="cmd-desc">Sauvegarde le deck et redirige vers le plateau de jeu</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block" id="import-export">
+        <div class="block-label">Import / Export JSON</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-muted">Importer (JSON)</span></div>
+            <div class="cmd-desc">Charge un fichier <kbd>.json</kbd> exporté depuis l'appli</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-blue">Exporter (JSON)</span></div>
+            <div class="cmd-desc">Télécharge le deck courant en <kbd>.json</kbd> (avec images, quantités, commanders)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block" id="decklist">
+        <div class="block-label">Entrer une decklist (format MTGO)</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-muted">Entrer decklist</span></div>
+            <div class="cmd-desc">Ouvre une fenêtre pour coller une decklist au format MTGO</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-blue">Générer le deck</span></div>
+            <div class="cmd-desc">Lance l'enrichissement automatique : récupère images et données depuis Scryfall (VF prioritaire), jusqu'à 4 passes de tentatives pour les cartes non trouvées</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key">Nom du deck</div>
+            <div class="cmd-desc">Après enrichissement, une boîte de dialogue demande le nom — valider lance le téléchargement du <kbd>.json</kbd></div>
+          </div>
+        </div>
+
+        <pre><span class="comment"># Format MTGO attendu :</span>
+
+1 Abrade
+4 Mountain
+1 Sol Ring
+1 Necropotence
+...
+
+<span class="section">SIDEBOARD:</span>
+1 Rowan, Scion of War
+
+<span class="comment"># → Deck principal  = cards
+# → SIDEBOARD       = commanders</span></pre>
+      </div>
+    </section>
+
+    <!-- PLATEAU -->
+    <section class="card" id="plateau">
+      <div class="section-title">
+        <div class="section-icon icon-red">⚔️</div>
+        <h2>Plateau de jeu</h2>
+      </div>
+
+      <div class="block" id="session">
+        <div class="block-label">Sessions multijoueur</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-blue">Créer une session</span></div>
+            <div class="cmd-desc">Génère un lien unique, le copie automatiquement dans le presse-papier — partage-le aux autres joueurs</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key">Champ lien + <span class="badge badge-muted">Rejoindre</span></div>
+            <div class="cmd-desc">Coller le lien reçu pour rejoindre une partie existante</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key">Menu <kbd>Voir le plateau de</kbd></div>
+            <div class="cmd-desc">Basculer entre l'affichage de son propre plateau et celui d'un autre joueur connecté</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key">Champ nom + <span class="badge badge-muted">Valider</span></div>
+            <div class="cmd-desc">Définir son nom affiché chez les autres joueurs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Pioche &amp; bibliothèque</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-blue">Piocher</span></div>
+            <div class="cmd-desc">Révèle la carte du dessus de la bibliothèque, la pose face cachée dans la zone Pioche</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-muted">🔍 Chercher</span></div>
+            <div class="cmd-desc">Ouvre la liste de toutes les cartes restantes dans la bibliothèque pour en piocher une spécifique</div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-muted">Mélanger</span></div>
+            <div class="cmd-desc">Mélange aléatoirement la bibliothèque</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Déplacer les cartes</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key">Glisser-déposer</div>
+            <div class="cmd-desc">Déplacer une carte d'une zone à une autre</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
+          <span class="badge badge-muted">Pioche</span>
+          <span class="badge badge-muted">Commander</span>
+          <span class="badge badge-muted">Cimetière</span>
+          <span class="badge badge-muted">Exil</span>
+          <span class="badge badge-blue">Champ de bataille</span>
+          <span class="badge badge-muted">Main</span>
+        </div>
+        <div class="note" style="margin-top:10px;">
+          <span class="note-icon">ℹ️</span>
+          Quand une carte arrive en Main, Cimetière, Exil ou Commander, elle perd automatiquement son état engagé et déphasé.
+        </div>
+      </div>
+
+      <div class="block" id="cartes">
+        <div class="block-label">Interactions souris sur les cartes (champ de bataille)</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key">Double-clic</div>
+            <div class="cmd-desc">Engager / désengager la carte <span class="badge badge-muted">tap / untap</span></div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-key">Triple-clic</div>
+            <div class="cmd-desc">Déphaser / rephaser la carte</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block" id="shortcuts">
+        <div class="block-label">⌨️ Raccourcis clavier</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:4px 2px;">Sur les cartes (champ de bataille)</div>
+
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(79,140,255,.06);border:1px solid rgba(79,140,255,.2);border-radius:10px;">
+            <div><kbd style="font-size:15px;padding:4px 12px;">T</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Engager / Désengager la carte sélectionnée <span class="badge badge-muted">tap / untap</span> — équivalent du double-clic</div>
+          </div>
+
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:8px 2px 4px;">Déplacer les cartes sélectionnées</div>
+          <div class="note" style="margin-bottom:4px;"><span class="note-icon">💡</span>Sélectionne d'abord des cartes (clic simple après 0,5s, <kbd>Ctrl+clic</kbd> immédiat, ou rectangle de sélection par glisser), puis utilise les raccourcis.</div>
+
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>X</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Envoyer les cartes sélectionnées en <strong style="color:var(--text);">Exil</strong></div>
+          </div>
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>G</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Envoyer les cartes sélectionnées au <strong style="color:var(--text);">Cimetière</strong></div>
+          </div>
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>D</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Remettre les cartes sélectionnées sur le <strong style="color:var(--text);">dessus de la Pioche</strong></div>
+          </div>
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>H</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Remettre les cartes sélectionnées dans la <strong style="color:var(--text);">Main</strong></div>
+          </div>
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>C</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Activer / désactiver la <strong style="color:var(--text);">pastille</strong> (badge) sur les cartes sélectionnées</div>
+          </div>
+
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:8px 2px 4px;">Navigation entre adversaires</div>
+
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>↑</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Ouvrir le plateau du premier adversaire (ou de l'adversaire mappé ↑)</div>
+          </div>
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>↓</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Fermer l'overlay adversaire</div>
+          </div>
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>←</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Aller à l'adversaire mappé ← (ou adversaire précédent dans l'overlay)</div>
+          </div>
+          <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:start;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;">
+            <div><kbd>Ctrl</kbd> + <kbd>→</kbd></div>
+            <div style="font-size:13px;color:var(--muted);">Aller à l'adversaire mappé → (ou adversaire suivant dans l'overlay)</div>
+          </div>
+
+        </div>
+        <div class="note" style="margin-top:10px;">
+          <span class="note-icon">🖥️</span>
+          Sur macOS, remplace <kbd>Ctrl</kbd> par <kbd>⌘ Cmd</kbd> pour tous ces raccourcis.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Navigation</div>
+        <div class="cmd-list">
+          <div class="cmd-row">
+            <div class="cmd-key"><span class="badge badge-muted">↩ Deck Builder</span></div>
+            <div class="cmd-desc">Retour au deck builder depuis le plateau</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES TECHNIQUES -->
+    <section class="card" id="notes">
+      <div class="section-title">
+        <div class="section-icon icon-green">⚙️</div>
+        <h2>Notes techniques</h2>
+      </div>
+      <div class="cmd-list">
+        <div class="cmd-row">
+          <div class="cmd-key">Serveur WebSocket</div>
+          <div class="cmd-desc">Hébergé sur <strong>Render (free tier)</strong> — peut s'endormir après 15 min d'inactivité, se réveille automatiquement à la prochaine connexion (~30 sec)</div>
+        </div>
+        <div class="cmd-row">
+          <div class="cmd-key">Images des cartes</div>
+          <div class="cmd-desc">Récupérées depuis <strong>Scryfall</strong>, version française en priorité, anglaise en fallback</div>
+        </div>
+        <div class="cmd-row">
+          <div class="cmd-key">Transfert du deck</div>
+          <div class="cmd-desc">Transmis via <kbd>localStorage</kbd> entre le deck builder et le plateau de jeu</div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+</div><!-- /layout -->
+
+<script>
+  // Highlight nav link on scroll
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

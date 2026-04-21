@@ -1,11 +1,20 @@
-/* app-deck.js — Deck Builder Scryfall + Multi-Commander + Import/Export + Ouvrir Plateau
-   - Recherche par NOM (name:<query>)
-   - 2 colonnes (CSS)
-   - + pour deck, + doré pour Commander (si Créature légendaire)
-   - Plusieurs Commanders
-   - Export JSON (download), Import JSON (file)
-   - 🔥 Bouton "Ouvrir le plateau" : sauvegarde en localStorage puis redirige vers index.html
+/* app-deck.js — Deck Builder Scryfall (simplifié, sans UI de session)
+   - Recherche par NOM (name:<query>), pagination
+   - + deck, + commander
+   - Import/Export JSON
+   - 👉 Bouton unique “Rejoindre la partie” qui :
+       • sauvegarde le deck dans localStorage
+       • lit room/wsHost/wsPort/wsProto de l’URL
+       • redirige vers index.html avec les mêmes paramètres
+   - 🔥 Bouton “Réinitialiser le terrain” (efface la sauvegarde précédente du plateau : localStorage 'mtg.persist.state')
+   - 🆕 Barre de saisie “Pseudo” au-dessus de “Rejoindre la partie”
+       • stockée dans localStorage('mtg.playerName')
+       • désactivée s’il existe une partie en mémoire (PERSIST_BOARD_KEY)
 */
+
+const CARD_LANG = 'fr';
+const PERSIST_BOARD_KEY = 'mtg.persist.state';
+const PLAYER_NAME_KEY = 'mtg.playerName';
 
 const deckMap = new Map(); // id -> {card, qty}
 let commanders = [];
@@ -20,28 +29,163 @@ let searchState = {
 
 const qs = (s, el=document) => el.querySelector(s);
 
+/* ---------- Utils : deck / urls ---------- */
+function buildPayload() {
+  return {
+    createdAt: new Date().toISOString(),
+    cards: [...deckMap.values()].map(({card, qty}) => ({
+      id: card.id,
+      name: card.name,
+      type: card.type,
+      imageSmall: card.imageSmall || null,
+      imageNormal: card.imageNormal || card.image || null,
+      qty
+    })),
+    commanders: commanders.map(c => ({
+      id: c.id,
+      name: c.name,
+      type: c.type,
+      imageSmall: c.imageSmall || null,
+      imageNormal: c.imageNormal || c.image || null
+    }))
+  };
+}
+function saveDeckToLocalStorage() {
+  try {
+    localStorage.setItem('mtg.deck', JSON.stringify(buildPayload()));
+    return true;
+  } catch {
+    alert("Impossible de sauvegarder le deck dans le navigateur.");
+    return false;
+  }
+}
+function baseIndexUrl() {
+  const base = location.pathname.replace(/[^/]+$/, '');
+  return `${location.origin}${base}index.html`;
+}
+
+/* ---------- Réinitialisation du terrain ---------- */
+function resetBoardState() {
+  try {
+    localStorage.removeItem(PERSIST_BOARD_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+}
+function confirmAndResetBoardState() {
+  const ok = confirm("Réinitialiser le terrain ?\nCela efface la sauvegarde de la partie précédente (plateau, main, cimetière, etc.).");
+  if (!ok) return;
+  const done = resetBoardState();
+  if (done) {
+    // ✅ réactiver la saisie du pseudo immédiatement
+    setPlayerNameFieldLocked(false);
+    alert("Terrain réinitialisé ✅\nLa prochaine ouverture de la table utilisera uniquement le deck choisi ici.");
+  } else {
+    alert("Impossible d'effacer la sauvegarde locale du terrain.");
+  }
+}
+
+/* ---------- Aide : partie en mémoire ? ---------- */
+function hasOngoingLocalGame(){
+  try { return !!localStorage.getItem(PERSIST_BOARD_KEY); } catch { return false; }
+}
+
+/* ---------- Pseudo : helpers ---------- */
+function setPlayerNameFieldLocked(locked){
+  const input = qs('#playerNameBuilder');
+  if (!input) return;
+  input.disabled = !!locked;
+  input.title = locked
+    ? "Un plateau est déjà sauvegardé. Réinitialisez le terrain pour changer de pseudo."
+    : "";
+  input.style.opacity = locked ? '0.6' : '';
+  input.style.cursor  = locked ? 'not-allowed' : '';
+}
+
+/* ---------- Pseudo : injection au-dessus du bouton GO ---------- */
+function ensurePlayerNameField() {
+  const btnGoPlay = qs('#btn-go-play');
+  if (!btnGoPlay) return;
+
+  // Si déjà injecté, ne rien refaire (mais s'assurer de l'état lock)
+  if (qs('#playerNameBuilder')) {
+    setPlayerNameFieldLocked(hasOngoingLocalGame());
+    return;
+  }
+
+  const wrap = document.createElement('div');
+  wrap.className = 'player-name-wrap';
+  wrap.style.cssText = 'display:grid; gap:6px; margin:10px 0 14px;';
+
+  const label = document.createElement('label');
+  label.setAttribute('for', 'playerNameBuilder');
+  label.textContent = 'Votre pseudo (affiché dans la liste des joueurs)';
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.id = 'playerNameBuilder';
+  input.placeholder = 'Ex. “NissaFan42”';
+  input.maxLength = 40;
+  input.style.cssText = 'padding:8px; border:1px solid #ddd; border-radius:8px;';
+
+  // Valeur initiale : depuis localStorage si dispo
+  try {
+    const cur = localStorage.getItem(PLAYER_NAME_KEY);
+    if (cur) input.value = cur;
+  } catch {}
+
+  wrap.appendChild(label);
+  wrap.appendChild(input);
+
+  // Injection juste AVANT le bouton "Rejoindre la partie"
+  btnGoPlay.parentElement?.insertBefore(wrap, btnGoPlay);
+
+  // État de verrouillage en fonction d’une partie en mémoire
+  const locked = hasOngoingLocalGame();
+  setPlayerNameFieldLocked(locked);
+
+  // Sauvegarde en direct si non verrouillé
+  if (!locked) {
+    input.addEventListener('input', () => {
+      const v = input.value.trim();
+      try { localStorage.setItem(PLAYER_NAME_KEY, v); } catch {}
+    });
+  }
+}
+
+/* ---------- Recherche / rendu ---------- */
 function isLegendaryCreature(typeLine) {
   if (!typeLine) return false;
   const t = typeLine.toLowerCase();
-  return t.includes("legendary") && t.includes("creature");
+  const en = t.includes("legendary") && t.includes("creature");
+  const fr = t.includes("légendaire") && t.includes("créature");
+  return en || fr;
 }
 const uniqById = (arr) => {
   const m = new Map();
   arr.forEach(c => m.set(c.id, c));
   return [...m.values()];
 };
-
 function normalizeCard(c) {
-  const imgNormal = c.image_uris?.normal ?? c.card_faces?.[0]?.image_uris?.normal ?? null;
-  const imgSmall  = c.image_uris?.small  ?? c.card_faces?.[0]?.image_uris?.small  ?? imgNormal;
-  return { id: c.id, name: c.name, type: c.type_line, image: imgSmall || null };
+  const faces = c.card_faces?.[0];
+  const uris  = c.image_uris || faces?.image_uris || {};
+  const imgSmall  = uris.small  ?? null;
+  const imgNormal = uris.normal ?? imgSmall;
+
+  return {
+    id: c.id,
+    name: c.printed_name || c.name,
+    type: c.printed_type_line || c.type_line,
+    image: imgNormal || null,
+    imageSmall: imgSmall || null,
+    imageNormal: imgNormal || null
+  };
 }
 
-/* ---------- Rendu résultats / pagination ---------- */
 function renderResults(list) {
   const container = qs('.results');
   container.innerHTML = '';
-
   list.forEach(card => {
     const item = document.createElement('article');
     item.className = 'card-item';
@@ -84,8 +228,13 @@ function renderResults(list) {
 
     if (card.image) {
       const img = document.createElement('img');
-      img.src = card.image; img.alt = card.name;
-      img.style.width = '100%'; img.style.borderRadius = '8px'; img.style.marginTop = '6px';
+      img.src = card.image;
+      img.alt = card.name;
+      img.style.width = '100%';
+      img.style.borderRadius = '8px';
+      img.style.marginTop = '6px';
+      img.loading = 'lazy';
+      img.decoding = 'async';
       item.appendChild(img);
     }
 
@@ -165,9 +314,10 @@ function renderCommanders() {
   commanders.forEach(c => {
     const row = document.createElement('div');
     row.className = 'cmd-row';
-    if (c.image) {
+    if (c.imageNormal || c.image) {
       const img = document.createElement('img');
-      img.src = c.image; img.alt = c.name;
+      img.src = c.imageNormal || c.image;
+      img.alt = c.name;
       row.appendChild(img);
     }
     const text = document.createElement('div');
@@ -182,7 +332,7 @@ function renderCommanders() {
   });
 }
 
-/* ---------- Actions ---------- */
+/* ---------- Actions deck ---------- */
 function addToDeck(card, delta=1) {
   const entry = deckMap.get(card.id) || { card, qty: 0 };
   entry.qty = Math.max(0, entry.qty + delta);
@@ -204,25 +354,54 @@ function removeCommander(id) {
 }
 
 /* ---------- Export / Import ---------- */
-function buildPayload() {
-  return {
-    createdAt: new Date().toISOString(),
-    cards: [...deckMap.values()].map(({card, qty}) => ({
-      id: card.id, name: card.name, type: card.type, image: card.image || null, qty
-    })),
-    commanders: commanders.map(c => ({
-      id: c.id, name: c.name, type: c.type, image: c.image || null
-    }))
-  };
+function sanitizeFileName(name) {
+  return String(name || '').replace(/[\/\\?%*:|"<>]/g, "_").trim();
 }
-function exportDeck() {
+function makeDefaultDeckBase() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `deck-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+}
+function exportDownloadWithName(filenameBase) {
+  const safeBase = sanitizeFileName(filenameBase || makeDefaultDeckBase()) || makeDefaultDeckBase();
+  const filename = safeBase.toLowerCase().endsWith('.json') ? safeBase : `${safeBase}.json`;
   const payload = buildPayload();
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `deck-${Date.now()}.json`;
+  a.href = url; a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
+}
+function exportDeck() {
+  const dlg = qs('#exportDialog');
+  if (!dlg) { exportDownloadWithName(makeDefaultDeckBase()); return; }
+  const input = qs('#exportName');
+  const err = qs('#exportError');
+  if (input) {
+    input.value = makeDefaultDeckBase();
+    setTimeout(() => { input.focus(); input.select(); }, 0);
+  }
+  if (err) err.style.display = 'none';
+  if (typeof dlg.showModal === 'function') dlg.showModal();
+  else dlg.setAttribute('open', true);
+}
+function closeExportDialog() {
+  const dlg = qs('#exportDialog');
+  if (!dlg) return;
+  if (typeof dlg.close === 'function') dlg.close();
+  else dlg.removeAttribute('open');
+}
+function confirmExportDialog() {
+  const input = qs('#exportName');
+  const err = qs('#exportError');
+  const base = sanitizeFileName(input?.value || '');
+  if (!base) {
+    if (err) { err.textContent = "Veuillez entrer un nom de fichier."; err.style.display = 'block'; }
+    return;
+  }
+  exportDownloadWithName(base);
+  closeExportDialog();
 }
 function importDeckFromFile(file) {
   const reader = new FileReader();
@@ -232,14 +411,35 @@ function importDeckFromFile(file) {
       deckMap.clear();
       if (Array.isArray(obj.cards)) {
         obj.cards.forEach(c => {
-          const card = { id: c.id, name: c.name, type: c.type, image: c.image || null };
+          const card = {
+            id: c.id,
+            name: c.name,
+            type: c.type,
+            image: c.imageNormal || c.image || null,
+            imageSmall: c.imageSmall || null,
+            imageNormal: c.imageNormal || c.image || null
+          };
           deckMap.set(card.id, { card, qty: Number(c.qty || 0) });
         });
       }
       if (Array.isArray(obj.commanders)) {
-        commanders = obj.commanders.map(c => ({ id: c.id, name: c.name, type: c.type, image: c.image || null }));
+        commanders = obj.commanders.map(c => ({
+          id: c.id,
+          name: c.name,
+          type: c.type,
+          image: c.imageNormal || c.image || null,
+          imageSmall: c.imageSmall || null,
+          imageNormal: c.imageNormal || c.image || null
+        }));
       } else if (obj.commander) {
-        commanders = [{ id: obj.commander.id, name: obj.commander.name, type: obj.commander.type, image: obj.commander.image || null }];
+        commanders = [{
+          id: obj.commander.id,
+          name: obj.commander.name,
+          type: obj.commander.type,
+          image: obj.commander.imageNormal || obj.commander.image || null,
+          imageSmall: obj.commander.imageSmall || null,
+          imageNormal: obj.commander.imageNormal || obj.commander.image || null
+        }];
       } else commanders = [];
       renderDeck(); renderCommanders();
     } catch (e) { alert("Fichier JSON invalide."); }
@@ -248,22 +448,82 @@ function importDeckFromFile(file) {
 }
 
 /* ---------- Scryfall / Pagination / Recherche ---------- */
-async function scryfallSearchByName(queryOrUrl, { isNextPage=false } = {}) {
-  let url;
-  if (isNextPage) url = queryOrUrl;
-  else url = `https://api.scryfall.com/cards/search?order=name&q=${encodeURIComponent(`name:${queryOrUrl}`)}`;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return { cards: [], hasMore: false, nextPage: null, pageUrl: url };
-    const data = await res.json();
+async function scryfallSearchByName(queryOrUrl, { isNextPage = false } = {}) {
+  let url, triedFallback = false;
+
+  const makeUrl = (q) =>
+    `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
+
+  const fetchJson = async (u) => {
+    try {
+      const r = await fetch(u);
+      const json = await r.json().catch(() => null);
+      return { ok: r.ok, json, url: u };
+    } catch {
+      return { ok: false, json: null, url: u };
+    }
+  };
+  const isEmptyResult = (resp) => {
+    if (!resp || !resp.json) return true;
+    if (resp.json.object === 'error') return true;
+    const arr = resp.json.data || [];
+    return arr.length === 0;
+  };
+
+  if (isNextPage) {
+    url = queryOrUrl;
+    const resp = await fetchJson(url);
+    if (!resp.ok || resp.json.object === 'error') {
+      return { cards: [], hasMore: false, nextPage: null, pageUrl: url };
+    }
     return {
-      cards: (data.data || []).map(normalizeCard),
-      hasMore: !!data.has_more,
-      nextPage: data.next_page || null,
+      cards: (resp.json.data || []).map(normalizeCard),
+      hasMore: !!resp.json.has_more,
+      nextPage: resp.json.next_page || null,
       pageUrl: url
     };
-  } catch { return { cards: [], hasMore: false, nextPage: null, pageUrl: null }; }
+  }
+
+  // 1) langue choisie
+  const qLang = `lang:${CARD_LANG} (printed_name:"${queryOrUrl}" OR name:"${queryOrUrl}")`;
+  let resp = await fetchJson(makeUrl(qLang));
+
+  // 2) fallback si vide/erreur
+  if (!resp.ok || isEmptyResult(resp)) {
+    triedFallback = true;
+    const qAny = `(printed_name:"${queryOrUrl}" OR name:"${queryOrUrl}")`;
+    resp = await fetchJson(makeUrl(qAny));
+
+    if (!resp.ok || isEmptyResult(resp)) {
+      const qExact = `!"${queryOrUrl}"`;
+      resp = await fetchJson(makeUrl(qExact));
+    }
+  }
+
+  if (!resp.ok || resp.json.object === 'error') {
+    return { cards: [], hasMore: false, nextPage: null, pageUrl: resp.url };
+  }
+
+  const warn = qs('#searchWarning');
+  if (triedFallback && warn) {
+    if (resp.json.data && resp.json.data.length) {
+      warn.textContent = `Aucune impression "${CARD_LANG}" trouvée. Affichage des versions disponibles.`;
+      warn.style.display = 'block';
+    } else {
+      warn.style.display = 'none';
+    }
+  } else if (warn) {
+    warn.style.display = 'none';
+  }
+
+  return {
+    cards: (resp.json.data || []).map(normalizeCard),
+    hasMore: !!resp.json.has_more,
+    nextPage: resp.json.next_page || null,
+    pageUrl: resp.url
+  };
 }
+
 async function goNextPage() {
   if (!searchState.nextPageUrl) return;
   if (searchState.currentPageUrl) {
@@ -292,19 +552,6 @@ async function runSearch(q) {
   renderResults(res.cards);
 }
 
-/* ---------- Ouvrir le plateau avec le deck courant ---------- */
-function openBoardWithDeck() {
-  const payload = buildPayload();
-  try {
-    localStorage.setItem('mtg.deck', JSON.stringify(payload));
-  } catch (e) {
-    alert("Impossible de sauvegarder le deck dans le navigateur.");
-    return;
-  }
-  // Redirection vers le plateau (même dossier)
-  window.location.href = 'plateau.html';
-}
-
 /* ---------- Init ---------- */
 function init() {
   const input = qs('#q');
@@ -312,14 +559,24 @@ function init() {
   const exportBtn = qs('#btn-export');
   const importBtn = qs('#btn-import');
   const fileInput = qs('#file-input');
-  const openBoardBtn = qs('#btn-open-board');
+
+  const btnGoPlay = qs('#btn-go-play');
+  const btnResetBoard = qs('#btn-reset-board');
+
+  const exportConfirmBtn = qs('#exportConfirmBtn');
+  const exportCancelBtn  = qs('#exportCancelBtn');
+  const exportNameInput  = qs('#exportName');
+  const exportDialog     = qs('#exportDialog');
+
+  // 🆕 Champ “Pseudo” au-dessus de “Rejoindre la partie”
+  ensurePlayerNameField();
 
   renderResults([]);
   renderDeck();
   renderCommanders();
 
   let t = null;
-  input.addEventListener('input', () => {
+  input?.addEventListener('input', () => {
     clearTimeout(t);
     t = setTimeout(() => runSearch(input.value), 200);
   });
@@ -329,11 +586,50 @@ function init() {
   importBtn?.addEventListener('click', () => fileInput?.click());
   fileInput?.addEventListener('change', e => { const f = e.target.files?.[0]; if (f) importDeckFromFile(f); e.target.value=''; });
 
-  openBoardBtn?.addEventListener('click', openBoardWithDeck);
+  // —— Réinitialiser le terrain —— //
+  btnResetBoard?.addEventListener('click', confirmAndResetBoardState);
 
-  // --- Decklist MTGO ---
+  // —— Rejoindre la partie —— //
+  btnGoPlay?.addEventListener('click', () => {
+    if (!saveDeckToLocalStorage()) return;
+
+    // Récupérer/sauvegarder le pseudo
+    const nameInput = qs('#playerNameBuilder');
+    let playerName = '';
+    if (nameInput && !nameInput.disabled) {
+      playerName = (nameInput.value || '').trim();
+      try { localStorage.setItem(PLAYER_NAME_KEY, playerName); } catch {}
+    } else {
+      try { playerName = (localStorage.getItem(PLAYER_NAME_KEY) || '').trim(); } catch {}
+    }
+
+    const urlp   = new URLSearchParams(location.search);
+    const room   = urlp.get('room')   || '';
+    const wsHost = urlp.get('wsHost') || location.hostname;
+    const wsPort = urlp.get('wsPort') || '8787';
+    const wsProto= urlp.get('wsProto')|| (location.protocol === 'https:' ? 'wss' : 'ws');
+
+    if (!room) {
+      alert("Paramètre 'room' manquant dans l'URL. Ouvrez le builder via le lien d'invitation généré par l'hôte.");
+      return;
+    }
+
+    const params = new URLSearchParams({ room, wsHost, wsPort, wsProto });
+    if (playerName) params.set('playerName', playerName); // ✅ passer le pseudo à la table
+
+    window.location.href = `${baseIndexUrl()}?${params.toString()}`;
+  });
+
+  // —— Modale d'export —— //
+  exportConfirmBtn?.addEventListener('click', confirmExportDialog);
+  exportCancelBtn?.addEventListener('click', closeExportDialog);
+  exportNameInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); confirmExportDialog(); }
+  });
+  exportDialog?.addEventListener('cancel', (e) => { e.preventDefault(); closeExportDialog(); });
+
+  // —— Decklist MTGO —— //
   let pendingEnrichedPayload = null;
-
   qs('#btn-decklist')?.addEventListener('click', () => qs('#dlg-decklist')?.showModal());
   qs('#btn-decklist-cancel')?.addEventListener('click', () => qs('#dlg-decklist')?.close());
   qs('#btn-deckname-cancel')?.addEventListener('click', () => qs('#dlg-deckname')?.close());
@@ -344,11 +640,7 @@ function init() {
     qs('#dlg-decklist').close();
     const { cards, sideboard } = parseMtgoDecklist(text);
     const enriched = await enrichWithRetry(cards, sideboard);
-    pendingEnrichedPayload = {
-      createdAt: new Date().toISOString(),
-      cards: enriched.cards,
-      commanders: enriched.commanders,
-    };
+    pendingEnrichedPayload = { createdAt: new Date().toISOString(), cards: enriched.cards, commanders: enriched.commanders };
     const nameInput = qs('#deck-name-input');
     if (nameInput) nameInput.value = '';
     qs('#dlg-deckname')?.showModal();
@@ -365,10 +657,8 @@ function init() {
 /* ---------- Decklist MTGO — Parser ---------- */
 function parseMtgoDecklist(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-  const cards = [];
-  const sideboard = [];
+  const cards = [], sideboard = [];
   let inSideboard = false;
-
   for (const line of lines) {
     if (/^sideboard/i.test(line)) { inSideboard = true; continue; }
     const match = line.match(/^(\d+)\s+(.+)$/);
@@ -417,7 +707,7 @@ async function fetchCardEnrich(name) {
 async function enrichList(items, onProgress) {
   const out = [...items];
   for (let i = 0; i < out.length; i++) {
-    if (out[i].image) continue; // déjà enrichi
+    if (out[i].image) continue;
     if (onProgress) onProgress(`${i + 1} / ${out.length}`);
     const found = await fetchCardEnrich(out[i].name);
     if (found) out[i] = { ...found, ...(out[i].qty !== undefined ? { qty: out[i].qty } : {}) };
@@ -428,7 +718,7 @@ async function enrichList(items, onProgress) {
 async function enrichWithRetry(cards, sideboard, MAX_TRIES = 4) {
   const overlay = qs('#enrich-overlay');
   const progressEl = qs('#enrich-progress');
-  overlay.style.display = 'flex';
+  if (overlay) overlay.style.display = 'flex';
 
   let enrichedCards = cards;
   let enrichedSide = sideboard;
@@ -437,15 +727,13 @@ async function enrichWithRetry(cards, sideboard, MAX_TRIES = 4) {
     const missingC = enrichedCards.filter(c => !c.image).length;
     const missingS = enrichedSide.filter(c => !c.image).length;
     if (attempt > 1 && missingC === 0 && missingS === 0) break;
-
-    if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — principales (${missingC || enrichedCards.length} cartes)…`;
+    if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — principales (${attempt === 1 ? enrichedCards.length : missingC} cartes)…`;
     enrichedCards = await enrichList(enrichedCards, txt => { if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — ${txt}`; });
-
-    if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — sideboard (${missingS || enrichedSide.length} cartes)…`;
+    if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — sideboard…`;
     enrichedSide = await enrichList(enrichedSide, null);
   }
 
-  overlay.style.display = 'none';
+  if (overlay) overlay.style.display = 'none';
   return { cards: enrichedCards, commanders: enrichedSide };
 }
 
