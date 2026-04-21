@@ -1,6 +1,6 @@
 // multi-select.js — sélection rectangulaire + raccourcis multi-cartes (FR)
 // À charger APRÈS app-core.js / app-multi.js
-import { qs, qsa, deck, exileStore, graveyardStore } from "./app-core.js";
+import { qs, qsa, deck, exileStore, graveyardStore, createCardEl } from "./app-core.js";
 
 /* ---------- Styles (surlignage + rectangle façon Windows) ---------- */
 (function injectStyles(){
@@ -117,6 +117,30 @@ function versMain(){
   vider();
 }
 
+
+/* ---------- Ctrl/⌘ + M : dupliquer les cartes sélectionnées en tokens ---------- */
+function dupliquerEnToken(){
+  if (selection.size === 0) return;
+
+  [...selection].forEach(card => {
+    // Récupère les données de la carte source
+    const obj = cardElVersObj(card);
+
+    // Crée un token (copie avec isToken = true)
+    const token = createCardEl({
+      id: `token-${obj.id}-${Math.random().toString(36).slice(2,7)}`,
+      name: obj.name,
+      type: obj.type,
+      imageSmall:  card.dataset.imageSmall  || null,
+      imageNormal: card.dataset.imageNormal || null,
+      isToken: true
+    }, { isToken: true });
+
+    // Place le token dans la même zone que la carte originale
+    const container = card.parentElement;
+    if (container) container.appendChild(token);
+  });
+}
 /* ---------- Rectangle de sélection (garde la sélection + toggle à l’entrée) ---------- */
 let dragDebut = null;
 let rect = null;
@@ -241,5 +265,6 @@ document.addEventListener('keydown', (e) => {
   if (k === 'x') { e.preventDefault(); e.stopPropagation(); versExil(); }
   else if (k === 'g') { e.preventDefault(); e.stopPropagation(); versCimetiere(); }
   else if (k === 'd') { e.preventDefault(); e.stopPropagation(); versDessusPioche(); }
-  else if (k === 'h') { e.preventDefault(); e.stopPropagation(); versMain(); } // ⬅️ NOUVEAU
+  else if (k === 'h') { e.preventDefault(); e.stopPropagation(); versMain(); }
+  else if (k === 'm') { e.preventDefault(); e.stopPropagation(); dupliquerEnToken(); }
 });

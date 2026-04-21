@@ -423,7 +423,7 @@ function ensureOpponentOverlay(){
 
   dlg = document.createElement('dialog');
   dlg.id = 'opponentOverlay';
-  dlg.style.cssText = 'border:none; padding:0; width:min(1200px,95vw); height:auto; max-height:92vh; background:transparent; overflow:visible;';
+  dlg.style.cssText = 'border:none; padding:0; width:min(1500px,98vw); height:auto; max-height:96vh; background:transparent; overflow:visible;';
   const style = document.createElement('style');
   style.textContent = `
     #opponentOverlay::backdrop{ background:rgba(0,0,0,.45); }
