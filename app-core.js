@@ -7,7 +7,7 @@
    - deck() (getter)
    - shuffleDeck(), spawnTopCardForDrag()
    - openSearchModal(), openExileSearchModal(), openGraveyardSearchModal(), openTokenDialog()
-   - serializeBoard()  ⟵ inclut l’ordre du deck + badges + lifeList
+   - serializeBoard()  ⟵ inclut l'ordre du deck + badges + lifeList
    - restoreBoard(state) ⟵ restaure zones, stores, deck + badges + lifeList
    - initCore() (démarrage local)
    - ✅ attachPreviewListeners(el) ⟵ zoom-aperçu
@@ -77,7 +77,7 @@ export function getLifeListItems(){ return normItems(_lifeList.items); }
 export function setLifeListItems(items){ _lifeList.items = normItems(items); }
 
 /* =========================================================
-   Types FR/EN → Forcer l’affichage en FR + détection robuste
+   Types FR/EN → Forcer l'affichage en FR + détection robuste
    ========================================================= */
 
 function normalize(str){ return (String(str||'')).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
@@ -301,7 +301,7 @@ let _deck = makeDeck([
   { name: 'Île', type: 'Terrain' },
   { name: 'Île', type: 'Terrain' },
   { name: 'Géant fracasseur', type: 'Créature — Géant' },
-  { name: 'Chemin vers l’exil', type: 'Éphémère' },
+  { name: 'Chemin vers l'exil', type: 'Éphémère' },
   { name: 'Plaine', type: 'Terrain' },
   { name: 'Marais', type: 'Terrain' },
 ]);
@@ -413,7 +413,7 @@ export function createCardEl(card, { faceDown=false, isToken=false, interactive=
 
 // ---------- Aperçu au survol ----------
 let __previewTimer = null;
-let __previewDlg = null; // dialog d’aperçu
+let __previewDlg = null; // dialog d'aperçu
 let __isMouseDown = false;
 // Réf fiable vers la carte en cours de drag
 let __draggingCardEl = null;
@@ -892,7 +892,7 @@ export function openExileSearchModal() {
   if (results) results.innerHTML = '';
   if (shuffleBtn) shuffleBtn.style.display = 'none';
 
-  setSearchTitle('Recherche dans l’exil');
+  setSearchTitle('Recherche dans l'exil');
 
   [...exileStore].slice().reverse().forEach((c) => {
     const item = document.createElement('div');
@@ -1252,7 +1252,7 @@ function openScryDialog(n){
   dlg.style.padding = '0';
   dlg.innerHTML = `
     <div style="padding:16px; display:grid; gap:12px; width:min(960px, 95vw);">
-      <h3 style="margin:0">Scry — organiser l’ordre</h3>
+      <h3 style="margin:0">Scry — organiser l'ordre</h3>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; align-items:start;">
         <section style="display:grid; gap:8px;">
           <header style="display:flex; justify-content:space-between; align-items:center;">
@@ -1414,7 +1414,7 @@ export function shuffleDeck() {
 }
 
 /* =======================
-   PERSISTANCE D’ÉTAT JEU
+   PERSISTANCE D'ÉTAT JEU
    ======================= */
 
 const PERSIST_KEY = 'mtg.persist.state';
@@ -1726,8 +1726,8 @@ export function initCore(){
   if (exilTitle && !qs('.zone--exil .btn-search-exile')) {
     const btnLoupe = document.createElement('button');
     btnLoupe.className = 'btn-search btn-search-exile';
-    btnLoupe.title = 'Chercher dans l’exil';
-    btnLoupe.setAttribute('aria-label','Chercher dans l’exil');
+    btnLoupe.title = 'Chercher dans l'exil';
+    btnLoupe.setAttribute('aria-label','Chercher dans l'exil');
     btnLoupe.style.marginLeft = '6px';
     btnLoupe.innerHTML = `
       <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
