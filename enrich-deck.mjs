@@ -1,84 +1,116 @@
 #!/usr/bin/env node
 /**
- * enrich-deck.js — Ajoute ID + images (VF prioritaire sinon VO) à un deck JSON
+ * enrich-deck.mjs — Ajoute ID + images (VF prioritaire sinon VO) à un deck
  * Usage :
- *   node enrich-deck.js input.json output.json
+ *   node enrich-deck.mjs input.json  output.json   ← JSON avec champs name/qty
+ *   node enrich-deck.mjs input.txt   output.json   ← Format MTGO (ex: "4 Mountain")
  */
 
 import fs from "fs";
+import path from "path";
 
 const PREFERRED_LANG = "fr";
 const RATE_DELAY_MS = 120;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/* -------- Normalisation carte Scryfall -------- */
 function normalizeFromScry(card) {
   const face = Array.isArray(card.card_faces) && card.card_faces.length ? card.card_faces[0] : null;
   const uris = card.image_uris || face?.image_uris || {};
-  const small = uris.small ?? null;
-  const normal = uris.normal ?? small;
-
+  const normal = uris.normal ?? uris.small ?? null;
   return {
     id: card.id,
     name: card.printed_name || card.name || face?.name,
     type: card.printed_type_line || card.type_line || face?.type_line,
-    imageSmall: normal || small,   // normal = meilleure qualité d'affichage sur le plateau
-    imageNormal: normal || small,
+    imageSmall:  normal,
+    imageNormal: normal,
   };
 }
 
+/* -------- Fetch Scryfall -------- */
 async function fetchCardByNamePreferLang(name) {
   const base = "https://api.scryfall.com/cards/search?order=name&unique=prints&q=";
-  const enc = (q) => `${base}${encodeURIComponent(q)}`;
-
   const queries = [
+    // Recherche exacte EN priorité (évite les faux positifs sur noms courts/terrains de base)
+    `lang:${PREFERRED_LANG} !"${name}"`,
+    `!"${name}"`,
+    // Puis recherche large si exact ne trouve rien
     `lang:${PREFERRED_LANG} (printed_name:"${name}" OR name:"${name}")`,
     `(printed_name:"${name}" OR name:"${name}")`,
-    `!"${name}"`,
   ];
-
   for (const q of queries) {
     try {
-      const res = await fetch(enc(q));
+      const res = await fetch(base + encodeURIComponent(q));
       const json = await res.json();
       if (!res.ok || json.object === "error" || !json.data?.length) continue;
       await sleep(RATE_DELAY_MS);
       return normalizeFromScry(json.data[0]);
-    } catch {
-      continue;
-    }
+    } catch { continue; }
+  }
+  return null;
+} (printed_name:"${name}" OR name:"${name}")`,
+    `(printed_name:"${name}" OR name:"${name}")`,
+    `!"${name}"`,
+  ];
+  for (const q of queries) {
+    try {
+      const res = await fetch(base + encodeURIComponent(q));
+      const json = await res.json();
+      if (!res.ok || json.object === "error" || !json.data?.length) continue;
+      await sleep(RATE_DELAY_MS);
+      return normalizeFromScry(json.data[0]);
+    } catch { continue; }
   }
   return null;
 }
 
+/* -------- Parser format MTGO (.txt) -------- */
+function parseMtgoTxt(text) {
+  const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
+  const cards = [], commanders = [];
+  let inSideboard = false;
+  for (const line of lines) {
+    if (/^sideboard/i.test(line)) { inSideboard = true; continue; }
+    const match = line.match(/^(\d+)\s+(.+)$/);
+    if (!match) continue;
+    const qty  = parseInt(match[1], 10);
+    const name = match[2].trim();
+    (inSideboard ? commanders : cards).push({ name, qty });
+  }
+  return { createdAt: new Date().toISOString(), cards, commanders };
+}
+
+/* -------- Enrichissement -------- */
 async function enrichItemArray(items) {
   const out = [];
   for (const item of items || []) {
     const wanted = (item.name || item.id || "").trim();
-    if (!wanted) {
-      out.push(item);
-      continue;
-    }
+    if (!wanted) { out.push(item); continue; }
+    process.stdout.write(`  → ${wanted} (x${item.qty ?? 1})... `);
     const found = await fetchCardByNamePreferLang(wanted);
     if (found) {
       out.push({
-        id: found.id,
-        name: found.name,
-        type: found.type,
-        imageSmall: found.imageSmall,
-        imageNormal: found.imageNormal,
-        ...(item.qty !== undefined ? { qty: item.qty } : {}),
+        id: found.id, name: found.name, type: found.type,
+        imageSmall: found.imageSmall, imageNormal: found.imageNormal,
+        qty: item.qty ?? 1,
       });
+      console.log("✓");
     } else {
-      out.push(item);
+      out.push({ ...item, qty: item.qty ?? 1 });
+      console.log("✗ non trouvé");
     }
   }
   return out;
 }
 
-async function enrichDeckJson(deckJson) {
+async function enrichDeck(deckJson) {
+  console.log(`\nDeck principal (${deckJson.cards?.length ?? 0} entrées)...`);
   const cards = await enrichItemArray(deckJson.cards || []);
-  const commanders = await enrichItemArray(deckJson.commanders || []);
+  const hasCmds = (deckJson.commanders || []).length > 0;
+  const commanders = hasCmds
+    ? (console.log(`\nCommanders...`), await enrichItemArray(deckJson.commanders))
+    : [];
   return {
     createdAt: deckJson.createdAt || new Date().toISOString(),
     cards,
@@ -86,14 +118,27 @@ async function enrichDeckJson(deckJson) {
   };
 }
 
-// -------- Main CLI ----------
+/* -------- Main CLI -------- */
 if (process.argv.length < 4) {
-  console.error("Usage: node enrich-deck.js input.json output.json");
+  console.error("Usage: node enrich-deck.mjs input.json|input.txt output.json");
   process.exit(1);
 }
-const [inputFile, outputFile] = process.argv.slice(2);
 
-const raw = JSON.parse(fs.readFileSync(inputFile, "utf8"));
-const enriched = await enrichDeckJson(raw);
+const [inputFile, outputFile] = process.argv.slice(2);
+const ext = path.extname(inputFile).toLowerCase();
+const rawText = fs.readFileSync(inputFile, "utf8");
+
+let deckJson;
+if (ext === ".txt") {
+  console.log("Format MTGO détecté — parsing du .txt...");
+  deckJson = parseMtgoTxt(rawText);
+} else {
+  deckJson = JSON.parse(rawText);
+}
+
+const totalCards = (deckJson.cards || []).reduce((sum, c) => sum + (c.qty ?? 1), 0);
+console.log(`${deckJson.cards?.length ?? 0} entrées — ${totalCards} cartes au total`);
+
+const enriched = await enrichDeck(deckJson);
 fs.writeFileSync(outputFile, JSON.stringify(enriched, null, 2));
-console.log(`Deck enrichi écrit dans ${outputFile}`);
+console.log(`\n✅ Écrit dans ${outputFile}`);

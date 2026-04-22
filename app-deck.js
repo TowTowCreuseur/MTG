@@ -666,9 +666,11 @@ function normalizeFromScryFull(card) {
 async function fetchCardEnrich(name) {
   const base = 'https://api.scryfall.com/cards/search?order=name&unique=prints&q=';
   const queries = [
+    // Exact en priorité pour éviter les faux positifs (terrains de base, noms courts)
+    `lang:fr !"${name}"`,
+    `!"${name}"`,
     `lang:fr (printed_name:"${name}" OR name:"${name}")`,
     `(printed_name:"${name}" OR name:"${name}")`,
-    `!"${name}"`,
   ];
   for (const q of queries) {
     try {
@@ -685,7 +687,7 @@ async function fetchCardEnrich(name) {
 async function enrichList(items, onProgress) {
   const out = [...items];
   for (let i = 0; i < out.length; i++) {
-    if (out[i].image) continue;
+    if (out[i].imageSmall) continue; // déjà enrichi
     if (onProgress) onProgress(`${i + 1} / ${out.length}`);
     const found = await fetchCardEnrich(out[i].name);
     if (found) out[i] = { ...found, ...(out[i].qty !== undefined ? { qty: out[i].qty } : {}) };
@@ -702,8 +704,8 @@ async function enrichWithRetry(cards, sideboard, MAX_TRIES = 4) {
   let enrichedSide = sideboard;
 
   for (let attempt = 1; attempt <= MAX_TRIES; attempt++) {
-    const missingC = enrichedCards.filter(c => !c.image).length;
-    const missingS = enrichedSide.filter(c => !c.image).length;
+    const missingC = enrichedCards.filter(c => !c.imageSmall).length;
+    const missingS = enrichedSide.filter(c => !c.imageSmall).length;
     if (attempt > 1 && missingC === 0 && missingS === 0) break;
     if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — principales (${attempt === 1 ? enrichedCards.length : missingC} cartes)…`;
     enrichedCards = await enrichList(enrichedCards, txt => { if (progressEl) progressEl.textContent = `Passe ${attempt}/${MAX_TRIES} — ${txt}`; });

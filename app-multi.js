@@ -1078,9 +1078,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#createSessionBtn')?.addEventListener('click', () => {
     const room = Math.random().toString(36).slice(2, 8);
-    const link = `${location.origin}${location.pathname.replace('plateau.html', 'index.html')}?room=${room}&wsHost=mtg-qb1a.onrender.com&wsPort=443&wsProto=wss`;
-    navigator.clipboard.writeText(link).catch(() => {});
-    if (statusEl) statusEl.textContent = `Session créée : ${room} — lien copié !`;
+    navigator.clipboard.writeText(room).catch(() => {});
+    if (statusEl) statusEl.textContent = `Code de session : ${room} — copié dans le presse-papier !`;
     connectToRoom(room);
   });
 
