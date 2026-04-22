@@ -1623,7 +1623,7 @@ export function initCore(){
   }
 
   const gyTitle = qs('.zone--cimetiere .zone-title');
-  if (gyTitle && !qs('.zone--cimetire .btn-search-graveyard')) {
+  if (gyTitle && !qs('.zone--cimetiere .btn-search-graveyard')) {
     const btnLoupe = document.createElement('button');
     btnLoupe.className = 'btn-search btn-search-graveyard';
     btnLoupe.title = 'Chercher dans le cimetière';
