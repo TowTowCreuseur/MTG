@@ -667,12 +667,15 @@ function parseMtgoDecklist(text) {
   let inSideboard = false;
   for (const line of lines) {
     if (/^sideboard/i.test(line)) { inSideboard = true; continue; }
+    if (inSideboard) continue; // ignorer le sideboard
     const match = line.match(/^(\d+)\s+(.+)$/);
     if (!match) continue;
     const qty = parseInt(match[1]);
     const name = match[2].trim();
-    (inSideboard ? sideboard : cards).push({ name, qty });
+    cards.push({ name, qty });
   }
+  // La dernière carte est le commander
+  if (cards.length > 0) sideboard.push({ ...cards.pop(), qty: 1 });
   return { cards, sideboard };
 }
 

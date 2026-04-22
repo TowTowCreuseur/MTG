@@ -79,7 +79,6 @@ async function fetchCardByNamePreferLang(name) {
 function parseMtgoTxt(text) {
   const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
   const cards = [], commanders = [];
-  let isFirst = true;
   let inSideboard = false;
 
   for (const line of lines) {
@@ -89,15 +88,14 @@ function parseMtgoTxt(text) {
     if (!match) continue;
     const qty  = parseInt(match[1], 10);
     const name = match[2].trim();
-
-    if (isFirst) {
-      // La première carte du deck est le commander
-      commanders.push({ name, qty: 1 });
-      isFirst = false;
-    } else {
-      cards.push({ name, qty });
-    }
+    cards.push({ name, qty });
   }
+
+  // La dernière carte du deck est le commander
+  if (cards.length > 0) {
+    commanders.push({ ...cards.pop(), qty: 1 });
+  }
+
   return { createdAt: new Date().toISOString(), cards, commanders };
 }
 
