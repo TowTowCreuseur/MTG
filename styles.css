@@ -15,7 +15,6 @@
 html,body{height:100%}
 body{
   margin:0;
-  zoom: 0.8;
   font-family: system-ui, sans-serif;
   color:var(--text);
   background: linear-gradient(180deg, #0a0f18, #060a10 60%);
@@ -394,3 +393,10 @@ body{
 /* Lecture seule pour l’overlay adverse */
 .zone--life.readonly .btn-life{ display:none; }
 .zone--life.readonly .life-value{ cursor:default; }
+
+/* Zones compactes */
+.zone--cimetiere,
+.zone--exil,
+.zone--tokens{
+  min-height: 60px;
+}
