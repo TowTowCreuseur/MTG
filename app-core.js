@@ -688,6 +688,88 @@ export function spawnTopCardForDrag() {
 function setSearchTitle(txt){ const t = qs('.search-title'); if (t) t.textContent = txt; }
 
 // ---------- Recherche (bibliothèque) ----------
+
+/* -------- Helpers déplacement dans le deck -------- */
+function refreshDeckList(results, dialog) {
+  try { dialog.close(); } catch {}
+  openSearchModal();
+}
+
+function openPositionModal(cardId, results, dialog) {
+  let dlg = qs('#dlg-deck-position');
+  if (!dlg) {
+    dlg = document.createElement('dialog');
+    dlg.id = 'dlg-deck-position';
+    dlg.style.cssText = 'border:none;border-radius:12px;padding:0;background:#0f1626;color:#e6e9ee;box-shadow:0 10px 30px rgba(0,0,0,.35);width:min(360px,92vw);';
+    dlg.innerHTML = \`
+      <div style="padding:18px 20px;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:12px;">Définir la position</div>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+          <label style="font-size:13px;color:#9aa3b2;">Position</label>
+          <input id="pos-number" type="number" min="1" style="width:80px;padding:6px 8px;border-radius:8px;border:1px solid #22314a;background:#0e1522;color:#e6e9ee;font-size:14px;" value="1">
+          <label style="font-size:13px;color:#9aa3b2;">depuis le</label>
+          <select id="pos-dir" style="padding:6px 8px;border-radius:8px;border:1px solid #22314a;background:#0e1522;color:#e6e9ee;">
+            <option value="top">haut</option>
+            <option value="bottom">bas</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button id="pos-cancel" style="padding:7px 14px;border-radius:8px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;">Annuler</button>
+          <button id="pos-confirm" style="padding:7px 14px;border-radius:8px;border:1px solid #4f8cff;background:#0f1524;color:#4f8cff;cursor:pointer;font-weight:700;">Valider</button>
+        </div>
+      </div>\`;
+    document.body.appendChild(dlg);
+  }
+
+  // Valeur max
+  const posInput = dlg.querySelector('#pos-number');
+  posInput.max = _deck.length;
+  posInput.value = 1;
+
+  const confirm = dlg.querySelector('#pos-confirm');
+  const cancel  = dlg.querySelector('#pos-cancel');
+
+  const onConfirm = () => {
+    const pos = Math.max(1, Math.min(parseInt(posInput.value) || 1, _deck.length));
+    const dir = dlg.querySelector('#pos-dir').value;
+    const fromIdx = _deck.findIndex(d => d.id === cardId);
+    if (fromIdx === -1) { dlg.close(); return; }
+
+    // Retirer la carte
+    const [card] = _deck.splice(fromIdx, 1);
+
+    // Calculer l'index de destination
+    // "haut" : position 1 = dernière case du tableau (top of deck)
+    // "bas"  : position 1 = première case du tableau (bottom of deck)
+    let toIdx;
+    if (dir === 'top') {
+      toIdx = _deck.length - (pos - 1);
+    } else {
+      toIdx = pos - 1;
+    }
+    toIdx = Math.max(0, Math.min(toIdx, _deck.length));
+
+    _deck.splice(toIdx, 0, card);
+
+    dlg.close();
+    confirm.removeEventListener('click', onConfirm);
+    cancel.removeEventListener('click', onCancel);
+    try { dialog.close(); } catch {}
+    openSearchModal();
+  };
+
+  const onCancel = () => {
+    dlg.close();
+    confirm.removeEventListener('click', onConfirm);
+    cancel.removeEventListener('click', onCancel);
+  };
+
+  confirm.addEventListener('click', onConfirm);
+  cancel.addEventListener('click', onCancel);
+  dlg.addEventListener('cancel', e => { e.preventDefault(); onCancel(); }, { once: true });
+  dlg.showModal();
+}
+
 export function openSearchModal() {
   const dialog = qs('.modal-search'); if (!dialog) return;
   const input = qs('.search-input', dialog);
@@ -711,16 +793,22 @@ export function openSearchModal() {
     if (c.imageSmall)  item.dataset.imageSmall  = c.imageSmall;
 
     item.innerHTML = `
-      <span>
-        <strong class="card-name">${c.name}</strong>
-        <em class="card-type">${c.type || ''}</em>
+      <span style="flex:1;min-width:0;">
+        <strong class="card-name">\${c.name}</strong>
+        <em class="card-type">\${c.type || ''}</em>
       </span>
-      <button class="btn-piocher" type="button">Piocher</button>
-    `;
+      <div style="display:flex;gap:4px;align-items:center;flex-shrink:0;">
+        <button class="btn-mv btn-mv-up"   type="button" title="Remonter">▲</button>
+        <button class="btn-mv btn-mv-down" type="button" title="Descendre">▼</button>
+        <button class="btn-mv btn-mv-pos"  type="button" title="Définir la position">…</button>
+        <button class="btn-piocher"        type="button">Piocher</button>
+      </div>
+    \`;
 
     // ✅ Aperçu au survol de la ligne
     attachPreviewListeners(item);
 
+    // Piocher
     item.querySelector('.btn-piocher')?.addEventListener('click', () => {
       const idx = _deck.findIndex(d => d.id === c.id);
       if (idx !== -1) {
@@ -737,6 +825,30 @@ export function openSearchModal() {
       }
       item.remove();
     });
+
+    // Déplacer vers le haut (vers le dessus du deck = fin du tableau)
+    item.querySelector('.btn-mv-up')?.addEventListener('click', () => {
+      const idx = _deck.findIndex(d => d.id === c.id);
+      if (idx < _deck.length - 1) {
+        [_deck[idx], _deck[idx + 1]] = [_deck[idx + 1], _deck[idx]];
+        refreshDeckList(results, dialog);
+      }
+    });
+
+    // Déplacer vers le bas (vers le dessous du deck = début du tableau)
+    item.querySelector('.btn-mv-down')?.addEventListener('click', () => {
+      const idx = _deck.findIndex(d => d.id === c.id);
+      if (idx > 0) {
+        [_deck[idx], _deck[idx - 1]] = [_deck[idx - 1], _deck[idx]];
+        refreshDeckList(results, dialog);
+      }
+    });
+
+    // Définir la position via modale
+    item.querySelector('.btn-mv-pos')?.addEventListener('click', () => {
+      openPositionModal(c.id, results, dialog);
+    });
+
     results?.appendChild(item);
   });
 
@@ -1623,7 +1735,7 @@ export function initCore(){
   }
 
   const gyTitle = qs('.zone--cimetiere .zone-title');
-  if (gyTitle && !qs('.zone--cimetiere .btn-search-graveyard')) {
+  if (gyTitle && !qs('.zone--cimetire .btn-search-graveyard')) {
     const btnLoupe = document.createElement('button');
     btnLoupe.className = 'btn-search btn-search-graveyard';
     btnLoupe.title = 'Chercher dans le cimetière';

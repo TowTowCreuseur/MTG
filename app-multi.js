@@ -433,8 +433,8 @@ function ensureOpponentOverlay(){
     .opp-body{ overflow:auto; max-height:calc(92vh - 64px); }
     .opp-grid{ display:grid; grid-template-columns: 280px 1fr; gap:12px; }
     .zone.readonly .cards .card{ pointer-events:auto; }
-    .card--nameonly{ display:block; padding:6px 8px; border-radius:8px; border:1px solid rgba(0,0,0,.08); background:#fafafa; }
-    .card--nameonly + .card--nameonly{ margin-top:6px; }
+    .card--nameonly{ display:block; padding:6px 8px; border-radius:8px; border:1px solid #22314a; background:linear-gradient(180deg,#1b2640,#0f1729); color:#e6e9ee; }
+    .card--nameonly + .card--nameonly{ margin-top:6px; } .card--nameonly .card-name{ color:#e6e9ee; font-weight:700; } .card--nameonly .card-type{ color:#9aa3b2; font-size:12px; }
     .btn-life-list-ro{ margin-left:6px; border:1px solid #ddd; background:#f7f7f7; border-radius:8px; padding:4px 8px; cursor:pointer; }
   `;
   document.head.appendChild(style);
