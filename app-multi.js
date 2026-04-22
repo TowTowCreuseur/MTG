@@ -1029,10 +1029,13 @@ if (!document.getElementById('logStyles')){
 
 function sendLog(action, extra={}){
   if (!socket || socket.readyState !== WebSocket.OPEN) return;
+  // Envoyer aux adversaires SANS le nom de carte (pour ne pas révéler la main)
+  const publicExtra = { ...extra };
+  delete publicExtra.cardName;
   try {
-    socket.send(JSON.stringify({ type:'log', playerId:PLAYER_ID, name:PLAYER_NAME, action, extra }));
+    socket.send(JSON.stringify({ type:'log', playerId:PLAYER_ID, name:PLAYER_NAME, action, extra: publicExtra }));
   } catch {}
-  // Afficher aussi pour soi-même avec le vrai pseudo
+  // Afficher localement AVEC le nom de carte
   appendLog(PLAYER_NAME || 'Moi', action, extra);
 }
 
