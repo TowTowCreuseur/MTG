@@ -277,6 +277,7 @@ function renderDeck() {
 
   let total = 0;
   for (const [, entry] of deckMap) total += entry.qty;
+  total += commanders.length;
   qs('#deck-count').textContent = total;
 
   [...deckMap.values()].sort((a,b)=> a.card.name.localeCompare(b.card.name))
