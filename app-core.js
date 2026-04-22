@@ -701,7 +701,7 @@ function openPositionModal(cardId, results, dialog) {
     dlg = document.createElement('dialog');
     dlg.id = 'dlg-deck-position';
     dlg.style.cssText = 'border:none;border-radius:12px;padding:0;background:#0f1626;color:#e6e9ee;box-shadow:0 10px 30px rgba(0,0,0,.35);width:min(360px,92vw);';
-    dlg.innerHTML = \`
+    dlg.innerHTML = `
       <div style="padding:18px 20px;">
         <div style="font-weight:700;font-size:16px;margin-bottom:12px;">Définir la position</div>
         <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
@@ -717,7 +717,7 @@ function openPositionModal(cardId, results, dialog) {
           <button id="pos-cancel" style="padding:7px 14px;border-radius:8px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;">Annuler</button>
           <button id="pos-confirm" style="padding:7px 14px;border-radius:8px;border:1px solid #4f8cff;background:#0f1524;color:#4f8cff;cursor:pointer;font-weight:700;">Valider</button>
         </div>
-      </div>\`;
+      </div>`;
     document.body.appendChild(dlg);
   }
 
@@ -794,8 +794,8 @@ export function openSearchModal() {
 
     item.innerHTML = `
       <span style="flex:1;min-width:0;">
-        <strong class="card-name">\${c.name}</strong>
-        <em class="card-type">\${c.type || ''}</em>
+        <strong class="card-name">${c.name}</strong>
+        <em class="card-type">${c.type || ''}</em>
       </span>
       <div style="display:flex;gap:4px;align-items:center;flex-shrink:0;">
         <button class="btn-mv btn-mv-up"   type="button" title="Remonter">▲</button>
@@ -803,7 +803,7 @@ export function openSearchModal() {
         <button class="btn-mv btn-mv-pos"  type="button" title="Définir la position">…</button>
         <button class="btn-piocher"        type="button">Piocher</button>
       </div>
-    \`;
+    `;
 
     // ✅ Aperçu au survol de la ligne
     attachPreviewListeners(item);
