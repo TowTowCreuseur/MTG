@@ -643,6 +643,12 @@ function init() {
 
     const nameInput = qs('#deck-name-input');
     if (nameInput) nameInput.value = '';
+
+    // Afficher la modale des cartes non trouvées si nécessaire
+    if (enriched.notFound && enriched.notFound.length > 0) {
+      await showNotFoundModal(enriched.notFound);
+    }
+
     qs('#dlg-deckname')?.showModal();
   });
 
@@ -747,7 +753,46 @@ async function enrichWithRetry(cards, sideboard, MAX_TRIES = 4) {
   }
 
   if (overlay) overlay.style.display = 'none';
-  return { cards: enrichedCards, commanders: enrichedSide };
+
+  // Collecter les cartes non trouvées
+  const notFoundCards = enrichedCards.filter(c => !c.imageSmall).map(c => c.name);
+  const notFoundCmds  = enrichedSide.filter(c => !c.imageSmall).map(c => c.name);
+  const allNotFound   = [...notFoundCards, ...notFoundCmds];
+
+  return { cards: enrichedCards, commanders: enrichedSide, notFound: allNotFound };
+}
+
+function showNotFoundModal(notFound) {
+  return new Promise(resolve => {
+    // Réutiliser ou créer le dialog
+    let dlg = qs('#dlg-not-found');
+    if (!dlg) {
+      dlg = document.createElement('dialog');
+      dlg.id = 'dlg-not-found';
+      dlg.className = 'modal';
+      dlg.innerHTML = `
+        <div class="modal-body">
+          <div class="modal-header"><h2>⚠️ Cartes non trouvées</h2></div>
+          <p style="color:var(--muted);font-size:13px;margin:8px 0 12px;">Ces cartes n'ont pas pu être enrichies (image manquante) :</p>
+          <ul id="not-found-list" style="margin:0 0 14px 16px;padding:0;color:var(--text);font-size:13px;line-height:1.8;"></ul>
+          <div class="modal-footer">
+            <button type="button" class="btn-primary" id="btn-not-found-ok">OK</button>
+          </div>
+        </div>`;
+      document.body.appendChild(dlg);
+    }
+
+    const list = dlg.querySelector('#not-found-list');
+    list.innerHTML = notFound.map(n => `<li>${n}</li>`).join('');
+
+    dlg.querySelector('#btn-not-found-ok')?.addEventListener('click', () => {
+      dlg.close();
+      resolve();
+    }, { once: true });
+
+    dlg.addEventListener('cancel', e => { e.preventDefault(); dlg.close(); resolve(); }, { once: true });
+    dlg.showModal();
+  });
 }
 
 /* ---------- Decklist MTGO — Téléchargement JSON ---------- */

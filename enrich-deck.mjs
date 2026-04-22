@@ -10,7 +10,7 @@ import fs from "fs";
 import path from "path";
 
 const PREFERRED_LANG = "fr";
-const RATE_DELAY_MS = 120;
+const RATE_DELAY_MS = 200;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -79,14 +79,24 @@ async function fetchCardByNamePreferLang(name) {
 function parseMtgoTxt(text) {
   const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
   const cards = [], commanders = [];
+  let isFirst = true;
   let inSideboard = false;
+
   for (const line of lines) {
     if (/^sideboard/i.test(line)) { inSideboard = true; continue; }
+    if (inSideboard) continue; // ignorer le sideboard MTGO
     const match = line.match(/^(\d+)\s+(.+)$/);
     if (!match) continue;
     const qty  = parseInt(match[1], 10);
     const name = match[2].trim();
-    (inSideboard ? commanders : cards).push({ name, qty });
+
+    if (isFirst) {
+      // La première carte du deck est le commander
+      commanders.push({ name, qty: 1 });
+      isFirst = false;
+    } else {
+      cards.push({ name, qty });
+    }
   }
   return { createdAt: new Date().toISOString(), cards, commanders };
 }
