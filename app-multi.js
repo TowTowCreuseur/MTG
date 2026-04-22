@@ -14,7 +14,7 @@
 import {
   ZONES, qs, qsa, randomId,
   createCardEl, attachPreviewListeners,
-  serializeBoard, initCore
+  serializeBoard, initCore, setLogActionHook
 } from './app-core.js';
 
 const CONN_KEY = 'mtg.persist.conn';
@@ -823,6 +823,21 @@ function setupMultiplayer(){
     else if (data instanceof ArrayBuffer) data = new TextDecoder().decode(data);
 
     let msg; try { msg = JSON.parse(data); } catch { return; }
+
+    // Messages de log
+    if (msg.type === 'log' && msg.playerId !== PLAYER_ID) {
+      const name = otherStates[msg.playerId]?.name || msg.name || 'Inconnu';
+      appendLog(name, msg.action, msg.extra || {});
+      return;
+    }
+
+    // Main partagée
+    if (msg.type === 'show_hand' && msg.playerId !== PLAYER_ID) {
+      const name = otherStates[msg.playerId]?.name || msg.name || 'Inconnu';
+      showOpponentHand(name, msg.cards || []);
+      return;
+    }
+
     if (msg.type !== 'state') return;
 
     // detect if this is a new player joining
@@ -951,6 +966,129 @@ function handleMappedJump(dir){
 /* =============
    Entrée
    ============= */
+
+/* =============================================
+   LOGS D'ACTIVITÉ
+   ============================================= */
+function ensureLogPanel(){
+  if (qs('#activity-log')) return;
+  const panel = document.createElement('div');
+  panel.id = 'activity-log';
+  panel.style.cssText = `
+    position:fixed; bottom:120px; left:8px; width:320px; max-height:180px;
+    overflow:hidden; z-index:500; pointer-events:none;
+    display:flex; flex-direction:column-reverse; gap:3px;
+  `;
+  document.body.appendChild(panel);
+}
+
+function appendLog(playerName, action, extra={}){
+  ensureLogPanel();
+  const panel = qs('#activity-log');
+  if (!panel) return;
+
+  const colors = ['#4f8cff','#ffd24d','#56c378','#ff6b6b','#c084fc','#fb923c'];
+  // Couleur stable par joueur
+  let color = '#9aa3b2';
+  if (playerName !== 'Moi') {
+    const idx = [...Object.values(otherStates)].findIndex(o => o.name === playerName);
+    color = colors[(idx + 1) % colors.length] || colors[0];
+  } else {
+    color = colors[0];
+  }
+
+  let text = '';
+  if (action === 'draw')   text = `a pioché ${extra.cardName ? '<em>' + extra.cardName + '</em>' : 'une carte'}`;
+  if (action === 'search') text = 'consulte sa bibliothèque';
+  if (action === 'scry')   text = 'regarde le dessus de sa bibliothèque (Scry)';
+
+  const entry = document.createElement('div');
+  entry.style.cssText = 'font-size:12px; line-height:1.4; animation: logFadeIn .2s ease;';
+  entry.innerHTML = `<span style="color:${color};font-weight:700;">${playerName}</span> ${text}`;
+  panel.prepend(entry);
+
+  // Garder max 8 entrées
+  while (panel.children.length > 8) panel.lastElementChild?.remove();
+
+  // Fade out après 8s
+  setTimeout(() => {
+    entry.style.transition = 'opacity 1s';
+    entry.style.opacity = '0';
+    setTimeout(() => entry.remove(), 1000);
+  }, 8000);
+}
+
+// Injecter le style d'animation une fois
+if (!document.getElementById('logStyles')){
+  const st = document.createElement('style');
+  st.id = 'logStyles';
+  st.textContent = '@keyframes logFadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }';
+  document.head.appendChild(st);
+}
+
+function sendLog(action, extra={}){
+  if (!socket || socket.readyState !== WebSocket.OPEN) return;
+  try {
+    socket.send(JSON.stringify({ type:'log', playerId:PLAYER_ID, name:PLAYER_NAME, action, extra }));
+  } catch {}
+  // Afficher aussi pour soi-même
+  appendLog('Moi', action, extra);
+}
+
+/* =============================================
+   MAIN PARTAGÉE (show hand)
+   ============================================= */
+function showOpponentHand(playerName, cards){
+  // Fermer la modale existante si présente
+  const existing = qs('#dlg-show-hand');
+  if (existing?.open) try { existing.close(); existing.remove(); } catch {}
+
+  const dlg = document.createElement('dialog');
+  dlg.id = 'dlg-show-hand';
+  dlg.style.cssText = 'border:none;border-radius:14px;padding:0;background:#111826;color:#e6e9ee;box-shadow:0 20px 60px rgba(0,0,0,.6);width:min(900px,95vw);max-height:90vh;overflow:auto;border:1px solid #22314a;z-index:9999;';
+
+  const header = `<div style="padding:16px 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #22314a;">
+    <div style="font-weight:700;font-size:16px;">Main de <span style="color:#4f8cff;">${playerName}</span> (${cards.length} cartes)</div>
+    <button id="close-show-hand" style="padding:6px 14px;border-radius:8px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;">Fermer</button>
+  </div>`;
+
+  const grid = `<div style="display:flex;flex-wrap:wrap;gap:10px;padding:16px;">
+    ${cards.map(c => `
+      <div style="width:110px;display:flex;flex-direction:column;gap:4px;">
+        ${c.imageSmall ? `<img src="${c.imageSmall}" alt="${c.name}" style="width:100%;border-radius:8px;border:1px solid #22314a;">` : ''}
+        <div style="font-size:11px;font-weight:700;text-align:center;">${c.name}</div>
+      </div>`).join('')}
+    ${cards.length === 0 ? '<div style="opacity:.6;font-size:13px;">La main est vide</div>' : ''}
+  </div>`;
+
+  dlg.innerHTML = header + grid;
+  document.body.appendChild(dlg);
+
+  dlg.querySelector('#close-show-hand')?.addEventListener('click', () => { dlg.close(); dlg.remove(); });
+  dlg.addEventListener('cancel', e => { e.preventDefault(); dlg.close(); dlg.remove(); });
+
+  // Ouvrir par-dessus tout (même l'overlay adversaire)
+  dlg.showModal();
+}
+
+function sendMyHand(){
+  const handEls = document.querySelectorAll('.zone--main .cards .card');
+  const cards = [...handEls].map(el => ({
+    id: el.dataset.cardId || '',
+    name: el.querySelector('.card-name')?.textContent || '',
+    imageSmall: el.dataset.imageSmall || null,
+  }));
+
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    alert('Vous devez être connecté à une session pour partager votre main.');
+    return;
+  }
+  try {
+    socket.send(JSON.stringify({ type:'show_hand', playerId:PLAYER_ID, name:PLAYER_NAME, cards }));
+    appendLog('Moi', 'show_hand', {});
+  } catch {}
+}
+
 function initMulti(){
   ensureBoardViewerDropdown();
   ensurePlayersBar();
@@ -1066,6 +1204,13 @@ function ensurePlacementButton(){
 document.addEventListener('DOMContentLoaded', () => {
   initCore();
   initMulti();
+
+  // Hook logs depuis app-core vers le WS
+  setLogActionHook((data) => sendLog(data.type, data));
+
+  // Bouton "Montrer ma main"
+  const btnShowHand = qs('#btn-show-hand');
+  if (btnShowHand) btnShowHand.addEventListener('click', sendMyHand);
 
   // —— Boutons session sur le plateau —— //
   const statusEl = document.querySelector('#sessionStatus');

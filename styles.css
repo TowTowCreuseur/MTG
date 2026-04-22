@@ -409,3 +409,15 @@ body{
   cursor: pointer; font-size: 12px; line-height: 1;
 }
 .btn-mv:hover { border-color: var(--accent); }
+
+/* Bouton Montrer ma main */
+#btn-show-hand {
+  background: linear-gradient(180deg, #1a2640, #0f1729);
+  border: 1px solid #4f8cff;
+  color: #4f8cff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#btn-show-hand:hover { background: rgba(79,140,255,.15); }

@@ -138,6 +138,16 @@ function cardPrimaryTypeFRorEN(typeLine){
   return 'other';
 }
 
+
+/* =========================================================
+   LOG HOOK — appelé par app-multi.js pour broadcaster les actions
+   ========================================================= */
+let _logAction = null;
+export function setLogActionHook(fn){ _logAction = fn; }
+function logAction(type, extra={}){
+  if (typeof _logAction === 'function') _logAction({ type, ...extra });
+}
+
 /* =========================================================
    TOKENS: normalisation + recherche Scryfall (réutilisable)
    ========================================================= */
@@ -673,6 +683,7 @@ export function spawnTopCardForDrag() {
   if (_deck.length === 0) return;
   const top = _deck.pop();
   updateDeckCount();
+  logAction('draw', { cardName: top.name });
   const hand = qs('.zone--main .cards--hand') || qs('.zone--main .cards');
   const el = createCardEl(top, { faceDown: false });
   // ✅ si la carte avait un badge dans le deck, on rétablit son état mémoire
@@ -771,6 +782,7 @@ function openPositionModal(cardId, results, dialog) {
 }
 
 export function openSearchModal() {
+  logAction('search');
   const dialog = qs('.modal-search'); if (!dialog) return;
   const input = qs('.search-input', dialog);
   const results = qs('.search-results', dialog);
@@ -1211,6 +1223,7 @@ export async function openTokenDialog(){
 // ---------- SCRY ----------
 function openScryPrompt(){
   if (_deck.length === 0) { alert("La bibliothèque est vide."); return; }
+  logAction('scry');
 
   const dlg = document.createElement('dialog');
   dlg.className = 'modal-scry-ask';
