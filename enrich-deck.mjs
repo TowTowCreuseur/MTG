@@ -41,7 +41,12 @@ async function fetchCardByNamePreferLang(name) {
   ];
   for (const q of queries) {
     try {
-      const res = await fetch(base + encodeURIComponent(q));
+      let res = await fetch(base + encodeURIComponent(q));
+      // Rate limit : attendre 2s et réessayer
+      if (res.status === 429) {
+        await sleep(2000);
+        res = await fetch(base + encodeURIComponent(q));
+      }
       const json = await res.json();
       if (!res.ok || json.object === "error" || !json.data?.length) continue;
       await sleep(RATE_DELAY_MS);
@@ -55,7 +60,12 @@ async function fetchCardByNamePreferLang(name) {
   ];
   for (const q of queries) {
     try {
-      const res = await fetch(base + encodeURIComponent(q));
+      let res = await fetch(base + encodeURIComponent(q));
+      // Rate limit : attendre 2s et réessayer
+      if (res.status === 429) {
+        await sleep(2000);
+        res = await fetch(base + encodeURIComponent(q));
+      }
       const json = await res.json();
       if (!res.ok || json.object === "error" || !json.data?.length) continue;
       await sleep(RATE_DELAY_MS);

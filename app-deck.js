@@ -618,6 +618,29 @@ function init() {
     const { cards, sideboard } = parseMtgoDecklist(text);
     const enriched = await enrichWithRetry(cards, sideboard);
     pendingEnrichedPayload = { createdAt: new Date().toISOString(), cards: enriched.cards, commanders: enriched.commanders };
+
+    // Charger directement dans le deck builder (deckMap + commanders)
+    deckMap.clear();
+    enriched.cards.forEach(c => {
+      const card = {
+        id: c.id, name: c.name, type: c.type,
+        image: c.imageNormal || null,
+        imageSmall: c.imageSmall || c.imageNormal || null,
+        imageNormal: c.imageNormal || null
+      };
+      const existing = deckMap.get(card.id);
+      if (existing) existing.qty += (c.qty ?? 1);
+      else deckMap.set(card.id, { card, qty: c.qty ?? 1 });
+    });
+    commanders = enriched.commanders.map(c => ({
+      id: c.id, name: c.name, type: c.type,
+      image: c.imageNormal || null,
+      imageSmall: c.imageSmall || c.imageNormal || null,
+      imageNormal: c.imageNormal || null
+    }));
+    renderDeck();
+    renderCommanders();
+
     const nameInput = qs('#deck-name-input');
     if (nameInput) nameInput.value = '';
     qs('#dlg-deckname')?.showModal();
@@ -675,6 +698,16 @@ async function fetchCardEnrich(name) {
   for (const q of queries) {
     try {
       const res = await fetch(base + encodeURIComponent(q));
+      // Rate limit : attendre et réessayer cette même requête
+      if (res.status === 429) {
+        await enrichSleep(2000);
+        const retry = await fetch(base + encodeURIComponent(q));
+        if (!retry.ok) continue;
+        const json2 = await retry.json();
+        if (json2.object === 'error' || !json2.data?.length) continue;
+        await enrichSleep(ENRICH_DELAY_MS);
+        return normalizeFromScryFull(json2.data[0]);
+      }
       const json = await res.json();
       if (!res.ok || json.object === 'error' || !json.data?.length) continue;
       await enrichSleep(ENRICH_DELAY_MS);
