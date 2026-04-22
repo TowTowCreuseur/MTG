@@ -1626,10 +1626,10 @@ function tryLoadDeckFromLocalStorage(){
 
     updateDeckCount();
 
-    // Sauvegarder en sessionStorage comme backup (survit aux reloads dans le même onglet)
+    // Sauvegarder en sessionStorage (survit aux reloads du même onglet)
     try { sessionStorage.setItem('mtg.deck.backup', raw); } catch {}
 
-    // Consommer l'import builder
+    // Consommer l’import builder
     localStorage.removeItem('mtg.deck');
     return true;
   } catch(e){
@@ -1647,7 +1647,7 @@ document.addEventListener('mouseup', () => { __isMouseDown = false; });
 
 export function initCore(){
   // Si un deck vient du builder, il prime toujours sur l'état persistant
-  // Vérifier localStorage ET sessionStorage (backup si plateau rechargé pour session)
+  // Restaurer depuis sessionStorage si plateau rechargé pour créer/rejoindre session
   const deckBackup = sessionStorage.getItem('mtg.deck.backup');
   if (deckBackup && !localStorage.getItem('mtg.deck')) {
     try { localStorage.setItem('mtg.deck', deckBackup); } catch {}
