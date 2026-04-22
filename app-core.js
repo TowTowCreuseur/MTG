@@ -301,7 +301,7 @@ let _deck = makeDeck([
   { name: 'Île', type: 'Terrain' },
   { name: 'Île', type: 'Terrain' },
   { name: 'Géant fracasseur', type: 'Créature — Géant' },
-  { name: 'Chemin vers l'exil', type: 'Éphémère' },
+  { name: "Chemin vers l'exil", type: 'Éphémère' },
   { name: 'Plaine', type: 'Terrain' },
   { name: 'Marais', type: 'Terrain' },
 ]);
@@ -892,7 +892,7 @@ export function openExileSearchModal() {
   if (results) results.innerHTML = '';
   if (shuffleBtn) shuffleBtn.style.display = 'none';
 
-  setSearchTitle('Recherche dans l'exil');
+  setSearchTitle("Recherche dans l'exil");
 
   [...exileStore].slice().reverse().forEach((c) => {
     const item = document.createElement('div');
@@ -1726,8 +1726,8 @@ export function initCore(){
   if (exilTitle && !qs('.zone--exil .btn-search-exile')) {
     const btnLoupe = document.createElement('button');
     btnLoupe.className = 'btn-search btn-search-exile';
-    btnLoupe.title = 'Chercher dans l'exil';
-    btnLoupe.setAttribute('aria-label','Chercher dans l'exil');
+    btnLoupe.title = "Chercher dans l'exil";
+    btnLoupe.setAttribute('aria-label', "Chercher dans l'exil");
     btnLoupe.style.marginLeft = '6px';
     btnLoupe.innerHTML = `
       <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
