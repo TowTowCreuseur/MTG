@@ -975,9 +975,9 @@ function ensureLogPanel(){
   const panel = document.createElement('div');
   panel.id = 'activity-log';
   panel.style.cssText = `
-    position:fixed; bottom:120px; left:8px; width:320px; max-height:180px;
+    position:fixed; top:72px; right:8px; width:280px; max-height:200px;
     overflow:hidden; z-index:500; pointer-events:none;
-    display:flex; flex-direction:column-reverse; gap:3px;
+    display:flex; flex-direction:column; gap:2px;
   `;
   document.body.appendChild(panel);
 }
@@ -1003,8 +1003,8 @@ function appendLog(playerName, action, extra={}){
   if (action === 'scry')   text = 'regarde le dessus de sa bibliothèque (Scry)';
 
   const entry = document.createElement('div');
-  entry.style.cssText = 'font-size:12px; line-height:1.4; animation: logFadeIn .2s ease;';
-  entry.innerHTML = `<span style="color:${color};font-weight:700;">${playerName}</span> ${text}`;
+  entry.style.cssText = 'font-size:12px; line-height:1.4; text-align:right; animation: logFadeIn .2s ease;';
+  entry.innerHTML = `<span style="color:#ff4444;font-weight:700;">${playerName}</span> <span style="color:#ff6b6b;">${text}</span>`;
   panel.prepend(entry);
 
   // Garder max 8 entrées
