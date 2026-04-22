@@ -1643,8 +1643,11 @@ function tryLoadDeckFromLocalStorage(){
 document.addEventListener('mouseup', () => { __isMouseDown = false; });
 
 export function initCore(){
-  // 1) Tenter la restauration complète
-  const restored = tryRestorePersistentState();
+  // Si un deck vient du builder, il prime toujours sur l'état persistant
+  const hasFreshDeck = !!localStorage.getItem('mtg.deck');
+
+  // 1) Tenter la restauration complète (sauf si un nouveau deck arrive du builder)
+  const restored = !hasFreshDeck && tryRestorePersistentState();
 
   if (restored) {
     // ⚠️ État persistant présent MAIS deck vide → tenter l’import deck builder
