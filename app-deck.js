@@ -620,28 +620,6 @@ function init() {
     const enriched = await enrichWithRetry(cards, sideboard);
     pendingEnrichedPayload = { createdAt: new Date().toISOString(), cards: enriched.cards, commanders: enriched.commanders };
 
-    // Charger directement dans le deck builder (deckMap + commanders)
-    deckMap.clear();
-    enriched.cards.forEach(c => {
-      const card = {
-        id: c.id, name: c.name, type: c.type,
-        image: c.imageNormal || null,
-        imageSmall: c.imageSmall || c.imageNormal || null,
-        imageNormal: c.imageNormal || null
-      };
-      const existing = deckMap.get(card.id);
-      if (existing) existing.qty += (c.qty ?? 1);
-      else deckMap.set(card.id, { card, qty: c.qty ?? 1 });
-    });
-    commanders = enriched.commanders.map(c => ({
-      id: c.id, name: c.name, type: c.type,
-      image: c.imageNormal || null,
-      imageSmall: c.imageSmall || c.imageNormal || null,
-      imageNormal: c.imageNormal || null
-    }));
-    renderDeck();
-    renderCommanders();
-
     const nameInput = qs('#deck-name-input');
     if (nameInput) nameInput.value = '';
 
