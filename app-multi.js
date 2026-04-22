@@ -1005,6 +1005,7 @@ function appendLog(playerName, action, extra={}){
   const entry = document.createElement('div');
   entry.style.cssText = 'font-size:12px; line-height:1.4; text-align:right; animation: logFadeIn .2s ease;';
   entry.innerHTML = `<span style="color:#ff4444;font-weight:700;">${playerName}</span> <span style="color:#ff6b6b;">${text}</span>`;
+  if (!text) return; // Pas de log si action inconnue
   panel.prepend(entry);
 
   // Garder max 8 entrées
@@ -1031,8 +1032,8 @@ function sendLog(action, extra={}){
   try {
     socket.send(JSON.stringify({ type:'log', playerId:PLAYER_ID, name:PLAYER_NAME, action, extra }));
   } catch {}
-  // Afficher aussi pour soi-même
-  appendLog('Moi', action, extra);
+  // Afficher aussi pour soi-même avec le vrai pseudo
+  appendLog(PLAYER_NAME || 'Moi', action, extra);
 }
 
 /* =============================================
@@ -1085,7 +1086,6 @@ function sendMyHand(){
   }
   try {
     socket.send(JSON.stringify({ type:'show_hand', playerId:PLAYER_ID, name:PLAYER_NAME, cards }));
-    appendLog('Moi', 'show_hand', {});
   } catch {}
 }
 
