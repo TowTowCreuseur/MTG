@@ -1646,7 +1646,7 @@ export function initCore(){
   // Si un deck vient du builder, il prime toujours sur l'état persistant
   const hasFreshDeck = !!localStorage.getItem('mtg.deck');
 
-  // 1) Tenter la restauration complète (sauf si un nouveau deck arrive du builder)
+  // 1) Tenter la restauration complète (ignorée si un nouveau deck arrive du builder)
   const restored = !hasFreshDeck && tryRestorePersistentState();
 
   if (restored) {
@@ -1660,7 +1660,7 @@ export function initCore(){
       }
     }
   } else {
-    // 2) Pas d’état persistant → tenter l’import deck builder
+    // 2) Nouveau deck du builder ou pas d'état persistant → charger le deck
     const imported = tryLoadDeckFromLocalStorage();
     updateDeckCount();
     if(!imported){
