@@ -11,23 +11,23 @@
     <script type="module" src="card-badges.js"></script>
   </head>
   <body>
-    <header class="app-header">
-      <div class="header-row">
-        <div>
-          <h1>Plateau MTG — Prototype</h1>
-        </div>
-        <a class="btn-nav" href="index.html" title="Retour au Deck Builder">↩︎ Deck Builder</a>
-      </div>
-      <!-- Contrôles de session — positionnés en haut à gauche -->
-      <div id="session-controls" style="position:fixed;top:8px;left:8px;display:flex;gap:6px;align-items:center;z-index:1000;flex-wrap:wrap;">
+    <header class="app-header" style="display:none;"></header>
+    <!-- Header fixe en haut -->
+    <div style="position:fixed;top:8px;left:8px;right:8px;display:flex;align-items:center;justify-content:space-between;z-index:1000;flex-wrap:wrap;gap:6px;">
+      <!-- Gauche : titre + session -->
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-size:16px;font-weight:800;color:var(--text);">Plateau MTG</span>
         <button id="createSessionBtn" class="btn-nav" style="font-size:12px;padding:5px 10px;">Créer une session</button>
         <input type="text" id="joinSessionInput" placeholder="Code de session…"
-               style="padding:5px 10px;border-radius:10px;border:1px solid var(--border);background:#0f1524;color:var(--text);width:140px;font-size:12px;">
+               style="padding:5px 10px;border-radius:10px;border:1px solid var(--border);background:#0f1524;color:var(--text);width:130px;font-size:12px;">
         <button id="joinSessionBtn" class="btn-nav" style="font-size:12px;padding:5px 10px;">Rejoindre</button>
         <span id="sessionStatus" style="font-size:11px;color:var(--muted);"></span>
       </div>
-    </header>
-
+      <!-- Droite : Deck Builder -->
+      <a class="btn-nav" href="index.html" title="Retour au Deck Builder" style="font-size:12px;padding:5px 12px;">↩︎ Deck Builder</a>
+    </div>
+    <!-- Espaceur pour compenser le header fixe -->
+    <div style="height:44px;"></div>
     <main class="board" aria-label="Plateau de jeu MTG">
       <div class="board-layout">
         <!-- Colonne gauche -->
