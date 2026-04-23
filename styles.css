@@ -421,3 +421,34 @@ body{
   cursor: pointer;
 }
 .btn-hand-action:hover { background: rgba(79,140,255,.2); }
+
+/* Bouton Liste (Points de vie) */
+.btn-life-list {
+  background: linear-gradient(180deg, #1a2640, #0f1729);
+  border: 1px solid #4f8cff !important;
+  color: #4f8cff !important;
+  border-radius: 8px;
+  padding: 3px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.btn-life-list:hover { background: rgba(79,140,255,.2) !important; }
+
+/* Sélecteur "Voir le plateau de" */
+#boardSelect {
+  background: linear-gradient(180deg, #1a2640, #0f1729);
+  border: 1px solid #4f8cff;
+  color: #4f8cff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+#boardSelect option {
+  background: #0f1524;
+  color: #e6e9ee;
+}
+.viewer-switch label {
+  color: #9aa3b2;
+  font-size: 12px;
+}
