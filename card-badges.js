@@ -37,6 +37,19 @@ import {
     }
     .card.readonly .badge-dot{ cursor:pointer; }
 
+    /* Bouton Liste */
+    .btn-life-list {
+      margin-left: 6px;
+      background: linear-gradient(180deg, #1a2640, #0f1729);
+      border: 1px solid #4f8cff;
+      color: #4f8cff;
+      border-radius: 8px;
+      padding: 3px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-life-list:hover { background: rgba(79,140,255,.2); }
+
     /* Dialogs */
     .list-dialog::backdrop{ background:rgba(0,0,0,.45); }
     .list-sheet{

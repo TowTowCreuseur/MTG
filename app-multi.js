@@ -66,7 +66,7 @@ function ensureBoardViewerDropdown(){
   const label = document.createElement('label');
   label.htmlFor = 'boardSelect'; label.textContent = 'Voir le plateau de :'; label.style.fontSize = '12px';
   const select = document.createElement('select');
-  select.id = 'boardSelect'; select.style.cssText = 'padding:4px 8px;';
+  select.id = 'boardSelect';
   select.addEventListener('change', (e) => { currentView = e.target.value; refreshView(); });
   wrap.appendChild(label); wrap.appendChild(select);
   (qs('.board') || document.body).appendChild(wrap);
@@ -82,6 +82,19 @@ function ensurePlayersBar(){
   `;
   const style = document.createElement('style');
   style.textContent = `
+    /* Sélecteur plateau */
+    #boardSelect {
+      padding: 4px 10px;
+      background: linear-gradient(180deg, #1a2640, #0f1729);
+      border: 1px solid #4f8cff;
+      color: #4f8cff;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    #boardSelect option { background: #0f1524; color: #e6e9ee; }
+    .viewer-switch label { color: #9aa3b2; font-size: 12px; }
+
     .player-chip{
       display:inline-flex; align-items:center; gap:6px; cursor:pointer;
       border:1px solid #e5e5e5; background:#fff; border-radius:999px;

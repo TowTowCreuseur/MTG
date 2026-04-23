@@ -18,13 +18,13 @@
         </div>
         <a class="btn-nav" href="index.html" title="Retour au Deck Builder">↩︎ Deck Builder</a>
       </div>
-      <!-- Contrôles de session -->
-      <div class="session-controls" style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <button id="createSessionBtn" class="btn-nav">Créer une session</button>
+      <!-- Contrôles de session — positionnés en haut à gauche -->
+      <div id="session-controls" style="position:fixed;top:8px;left:8px;display:flex;gap:6px;align-items:center;z-index:1000;flex-wrap:wrap;">
+        <button id="createSessionBtn" class="btn-nav" style="font-size:12px;padding:5px 10px;">Créer une session</button>
         <input type="text" id="joinSessionInput" placeholder="Code de session…"
-               style="padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:#0f1524;color:var(--text);width:160px;">
-        <button id="joinSessionBtn" class="btn-nav">Rejoindre</button>
-        <span id="sessionStatus" style="font-size:12px;color:var(--muted);"></span>
+               style="padding:5px 10px;border-radius:10px;border:1px solid var(--border);background:#0f1524;color:var(--text);width:140px;font-size:12px;">
+        <button id="joinSessionBtn" class="btn-nav" style="font-size:12px;padding:5px 10px;">Rejoindre</button>
+        <span id="sessionStatus" style="font-size:11px;color:var(--muted);"></span>
       </div>
     </header>
 
