@@ -148,6 +148,55 @@ function logAction(type, extra={}){
   if (typeof _logAction === 'function') _logAction({ type, ...extra });
 }
 
+
+/* =========================================================
+   STATS CARTE (P/T + effets) — stockées par cardId
+   ========================================================= */
+const _cardStats = Object.create(null); // { [cardId]: { power, toughness, effects:[string] } }
+
+export function readCardStats(cardId){
+  return _cardStats[cardId] || { power: null, toughness: null, effects: [] };
+}
+export function updateCardStats(cardId, data){
+  if (!cardId) return;
+  _cardStats[cardId] = {
+    power:     data.power     ?? _cardStats[cardId]?.power     ?? null,
+    toughness: data.toughness ?? _cardStats[cardId]?.toughness ?? null,
+    effects:   Array.isArray(data.effects) ? data.effects : (_cardStats[cardId]?.effects || [])
+  };
+  // Mettre à jour le dataset du DOM si la carte est visible
+  const el = document.querySelector(`.card[data-card-id="${CSS.escape(cardId)}"]`);
+  if (el) _applyCardStatsToEl(el, _cardStats[cardId]);
+}
+export function deleteCardStats(cardId){
+  delete _cardStats[cardId];
+  const el = document.querySelector(`.card[data-card-id="${CSS.escape(cardId)}"]`);
+  if (el) { delete el.dataset.cardStats; }
+}
+
+function _applyCardStatsToEl(el, stats){
+  if (!stats || (!stats.effects.length && stats.power === null)) {
+    delete el.dataset.cardStats;
+    // Supprimer l'overlay P/T s'il existe
+    el.querySelector('.card-pt-overlay')?.remove();
+  } else {
+    try { el.dataset.cardStats = JSON.stringify(stats); } catch {}
+    // Afficher/màj l'overlay P/T sur la carte
+    if (stats.power !== null || stats.toughness !== null) {
+      let overlay = el.querySelector('.card-pt-overlay');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'card-pt-overlay';
+        overlay.style.cssText = 'position:absolute;bottom:4px;right:4px;background:rgba(10,15,24,.9);border:1px solid #4f8cff;border-radius:6px;padding:2px 6px;font-size:11px;font-weight:900;color:#4f8cff;line-height:1.3;z-index:4;pointer-events:none;';
+        el.appendChild(overlay);
+      }
+      overlay.textContent = (stats.power ?? '?') + '/' + (stats.toughness ?? '?');
+    } else {
+      el.querySelector('.card-pt-overlay')?.remove();
+    }
+  }
+}
+
 /* =========================================================
    TOKENS: normalisation + recherche Scryfall (réutilisable)
    ========================================================= */
@@ -405,6 +454,12 @@ export function createCardEl(card, { faceDown=false, isToken=false, interactive=
     <div class="card-name">${card.name}</div>
   `;
 
+  // ✅ Stats carte (P/T + effets)
+  const stats = readCardStats(card.id);
+  const incomingStats = card.cardStats || null;
+  const finalStats = incomingStats || (stats.effects?.length || stats.power !== null ? stats : null);
+  if (finalStats) _applyCardStatsToEl(el, finalStats);
+
   // ✅ Badge visuel + données pour lecture seule côté adversaire
   const badgeState = readBadgeForCard(card.id);
   const incomingHas = !!card.hasBadge;
@@ -454,8 +509,21 @@ function showCardPreview(fromEl){
   const outer = document.createElement('div');
   outer.style.cssText = 'position:fixed; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;';
 
+  // Lire les stats de la carte source
+  const cardId = fromEl.dataset.cardId || '';
+  let statsData = null;
+  try {
+    const raw = fromEl.dataset.cardStats;
+    if (raw) statsData = JSON.parse(raw);
+  } catch {}
+  if (!statsData) statsData = cardId ? readCardStats(cardId) : null;
+  const hasStats = statsData && (statsData.effects?.length > 0 || statsData.power !== null);
+
+  const outerRow = document.createElement('div');
+  outerRow.style.cssText = 'display:flex; gap:12px; align-items:flex-start;';
+
   const cardWrap = document.createElement('div');
-  cardWrap.style.cssText = 'pointer-events:auto; background:#fff; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.4); padding:12px; max-width:min(90vw,560px); width:min(90vw,560px); max-height:90vh; display:grid; gap:8px;';
+  cardWrap.style.cssText = 'pointer-events:auto; background:#fff; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.4); padding:12px; max-width:min(90vw,' + (hasStats ? '360px' : '560px') + '); width:min(90vw,' + (hasStats ? '360px' : '560px') + '); max-height:90vh; display:grid; gap:8px;';
   if (imgSrc) {
     const img = document.createElement('img');
     img.src = imgSrc; img.alt = name;
@@ -464,22 +532,58 @@ function showCardPreview(fromEl){
   }
   const title = document.createElement('div');
   title.textContent = name;
-  title.style.cssText = 'font-size:clamp(20px,3.2vw,28px); font-weight:700;';
+  title.style.cssText = 'font-size:clamp(16px,2.5vw,22px); font-weight:700;';
   cardWrap.appendChild(title);
 
   if (type) {
     const ty = document.createElement('div');
     ty.textContent = translateTypeToFR(type);
-    ty.style.cssText = 'opacity:.8; font-size:clamp(14px,2.2vw,18px);';
+    ty.style.cssText = 'opacity:.8; font-size:clamp(12px,1.8vw,16px);';
     cardWrap.appendChild(ty);
   }
 
-  window.__previewHot = cardWrap;
-  cardWrap.addEventListener('mouseleave', () => {
+  outerRow.appendChild(cardWrap);
+
+  // Panneau stats (P/T + effets) à droite de l'image
+  if (hasStats) {
+    const statsPanel = document.createElement('div');
+    statsPanel.style.cssText = 'background:#0f1626; border:1px solid #22314a; border-radius:10px; padding:12px; min-width:180px; max-width:240px; color:#e6e9ee; display:grid; gap:8px; align-content:start;';
+
+    if (statsData.power !== null || statsData.toughness !== null) {
+      const pt = document.createElement('div');
+      pt.style.cssText = 'font-size:1.8rem; font-weight:900; color:#4f8cff; text-align:center; border-bottom:1px solid #22314a; padding-bottom:8px;';
+      pt.textContent = (statsData.power ?? '?') + ' / ' + (statsData.toughness ?? '?');
+      statsPanel.appendChild(pt);
+    }
+
+    // Construire la liste d'items : P/T comme item unique + effets textuels
+    const allItems = [];
+    if (statsData.power !== null || statsData.toughness !== null) {
+      allItems.push({ text: `Force / Endurance : ${statsData.power ?? '?'} / ${statsData.toughness ?? '?'}`, isPT: true });
+    }
+    (statsData.effects || []).forEach(eff => allItems.push({ text: eff, isPT: false }));
+
+    if (allItems.length) {
+      const effTitle = document.createElement('div');
+      effTitle.style.cssText = 'font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#9aa3b2; margin-top:4px;';
+      effTitle.textContent = 'Liste';
+      statsPanel.appendChild(effTitle);
+      allItems.forEach(item => {
+        const row = document.createElement('div');
+        row.style.cssText = `font-size:13px; line-height:1.4; padding:4px 0; border-bottom:1px solid #1a2640;${item.isPT ? ' color:#4f8cff; font-weight:700;' : ''}`;
+        row.textContent = item.text;
+        statsPanel.appendChild(row);
+      });
+    }
+  }
+
+  const previewRoot = hasStats ? outerRow : cardWrap;
+  window.__previewHot = previewRoot;
+  previewRoot.addEventListener('mouseleave', () => {
     setTimeout(() => { if (!isPointerInside(window.__previewSourceEl)) hideCardPreview(); }, 50);
   });
 
-  outer.appendChild(cardWrap);
+  outer.appendChild(outerRow);
   __previewDlg.appendChild(outer);
 
   if (!__previewDlg.open) {
@@ -781,8 +885,8 @@ function openPositionModal(cardId, results, dialog) {
   dlg.showModal();
 }
 
-export function openSearchModal() {
-  logAction('search');
+export function openSearchModal(fromUser=false) {
+  if (fromUser) logAction('search');
   const dialog = qs('.modal-search'); if (!dialog) return;
   const input = qs('.search-input', dialog);
   const results = qs('.search-results', dialog);
@@ -1438,7 +1542,8 @@ function cardObj(c){
     imageSmall: c.imageSmall || null, imageNormal: c.imageNormal || null,
     tapped: !!c.tapped, phased: !!c.phased, faceDown: !!c.faceDown, isToken: !!c.isToken,
     hasBadge: !!c.hasBadge,
-    badgeItems: normItems(c.badgeItems || [])
+    badgeItems: normItems(c.badgeItems || []),
+    cardStats: readCardStats(c.id)
   };
 }
 
@@ -1459,7 +1564,8 @@ export function serializeBoard(){
       faceDown: el.classList.contains('face-down'),
       isToken: el.dataset.isToken === '1',
       hasBadge: !!b.has,
-      badgeItems: b.items
+      badgeItems: b.items,
+      cardStats: readCardStats(id)
     });
   };
 
@@ -1539,6 +1645,16 @@ export function restoreBoard(state){
   collect.push(...(state.deck || []).map(cardObj));
 
   collect.forEach(pushBadge);
+
+  // Restaurer les stats carte
+  [...allZones, ...(state.deck||[]).map(cardObj)].forEach(c => {
+    if (c?.id && c?.cardStats) {
+      const s = c.cardStats;
+      if (s.effects?.length || s.power !== null) {
+        _cardStats[c.id] = { power: s.power ?? null, toughness: s.toughness ?? null, effects: s.effects || [] };
+      }
+    }
+  });
 
   // Helper DOM reset
   const clearZone = (sel) => { const z = qs(sel); const holder = z?.querySelector('.cards') || z; if (holder) holder.innerHTML = ''; };
@@ -1724,7 +1840,7 @@ export function initCore(){
     const el = ev.target;
     if (!el || typeof el.closest !== 'function') return;
 
-    if (el.closest('.zone--pioche .btn-search')) { openSearchModal(); return; }
+    if (el.closest('.zone--pioche .btn-search')) { openSearchModal(true); return; }
     if (el.closest('.zone--pioche .btn-scry'))   { openScryPrompt(); return; }
     if (el.closest('.btn-search-exile'))         { openExileSearchModal(); return; }
     if (el.closest('.btn-search-graveyard'))     { openGraveyardSearchModal(); return; }
@@ -1751,7 +1867,7 @@ export function initCore(){
   }
 
   const gyTitle = qs('.zone--cimetiere .zone-title');
-  if (gyTitle && !qs('.zone--cimetire .btn-search-graveyard')) {
+  if (gyTitle && !qs('.zone--cimetiere .btn-search-graveyard')) {
     const btnLoupe = document.createElement('button');
     btnLoupe.className = 'btn-search btn-search-graveyard';
     btnLoupe.title = 'Chercher dans le cimetière';

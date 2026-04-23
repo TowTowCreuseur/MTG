@@ -141,6 +141,130 @@ function dupliquerEnToken(){
     if (container) container.appendChild(token);
   });
 }
+
+/* ---------- Ctrl/⌘ + + : modale P/T + effets ---------- */
+function openStatsModal(){
+  if (selection.size === 0) return;
+  const cardEls = [...selection];
+  const firstId = cardEls[0].dataset.cardId;
+  const existing = readCardStats(firstId);
+
+  let dlg = qs('#dlg-card-stats');
+  if (dlg) { try { dlg.close(); dlg.remove(); } catch {} }
+
+  dlg = document.createElement('dialog');
+  dlg.id = 'dlg-card-stats';
+  dlg.style.cssText = 'border:none;border-radius:14px;padding:0;background:#111826;color:#e6e9ee;box-shadow:0 20px 60px rgba(0,0,0,.6);width:min(420px,95vw);border:1px solid #22314a;';
+
+  const title = cardEls.length > 1 ? `${cardEls.length} cartes sélectionnées` : (cardEls[0].querySelector('.card-name')?.textContent || 'Carte');
+
+  dlg.innerHTML = `
+    <div style="padding:20px 22px;">
+      <div style="font-weight:700;font-size:16px;margin-bottom:16px;color:#4f8cff;">${title}</div>
+
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;">
+        <div style="flex:1;">
+          <div style="font-size:11px;color:#9aa3b2;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Force</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button class="stat-btn" data-stat="power" data-delta="-1" style="padding:4px 10px;border-radius:6px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;font-size:16px;">−</button>
+            <input id="stat-power" type="number" value="${existing.power ?? 1}" style="width:60px;text-align:center;padding:6px;border-radius:8px;border:1px solid #22314a;background:#0e1522;color:#e6e9ee;font-size:18px;font-weight:700;">
+            <button class="stat-btn" data-stat="power" data-delta="1" style="padding:4px 10px;border-radius:6px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;font-size:16px;">+</button>
+          </div>
+        </div>
+        <div style="font-size:24px;color:#9aa3b2;padding-top:16px;">/</div>
+        <div style="flex:1;">
+          <div style="font-size:11px;color:#9aa3b2;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Endurance</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button class="stat-btn" data-stat="toughness" data-delta="-1" style="padding:4px 10px;border-radius:6px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;font-size:16px;">−</button>
+            <input id="stat-toughness" type="number" value="${existing.toughness ?? 1}" style="width:60px;text-align:center;padding:6px;border-radius:8px;border:1px solid #22314a;background:#0e1522;color:#e6e9ee;font-size:18px;font-weight:700;">
+            <button class="stat-btn" data-stat="toughness" data-delta="1" style="padding:4px 10px;border-radius:6px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;font-size:16px;">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:11px;color:#9aa3b2;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Effets</div>
+      <div id="stats-effects-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;max-height:200px;overflow-y:auto;"></div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <input id="stats-new-effect" type="text" placeholder="Ajouter un effet…" style="flex:1;padding:8px;border-radius:8px;border:1px solid #22314a;background:#0e1522;color:#e6e9ee;">
+        <button id="stats-add-effect" style="padding:8px 14px;border-radius:8px;border:1px solid #4f8cff;background:#0f1524;color:#4f8cff;cursor:pointer;font-weight:700;">+</button>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:space-between;">
+        <button id="stats-delete" style="padding:8px 14px;border-radius:8px;border:1px solid #5b1f28;background:#1a0a0f;color:#ff6b6b;cursor:pointer;">Supprimer</button>
+        <div style="display:flex;gap:8px;">
+          <button id="stats-cancel" style="padding:8px 16px;border-radius:8px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;">Annuler</button>
+          <button id="stats-save" style="padding:8px 20px;border-radius:8px;border:1px solid #4f8cff;background:#0f1524;color:#4f8cff;cursor:pointer;font-weight:700;">Valider</button>
+        </div>
+      </div>
+    </div>`;
+
+  document.body.appendChild(dlg);
+
+  let effects = [...(existing.effects || [])];
+
+  function renderEffects(){
+    const list = dlg.querySelector('#stats-effects-list');
+    list.innerHTML = '';
+    effects.forEach((eff, i) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;gap:6px;align-items:center;';
+      const txt = document.createElement('span');
+      txt.style.cssText = 'flex:1;font-size:13px;padding:4px 0;';
+      txt.textContent = eff;
+      const del = document.createElement('button');
+      del.textContent = '×';
+      del.style.cssText = 'padding:2px 8px;border-radius:6px;border:1px solid #5b1f28;background:#1a0a0f;color:#ff6b6b;cursor:pointer;';
+      del.onclick = () => { effects.splice(i, 1); renderEffects(); };
+      row.appendChild(txt); row.appendChild(del);
+      list.appendChild(row);
+    });
+  }
+  renderEffects();
+
+  // Boutons +/-
+  dlg.querySelectorAll('.stat-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const inputId = 'stat-' + b.dataset.stat;
+      const inp = dlg.querySelector('#' + inputId);
+      inp.value = (parseInt(inp.value) || 0) + parseInt(b.dataset.delta);
+    });
+  });
+
+  // Ajouter effet
+  const addEffect = () => {
+    const inp = dlg.querySelector('#stats-new-effect');
+    const v = inp.value.trim();
+    if (!v) return;
+    effects.push(v);
+    inp.value = '';
+    renderEffects();
+  };
+  dlg.querySelector('#stats-add-effect').addEventListener('click', addEffect);
+  dlg.querySelector('#stats-new-effect').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); addEffect(); }
+  });
+
+  // Valider
+  dlg.querySelector('#stats-save').addEventListener('click', () => {
+    const power     = parseInt(dlg.querySelector('#stat-power').value) || 0;
+    const toughness = parseInt(dlg.querySelector('#stat-toughness').value) || 0;
+    cardEls.forEach(el => {
+      updateCardStats(el.dataset.cardId, { power, toughness, effects });
+    });
+    dlg.close(); dlg.remove();
+  });
+
+  // Supprimer
+  dlg.querySelector('#stats-delete').addEventListener('click', () => {
+    cardEls.forEach(el => deleteCardStats(el.dataset.cardId));
+    dlg.close(); dlg.remove();
+  });
+
+  dlg.querySelector('#stats-cancel').addEventListener('click', () => { dlg.close(); dlg.remove(); });
+  dlg.addEventListener('cancel', e => { e.preventDefault(); dlg.close(); dlg.remove(); });
+  dlg.showModal();
+}
+
 /* ---------- Rectangle de sélection (garde la sélection + toggle à l’entrée) ---------- */
 let dragDebut = null;
 let rect = null;
@@ -267,4 +391,5 @@ document.addEventListener('keydown', (e) => {
   else if (k === 'd') { e.preventDefault(); e.stopPropagation(); versDessusPioche(); }
   else if (k === 'h') { e.preventDefault(); e.stopPropagation(); versMain(); }
   else if (k === 'm') { e.preventDefault(); e.stopPropagation(); dupliquerEnToken(); }
+  else if (e.key === '+' || e.key === '=') { e.preventDefault(); e.stopPropagation(); openStatsModal(); }
 });
