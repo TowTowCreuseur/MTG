@@ -13,18 +13,18 @@
   <body>
     <header class="app-header" style="display:none;"></header>
     <!-- Header fixe en haut -->
-    <div style="position:fixed;top:0;left:0;right:0;height:40px;background:#0a0f18;border-bottom:1px solid #22314a;display:flex;align-items:center;padding:0 12px;gap:8px;z-index:1000;overflow:hidden;">
-      <span style="font-size:14px;font-weight:800;color:var(--text);white-space:nowrap;">Plateau MTG</span>
-      <a class="btn-nav" href="index.html" style="font-size:11px;padding:3px 8px;white-space:nowrap;">↩︎ Deck Builder</a>
-      <div style="width:1px;height:20px;background:#22314a;margin:0 4px;"></div>
-      <button id="createSessionBtn" class="btn-nav" style="font-size:11px;padding:3px 8px;white-space:nowrap;">Créer une session</button>
+    <div style="position:fixed;top:0;left:0;right:0;height:36px;background:#0a0f18;border-bottom:1px solid #22314a;display:flex;align-items:center;padding:0 12px;gap:8px;z-index:1000;">
+      <span style="font-size:14px;font-weight:800;color:var(--text);white-space:nowrap;line-height:36px;">Plateau MTG</span>
+      <a class="btn-nav" href="index.html" style="font-size:11px;padding:4px 8px;white-space:nowrap;line-height:1;">↩︎ Deck Builder</a>
+      <div style="width:1px;height:20px;background:#22314a;"></div>
+      <button id="createSessionBtn" class="btn-nav" style="font-size:11px;padding:4px 8px;white-space:nowrap;line-height:1;">Créer une session</button>
       <input type="text" id="joinSessionInput" placeholder="Code de session…"
-             style="padding:3px 8px;border-radius:8px;border:1px solid var(--border);background:#0f1524;color:var(--text);width:120px;font-size:11px;">
-      <button id="joinSessionBtn" class="btn-nav" style="font-size:11px;padding:3px 8px;white-space:nowrap;">Rejoindre</button>
+             style="padding:4px 8px;border-radius:8px;border:1px solid var(--border);background:#0f1524;color:var(--text);width:120px;font-size:11px;height:26px;box-sizing:border-box;">
+      <button id="joinSessionBtn" class="btn-nav" style="font-size:11px;padding:4px 8px;white-space:nowrap;line-height:1;">Rejoindre</button>
       <span id="sessionStatus" style="font-size:11px;color:var(--muted);"></span>
     </div>
     <!-- Espaceur pour compenser le header fixe -->
-    <div style="height:44px;"></div>
+    <div style="height:40px;"></div>
     <main class="board" aria-label="Plateau de jeu MTG">
       <div class="board-layout">
         <!-- Colonne gauche -->
