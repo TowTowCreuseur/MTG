@@ -13,16 +13,15 @@
   <body>
     <header class="app-header" style="display:none;"></header>
     <!-- Header fixe en haut -->
-    <div style="position:fixed;top:8px;left:8px;right:8px;display:flex;align-items:center;justify-content:space-between;z-index:1000;flex-wrap:wrap;gap:6px;">
-      <!-- Gauche : titre + session + deck builder -->\n      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-        <span style="font-size:16px;font-weight:800;color:var(--text);">Plateau MTG</span>
-        <a class="btn-nav" href="index.html" title="Retour au Deck Builder" style="font-size:12px;padding:5px 12px;">↩︎ Deck Builder</a>
-        <button id="createSessionBtn" class="btn-nav" style="font-size:12px;padding:5px 10px;">Créer une session</button>
-        <input type="text" id="joinSessionInput" placeholder="Code de session…"
-               style="padding:5px 10px;border-radius:10px;border:1px solid var(--border);background:#0f1524;color:var(--text);width:130px;font-size:12px;">
-        <button id="joinSessionBtn" class="btn-nav" style="font-size:12px;padding:5px 10px;">Rejoindre</button>
-        <span id="sessionStatus" style="font-size:11px;color:var(--muted);"></span>
-      </div>
+    <div style="position:fixed;top:0;left:0;right:0;height:40px;background:#0a0f18;border-bottom:1px solid #22314a;display:flex;align-items:center;padding:0 12px;gap:8px;z-index:1000;overflow:hidden;">
+      <span style="font-size:14px;font-weight:800;color:var(--text);white-space:nowrap;">Plateau MTG</span>
+      <a class="btn-nav" href="index.html" style="font-size:11px;padding:3px 8px;white-space:nowrap;">↩︎ Deck Builder</a>
+      <div style="width:1px;height:20px;background:#22314a;margin:0 4px;"></div>
+      <button id="createSessionBtn" class="btn-nav" style="font-size:11px;padding:3px 8px;white-space:nowrap;">Créer une session</button>
+      <input type="text" id="joinSessionInput" placeholder="Code de session…"
+             style="padding:3px 8px;border-radius:8px;border:1px solid var(--border);background:#0f1524;color:var(--text);width:120px;font-size:11px;">
+      <button id="joinSessionBtn" class="btn-nav" style="font-size:11px;padding:3px 8px;white-space:nowrap;">Rejoindre</button>
+      <span id="sessionStatus" style="font-size:11px;color:var(--muted);"></span>
     </div>
     <!-- Espaceur pour compenser le header fixe -->
     <div style="height:44px;"></div>
