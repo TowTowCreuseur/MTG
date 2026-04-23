@@ -30,16 +30,18 @@ function computeRoomId() {
 }
 let ROOM_ID = computeRoomId();
 
-// --- Nom du joueur : priorité URL > persisted > localStorage > 'Inconnu'
+// --- Nom du joueur : priorité URL > localStorage > persisted > 'Inconnu'
 const urlp = new URLSearchParams(location.search);
 const urlPlayerName = (urlp.get('playerName') || '').trim();
 let persisted = loadConn();
 let PLAYER_ID   = persisted?.playerId || randomId();
+const localStorageName = (localStorage.getItem('mtg.playerName') || '').trim();
 let PLAYER_NAME = urlPlayerName
+  || localStorageName
   || persisted?.playerName
-  || (localStorage.getItem('mtg.playerName') || 'Inconnu');
+  || 'Inconnu';
 
-// si l’URL apporte un nom → on le mémorise local & persisted
+// si l'URL apporte un nom → on le mémorise local & persisted
 if (urlPlayerName) {
   try { localStorage.setItem('mtg.playerName', urlPlayerName); } catch {}
 }
