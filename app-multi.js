@@ -828,6 +828,30 @@ function setupMultiplayer(){
     else if (data instanceof ArrayBuffer) data = new TextDecoder().decode(data);
 
     let msg; try { msg = JSON.parse(data); } catch { return; }
+
+    // Logs d'activité
+    if (msg.type === 'log' && msg.playerId !== PLAYER_ID) {
+      const name = otherStates[msg.playerId]?.name || msg.name || 'Inconnu';
+      appendLog(name, msg.action, msg.extra || {});
+      return;
+    }
+
+    // Main partagée — reçue par l'adversaire ciblé
+    if (msg.type === 'show_hand' && msg.playerId !== PLAYER_ID) {
+      if (!msg.targetPid || msg.targetPid === PLAYER_ID) {
+        const name = otherStates[msg.playerId]?.name || msg.name || 'Inconnu';
+        showOpponentHand(name, msg.cards || [], msg.playerId);
+      }
+      return;
+    }
+
+    // L'expéditeur ordonne la fermeture de sa main chez moi
+    if (msg.type === 'close_hand' && msg.playerId !== PLAYER_ID) {
+      const dlg = document.querySelector('#dlg-opp-hand');
+      if (dlg) { try { dlg.close(); dlg.remove(); } catch {} }
+      return;
+    }
+
     if (msg.type !== 'state') return;
 
     // detect if this is a new player joining
@@ -1126,4 +1150,124 @@ document.addEventListener('DOMContentLoaded', () => {
   // Re-synchroniser si la barre est re-rendue plus tard (ex: adversaires arrivent)
   const obs = new MutationObserver(() => ensurePlacementButton());
   obs.observe(document.body, { childList: true, subtree: true });
+
+  // —— Bouton "Montrer ma main" —— //
+  document.querySelector('#btn-show-hand')?.addEventListener('click', openShowHandModal);
 });
+
+/* =============================================
+   MONTRER MA MAIN AUX ADVERSAIRES
+   ============================================= */
+let _showHandDlg = null; // modale de sélection des destinataires
+let _handViewerPids = new Set(); // PIDs qui voient actuellement ma main
+
+function openShowHandModal(){
+  // Fermer si déjà ouverte
+  if (_showHandDlg?.open) { _showHandDlg.close(); _showHandDlg.remove(); _showHandDlg = null; return; }
+
+  const opponents = Object.entries(otherStates);
+  const dlg = document.createElement('dialog');
+  _showHandDlg = dlg;
+  dlg.style.cssText = 'border:none;border-radius:14px;padding:0;background:#111826;color:#e6e9ee;box-shadow:0 20px 60px rgba(0,0,0,.6);width:min(360px,95vw);border:1px solid #22314a;';
+
+  dlg.innerHTML = `
+    <div style="padding:20px 22px;">
+      <div style="font-weight:700;font-size:16px;color:#4f8cff;margin-bottom:14px;">👁 Montrer ma main à…</div>
+      <div id="hand-targets" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+        ${opponents.length === 0
+          ? '<div style="color:#9aa3b2;font-size:13px;">Aucun adversaire connecté</div>'
+          : opponents.map(([pid, obj]) => `
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px 10px;border-radius:8px;border:1px solid #22314a;background:#0e1522;">
+                <input type="checkbox" data-pid="${pid}" style="width:16px;height:16px;cursor:pointer;" ${_handViewerPids.has(pid) ? 'checked' : ''}>
+                <span style="font-size:14px;">${obj.name || pid}</span>
+              </label>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button id="hand-btn-stop" style="padding:8px 16px;border-radius:8px;border:1px solid #5b1f28;background:#1a0a0f;color:#ff6b6b;cursor:pointer;display:${_handViewerPids.size > 0 ? 'block' : 'none'};">Fermer chez tous</button>
+        <button id="hand-btn-cancel" style="padding:8px 16px;border-radius:8px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;">Annuler</button>
+        <button id="hand-btn-show" style="padding:8px 20px;border-radius:8px;border:1px solid #4f8cff;background:#0f1524;color:#4f8cff;cursor:pointer;font-weight:700;">Montrer</button>
+      </div>
+    </div>`;
+
+  document.body.appendChild(dlg);
+
+  dlg.querySelector('#hand-btn-cancel').addEventListener('click', () => { dlg.close(); dlg.remove(); _showHandDlg = null; });
+  dlg.addEventListener('cancel', e => { e.preventDefault(); dlg.close(); dlg.remove(); _showHandDlg = null; });
+
+  // Montrer la main aux sélectionnés
+  dlg.querySelector('#hand-btn-show').addEventListener('click', () => {
+    const checked = [...dlg.querySelectorAll('input[type=checkbox]:checked')].map(el => el.dataset.pid);
+    if (!checked.length) return;
+    const cards = getMyHandCards();
+    checked.forEach(pid => {
+      _handViewerPids.add(pid);
+      sendShowHand(pid, cards);
+    });
+    dlg.close(); dlg.remove(); _showHandDlg = null;
+  });
+
+  // Fermer la main chez tous
+  dlg.querySelector('#hand-btn-stop').addEventListener('click', () => {
+    _handViewerPids.forEach(pid => sendCloseHand(pid));
+    _handViewerPids.clear();
+    dlg.close(); dlg.remove(); _showHandDlg = null;
+  });
+
+  dlg.showModal();
+}
+
+function getMyHandCards(){
+  return [...document.querySelectorAll('.zone--main .cards .card')].map(el => ({
+    id: el.dataset.cardId || '',
+    name: el.querySelector('.card-name')?.textContent || '',
+    imageSmall: el.dataset.imageSmall || null,
+  }));
+}
+
+function sendShowHand(targetPid, cards){
+  if (!socket || socket.readyState !== WebSocket.OPEN) return;
+  try {
+    socket.send(JSON.stringify({ type: 'show_hand', playerId: PLAYER_ID, name: PLAYER_NAME, targetPid, cards }));
+  } catch {}
+}
+
+function sendCloseHand(targetPid){
+  if (!socket || socket.readyState !== WebSocket.OPEN) return;
+  try {
+    socket.send(JSON.stringify({ type: 'close_hand', playerId: PLAYER_ID, name: PLAYER_NAME, targetPid }));
+  } catch {}
+}
+
+function showOpponentHand(playerName, cards, senderPid){
+  let dlg = document.querySelector('#dlg-opp-hand');
+  if (dlg) { try { dlg.close(); dlg.remove(); } catch {} }
+
+  dlg = document.createElement('dialog');
+  dlg.id = 'dlg-opp-hand';
+  dlg.style.cssText = 'border:none;border-radius:14px;padding:0;background:#111826;color:#e6e9ee;box-shadow:0 20px 60px rgba(0,0,0,.6);width:min(900px,95vw);max-height:90vh;overflow:auto;border:1px solid #22314a;z-index:9999;';
+
+  dlg.innerHTML = `
+    <div style="padding:16px 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #22314a;">
+      <div style="font-weight:700;font-size:16px;">Main de <span style="color:#4f8cff;">${playerName}</span> (${cards.length} carte${cards.length > 1 ? 's' : ''})</div>
+      <button id="close-opp-hand" style="padding:6px 14px;border-radius:8px;border:1px solid #22314a;background:#0f1524;color:#e6e9ee;cursor:pointer;">Fermer</button>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;padding:16px;">
+      ${cards.map(c => `
+        <div style="width:110px;display:flex;flex-direction:column;gap:4px;">
+          ${c.imageSmall ? `<img src="${c.imageSmall}" alt="${c.name}" style="width:100%;border-radius:8px;border:1px solid #22314a;">` : ''}
+          <div style="font-size:11px;font-weight:700;text-align:center;">${c.name}</div>
+        </div>`).join('')}
+      ${cards.length === 0 ? '<div style="opacity:.6;font-size:13px;">La main est vide</div>' : ''}
+    </div>`;
+
+  document.body.appendChild(dlg);
+
+  const closeAndNotify = () => {
+    // L'adversaire ferme juste localement — c'est l'expéditeur qui contrôle la fermeture chez les autres
+    dlg.close(); dlg.remove();
+  };
+
+  dlg.querySelector('#close-opp-hand').addEventListener('click', closeAndNotify);
+  dlg.addEventListener('cancel', e => { e.preventDefault(); closeAndNotify(); });
+  dlg.showModal();
+}
