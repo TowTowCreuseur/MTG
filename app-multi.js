@@ -847,8 +847,11 @@ function setupMultiplayer(){
 
     // L'expéditeur ordonne la fermeture de sa main chez moi
     if (msg.type === 'close_hand' && msg.playerId !== PLAYER_ID) {
-      const dlg = document.querySelector('#dlg-opp-hand');
-      if (dlg) { try { dlg.close(); dlg.remove(); } catch {} }
+      // Vérifier que ce close_hand est bien destiné à moi
+      if (!msg.targetPid || msg.targetPid === PLAYER_ID) {
+        const dlg = document.querySelector('#dlg-opp-hand');
+        if (dlg) { try { dlg.close(); dlg.remove(); } catch {} }
+      }
       return;
     }
 
@@ -1191,8 +1194,18 @@ function openShowHandModal(){
 
   document.body.appendChild(dlg);
 
-  dlg.querySelector('#hand-btn-cancel').addEventListener('click', () => { dlg.close(); dlg.remove(); _showHandDlg = null; });
-  dlg.addEventListener('cancel', e => { e.preventDefault(); dlg.close(); dlg.remove(); _showHandDlg = null; });
+  dlg.querySelector('#hand-btn-cancel').addEventListener('click', () => {
+    // Si des adversaires voient encore la main, on ferme chez eux aussi
+    _handViewerPids.forEach(pid => sendCloseHand(pid));
+    _handViewerPids.clear();
+    dlg.close(); dlg.remove(); _showHandDlg = null;
+  });
+  dlg.addEventListener('cancel', e => {
+    e.preventDefault();
+    _handViewerPids.forEach(pid => sendCloseHand(pid));
+    _handViewerPids.clear();
+    dlg.close(); dlg.remove(); _showHandDlg = null;
+  });
 
   // Montrer la main aux sélectionnés
   dlg.querySelector('#hand-btn-show').addEventListener('click', () => {
