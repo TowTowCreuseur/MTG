@@ -391,5 +391,5 @@ document.addEventListener('keydown', (e) => {
   else if (k === 'd') { e.preventDefault(); e.stopPropagation(); versDessusPioche(); }
   else if (k === 'h') { e.preventDefault(); e.stopPropagation(); versMain(); }
   else if (k === 'm') { e.preventDefault(); e.stopPropagation(); dupliquerEnToken(); }
-  else if (e.key === '+' || e.key === '=') { e.preventDefault(); e.stopPropagation(); openStatsModal(); }
+  else if (k === 'e') { e.preventDefault(); e.stopPropagation(); openStatsModal(); }
 });

@@ -202,6 +202,25 @@ function _applyCardStatsToEl(el, stats){
    ========================================================= */
 
 /** Normalise une carte Scryfall (token) vers le format local */
+/** Déduplique par id et met les vrais jetons en premier */
+function dedupeAndSortTokens(cards){
+  const seen = new Set();
+  const unique = cards.filter(c => {
+    if (seen.has(c.id)) return false;
+    seen.add(c.id);
+    return true;
+  });
+  // Mettre en tête les cartes dont le type contient "Jeton" ou "Token"
+  unique.sort((a, b) => {
+    const aIsToken = /jeton|token/i.test(a.type || '');
+    const bIsToken = /jeton|token/i.test(b.type || '');
+    if (aIsToken && !bIsToken) return -1;
+    if (!aIsToken && bIsToken) return 1;
+    return (a.name || '').localeCompare(b.name || '', 'fr');
+  });
+  return unique;
+}
+
 export function normalizeTokenCard(c){
   const face = Array.isArray(c.card_faces) && c.card_faces.length ? c.card_faces[0] : null;
   const uris  = c.image_uris || face?.image_uris || {};
@@ -230,7 +249,7 @@ export function normalizeTokenCard(c){
 export async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
   const CARD_LANG = 'fr';
   const makeUrl = (q) =>
-    `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
+    `https://api.scryfall.com/cards/search?order=name&unique=cards&q=${encodeURIComponent(q)}`;
 
   // fetch helper
   const fetchJson = async (u) => {
@@ -255,7 +274,7 @@ export async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
       return { cards: [], hasMore: false, next: null, page: queryOrUrl };
     }
     return {
-      cards: (resp.json.data || []).map(normalizeTokenCard),
+      cards: dedupeAndSortTokens((resp.json.data || []).map(normalizeTokenCard)),
       hasMore: !!resp.json.has_more,
       next: resp.json.next_page || null,
       page: resp.url
@@ -281,7 +300,7 @@ export async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
       return { cards: [], hasMore: false, next: null, page: resp?.url || null };
     }
     return {
-      cards: (resp.json.data || []).map(normalizeTokenCard),
+      cards: dedupeAndSortTokens((resp.json.data || []).map(normalizeTokenCard)),
       hasMore: !!resp.json.has_more,
       next: resp.json.next_page || null,
       page: resp.url
@@ -311,7 +330,7 @@ export async function scryfallTokenSearch(queryOrUrl, { isNext=false } = {}) {
   }
 
   return {
-    cards: (resp.json.data || []).map(normalizeTokenCard),
+    cards: dedupeAndSortTokens((resp.json.data || []).map(normalizeTokenCard)),
     hasMore: !!resp.json.has_more,
     next: resp.json.next_page || null,
     page: resp.url

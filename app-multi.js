@@ -1112,29 +1112,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const room = Math.random().toString(36).slice(2, 8);
     navigator.clipboard.writeText(room).catch(() => {});
 
-    // Modale affichant le code de session
-    let dlg = document.querySelector('#dlg-session-code');
-    if (!dlg) {
-      dlg = document.createElement('dialog');
-      dlg.id = 'dlg-session-code';
-      dlg.style.cssText = 'border:none;border-radius:14px;padding:0;background:#111826;color:#e6e9ee;box-shadow:0 10px 30px rgba(0,0,0,.5);width:min(340px,92vw);border:1px solid #22314a;';
-      dlg.innerHTML = `
-        <div style="padding:24px 28px;text-align:center;">
-          <div style="font-size:13px;color:#9aa3b2;margin-bottom:10px;">Code de session — copié dans le presse-papier</div>
-          <div id="session-code-display" style="font-size:2.4rem;font-weight:900;letter-spacing:6px;color:#4f8cff;background:#0e1522;border-radius:10px;padding:14px 20px;border:1px solid #22314a;font-family:monospace;"></div>
-          <div style="font-size:12px;color:#9aa3b2;margin-top:10px;">Partagez ce code aux autres joueurs</div>
-          <button id="dlg-session-ok" style="margin-top:18px;padding:10px 32px;border-radius:10px;border:1px solid #4f8cff;background:#0f1524;color:#4f8cff;font-size:15px;font-weight:700;cursor:pointer;">Valider</button>
-        </div>`;
-      document.body.appendChild(dlg);
-    }
+    // Recréer la modale à chaque fois (room change)
+    const existing = document.querySelector('#dlg-session-code');
+    if (existing) { try { existing.close(); existing.remove(); } catch {} }
 
-    dlg.querySelector('#session-code-display').textContent = room;
-    dlg.querySelector('#dlg-session-ok').onclick = () => dlg.close();
-    dlg.addEventListener('cancel', e => e.preventDefault(), { once: true });
+    const dlg = document.createElement('dialog');
+    dlg.id = 'dlg-session-code';
+    dlg.style.cssText = 'border:none;border-radius:14px;padding:0;background:#111826;color:#e6e9ee;box-shadow:0 10px 30px rgba(0,0,0,.5);width:min(340px,92vw);border:1px solid #22314a;';
+    dlg.innerHTML = `
+      <div style="padding:24px 28px;text-align:center;">
+        <div style="font-size:13px;color:#9aa3b2;margin-bottom:10px;">Code de session — copié dans le presse-papier</div>
+        <div style="font-size:2.4rem;font-weight:900;letter-spacing:6px;color:#4f8cff;background:#0e1522;border-radius:10px;padding:14px 20px;border:1px solid #22314a;font-family:monospace;">${room}</div>
+        <div style="font-size:12px;color:#9aa3b2;margin-top:10px;">Partagez ce code aux autres joueurs</div>
+        <button id="dlg-session-ok" style="margin-top:18px;padding:10px 32px;border-radius:10px;border:1px solid #4f8cff;background:#0f1524;color:#4f8cff;font-size:15px;font-weight:700;cursor:pointer;">Commencer la partie</button>
+      </div>`;
+    document.body.appendChild(dlg);
 
+    // Navigation UNIQUEMENT quand l'utilisateur clique "Commencer"
+    dlg.querySelector('#dlg-session-ok').addEventListener('click', () => {
+      dlg.close(); dlg.remove();
+      if (statusEl) statusEl.textContent = `Session : ${room}`;
+      connectToRoom(room);
+    });
+    dlg.addEventListener('cancel', e => e.preventDefault());
     dlg.showModal();
-    if (statusEl) statusEl.textContent = `Session : ${room}`;
-    connectToRoom(room);
   });
 
   document.querySelector('#joinSessionBtn')?.addEventListener('click', () => {
