@@ -1538,13 +1538,15 @@ document.addEventListener('pointermove', () => {
 }, { passive: true });
 
 export function shuffleDeck() {
-  // ✅ garde-fou + compteur mis à jour
   if (!Array.isArray(_deck)) _deck = [];
-  for (let i = _deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [_deck[i], _deck[j]] = [_deck[j], _deck[i]];
+  // Fisher-Yates avec crypto.getRandomValues pour un vrai aléatoire
+  const arr = _deck;
+  const buf = new Uint32Array(1);
+  for (let i = arr.length - 1; i > 0; i--) {
+    crypto.getRandomValues(buf);
+    const j = buf[0] % (i + 1);
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  // MAJ affichage du nombre de cartes
   const c = qs('.zone--pioche .deck-count [data-count]');
   if (c) c.textContent = _deck.length;
 }
