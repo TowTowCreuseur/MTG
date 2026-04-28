@@ -1,6 +1,6 @@
 // multi-select.js — sélection rectangulaire + raccourcis multi-cartes (FR)
 // À charger APRÈS app-core.js / app-multi.js
-import { qs, qsa, deck, exileStore, graveyardStore, createCardEl } from "./app-core.js";
+import { qs, qsa, deck, exileStore, graveyardStore, createCardEl, readCardStats, updateCardStats, deleteCardStats } from "./app-core.js";
 
 /* ---------- Styles (surlignage + rectangle façon Windows) ---------- */
 (function injectStyles(){
