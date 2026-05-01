@@ -154,7 +154,8 @@ function refreshView(){
 // ---------- Init ----------
 function init(){
   qsa('.dropzone, .battle-row').forEach(z=>{z.addEventListener('dragover',onZoneDragOver);z.addEventListener('dragleave',onZoneDragLeave);z.addEventListener('drop',onZoneDrop);});
-  qs('.btn-draw')?.addEventListener('click',spawnTopCardForDrag);
+  qs('.btn-draw:not(.btn-shuffle-deck)')?.addEventListener('click',spawnTopCardForDrag);
+  qs('.btn-shuffle-deck')?.addEventListener('click',()=>{ shuffleDeck(); updateDeckCount(); });
   qs('.btn-search')?.addEventListener('click',openSearchModal);
   const imported=tryLoadDeckFromLocalStorage(); updateDeckCount();
   if(!imported){ const main=qs('[data-zone="main"] .cards'); ['Éclair','Forêt','Ours runegrave'].forEach(name=>{const f=deck.find(c=>c.name===name);if(f)main.appendChild(createCardEl(f));}); }
