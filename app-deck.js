@@ -453,7 +453,7 @@ async function scryfallSearchByName(queryOrUrl, { isNextPage = false } = {}) {
   let url, triedFallback = false;
 
   const makeUrl = (q) =>
-    `https://api.scryfall.com/cards/search?order=name&unique=prints&q=${encodeURIComponent(q)}`;
+    `https://api.scryfall.com/cards/search?order=name&unique=cards&q=${encodeURIComponent(q)}`;
 
   const fetchJson = async (u) => {
     try {
