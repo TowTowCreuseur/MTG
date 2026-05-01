@@ -14,7 +14,8 @@
 import {
   ZONES, qs, qsa, randomId,
   createCardEl, attachPreviewListeners,
-  serializeBoard, initCore
+  serializeBoard, initCore,
+  setLogActionHook, shuffleDeck
 } from './app-core.js';
 
 const CONN_KEY = 'mtg.persist.conn';
@@ -1095,9 +1096,90 @@ function ensurePlacementButton(){
   anchor.insertAdjacentElement('afterend', b);
 }
 
+
+/* ── Log feed killfeed ── */
+const LOG_MESSAGES = {
+  draw:    (n) => `${n} a pioché`,
+  search:  (n) => `${n} a cherché dans sa bibliothèque`,
+  scry:    (n) => `${n} a scrié`,
+  shuffle: (n) => `${n} a mélangé sa bibliothèque`,
+};
+
+function ensureLogFeed() {
+  if (qs('#log-feed')) return;
+  // Créer le conteneur HUD si absent
+  if (!qs('#hud-right')) {
+    const hud = document.createElement('div');
+    hud.id = 'hud-right';
+    hud.style.cssText = 'position:fixed;top:40px;right:8px;z-index:1000;display:flex;flex-direction:column;gap:6px;align-items:flex-end;';
+    document.body.appendChild(hud);
+  }
+  const feed = document.createElement('div');
+  feed.id = 'log-feed';
+  feed.style.cssText = 'display:flex;flex-direction:column;gap:4px;align-items:flex-end;pointer-events:none;';
+  qs('#hud-right').appendChild(feed);
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .log-entry {
+      font-size:12px; color:#fff;
+      text-shadow:0 1px 4px rgba(0,0,0,.8);
+      background:rgba(0,0,0,.40);
+      border-radius:6px; padding:3px 10px;
+      white-space:nowrap;
+      animation:logIn .2s ease;
+      transition:opacity .4s ease;
+    }
+    @keyframes logIn {
+      from { opacity:0; transform:translateX(10px); }
+      to   { opacity:1; transform:translateX(0); }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function appendLog(playerName, action) {
+  const msg = LOG_MESSAGES[action];
+  if (!msg) return;
+  ensureLogFeed();
+  const feed = qs('#log-feed');
+  if (!feed) return;
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.textContent = msg(playerName);
+  feed.appendChild(entry);
+  while (feed.children.length > 4) feed.firstChild.remove();
+  setTimeout(() => {
+    entry.style.opacity = '0';
+    setTimeout(() => { try { entry.remove(); } catch {} }, 400);
+  }, 3000);
+}
+
+function installLogHook() {
+  setLogActionHook(({ type }) => {
+    // Afficher localement immédiatement
+    appendLog('Vous', type);
+    // Envoyer aux autres via WebSocket
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({
+        type: 'log',
+        playerId: PLAYER_ID,
+        name: PLAYER_NAME,
+        action: type,
+      }));
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initCore();
   initMulti();
+  installLogHook();
+
+  // ── Bouton shuffle dans la zone pioche ──
+  qs('.btn-shuffle-deck')?.addEventListener('click', () => {
+    shuffleDeck();
+  });
 
   // —— Boutons session sur le plateau —— //
   const statusEl = document.querySelector('#sessionStatus');
